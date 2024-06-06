@@ -1,3 +1,5 @@
-import BGLanding from "./BGLanding/Index";
+import { FloraThemeProvider, FloraTheme} from "./FloraThemeProvider";
+import FullPageLanding from "./FullPageLanding";
 
-export { BGLanding };
+
+export { FullPageLanding, FloraThemeProvider, FloraTheme};

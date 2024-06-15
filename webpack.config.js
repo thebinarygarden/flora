@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-    mode: 'development',
+    mode: 'production',
     entry: './src/index.ts',  // Entry point of your library
     output: {
         globalObject: 'typeof self !== "undefined" ? self : this',

@@ -1,0 +1,21 @@
+export type FloraTheme = {
+    primary?: string,
+    onPrimary?: string,
+    primaryNight?: string,
+    onPrimaryNight?: string,
+    secondary?: string,
+    onSecondary?: string,
+    secondaryNight?: string,
+    onSecondaryNight?: string,
+    background?: string,
+    onBackground?: string,
+    backgroundNight?: string,
+    onBackgroundNight?: string,
+    surface?: string,
+    onSurface?: string,
+    surfaceNight?: string,
+    onSurfaceNight?: string,
+    fontMain?: string,
+    fontSecondary?: string,
+    fontHeader?: string
+}

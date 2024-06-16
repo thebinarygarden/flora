@@ -31,7 +31,8 @@ module.exports = {
     },
     externals: {
         react: 'react',  // Assumes React is available as a peer dependency
-        'react-dom': 'react-dom'
+        'react-dom': 'react-dom',
+        'framer-motion': 'framer-motion'
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js', '.jsx']

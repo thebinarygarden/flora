@@ -38,25 +38,25 @@ const ButtonContainer = styled.div`
   left: 0;
   width: 100%;
   padding: 10px 0;
-  z-index: 10; // Ensure it's above other content
+  z-index: 10;
 `;
 
 
 export type FullPageLandingProps = {
-    imagePath: string,
+    imagePath?: string,
     imageAlt?: string,
     imageElement?: React.ReactNode,
     title?: string,
     titleElement?: React.ReactNode,
     buttonInfo?: IconButtonProps[],
-    buttonElements? : React.ReactNode[]
+    buttonElements?: React.ReactNode[]
+    extraElement?: React.ReactNode
 }
 
-export const FullPageImageLanding = ({imagePath, imageAlt, title, imageElement, titleElement, buttonInfo, buttonElements}: FullPageLandingProps) => {
+export const FullPageImageLanding = ({imagePath, imageAlt, title, imageElement, titleElement, buttonInfo, buttonElements, extraElement}: FullPageLandingProps) => {
     return (
         <>
             { imageElement || <FullPageImage src={imagePath} alt={imageAlt ?? ""}/> }
-
             <ButtonContainer>
             { buttonElements ||
                 (buttonInfo && buttonInfo.map((button, index) => (
@@ -65,7 +65,7 @@ export const FullPageImageLanding = ({imagePath, imageAlt, title, imageElement, 
             }
             </ButtonContainer>
             { titleElement || <LandingTitle>{title}</LandingTitle> }
-
+            { extraElement }
         </>
     );
 };

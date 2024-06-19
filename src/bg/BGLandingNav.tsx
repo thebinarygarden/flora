@@ -1,13 +1,21 @@
-import {ToggleFadeOut} from "../animations/ToggleFadeOut";
-import React, {useState} from "react";
-import {motion, useScroll, useSpring} from "framer-motion";
+import React, {useEffect, useState} from "react";
+import {motion, useScroll, useSpring, useTransform} from "framer-motion";
 import styled from "styled-components";
-import {FullPageImageLanding, FullPageLandingProps} from "../components/Landing/FullPageImageLanding";
-import {LoremIpsum} from "../util/LoremIpsum";
+import {FullPageImageLanding, FullPageLandingProps} from "../components/Landing/FullPageLanding";
+
 import {IconButtonProps} from "../components/buttons/IconButton";
+import {FullPageImage} from "../components/Landing/FullPageImage";
 
 const FullPageMinimum = styled.div`
+  position: absolute;
+  background: ${(props) => props.theme.background};
   min-height: 100vh;
+  min-width: 100vw;
+  z-index: 10;
+
+  @media (prefers-color-scheme: dark) {
+    background: ${(props) => props.theme.backgroundNight};
+  }
 `;
 
 type BGLandingNavProps = {
@@ -18,35 +26,32 @@ type BGLandingNavProps = {
 }
 
 export const BGLandingNav = (props: BGLandingNavProps) => {
-    const [fadeOut, setFadeOut] = useState(false);
-//     const {scrollYProgress} = useScroll();
-//
-//     // Scale factor to speed up the animation
-//     const scaleFactor = 2;
-//
-//     // Modify scrollYProgress to change the animation speed
-//     const fastScroll = scrollYProgress.get() * scaleFactor;
-//
-//     // Ensure the value stays within 0 to 1
-//     const adjustedScroll = Math.min(fastScroll, 1);
-// // Debugging output to see the scroll progress
-//     console.log("Scroll Y Progress:", scrollYProgress);
-//     console.log("Adjusted Scroll:", adjustedScroll);
-
-    const {scrollYProgress} = useScroll();
-    const scaleX = useSpring(scrollYProgress, {
-        stiffness: 100,
-        damping: 30,
-        restDelta: 0.001
-    });
-
-
-    return (
-        <>
-            <FullPageImageLanding imagePath={props.imagePath}/>
+    const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
+    const {scrollY} = useScroll();
+    const y = useTransform(scrollY, [0, viewportHeight], [viewportHeight, viewportHeight])
+    const animatedContent = (
+        <motion.div style={{y}}>
             <FullPageMinimum>
                 {props.children}
             </FullPageMinimum>
+        </motion.div>
+    );
+    scrollY.onChange(y => console.log("scroll "  + y))
+    useEffect(() => {
+        console.log(viewportHeight);
+        const handleResize = () => {
+            setViewportHeight(window.innerHeight);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [window.innerHeight]);
+
+    return (
+        <>
+            <FullPageImageLanding imageElement={<FullPageImage src={props.imagePath} alt={""}/>}/>
+            {animatedContent}
         </>
     );
 };

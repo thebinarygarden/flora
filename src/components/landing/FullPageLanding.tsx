@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import {FullPageImage} from "./FullPageImage";
 import {IconButton, IconButtonProps} from "../buttons/IconButton";
 
 const LandingTitle = styled.div`
@@ -27,6 +26,16 @@ const LandingTitle = styled.div`
     font-size: 10vh;
     line-height: 8vh;
   }
+`;
+
+export const LandingFullPageImage = styled.img<{top?: number}>`
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  object-position: center;
+  z-index: -1;
+  top: ${(props) => props.top || 0}px;
 `;
 
 const ButtonContainer = styled.div`
@@ -56,7 +65,7 @@ export type FullPageLandingProps = {
 export const FullPageImageLanding = ({imagePath, imageAlt, title, imageElement, titleElement, buttonInfo, buttonElements, extraElement}: FullPageLandingProps) => {
     return (
         <>
-            { imageElement || <FullPageImage src={imagePath} alt={imageAlt ?? ""}/> }
+            { imageElement || <LandingFullPageImage src={imagePath} alt={imageAlt ?? ""}/> }
             <ButtonContainer>
             { buttonElements ||
                 (buttonInfo && buttonInfo.map((button, index) => (

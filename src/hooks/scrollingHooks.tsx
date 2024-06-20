@@ -1,25 +1,31 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {MotionValue} from "framer-motion";
 
 export const useScrollLockEffect = (threshold: number, viewportHeight: number, scrollY: MotionValue<number>  ) => {
-    const [scrollTimeout, setScrollTimeout] = useState<null | NodeJS.Timeout>(null);
-
+    const [isScrollLocked, setIsScrollLocked] = useState<boolean>(false);
+    const scrollTimeout = useRef<null | NodeJS.Timeout>(null);
     useEffect(() => {
         const thresholdScroll = () => {
             if (scrollY.get() < threshold) {
                 window.scrollTo({top: 0, behavior: 'smooth'})
+                setIsScrollLocked(false)
             } else if (scrollY.get() >= threshold && scrollY.get() < viewportHeight) {
                 window.scrollTo({top: viewportHeight + 1, behavior: 'smooth'})
+                setIsScrollLocked(true)
             }
         };
         const handleScroll = () => {
-            // console.log("scroll changed: {}" , scrollY.get());
-            if (scrollTimeout) {
-                clearTimeout(scrollTimeout);
+            if (scrollTimeout.current != null) {
+                clearTimeout(scrollTimeout.current);
             }
-            setScrollTimeout(setTimeout(thresholdScroll, 300));
+            scrollTimeout.current = setTimeout(thresholdScroll, 300);
         };
+
         scrollY.on("change", handleScroll)
-        return () => scrollY.clearListeners();
-    }, [scrollY, viewportHeight, scrollTimeout]);
+        return () => {
+            scrollY.clearListeners()
+        };
+    }, []);
+
+    return isScrollLocked;
 }

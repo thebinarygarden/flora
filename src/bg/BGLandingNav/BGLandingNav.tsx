@@ -15,19 +15,20 @@ type BGLandingNavProps = {
     imagePath: string,
     title: string,
     buttonInfo: IconButtonProps[]
+    scrollLocked?: boolean
 }
 
-export const BGLandingNav = ({children, imagePath, title, buttonInfo}: BGLandingNavProps) => {
+export const BGLandingNav = ({children, imagePath, title, buttonInfo, scrollLocked}: BGLandingNavProps) => {
     const viewportHeight = useViewportHeight();
     const {scrollY} = useScroll();
-    //useScrollLockEffect(viewportHeight / 4, viewportHeight, scrollY)
+    const isScrollLocked = useScrollLockEffect(viewportHeight / 4, viewportHeight, scrollY)
 
     return (
         <>
             <FullPageImageLanding
-                imageElement={<BGAnimatedImage imagePath={imagePath}  scrollY={scrollY} viewportHeight={viewportHeight}/>}/>
+                imageElement={<BGAnimatedImage imagePath={imagePath}  scrollY={scrollY} viewportHeight={viewportHeight} isScrollLocked={isScrollLocked}/>}/>
             <BGAnimatedContent scrollY={scrollY} viewportHeight={viewportHeight}>
-                {scrollY.get()} {children}
+                {isScrollLocked ? "hello" : "world"} {children}
                 <LoremIpsum></LoremIpsum>
             </BGAnimatedContent>
         </>

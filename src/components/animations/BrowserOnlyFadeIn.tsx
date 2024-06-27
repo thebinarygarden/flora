@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styled, { keyframes } from 'styled-components';
-import {FloraTheme} from "../components/FloraThemeProvider";
+import {FloraTheme} from "../FloraThemeProvider";
 // Define the keyframes for the fade-in animation
 const fadeIn = keyframes`
   from {

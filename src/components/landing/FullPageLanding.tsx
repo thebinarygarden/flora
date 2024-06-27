@@ -52,20 +52,19 @@ const ButtonContainer = styled.div`
 
 
 export type FullPageLandingProps = {
-    imagePath?: string,
+    imageFilepath?: string,
     imageAlt?: string,
     imageElement?: React.ReactNode,
     title?: string,
     titleElement?: React.ReactNode,
     buttonInfo?: IconButtonProps[],
     buttonElements?: React.ReactNode[]
-    extraElement?: React.ReactNode
 }
 
-export const FullPageImageLanding = ({imagePath, imageAlt, title, imageElement, titleElement, buttonInfo, buttonElements, extraElement}: FullPageLandingProps) => {
+export const FullPageImageLanding = ({imageFilepath, imageAlt, title, imageElement, titleElement, buttonInfo, buttonElements}: FullPageLandingProps) => {
     return (
         <>
-            { imageElement || <LandingFullPageImage src={imagePath} alt={imageAlt ?? ""}/> }
+            { imageElement || <LandingFullPageImage src={imageFilepath} alt={imageAlt ?? ""}/> }
             <ButtonContainer>
             { buttonElements ||
                 (buttonInfo && buttonInfo.map((button, index) => (
@@ -74,7 +73,6 @@ export const FullPageImageLanding = ({imagePath, imageAlt, title, imageElement, 
             }
             </ButtonContainer>
             { titleElement || <LandingTitle>{title}</LandingTitle> }
-            { extraElement }
         </>
     );
 };

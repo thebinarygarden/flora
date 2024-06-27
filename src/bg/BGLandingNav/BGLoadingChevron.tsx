@@ -3,25 +3,25 @@ import React from "react";
 import {BGLandingScrollProps} from "./BGLandingNav";
 
 type BGAnimatedImageProps = {
-    imagePath: string,
-    imageAlt?: string,
     landingScrollProps: BGLandingScrollProps,
 }
 
-export const BGAnimatedImage = ({imagePath, imageAlt, landingScrollProps}: BGAnimatedImageProps) => {
+export const BGLoadingChevron = ({landingScrollProps}: BGAnimatedImageProps) => {
     const {scrollY, viewportHeight, isScrollLocked} = landingScrollProps;
+
     const yTransform = useTransform(scrollY, [0, viewportHeight], [0, -100]);
     const opacityTransform = useTransform(scrollY, [0, viewportHeight/2], [1, 0]);
+
+
+
     return (
-        <motion.img style={{
+        <motion.div style={{
             position: "fixed",
-            width: "100vw",
-            height: "100vh",
-            objectFit: "cover",
+            width: "20vw",
+            height: "10vh",
             objectPosition: "center",
-            zIndex: -1,
             top: yTransform,
             opacity: opacityTransform
-        }} src={imagePath} alt={imageAlt ?? ""} />
+        }} />
     );
 }

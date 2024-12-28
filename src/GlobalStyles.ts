@@ -1,9 +1,9 @@
 import { createGlobalStyle } from 'styled-components'
-import {FloraTheme} from "./components/FloraThemeProvider";
+import {FloraTheme} from "./types";
 
 export const FloraGlobalStyle = createGlobalStyle<FloraTheme>`
   body {
-    background: ${props => props.theme.background};
+    background: ${({theme}) => theme.background};
     color: ${props => props.theme.onBackground};
   }
 

@@ -1,5 +1,5 @@
 import {MotionValue, motion, useTransform} from "framer-motion";
-import React from "react";
+import React, {FC, ReactNode} from "react";
 import styled from "styled-components";
 
 const FullPageMinimum = styled.div`
@@ -15,7 +15,7 @@ const FullPageMinimum = styled.div`
 `;
 
 type BGAnimatedContentProps = {
-    children: React.ReactNode,
+    children: ReactNode,
     scrollY: MotionValue<number>,
     viewportHeight: number
 }

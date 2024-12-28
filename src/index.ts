@@ -1,7 +1,6 @@
-export {FloraTheme} from "./components/FloraThemeProvider/FloraTheme";
-export {FloraThemeProvider} from "./components/FloraThemeProvider";
-export {FullPageImageLanding} from "./components/landing/FullPageLanding" ;
+export {FloraTheme} from "./types"
 export {FloraGlobalStyle} from "./GlobalStyles";
-export {BrowserOnlyFadeIn} from "./components/animations/BrowserOnlyFadeIn";
+export {FloraThemeProvider} from "./FloraThemeProvider";
 
-export {BGLandingNav} from "./bg/BGLandingNav"
+export {FullPageImageLanding} from "./components/BGLanding/FullPageLanding" ;
+export {BGLanding} from "./components/BGLanding/BGLanding"

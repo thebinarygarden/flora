@@ -1,3 +1,4 @@
+"use client"
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import {FloraTheme} from "./types";

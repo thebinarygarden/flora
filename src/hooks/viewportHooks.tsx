@@ -1,18 +1,19 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 export const useViewportHeight = () => {
-    const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
+    const [viewportHeight, setViewportHeight] = useState(0);
 
     useEffect(() => {
-        //console.log("viewportHeight changed: {}", viewportHeight);
+        setViewportHeight(window.innerHeight);
+
         const handleResize = () => {
             setViewportHeight(window.innerHeight);
         };
-        window.addEventListener('resize', handleResize);
+        window.addEventListener("resize", handleResize);
         return () => {
-            window.removeEventListener('resize', handleResize);
+            window.removeEventListener("resize", handleResize);
         };
-    }, [window.innerHeight]);
+    }, []); // Empty dependency array, runs only once on mount
 
     return viewportHeight;
-}
+};

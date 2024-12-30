@@ -16,12 +16,6 @@ export type FloraTheme = {
     interpret?: "dark" | "light"
 }
 
-export type BGLandingScrollProps = {
-    viewportHeight: number,
-    scrollY: MotionValue<number>
-    isScrollLocked: boolean
-}
-
 export type BGLandingProps = {
     children: ReactNode,
     title: string,

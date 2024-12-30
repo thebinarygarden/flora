@@ -1,10 +1,9 @@
 import React from "react";
-import {LandingFullPageImage, ButtonContainer, LandingTitle} from "./styled";
+import {ButtonContainer, LandingTitle} from "./styled";
 import {FullPageLandingProps} from "./types";
 import {motion, useTransform} from "framer-motion";
 
 export const FullPageImageLanding = ({title, imagePath, imageAlt, buttons, landingScrollProps}: FullPageLandingProps) => {
-
     const {scrollY, viewportHeight, isScrollLocked} = landingScrollProps;
     const yTransform = useTransform(scrollY, [0, viewportHeight], [0, -100]);
     const opacityTransform = useTransform(scrollY, [0, viewportHeight/2], [1, 0]);

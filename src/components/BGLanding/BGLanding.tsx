@@ -1,14 +1,12 @@
-import React, {useEffect, useState} from "react";
-import {
-    useScroll
-} from "framer-motion";
+"use client"
+import React from "react";
+import {useScroll} from "framer-motion";
 import {FullPageImageLanding} from "./FullPageLanding";
 
 import {useLandingScrollLockEffect} from "../../hooks/scrollingHooks";
 import {BGAnimatedContent} from "./BGAnimatedContent";
 import {LoremIpsum} from "../../util/LoremIpsum";
 import {useViewportHeight} from "../../hooks/viewportHooks";
-import {BGLoadingChevron} from "./BGLoadingChevron";
 import {BGLandingProps} from "../../types";
 
 export const BGLanding = ({children, title, imagePath, imageAlt, buttons}: BGLandingProps) => {
@@ -24,7 +22,6 @@ export const BGLanding = ({children, title, imagePath, imageAlt, buttons}: BGLan
         <>
             <FullPageImageLanding title={title} imagePath={imagePath} imageAlt={imageAlt} buttons={buttons}
                                   landingScrollProps={landingScollProps}/>
-            <BGLoadingChevron landingScrollProps={landingScollProps}/>
             <BGAnimatedContent scrollY={scrollY} viewportHeight={viewportHeight}>
                 {children}
                 <LoremIpsum/>

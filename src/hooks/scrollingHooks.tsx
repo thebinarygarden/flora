@@ -22,7 +22,7 @@ export const useLandingScrollLockEffect = (
                 setIsScrollLocked(true)
             }
             if (scrollTimeout.current != null) {
-                clearTimeout(scrollTimeout.current);
+                clearTimeout(scrollTimeout.current!);
             }
             scrollTimeout.current = setTimeout(thresholdScroll, 500);
         };
@@ -31,7 +31,7 @@ export const useLandingScrollLockEffect = (
         return () => {
             scrollY.clearListeners()
         };
-    }, []);
+    }, [viewportHeight]);
 
     return isScrollLocked;
 }

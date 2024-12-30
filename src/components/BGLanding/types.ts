@@ -1,5 +1,5 @@
 import {FC} from "react";
-import {BGLandingScrollProps} from "../../types";
+import {BGLandingScrollProps} from "../../hooks/types";
 
 export type FullPageLandingProps = {
     imagePath?: string,

@@ -1,31 +1,39 @@
 "use client"
 import React from "react";
-import {useScroll} from "framer-motion";
-import {FullPageImageLanding} from "./FullPageLanding";
-
-import {useLandingScrollLockEffect} from "../../hooks/scrollingHooks";
-import {BGAnimatedContent} from "./BGAnimatedContent";
-import {LoremIpsum} from "../../util/LoremIpsum";
-import {useViewportHeight} from "../../hooks/viewportHooks";
+import {motion} from "framer-motion";
 import {BGLandingProps} from "../../types";
+import {ButtonContainer, FullPageMinimum, LandingTitle} from "./styled";
+import {useAnimatedFields} from "./useAnimatedFields";
+import {LoremIpsum} from "../util/LoremIpsum";
+import {ClientOnlyFadeIn} from "../util/ClientOnlyFadeIn";
 
 export const BGLanding = ({children, title, imagePath, imageAlt, buttons}: BGLandingProps) => {
-    const viewportHeight = useViewportHeight();
-    const {scrollY} = useScroll();
-    const landingScollProps = {
-        viewportHeight: viewportHeight,
-        scrollY: scrollY,
-        isScrollLocked: useLandingScrollLockEffect(viewportHeight / 4, viewportHeight, scrollY)
-    }
+    const {thumbnailY, thumbnailOpacity, contentY} = useAnimatedFields();
 
     return (
-        <>
-            <FullPageImageLanding title={title} imagePath={imagePath} imageAlt={imageAlt} buttons={buttons}
-                                  landingScrollProps={landingScollProps}/>
-            <BGAnimatedContent scrollY={scrollY} viewportHeight={viewportHeight}>
-                {children}
-                <LoremIpsum/>
-            </BGAnimatedContent>
-        </>
+        <ClientOnlyFadeIn>
+            <motion.img style={{
+                position: "fixed",
+                width: "100vw",
+                height: "100vh",
+                objectFit: "cover",
+                objectPosition: "center",
+                zIndex: -1,
+                top: thumbnailY,
+                opacity: thumbnailOpacity
+            }} src={imagePath} alt={imageAlt ?? ""}/>
+            <ButtonContainer>
+                {buttons?.map((ButtonComponent, index) => (
+                    <ButtonComponent key={index}/>
+                ))}
+            </ButtonContainer>
+            <LandingTitle>{title}</LandingTitle>
+            <motion.div style={{y: contentY}}>
+                <FullPageMinimum>
+                    {children}
+                    <LoremIpsum />
+                </FullPageMinimum>
+            </motion.div>
+        </ClientOnlyFadeIn>
     );
 };

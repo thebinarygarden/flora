@@ -48,3 +48,15 @@ export const ButtonContainer = styled.div`
   z-index: 10;
 `;
 
+export const FullPageMinimum = styled.div`
+  position: absolute;
+  background: ${(props) => props.theme.background};
+  min-height: 100vh;
+  min-width: 100vw;
+  z-index: 10;
+
+  @media (prefers-color-scheme: dark) {
+    background: ${(props) => props.theme.backgroundNight};
+  }
+`;
+

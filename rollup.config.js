@@ -12,15 +12,14 @@ export default {
     plugins: [
         preserveDirectives(), // Retains "use client" directive
         typescript({
-            declaration: true, // Generate `.d.ts` files
-            declarationDir: 'dist', // Place them in the `dist` folder
-            rootDir: 'src', // Retain structure
+            tsconfig: './tsconfig.json'
         }),
     ],
     external: [
         'react',
         'react-dom',
         'styled-components',
-        'framer-motion',
+        'motion',
+        'motion/react',
     ], // Mark peer dependencies as external
 };

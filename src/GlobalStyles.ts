@@ -4,14 +4,14 @@ import {FloraTheme} from "./types";
 
 export const FloraGlobalStyle = createGlobalStyle<FloraTheme>`
   body {
-    background: ${({theme}) => theme.background};
-    color: ${props => props.theme.onBackground};
+    background: ${theme => theme.background};
+    color: ${theme => theme.onBackground};
   }
 
   @media (prefers-color-scheme: dark) {
     body {
-      background: ${props => props.theme.backgroundNight};
-      color: ${props => props.theme.onBackgroundNight}
+      background: ${theme => theme.background};
+      color: ${theme => theme.onBackground}
     }
   }
   

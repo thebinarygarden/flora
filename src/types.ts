@@ -1,5 +1,4 @@
 import {FC, ReactNode} from "react";
-import {MotionValue} from "framer-motion";
 
 export type FloraTheme = {
     primary?: string,

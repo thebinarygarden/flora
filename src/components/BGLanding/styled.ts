@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import {motion} from "motion/react";
 
-export const LandingTitle = styled.div`
+export const LandingTitle = motion.create(styled.div`
   font-family: ${(props) => props.theme.fontHeader};
   text-shadow: 5px 5px 10px ${(props) => props.theme.primary};
   width: 70vw;
@@ -24,17 +25,7 @@ export const LandingTitle = styled.div`
     font-size: 10vh;
     line-height: 8vh;
   }
-`;
-
-export const LandingFullPageImage = styled.img<{top?: number}>`
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  object-position: center;
-  z-index: -1;
-  top: ${(props) => props.top || 0}px;
-`;
+`);
 
 export const ButtonContainer = styled.div`
   display: flex;

@@ -1,15 +1,16 @@
 import {useViewportHeight} from "../../hooks/useViewportHeight";
-import {useScroll, useTransform} from "framer-motion";
+import {useScroll, useTransform} from "motion/react";
 import {useEffect, useRef} from "react";
 
 export const useAnimatedFields = () => {
     const viewportHeight = useViewportHeight();
     const {scrollY} = useScroll();
-    const scrollTimeout = useRef<null | NodeJS.Timeout>(null);
+    const scrollTimeout = useRef<null | number>(null);
 
     const phase = [0, .1, .5, .9, 1].map(n => n * viewportHeight);
     const thumbnailY = useTransform(scrollY, [0, phase[4]], [0, -100]);
     const thumbnailOpacity = useTransform(scrollY, [0, phase[2]], [1, 0]);
+    const titleY = useTransform(scrollY, [phase[1], phase[3]], ['50%', '90%']);
     const contentY = useTransform(scrollY, [0, phase[4]], [phase[4], phase[4]]);
 
     useEffect(() => {
@@ -38,6 +39,7 @@ export const useAnimatedFields = () => {
     return {
         thumbnailY,
         thumbnailOpacity,
+        titleY,
         contentY
     };
 }

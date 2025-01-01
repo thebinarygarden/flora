@@ -21,18 +21,20 @@
     }
   },
   "peerDependencies": {
-    "framer-motion": "^11",
+    "motion": "^11",
     "react": "^18",
     "react-dom": "^18",
-    "styled-components": "^6.1.11"
+    "styled-components": "^6"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^12.1.2",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "babel-loader": "^9.1.3",
+    "@types/styled-components": "^5.1.34",
+    "motion": "^11.15.0",
     "rollup": "^4.29.1",
     "rollup-plugin-preserve-directives": "^0.4.0",
+    "tslib": "^2.8.1",
     "typescript": "^5.7.2"
   }
 }

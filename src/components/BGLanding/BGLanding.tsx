@@ -1,6 +1,6 @@
 "use client"
 import React from "react";
-import {motion} from "framer-motion";
+import {motion} from "motion/react";
 import {BGLandingProps} from "../../types";
 import {ButtonContainer, FullPageMinimum, LandingTitle} from "./styled";
 import {useAnimatedFields} from "./useAnimatedFields";
@@ -8,7 +8,7 @@ import {LoremIpsum} from "../util/LoremIpsum";
 import {ClientOnlyFadeIn} from "../util/ClientOnlyFadeIn";
 
 export const BGLanding = ({children, title, imagePath, imageAlt, buttons}: BGLandingProps) => {
-    const {thumbnailY, thumbnailOpacity, contentY} = useAnimatedFields();
+    const {thumbnailY, thumbnailOpacity, titleY, contentY} = useAnimatedFields();
 
     return (
         <ClientOnlyFadeIn>
@@ -19,7 +19,7 @@ export const BGLanding = ({children, title, imagePath, imageAlt, buttons}: BGLan
                 objectFit: "cover",
                 objectPosition: "center",
                 zIndex: -1,
-                top: thumbnailY,
+                y: thumbnailY,
                 opacity: thumbnailOpacity
             }} src={imagePath} alt={imageAlt ?? ""}/>
             <ButtonContainer>
@@ -27,7 +27,7 @@ export const BGLanding = ({children, title, imagePath, imageAlt, buttons}: BGLan
                     <ButtonComponent key={index}/>
                 ))}
             </ButtonContainer>
-            <LandingTitle>{title}</LandingTitle>
+            <LandingTitle style={{top: titleY}}>{title}</LandingTitle>
             <motion.div style={{y: contentY}}>
                 <FullPageMinimum>
                     {children}

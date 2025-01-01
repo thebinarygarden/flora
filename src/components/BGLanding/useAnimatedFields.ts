@@ -10,7 +10,10 @@ export const useAnimatedFields = () => {
     const phase = [0, .1, .5, .9, 1].map(n => n * viewportHeight);
     const thumbnailY = useTransform(scrollY, [0, phase[4]], [0, -100]);
     const thumbnailOpacity = useTransform(scrollY, [0, phase[2]], [1, 0]);
-    const titleY = useTransform(scrollY, [phase[1], phase[3]], ['50%', '90%']);
+    const titleShadow = useTransform(scrollY, [phase[0], phase[2]], [10, 0]);
+    const titleTop = useTransform(scrollY, [phase[1], phase[3]], ['50%', '90%']);
+    const titleOpacity = useTransform(scrollY, [phase[2], phase[3]], [1, 0]);
+    const buttonsOpacity = useTransform(scrollY, [phase[0], phase[1]], [1, 0]);
     const contentY = useTransform(scrollY, [0, phase[4]], [phase[4], phase[4]]);
 
     useEffect(() => {
@@ -39,7 +42,10 @@ export const useAnimatedFields = () => {
     return {
         thumbnailY,
         thumbnailOpacity,
-        titleY,
+        titleShadow,
+        titleTop,
+        titleOpacity,
+        buttonsOpacity,
         contentY
     };
 }

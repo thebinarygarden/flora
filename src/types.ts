@@ -1,4 +1,4 @@
-import {FC, ReactNode} from "react";
+import {ReactNode} from "react";
 
 export type FloraTheme = {
     primary?: string,
@@ -20,5 +20,7 @@ export type BGLandingProps = {
     title: string,
     imagePath: string,
     imageAlt: string,
-    buttons: FC[]
+    youtube: string,
+    github: string,
+    bgdocs: string,
 }

@@ -1,3 +1,4 @@
+import svgr from '@svgr/rollup';
 import preserveDirectives from 'rollup-plugin-preserve-directives';
 import typescript from '@rollup/plugin-typescript';
 
@@ -10,6 +11,7 @@ export default {
         preserveModulesRoot: 'src', // Keeps folder structure under `src`
     },
     plugins: [
+        svgr(),
         preserveDirectives(), // Retains "use client" directive
         typescript({
             tsconfig: './tsconfig.json'

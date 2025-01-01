@@ -3,18 +3,12 @@ import {motion} from "motion/react";
 
 export const LandingTitle = motion.create(styled.div`
   font-family: ${(props) => props.theme.fontHeader};
-  text-shadow: 5px 5px 10px ${(props) => props.theme.primary};
   width: 70vw;
   margin: auto;
   position: absolute;
   text-align: center;
-  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
-  @media (prefers-color-scheme: dark) {
-    text-shadow: 5px 5px 10px ${(props) => props.theme.primaryNight};
-  }
 
   @media (orientation: portrait) {
     font-size: 10vw;
@@ -27,17 +21,16 @@ export const LandingTitle = motion.create(styled.div`
   }
 `);
 
-export const ButtonContainer = styled.div`
+export const ButtonContainer = motion.create(styled.div`
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around;
   position: absolute;
-  top: 0;
+  top: 60%;
   left: 0;
   width: 100%;
-  padding: 10px 0;
+  padding-inline: 20px;
   z-index: 10;
-`;
+`);
 
 export const FullPageMinimum = styled.div`
   position: absolute;

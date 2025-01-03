@@ -31,9 +31,9 @@ export const useAnimatedFields = ({viewportHeight}: AnimatedFieldsProps) => {
 
         const resetScroll = () => {
             if (scrollY.get() < phase[2]) {
-                window.scrollTo({top: 0, behavior: 'smooth'})
+                window.scrollTo({top: 0, behavior: 'smooth'});
             } else if (scrollY.get() >= phase[2] && scrollY.get() < viewportHeight) {
-                window.scrollTo({top: viewportHeight, behavior: 'smooth'})
+                window.scrollTo({top: viewportHeight+1, behavior: 'smooth'});
             }
         };
         const handleScroll = () => {

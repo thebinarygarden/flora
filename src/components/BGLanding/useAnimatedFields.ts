@@ -1,10 +1,9 @@
-import {useViewportHeight} from "../../hooks/useViewportHeight";
 import {useScroll, useTransform} from "motion/react";
 import {useEffect, useRef, useState} from "react";
 import {useFloraTheme} from "../../FloraThemeProvider";
+import {AnimatedFieldsProps} from "./types";
 
-export const useAnimatedFields = () => {
-    const viewportHeight = useViewportHeight();
+export const useAnimatedFields = ({viewportHeight}: AnimatedFieldsProps) => {
     const theme = useFloraTheme();
     
     const {scrollY} = useScroll();
@@ -26,7 +25,6 @@ export const useAnimatedFields = () => {
     const titleTop = useTransform(scrollY, [phase[1], phase[3]], ['50%', '90%']);
     const titleOpacity = useTransform(scrollY, [phase[2], phase[3]], [1, 0]);
     const buttonsOpacity = useTransform(scrollY, [phase[0], phase[1]], [1, 0]);
-    const contentY = useTransform(scrollY, [0, phase[4]], [phase[4], phase[4]]);
 
     useEffect(() => {
         if (viewportHeight == 0) return;
@@ -57,7 +55,6 @@ export const useAnimatedFields = () => {
         titleShadow: titleShadowCustom,
         titleTop,
         titleOpacity,
-        buttonsOpacity,
-        contentY
+        buttonsOpacity
     };
 }

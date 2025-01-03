@@ -1,5 +1,5 @@
 "use client"
-import React, {useState} from "react";
+import React from "react";
 import {motion} from "motion/react";
 import {BGLandingProps} from "../../types";
 import {ToggleVisButtonMotion, FullPageMinimum, LandingTitleMotion, ButtonContainerMotion} from "./styled";
@@ -7,19 +7,20 @@ import {useAnimatedFields} from "./useAnimatedFields";
 import {LoremIpsum} from "../util/LoremIpsum";
 import {ClientOnlyFadeIn} from "../util/ClientOnlyFadeIn";
 import {Icon} from "../Icon/Icon";
-import {useFloraTheme} from "../../FloraThemeProvider";
 import {useVideoLooper} from "./useVideoLooper";
+import {useViewportHeight} from "../../hooks/useViewportHeight";
 
-export const BGLanding = ({children, title, imagePath, imageAlt, youtube, bgdocs, github}: BGLandingProps) => {
+export const BGLanding = ({children, title, imagePath, youtube, bgdocs, github}: BGLandingProps) => {
+
+    const {unit, viewportHeight} = useViewportHeight();
     const {
         thumbnailY,
         thumbnailOpacity,
         titleShadow,
         titleTop,
         titleOpacity,
-        buttonsOpacity,
-        contentY
-    } = useAnimatedFields();
+        buttonsOpacity
+    } = useAnimatedFields({viewportHeight});
     const {videoRef, isLooping, handleToggle} = useVideoLooper();
 
     return (
@@ -46,9 +47,9 @@ export const BGLanding = ({children, title, imagePath, imageAlt, youtube, bgdocs
                     <ButtonContainerMotion style={{
                         opacity: buttonsOpacity
                     }}>
-                        <a href={youtube}><Icon name="youtube"/></a>
-                        <a href={github}><Icon name="github"/></a>
-                        <a href={bgdocs}><Icon name="bgdocs"/></a>
+                        <a href={youtube}><Icon name="youtube" unit={unit}/></a>
+                        <a href={github}><Icon name="github" unit={unit}/></a>
+                        <a href={bgdocs}><Icon name="bgdocs" unit={unit}/></a>
                     </ButtonContainerMotion>
                 </>
             )}
@@ -57,9 +58,9 @@ export const BGLanding = ({children, title, imagePath, imageAlt, youtube, bgdocs
                 style={{
                     opacity: buttonsOpacity
                 }}>
-                {isLooping ? <Icon name="eyeoff"/> : <Icon name="eyeon"/>}
+                {isLooping ? <Icon name="eyeoff" unit={unit}/> : <Icon name="eyeon" unit={unit}/>}
             </ToggleVisButtonMotion>
-            <motion.div style={{y: contentY}}>
+            <motion.div style={{y: innerHeight}}>
                 <FullPageMinimum>
                     {children}
                     <LoremIpsum/>

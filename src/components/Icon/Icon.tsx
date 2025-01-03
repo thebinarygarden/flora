@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from "react";
+import React, {FC} from "react";
 import BGDocs from '../../svg/bgdocs.svg';
 import EyeOn from '../../svg/eyeOn.svg';
 import EyeOff from '../../svg/eyeOff.svg';
@@ -15,29 +15,19 @@ const icons = {
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
     name: keyof typeof icons; // Name of the icon (matches the imported SVG filename)
-    size?: number; // Optional size override
-    color?: string; // Optional color override
+    unit?: string;
+    size?: number;
+    color?: string;
 }
 
-export const Icon: FC<IconProps> = ({ name, size = 9, color = "currentColor" }) => {
+export const Icon: FC<IconProps> = ({ name, size = 9, unit, color = "currentColor" }) => {
     const IconComponent = icons[name];
-    const [height, setHeight] = useState(`${size}vw`);
-
-    useEffect(() => {
-        const updateHeight = () => {
-            const isPortrait = window.matchMedia("(orientation: portrait)").matches;
-            setHeight(`${size}${isPortrait ? "vw" : "vh"}`);
-        };
-
-        updateHeight(); // Set initial height
-        window.addEventListener("resize", updateHeight);
-        return () => window.removeEventListener("resize", updateHeight);
-    }, [size]);
-
     if (!IconComponent) {
         console.error(`Icon "${name}" not found.`);
         return null;
     }
+
+    const height = unit ? size+unit : size;
 
     return (
         <IconComponent

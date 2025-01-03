@@ -19,7 +19,6 @@ export type BGLandingProps = {
     children: ReactNode,
     title: string,
     imagePath: string,
-    imageAlt: string,
     youtube: string,
     github: string,
     bgdocs: string,

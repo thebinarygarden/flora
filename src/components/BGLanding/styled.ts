@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import {motion} from "motion/react";
 
-export const LandingTitle = motion.create(styled.div`
+export const LandingTitleMotion = motion.create(styled.div`
   font-family: ${(props) => props.theme.fontHeader};
   width: 70vw;
   margin: auto;
@@ -21,7 +21,7 @@ export const LandingTitle = motion.create(styled.div`
   }
 `);
 
-export const ButtonContainer = motion.create(styled.div`
+export const ButtonContainerMotion = motion.create(styled.div`
   display: flex;
   justify-content: space-around;
   position: absolute;
@@ -30,6 +30,12 @@ export const ButtonContainer = motion.create(styled.div`
   width: 100%;
   padding-inline: 20px;
   z-index: 10;
+`);
+
+export const ToggleVisButtonMotion = motion.create(styled.button`
+  position: absolute;
+  right: 2vw;
+  bottom: 2vh;
 `);
 
 export const FullPageMinimum = styled.div`

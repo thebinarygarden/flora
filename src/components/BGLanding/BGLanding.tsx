@@ -21,16 +21,6 @@ export const BGLanding = ({children, title, imagePath, imageAlt, youtube, bgdocs
         contentY
     } = useAnimatedFields();
     const {videoRef, isLooping, handleToggle} = useVideoLooper();
-    const theme = useFloraTheme();
-    const [titleShadowCustom, setTitleShadowCustom] = useState<string>();
-
-    titleShadow.on('change', (value) => {
-        if (value === 0) {
-            setTitleShadowCustom("none");
-            return;
-        }
-        setTitleShadowCustom(`${value / 3}px ${value / 3}px ${value}px ${theme.primary}`)
-    })
 
     return (
         <ClientOnlyFadeIn>
@@ -51,7 +41,7 @@ export const BGLanding = ({children, title, imagePath, imageAlt, youtube, bgdocs
                     <LandingTitleMotion style={{
                         top: titleTop,
                         opacity: titleOpacity,
-                        textShadow: titleShadowCustom
+                        textShadow: titleShadow
                     }}>{title}</LandingTitleMotion>
                     <ButtonContainerMotion style={{
                         opacity: buttonsOpacity

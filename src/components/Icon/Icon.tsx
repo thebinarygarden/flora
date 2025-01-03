@@ -1,12 +1,16 @@
-import React, { FC, useState, useEffect } from "react";
-import Github from "../../svg/github.svg";
-import Youtube from "../../svg/youtube.svg";
-import BGDocs from "../../svg/bgdocs.svg";
+import React, {FC, useEffect, useState} from "react";
+import BGDocs from '../../svg/bgdocs.svg';
+import EyeOn from '../../svg/eyeOn.svg';
+import EyeOff from '../../svg/eyeOff.svg';
+import Github from '../../svg/github.svg';
+import Youtube from '../../svg/youtube.svg';
 
 const icons = {
+    bgdocs: BGDocs,
+    eyeon: EyeOn,
+    eyeoff: EyeOff,
     github: Github,
     youtube: Youtube,
-    bgdocs: BGDocs,
 };
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
@@ -22,7 +26,6 @@ export const Icon: FC<IconProps> = ({ name, size = 9, color = "currentColor" }) 
     useEffect(() => {
         const updateHeight = () => {
             const isPortrait = window.matchMedia("(orientation: portrait)").matches;
-            console.log("isPortrait", isPortrait);
             setHeight(`${size}${isPortrait ? "vw" : "vh"}`);
         };
 

@@ -4,13 +4,18 @@ export const useViewportHeight = () => {
     const [viewportHeight, setViewportHeight] = useState(0);
     const [unit, setUnit] = useState("vw");
 
+    const setUnitCallback = () => {
+        const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+        setUnit(isPortrait ? "vw" : "vh");
+    };
+
     useEffect(() => {
         setViewportHeight(window.innerHeight);
+        setUnitCallback();
 
         const handleResize = () => {
             setViewportHeight(window.innerHeight);
-            const isPortrait = window.matchMedia("(orientation: portrait)").matches;
-            setUnit(isPortrait ? "vw" : "vh");
+            setUnitCallback();
         };
         window.addEventListener("resize", handleResize);
         return () => {

@@ -1,16 +1,7 @@
 import React from "react";
+import {BGNavbar} from "./types";
 
-type DefaultNavbarProps = {
-    children: React.ReactNode
-    title?: string,
-    titleElement?: React.ReactNode,
-    iconFilepath?: string
-    iconElement?: React.ReactNode
-    navBarMenuElement?: React.ReactNode
-    sidePanelMenuElement?: React.ReactNode
-}
-
-export const TopNavbar = ({children}: DefaultNavbarProps) => {
+export const TopNavbar: BGNavbar = ({children}) => {
     return(
         <>
             {children}

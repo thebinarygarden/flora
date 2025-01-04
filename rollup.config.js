@@ -6,7 +6,7 @@ export default {
     input: 'src/index.ts', // Entry point
     output: {
         dir: 'dist', // Output directory
-        format: 'es', // ESM output
+        format: 'esm', // ESM output
         preserveModules: true, // Ensures each component has its own file
         preserveModulesRoot: 'src', // Keeps folder structure under `src`
     },

@@ -1,4 +1,5 @@
 import {ReactNode} from "react";
+import {BGNavbarProps} from "./components/navigation/types";
 
 export type FloraTheme = {
     primary?: string,
@@ -18,8 +19,10 @@ export type FloraTheme = {
 export type BGLandingProps = {
     children: ReactNode,
     title: string,
-    imagePath: string,
+    mp4Path: string,
     youtube: string,
     github: string,
     bgdocs: string,
+    navbarConfig: BGNavbarProps
+    navbarType: "side" | "top"
 }

@@ -1,9 +1,9 @@
 import React, {FC} from "react";
-import BGDocs from '../../svg/bgdocs.svg';
-import EyeOn from '../../svg/eyeOn.svg';
-import EyeOff from '../../svg/eyeOff.svg';
-import Github from '../../svg/github.svg';
-import Youtube from '../../svg/youtube.svg';
+import BGDocs from './svg/bgdocs.svg';
+import EyeOn from './svg/eyeOn.svg';
+import EyeOff from './svg/eyeOff.svg';
+import Github from './svg/github.svg';
+import Youtube from './svg/youtube.svg';
 
 const icons = {
     bgdocs: BGDocs,

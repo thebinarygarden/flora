@@ -1,14 +1,12 @@
 import {useScroll, useTransform} from "motion/react";
-import {useEffect, useRef, useState} from "react";
+import {useState} from "react";
 import {useFloraTheme} from "../../FloraThemeProvider";
 import {AnimatedFieldsProps} from "./types";
 
 export const useAnimatedFields = ({viewportHeight}: AnimatedFieldsProps) => {
     const theme = useFloraTheme();
-    
-    const {scrollY} = useScroll();
-    const scrollTimeout = useRef<null | number>(null);
     const phase = [0, .1, .5, .9, 1].map(n => n * viewportHeight);
+    const {scrollY} = useScroll();
 
     const thumbnailY = useTransform(scrollY, [0, phase[4]], [0, -100]);
     const thumbnailOpacity = useTransform(scrollY, [0, phase[2]], [1, 0]);
@@ -25,29 +23,6 @@ export const useAnimatedFields = ({viewportHeight}: AnimatedFieldsProps) => {
     const titleTop = useTransform(scrollY, [phase[1], phase[3]], ['50%', '90%']);
     const titleOpacity = useTransform(scrollY, [phase[2], phase[3]], [1, 0]);
     const buttonsOpacity = useTransform(scrollY, [phase[0], phase[1]], [1, 0]);
-
-    useEffect(() => {
-        if (viewportHeight == 0) return;
-
-        const resetScroll = () => {
-            if (scrollY.get() < phase[2]) {
-                window.scrollTo({top: 0, behavior: 'smooth'});
-            } else if (scrollY.get() >= phase[2] && scrollY.get() < viewportHeight) {
-                window.scrollTo({top: viewportHeight+1, behavior: 'smooth'});
-            }
-        };
-        const handleScroll = () => {
-            if (scrollTimeout.current != null) {
-                clearTimeout(scrollTimeout.current!);
-            }
-            scrollTimeout.current = setTimeout(resetScroll, 500);
-        };
-
-        scrollY.on("change", handleScroll)
-        return () => {
-            scrollY.clearListeners()
-        };
-    }, [viewportHeight]);
 
     return {
         thumbnailY,

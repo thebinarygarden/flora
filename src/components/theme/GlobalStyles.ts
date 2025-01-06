@@ -1,6 +1,6 @@
 "use client";
 import { createGlobalStyle } from 'styled-components'
-import {FloraTheme} from "./types";
+import {FloraTheme} from "../../types";
 
 export const FloraGlobalStyle = createGlobalStyle<FloraTheme>`
   body {

@@ -1,28 +1,12 @@
 "use client"
 import React from 'react';
 import {ThemeProvider, useTheme} from 'styled-components';
-import {FloraTheme} from "./types";
+import {FloraTheme} from "../../types";
 
 type FloraThemeProviderProps = {
     theme?: FloraTheme;
     isNight?: boolean;
     children: React.ReactNode;
-}
-
-export const useFloraTheme = (): FloraTheme => {
-    const theme = useTheme() as FloraTheme;
-    if (!theme) {
-        throw new Error("useFloraTheme must be used within a FloraThemeProvider.");
-    }
-    return theme;
-};
-
-const FloraThemeProvider = (props: FloraThemeProviderProps) => {
-    return (
-        <ThemeProvider theme={createTheme(props)}>
-            {props.children}
-        </ThemeProvider>
-    );
 }
 
 const createTheme = (props: FloraThemeProviderProps): FloraTheme => {
@@ -71,4 +55,18 @@ const createTheme = (props: FloraThemeProviderProps): FloraTheme => {
     return theme;
 }
 
-export { FloraThemeProvider };
+export const useFloraTheme = (): FloraTheme => {
+    const theme = useTheme() as FloraTheme;
+    if (!theme) {
+        throw new Error("useFloraTheme must be used within a FloraThemeProvider.");
+    }
+    return theme;
+};
+
+export const FloraThemeProvider = (props: FloraThemeProviderProps) => {
+    return (
+        <ThemeProvider theme={createTheme(props)}>
+            {props.children}
+        </ThemeProvider>
+    );
+}

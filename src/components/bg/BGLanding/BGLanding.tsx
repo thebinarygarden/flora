@@ -1,15 +1,18 @@
-"use client"
-import React, {useEffect, useRef, useState} from "react";
+import React from "react";
 import {motion} from "motion/react";
-import {BGLandingProps} from "../../types";
-import {ToggleVisButtonMotion, FullPageMinimum, LandingTitleMotion, ButtonContainerMotion} from "./styles";
-import {useAnimatedFields} from "./useAnimatedFields";
-import {LoremIpsum} from "../util/LoremIpsum";
-import {ClientOnlyFadeIn} from "../util/ClientOnlyFadeIn";
-import {Icon} from "../Icon/Icon";
-import {useVideoLooper} from "./useVideoLooper";
-import {useViewportHeight} from "../../hooks/useViewportHeight";
-import {useThumbnailScrolling} from "./useThumbnailScrolling";
+import {ToggleVisButtonMotion, FullPageMinimum, LandingTitleMotion, ButtonContainerMotion} from "@styles";
+import {LoremIpsum} from "../../util/LoremIpsum";
+import {ClientOnlyFadeIn} from "../../util/ClientOnlyFadeIn";
+import {useViewportHeight} from "../../util/hooks/useViewportHeight";
+import {BGLandingProps} from "./types";
+import {useAnimatedFields} from "@components/bg/BGLanding/useAnimatedFields";
+import {useVideoLooper} from "@components/bg/BGLanding/useVideoLooper";
+import {useThumbnailScrolling} from "@components/bg/BGLanding/useThumbnailScrolling";
+import {IconYoutube} from "@components/icons/IconYoutube";
+import {IconGithub} from "@components/icons/IconGithub";
+import {IconBGDocs} from "@components/icons/IconBGDocs";
+import {IconEyeOff} from "@components/icons/IconEyeOff";
+import {IconEyeOn} from "@components/icons/IconEyeOn";
 
 export const BGLanding = ({
                               children,
@@ -57,9 +60,9 @@ export const BGLanding = ({
                             <ButtonContainerMotion style={{
                                 opacity: buttonsOpacity
                             }}>
-                                <a href={youtube}><Icon name="youtube" unit={unit}/></a>
-                                <a href={github}><Icon name="github" unit={unit}/></a>
-                                <a href={bgdocs}><Icon name="bgdocs" unit={unit}/></a>
+                                <a href={youtube}><IconYoutube name="youtube" unit={unit}/></a>
+                                <a href={github}><IconGithub name="github" unit={unit}/></a>
+                                <a href={bgdocs}><IconBGDocs name="bgdocs" unit={unit}/></a>
                             </ButtonContainerMotion>
                         </>
                     )}
@@ -68,7 +71,7 @@ export const BGLanding = ({
                         style={{
                             opacity: buttonsOpacity
                         }}>
-                        {isLooping ? <Icon name="eyeoff" unit={unit}/> : <Icon name="eyeon" unit={unit}/>}
+                        {isLooping ? <IconEyeOff unit={unit}/> : <IconEyeOn unit={unit}/>}
                     </ToggleVisButtonMotion>
                 </>
             )}

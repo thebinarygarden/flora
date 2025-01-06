@@ -1,7 +1,8 @@
+"use client";
 import {useScroll, useTransform} from "motion/react";
 import {useState} from "react";
-import {useFloraTheme} from "../../FloraThemeProvider";
 import {AnimatedFieldsProps} from "./types";
+import {useFloraTheme} from "@components/theme/FloraThemeProvider";
 
 export const useAnimatedFields = ({viewportHeight}: AnimatedFieldsProps) => {
     const theme = useFloraTheme();

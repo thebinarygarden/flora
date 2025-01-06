@@ -1,11 +1,15 @@
 {
   "compilerOptions": {
+    "baseUrl": "./", // Base directory for resolution
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@styles": ["src/index_client_internal_styles.ts"],
+    },
     "outDir": "./dist/",
     "module": "ESNext",
     "target": "ES6",
     "lib": ["dom", "esnext"],
     "jsx": "react",
-    "declaration": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

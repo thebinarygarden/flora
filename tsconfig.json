@@ -3,7 +3,6 @@
     "baseUrl": "./", // Base directory for resolution
     "paths": {
       "@components/*": ["src/components/*"],
-      "@styles": ["src/index_client_internal_styles.ts"],
     },
     "outDir": "./dist/",
     "module": "ESNext",

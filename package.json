@@ -1,5 +1,5 @@
 {
-  "name": "flora",
+  "name": "bgflora",
   "version": "0.0.1",
   "author": "Binary Garden",
   "license": "ISC",
@@ -17,16 +17,16 @@
   ],
   "exports": {
     "./bg": {
-      "import": "./dist/index_bg.js"
+      "import": "./dist/bg.js"
     },
     "./icons": {
-      "import": "./dist/index_icons.js"
+      "import": "./dist/icons.js"
     },
     "./navigation": {
-      "import": "./dist/index_navigation.js"
+      "import": "./dist/navigation.js"
     },
     "./theme": {
-      "import": "./dist/index_client_theme.js"
+      "import": "./dist/theme.js"
     }
   },
   "peerDependencies": {
@@ -36,7 +36,6 @@
     "styled-components": "^6"
   },
   "devDependencies": {
-    "@rollup/plugin-alias": "^5.1.1",
     "@rollup/plugin-typescript": "^12.1.2",
     "@svgr/rollup": "^8.1.0",
     "@types/react": "^18.3.3",

@@ -1,4 +1,3 @@
-"use client";
 import {useScroll, useTransform} from "motion/react";
 import {useState} from "react";
 import {AnimatedFieldsProps} from "./types";

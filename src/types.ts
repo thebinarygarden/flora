@@ -1,5 +1,3 @@
-import {ReactNode} from "react";
-import {BGNavbar} from "./components/navigation/types";
 
 export type FloraTheme = {
     primary?: string,

@@ -1,9 +1,13 @@
+"use client";
 import React from "react";
-import {motion} from "motion/react";
-import {ToggleVisButtonMotion, FullPageMinimum, LandingTitleMotion, ButtonContainerMotion} from "@styles";
+import {
+    ToggleVisButtonMotion,
+    LandingTitleMotion,
+    ButtonContainerMotion,
+    LandingVideoMotion,
+    FullPageMinimumMotion
+} from "./styles";
 import {LoremIpsum} from "../../util/LoremIpsum";
-import {ClientOnlyFadeIn} from "../../util/ClientOnlyFadeIn";
-import {useViewportHeight} from "../../util/hooks/useViewportHeight";
 import {BGLandingProps} from "./types";
 import {useAnimatedFields} from "@components/bg/BGLanding/useAnimatedFields";
 import {useVideoLooper} from "@components/bg/BGLanding/useVideoLooper";
@@ -13,6 +17,9 @@ import {IconGithub} from "@components/icons/IconGithub";
 import {IconBGDocs} from "@components/icons/IconBGDocs";
 import {IconEyeOff} from "@components/icons/IconEyeOff";
 import {IconEyeOn} from "@components/icons/IconEyeOn";
+import {useViewportHeight} from "@components/util/client/useViewportHeight";
+import {ClientOnlyFadeIn} from "@components/util/client/ClientOnlyFadeIn";
+import {IconInfo} from "@components/icons/IconInfo";
 
 export const BGLanding = ({
                               children,
@@ -20,7 +27,8 @@ export const BGLanding = ({
                               mp4Path,
                               youtube,
                               bgdocs,
-                              github
+                              github,
+    navbar: Navbar
                           }: BGLandingProps) => {
     const {unit, viewportHeight} = useViewportHeight();
     const {
@@ -38,15 +46,9 @@ export const BGLanding = ({
         <ClientOnlyFadeIn>
             {showThumbnail && (
                 <>
-                    <motion.video
+                    <LandingVideoMotion
                         ref={videoRef}
                         style={{
-                            position: "fixed",
-                            width: "100vw",
-                            height: "100vh",
-                            objectFit: "cover",
-                            objectPosition: "center",
-                            zIndex: -1,
                             y: thumbnailY,
                             opacity: thumbnailOpacity
                         }} src={mp4Path} muted/>
@@ -60,9 +62,10 @@ export const BGLanding = ({
                             <ButtonContainerMotion style={{
                                 opacity: buttonsOpacity
                             }}>
-                                <a href={youtube}><IconYoutube name="youtube" unit={unit}/></a>
-                                <a href={github}><IconGithub name="github" unit={unit}/></a>
-                                <a href={bgdocs}><IconBGDocs name="bgdocs" unit={unit}/></a>
+                                <a href={youtube}><IconYoutube unit={unit}/></a>
+                                <a href={github}><IconGithub unit={unit}/></a>
+                                <a href={bgdocs}><IconBGDocs unit={unit}/></a>
+                                <a href={bgdocs}><IconInfo color={"green"} unit={unit}/></a>
                             </ButtonContainerMotion>
                         </>
                     )}
@@ -75,12 +78,10 @@ export const BGLanding = ({
                     </ToggleVisButtonMotion>
                 </>
             )}
-            <motion.div style={{y: showThumbnail ? viewportHeight : 0}}>
-                <FullPageMinimum>
-                    {children}
-                    <LoremIpsum/>
-                </FullPageMinimum>
-            </motion.div>
+            <FullPageMinimumMotion style={{y: showThumbnail ? viewportHeight : 0}}>
+                {children}
+                <LoremIpsum/>
+            </FullPageMinimumMotion>
         </ClientOnlyFadeIn>
     );
 };

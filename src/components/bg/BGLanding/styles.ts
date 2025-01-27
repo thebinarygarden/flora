@@ -2,6 +2,14 @@
 import styled from "styled-components";
 import {motion} from "motion/react";
 
+export const LandingVideoMotion = motion.create(styled.video`
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  object-position: center;
+  z-index: -1;
+`);
 export const LandingTitleMotion = motion.create(styled.div`
   font-family: ${(props) => props.theme.fontHeader};
   width: 70vw;
@@ -39,7 +47,7 @@ export const ToggleVisButtonMotion = motion.create(styled.button`
   bottom: 2vh;
 `);
 
-export const FullPageMinimum = styled.div`
+export const FullPageMinimumMotion = motion.create(styled.div`
   position: absolute;
   background: ${(props) => props.theme.background};
   min-height: 100vh;
@@ -49,5 +57,5 @@ export const FullPageMinimum = styled.div`
   @media (prefers-color-scheme: dark) {
     background: ${(props) => props.theme.backgroundNight};
   }
-`;
+`);
 

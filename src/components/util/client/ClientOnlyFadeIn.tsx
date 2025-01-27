@@ -1,3 +1,4 @@
+"use client";
 import React, {FC, PropsWithChildren, useEffect, useState} from 'react';
 import styled, { keyframes } from 'styled-components';
 

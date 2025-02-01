@@ -7,7 +7,8 @@ export default {
         bg: 'src/index_bg.ts',
         icons: 'src/index_icons.ts',
         navigation: 'src/index_navigation.ts',
-        theme: 'src/index_theme.ts'
+        theme: 'src/index_theme.ts',
+        input: 'src/index_input.ts'
     },
     output: {
         dir: 'dist',

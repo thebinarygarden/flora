@@ -1,16 +1,16 @@
 "use client";
 import React, {ReactNode, useEffect, useRef, useState} from "react";
-import {ColorWheelDialProps, RGB} from "@components/input/BGColorWheel/types";
+import {BGColorWheelProps, Coordinates, RGB} from "@components/input/BGColorWheel/types";
 import {allColors} from "@components/input/BGColorWheel/getAllColors";
 import {ColorWheelDial} from "@components/input/BGColorWheel/ColorWheelDial";
+import {ColorWheelInformation} from "@components/input/BGColorWheel/ColorWheelInformation";
+import {AbsolutePositionContainer, ColorDiv} from "@components/input/BGColorWheel/styles";
 
-export function BGColorWheel() {
+export function BGColorWheel({currentColor, setCurrentColor}: BGColorWheelProps) {
     const containerRef = useRef<HTMLDivElement | null>(null);
-    const [dialProps, setDialProps] = useState<ColorWheelDialProps>({
-        size: 0,
-        coordinateToRGB: new Map(),
-        containerRef: containerRef
-    });
+
+    const [center, setCenter] = useState<Coordinates>({y:0, x: 0});
+    const [coordinateToRGB, setCoordinateToRGB] = useState<Map<string, RGB>>(new Map());
 
     const [colorDivs, setColorDivs] = useState<ReactNode[]>();
     // Trig Functions use radians i.e 360 === 2pi
@@ -29,24 +29,21 @@ export function BGColorWheel() {
                 coordinateToRGB.set(`${Number(x.toFixed(3))},${Number(y.toFixed(3))}`, c);
                 const colorDivSize = 20;
 
-                return (<div key={enumerate} style={{
-                    position: "absolute",
-                    borderRadius: `${colorDivSize}px`,
-                    width: `${colorDivSize}px`,
-                    height: `${colorDivSize}px`,
-                    transform: `translate(${x-(colorDivSize/2)}px, ${y-(colorDivSize/2)}px)`,
-                    background: `rgb(${c.r},${c.g},${c.b})`,
-                    userSelect: "none"
-                }}/>);
+                return (<ColorDiv key={enumerate} size={colorDivSize} c={c} x={x} y={y}></ColorDiv>);
+                // (<div  style={{
+                //     position: "absolute",
+                //     borderRadius: `${colorDivSize}px`,
+                //     width: `${colorDivSize}px`,
+                //     height: `${colorDivSize}px`,
+                //     transform: `translate(${x-(colorDivSize/2)}px, ${y-(colorDivSize/2)}px)`,
+                //     background: `rgb(${c.r},${c.g},${c.b})`,
+                //     userSelect: "none"
+                // }}/>);
             });
 
             setColorDivs(newColorDivs);
-            const newDialSize = Math.min(center.x, center.y) / 4;
-            setDialProps({
-                size: newDialSize,
-                coordinateToRGB: coordinateToRGB,
-                containerRef: containerRef
-            });
+            setCoordinateToRGB(coordinateToRGB);
+            setCenter(center);
         }
     }
 
@@ -59,15 +56,10 @@ export function BGColorWheel() {
     }, []);
 
     return (
-        <div
-            ref={containerRef}
-            style={{
-                width: "100%",
-                height: "100%",
-            }}
-        >
+        <AbsolutePositionContainer ref={containerRef}>
             {colorDivs}
-            <ColorWheelDial {...dialProps}/>
-        </div>
+            <ColorWheelDial containerRef={containerRef} currentColor={currentColor} setCurrentColor={setCurrentColor} center={center} coordinateToRGB={coordinateToRGB}/>
+            <ColorWheelInformation color={currentColor} size={Math.min(center.x, center.y)}/>
+        </AbsolutePositionContainer>
     );
 }

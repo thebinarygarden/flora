@@ -1,11 +1,12 @@
-import {DialInternal, DialOutline} from "@components/input/BGColorWheel/styles";
-import {ColorWheelDialProps, Coordinates, RGB} from "@components/input/BGColorWheel/types";
+import {AbsolutePositionContainer, DialInternal, DialOutline} from "@components/input/BGColorWheel/styles";
+import {ColorWheelDialProps, Coordinates} from "@components/input/BGColorWheel/types";
 import React, {useEffect, useRef, useState} from "react";
 import {kdTree} from "kd-tree-javascript";
 
-export const ColorWheelDial = ({size, coordinateToRGB, containerRef}: ColorWheelDialProps) => {
+export const ColorWheelDial = ({center, coordinateToRGB, containerRef, currentColor, setCurrentColor}: ColorWheelDialProps) => {
+    const size = Math.min(center.x, center.y)/4;
+
     const [coords, setCoords] = useState<Coordinates | null>();
-    const [currentColor, setCurrentColor] = useState<RGB | null>();
     const isDragging = useRef(false);
     const coordinateKdTree = useRef<kdTree<Coordinates> | null>(null);
 
@@ -69,17 +70,10 @@ export const ColorWheelDial = ({size, coordinateToRGB, containerRef}: ColorWheel
     }, [coordinateToRGB]);
 
     return (
-        <div
-            style={{
-                width: "100%",
-                height: "100%",
-                backgroundColor: "transparent",
-                position: "absolute"
-            }}
-        >
-            { coords && currentColor &&
+        <AbsolutePositionContainer>
+            { coords && currentColor && center &&
             <DialOutline
-                className="color-dial" size={size} x={coords.x} y={coords.y} onMouseDown={handleMouseDown}>
+                className="color-dial" size={size} x={coords.x} y={coords.y}>
                 <DialInternal
                     className="color-dial"
                     size={size}
@@ -88,6 +82,6 @@ export const ColorWheelDial = ({size, coordinateToRGB, containerRef}: ColorWheel
                     $b={currentColor.b}/>
             </DialOutline>
         }
-        </div>
+        </AbsolutePositionContainer>
     );
 };

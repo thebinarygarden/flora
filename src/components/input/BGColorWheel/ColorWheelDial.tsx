@@ -41,10 +41,21 @@ export const ColorWheelDial = ({center, coordinateToRGB, containerRef, currentCo
     useEffect(() => {
         if (!coordinateToRGB.size) return;
 
-        const randomFirstCoordsKey = Array.from(coordinateToRGB.keys()).at(Math.round(Math.random()*coordinateToRGB.size));
-        const [x, y] = randomFirstCoordsKey.split(",").map(Number);
-        setCoords({x, y});
-        setCurrentColor(coordinateToRGB.get(randomFirstCoordsKey))
+        // Find the coordinates matching the current color
+        let matchedCoordsKey = [...coordinateToRGB.entries()].find(
+            ([_, color]) => color.r === currentColor?.r && color.g === currentColor?.g && color.b === currentColor?.b
+        )?.[0];
+
+        // If no match is found, fall back to a random coordinate
+        if (!matchedCoordsKey) {
+            matchedCoordsKey = Array.from(coordinateToRGB.keys())[
+                Math.floor(Math.random() * coordinateToRGB.size)
+                ];
+        }
+
+        const [x, y] = matchedCoordsKey.split(",").map(Number);
+        setCoords({ x, y });
+        setCurrentColor(coordinateToRGB.get(matchedCoordsKey));
 
         // Build KD-Tree
         const kdTreePoints: Coordinates[] = Array.from(coordinateToRGB.keys()).map((key) => {

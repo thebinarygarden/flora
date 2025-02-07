@@ -30,15 +30,6 @@ export function BGColorWheel({currentColor, setCurrentColor}: BGColorWheelProps)
                 const colorDivSize = 20;
 
                 return (<ColorDiv key={enumerate} size={colorDivSize} c={c} x={x} y={y}></ColorDiv>);
-                // (<div  style={{
-                //     position: "absolute",
-                //     borderRadius: `${colorDivSize}px`,
-                //     width: `${colorDivSize}px`,
-                //     height: `${colorDivSize}px`,
-                //     transform: `translate(${x-(colorDivSize/2)}px, ${y-(colorDivSize/2)}px)`,
-                //     background: `rgb(${c.r},${c.g},${c.b})`,
-                //     userSelect: "none"
-                // }}/>);
             });
 
             setColorDivs(newColorDivs);

@@ -60,7 +60,7 @@ export const HEXInformation = styled.div`
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 400%;
+  font-size: 16vh;
   align-items: center;
   justify-content: center;
   user-select: none;
@@ -71,6 +71,9 @@ export const HEXInformation = styled.div`
   &:hover {
     cursor: pointer;
   }
+  @media (orientation: portrait) {
+    font-size: 16vw;
+  }
 `;
 
 export const RGBInformation = styled.div`
@@ -79,7 +82,7 @@ export const RGBInformation = styled.div`
   top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 300%;
+  font-size: 10vh;
   align-items: center;
   justify-content: center;
   user-select: none;
@@ -87,6 +90,9 @@ export const RGBInformation = styled.div`
 
   &:hover {
     cursor: pointer;
+  }
+  @media (orientation: portrait) {
+    font-size: 10vw;
   }
 `;
 

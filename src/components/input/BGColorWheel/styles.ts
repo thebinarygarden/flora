@@ -6,21 +6,16 @@ export const AbsolutePositionContainer = styled.div`
   background-color: transparent;
 `;
 
-export const ColorDiv = styled.div.attrs<{ x: number; y: number; size: number; c: { r: number, g: number, b: number } }>(
-    (props) => ({
-        style: {
-            borderRadius: `${props.size}px`,
-            width: `${props.size}px`,
-            height: `${props.size}px`,
-            transform: `translate(${props.x - (props.size / 2)}px, ${props.y - (props.size / 2)}px)`,
-            background: `rgb(${props.c.r}, ${props.c.g}, ${props.c.b})`,
-
-        },
-    })
-)`
+export const ColorWheelImg = styled.img<{ size: number}>`
   position: absolute;
+  top: 50%;
+  left: 50%;
+  height: ${({size}) => size*2.1}px;
+  width: ${({size}) => size*2.1}px;
+  transform: translate(-50%, -50%);
   user-select: none;
   -webkit-user-select: none;
+  pointer-events: none;
 `;
 
 export const DialOutline = styled.div.attrs<{ size: number, x: number, y: number }>(
@@ -39,6 +34,9 @@ export const DialOutline = styled.div.attrs<{ size: number, x: number, y: number
   align-items: center;
   background: #FFF;
   z-index: 10;
+  &:hover {
+  cursor: grab;
+}
 `;
 
 export const DialInternal = styled.div.attrs<{ size: number; $r: number; $g: number; $b: number }>(
@@ -52,6 +50,9 @@ export const DialInternal = styled.div.attrs<{ size: number; $r: number; $g: num
     })
 )`
   z-index: 10;
+  &:hover {
+    cursor: grab;
+  }
 `;
 
 export const HEXInformation = styled.div`

@@ -1,10 +1,6 @@
-"use client"
-import {useState} from "react";
-import {RGB} from "../internal_components/BGColorWheel/types";
-import {BGColorWheel} from "../internal_components/BGColorWheel";
+import {BGThemePicker} from "../internal_components/FloraThemePicker";
 
 export default function Index() {
-    const [currentColor, setCurrentColor] = useState<RGB>({r:0, g:0, b:0});
     return (
         <div style={{
             width: "100vw",
@@ -12,7 +8,7 @@ export default function Index() {
             background: "#484747",
             overflow: "hidden"
         }}>
-            <BGColorWheel currentColor={currentColor} setCurrentColor={setCurrentColor} />
+            <BGThemePicker />
         </div>
     );
 }

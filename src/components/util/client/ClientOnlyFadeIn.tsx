@@ -13,6 +13,8 @@ const fadeIn = keyframes`
 
 const FadingDiv = styled.div`
   animation: ${fadeIn} 0.2s ease-out forwards;
+  height: 100%;
+  width: 100%;
 `;
 
 export const ClientOnlyFadeIn: FC<PropsWithChildren>  = ({ children }) => {

@@ -17,9 +17,11 @@ export function BGColorWheel({currentColor, setCurrentColor}: BGColorWheelProps)
     const degreeIncrement = (2 * Math.PI) / (allColors.length + 1);
 
     const updateSize = () => {
+        console.log("up[dating")
         if (containerRef.current) {
             const rect = containerRef.current!.getBoundingClientRect();
             const tempCenter = {x: rect.width / 2, y: rect.height / 2};
+            console.log(tempCenter)
             const tempRadius = Math.min(tempCenter.x, tempCenter.y) * 4 / 5;
             const coordinateToRGB: Map<string, RGB> = new Map();
             allColors.forEach((c, enumerate) => {

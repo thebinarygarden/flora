@@ -47,10 +47,10 @@ export function BGColorWheel({currentColor, setCurrentColor}: BGColorWheelProps)
 
     return (
         <AbsolutePositionContainer ref={containerRef}>
-            <ColorWheelImg src="/color_wheel.png" size={radius} />
+            <ColorWheelImg src="/color_wheel.png" size={radius}  x={center.x} y={center.y}/>
             <ColorWheelDial containerRef={containerRef} currentColor={currentColor} setCurrentColor={setCurrentColor}
                             center={center} coordinateToRGB={coordinateToRGB}/>
-            <ColorWheelInformation color={currentColor} size={Math.min(center.x, center.y)}/>
+            <ColorWheelInformation color={currentColor} center={center}/>
         </AbsolutePositionContainer>
     );
 }

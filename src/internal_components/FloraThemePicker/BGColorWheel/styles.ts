@@ -5,10 +5,10 @@ export const AbsolutePositionContainer = styled.div`
   height: 100%;
 `;
 
-export const ColorWheelImg = styled.img<{ size: number}>`
+export const ColorWheelImg = styled.img<{ size: number, x: number, y: number}>`
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: ${({y}) => y}px;
+  left: ${({x}) => x}px;
   height: ${({size}) => size*2.1}px;
   width: ${({size}) => size*2.1}px;
   transform: translate(-50%, -50%);
@@ -54,13 +54,13 @@ export const DialInternal = styled.div.attrs<{ size: number; $r: number; $g: num
   }
 `;
 
-export const HEXInformation = styled.div`
+export const HEXInformation = styled.div<{ size: number, x: number, y: number}>`
   position: absolute;
   display: flex;
-  top: 40%;
-  left: 50%;
+  top: ${({y}) => y*0.8}px;
+  left: ${({x}) => x}px;
   transform: translate(-50%, -50%);
-  font-size: 16vh;
+  font-size: ${({size}) => size/3}px;
   align-items: center;
   justify-content: center;
   user-select: none;
@@ -71,18 +71,15 @@ export const HEXInformation = styled.div`
   &:hover {
     cursor: pointer;
   }
-  @media (orientation: portrait) {
-    font-size: 16vw;
-  }
 `;
 
-export const RGBInformation = styled.div`
+export const RGBInformation = styled.div<{ size: number, x: number, y: number}>`
   position: absolute;
   display: flex;
-  top: 60%;
-  left: 50%;
+  top: ${({y}) => y*1.2}px;
+  left: ${({x}) => x}px;
   transform: translate(-50%, -50%);
-  font-size: 10vh;
+  font-size: ${({size}) => size/4}px;
   align-items: center;
   justify-content: center;
   user-select: none;
@@ -91,21 +88,19 @@ export const RGBInformation = styled.div`
   &:hover {
     cursor: pointer;
   }
-  @media (orientation: portrait) {
-    font-size: 10vw;
-  }
 `;
 
-export const ColorCopied = styled.div<{ size: number; $r: number; $g: number; $b: number }>`
-  height: ${({size}) => size*2}px;
-  width: ${({size}) => size*2}px;
+export const ColorCopied = styled.div<{ size: number; x: number, y: number, $r: number; $g: number; $b: number }>`
+  height: ${({size}) => size*1.9}px;
+  width: ${({size}) => size*1.9}px;
   display: flex;
-  top: 50%;
-  left: 50%;
+  top: ${({y}) => y}px;
+  left: ${({x}) => x}px;
   position: absolute;
-  font-size: 300%;
+  font-size: ${({size}) => size/3}px;
   align-items: center;
   justify-content: center;
+  text-align: center;
   user-select: none;
   -webkit-user-select: none;
   transform: translate(-50%, -50%);

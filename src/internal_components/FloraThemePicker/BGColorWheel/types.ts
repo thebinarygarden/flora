@@ -26,5 +26,5 @@ export type ColorWheelDialProps = {
 
 export type ColorWheelInformation = {
     color: RGB,
-    size: number
+    center: Coordinates
 }

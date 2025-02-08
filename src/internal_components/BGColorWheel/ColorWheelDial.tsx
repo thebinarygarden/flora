@@ -1,5 +1,5 @@
-import {AbsolutePositionContainer, DialInternal, DialOutline} from "@components/input/BGColorWheel/styles";
-import {ColorWheelDialProps, Coordinates} from "@components/input/BGColorWheel/types";
+import {AbsolutePositionContainer, DialInternal, DialOutline} from "./styles";
+import {ColorWheelDialProps, Coordinates} from "./types";
 import React, {useEffect, useRef, useState} from "react";
 import {kdTree} from "kd-tree-javascript";
 

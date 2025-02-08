@@ -3,8 +3,8 @@ import {
     AbsolutePositionContainer, ColorCopied,
     HEXInformation,
     RGBInformation
-} from "@components/input/BGColorWheel/styles";
-import {ColorWheelInformation, RGB} from "@components/input/BGColorWheel/types";
+} from "./styles";
+import {ColorWheelInformation, RGB} from "./types";
 
 
 const rgbToHex = (color: RGB): string => {

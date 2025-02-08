@@ -1,10 +1,10 @@
 "use client";
 import React, {useEffect, useRef, useState} from "react";
-import {BGColorWheelProps, Coordinates, RGB} from "@components/input/BGColorWheel/types";
-import {allColors} from "@components/input/BGColorWheel/getAllColors";
-import {ColorWheelDial} from "@components/input/BGColorWheel/ColorWheelDial";
-import {ColorWheelInformation} from "@components/input/BGColorWheel/ColorWheelInformation";
-import {AbsolutePositionContainer, ColorWheelImg} from "@components/input/BGColorWheel/styles";
+import {BGColorWheelProps, Coordinates, RGB} from "./types";
+import {allColors} from "./getAllColors";
+import {ColorWheelDial} from "./ColorWheelDial";
+import {ColorWheelInformation} from "./ColorWheelInformation";
+import {AbsolutePositionContainer, ColorWheelImg} from "./styles";
 
 export function BGColorWheel({currentColor, setCurrentColor}: BGColorWheelProps) {
     const containerRef = useRef<HTMLDivElement | null>(null);

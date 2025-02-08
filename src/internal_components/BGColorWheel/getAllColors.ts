@@ -1,4 +1,4 @@
-import {RGB} from "@components/input/BGColorWheel/types";
+import {RGB} from "./types";
 
 export const allColors: RGB[] = [];
 

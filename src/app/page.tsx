@@ -1,7 +1,7 @@
 "use client"
-import {BGColorWheel} from "../index_input";
 import {useState} from "react";
-import {RGB} from "@components/input/BGColorWheel/types";
+import {RGB} from "../internal_components/BGColorWheel/types";
+import {BGColorWheel} from "../internal_components/BGColorWheel";
 
 export default function Index() {
     const [currentColor, setCurrentColor] = useState<RGB>({r:0, g:0, b:0});

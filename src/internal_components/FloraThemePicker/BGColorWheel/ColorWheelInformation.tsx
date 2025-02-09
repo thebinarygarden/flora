@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {
-    AbsolutePositionContainer, ColorCopied,
+    AbsolutePositionContainer,
+    ColorCopied,
     HEXInformation,
     RGBInformation
-} from "../styles";
+} from "./styles";
 import {ColorWheelInformation} from "../types";
 import {rgbToHex} from "../rgbToHex";
 
@@ -21,13 +22,13 @@ export const ColorWheelInformation = ({color, center}: ColorWheelInformation) =>
     }, [copied]);
 
     return (
-        <AbsolutePositionContainer>
+        <>
             <HEXInformation size={Math.min(center.x, center.y)} x={center.x} y={center.y}
                             onClick={() => navigator.clipboard.writeText(hexString).then(() => setCopied(hexString))}>{hexString}</HEXInformation>
             <RGBInformation size={Math.min(center.x, center.y)} x={center.x} y={center.y}
                             onClick={() => navigator.clipboard.writeText(rgbString).then(() => setCopied(rgbString))}>{rgbString}</RGBInformation>
-            {Boolean(copied) && <ColorCopied $r={color.r} $g={color.g} $b={color.b} x={center.x} y={center.y}
+            {Boolean(copied) && <ColorCopied color={rgbToHex(color)} x={center.x} y={center.y}
                                     size={Math.min(center.x, center.y)}>Copied<br/> {copied}</ColorCopied>}
-        </AbsolutePositionContainer>
+        </>
     );
 }

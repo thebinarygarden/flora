@@ -4,7 +4,7 @@ import {BGColorWheelProps, Coordinates, RGB} from "../types";
 import {allColors} from "./getAllColors";
 import {ColorWheelDial} from "./ColorWheelDial";
 import {ColorWheelInformation} from "./ColorWheelInformation";
-import {AbsolutePositionContainer, ColorWheelImg} from "../styles";
+import {AbsolutePositionContainer, ColorWheelImg} from "./styles";
 
 export function BGColorWheel({currentColor, setCurrentColor}: BGColorWheelProps) {
     const containerRef = useRef<HTMLDivElement | null>(null);
@@ -21,6 +21,7 @@ export function BGColorWheel({currentColor, setCurrentColor}: BGColorWheelProps)
             const rect = containerRef.current!.getBoundingClientRect();
             const tempCenter = {x: rect.width / 2, y: rect.height / 2};
             const tempRadius = Math.min(tempCenter.x, tempCenter.y) * 4 / 5;
+
             const coordinateToRGB: Map<string, RGB> = new Map();
             allColors.forEach((c, enumerate) => {
                 const angle = enumerate * degreeIncrement;
@@ -45,7 +46,7 @@ export function BGColorWheel({currentColor, setCurrentColor}: BGColorWheelProps)
 
     return (
         <AbsolutePositionContainer ref={containerRef}>
-            <ColorWheelImg src="/color_wheel.png" size={radius}  x={center.x} y={center.y}/>
+            <ColorWheelImg src="/color_wheel.png" size={radius} x={center.x} y={center.y}/>
             <ColorWheelDial containerRef={containerRef} currentColor={currentColor} setCurrentColor={setCurrentColor}
                             center={center} coordinateToRGB={coordinateToRGB}/>
             <ColorWheelInformation color={currentColor} center={center}/>

@@ -3,13 +3,9 @@ import {
     AbsolutePositionContainer, ColorCopied,
     HEXInformation,
     RGBInformation
-} from "./styles";
-import {ColorWheelInformation, RGB} from "./types";
-
-
-const rgbToHex = (color: RGB): string => {
-    return `#${((1 << 24) | (color.r << 16) | (color.g << 8) | color.b).toString(16).slice(1).toUpperCase()}`;
-};
+} from "../styles";
+import {ColorWheelInformation} from "../types";
+import {rgbToHex} from "../rgbToHex";
 
 export const ColorWheelInformation = ({color, center}: ColorWheelInformation) => {
     const [copied, setCopied] = useState<string | undefined>(undefined);

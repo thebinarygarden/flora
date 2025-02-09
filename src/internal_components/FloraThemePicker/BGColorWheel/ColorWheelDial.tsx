@@ -1,7 +1,8 @@
-import {AbsolutePositionContainer, DialInternal, DialOutline} from "./styles";
-import {ColorWheelDialProps, Coordinates} from "./types";
+import {AbsolutePositionContainer, DialInternal, DialOutline} from "../styles";
+import {ColorWheelDialProps, Coordinates} from "../types";
 import React, {useEffect, useRef, useState} from "react";
 import {kdTree} from "kd-tree-javascript";
+import {rgbToHex} from "../rgbToHex";
 
 export const ColorWheelDial = ({center, coordinateToRGB, containerRef, currentColor, setCurrentColor}: ColorWheelDialProps) => {
     const size = Math.min(center.x, center.y)/4;
@@ -88,9 +89,7 @@ export const ColorWheelDial = ({center, coordinateToRGB, containerRef, currentCo
                 <DialInternal
                     className="color-dial"
                     size={size}
-                    $r={currentColor.r}
-                    $g={currentColor.g}
-                    $b={currentColor.b}/>
+                    color={rgbToHex(currentColor)}/>
             </DialOutline>
         }
         </AbsolutePositionContainer>

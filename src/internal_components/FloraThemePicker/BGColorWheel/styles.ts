@@ -3,12 +3,13 @@ import styled from "styled-components";
 export const AbsolutePositionContainer = styled.div`
   width: 100%;
   height: 100%;
+  background-color: transparent;
 `;
 
-export const ColorWheelImg = styled.img<{ size: number, x: number, y: number}>`
+export const ColorWheelImg = styled.img<{ size: number}>`
   position: absolute;
-  top: ${({y}) => y}px;
-  left: ${({x}) => x}px;
+  top: 50%;
+  left: 50%;
   height: ${({size}) => size*2.1}px;
   width: ${({size}) => size*2.1}px;
   transform: translate(-50%, -50%);
@@ -54,13 +55,13 @@ export const DialInternal = styled.div.attrs<{ size: number; $r: number; $g: num
   }
 `;
 
-export const HEXInformation = styled.div<{ size: number, x: number, y: number}>`
+export const HEXInformation = styled.div`
   position: absolute;
   display: flex;
-  top: ${({y}) => y*0.8}px;
-  left: ${({x}) => x}px;
+  top: 40%;
+  left: 50%;
   transform: translate(-50%, -50%);
-  font-size: ${({size}) => size/3}px;
+  font-size: 16vh;
   align-items: center;
   justify-content: center;
   user-select: none;
@@ -71,15 +72,18 @@ export const HEXInformation = styled.div<{ size: number, x: number, y: number}>`
   &:hover {
     cursor: pointer;
   }
+  @media (orientation: portrait) {
+    font-size: 16vw;
+  }
 `;
 
-export const RGBInformation = styled.div<{ size: number, x: number, y: number}>`
+export const RGBInformation = styled.div`
   position: absolute;
   display: flex;
-  top: ${({y}) => y*1.2}px;
-  left: ${({x}) => x}px;
+  top: 60%;
+  left: 50%;
   transform: translate(-50%, -50%);
-  font-size: ${({size}) => size/4}px;
+  font-size: 10vh;
   align-items: center;
   justify-content: center;
   user-select: none;
@@ -88,19 +92,21 @@ export const RGBInformation = styled.div<{ size: number, x: number, y: number}>`
   &:hover {
     cursor: pointer;
   }
+  @media (orientation: portrait) {
+    font-size: 10vw;
+  }
 `;
 
-export const ColorCopied = styled.div<{ size: number; x: number, y: number, $r: number; $g: number; $b: number }>`
-  height: ${({size}) => size*1.9}px;
-  width: ${({size}) => size*1.9}px;
+export const ColorCopied = styled.div<{ size: number; $r: number; $g: number; $b: number }>`
+  height: ${({size}) => size*2}px;
+  width: ${({size}) => size*2}px;
   display: flex;
-  top: ${({y}) => y}px;
-  left: ${({x}) => x}px;
+  top: 50%;
+  left: 50%;
   position: absolute;
-  font-size: ${({size}) => size/3}px;
+  font-size: 300%;
   align-items: center;
   justify-content: center;
-  text-align: center;
   user-select: none;
   -webkit-user-select: none;
   transform: translate(-50%, -50%);

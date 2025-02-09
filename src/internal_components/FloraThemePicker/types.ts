@@ -28,3 +28,8 @@ export type ColorWheelInformation = {
     color: RGB,
     center: Coordinates
 }
+
+export type ColorPaletteProps = {
+    colors: RGB[],
+    vertical?: boolean
+}

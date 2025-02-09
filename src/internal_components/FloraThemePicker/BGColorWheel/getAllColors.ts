@@ -1,4 +1,4 @@
-import {RGB} from "./types";
+import {RGB} from "../types";
 
 export const allColors: RGB[] = [];
 

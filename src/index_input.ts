@@ -1,0 +1,1 @@
+export {InputText} from "@components/input/forms/InputText";

@@ -4,8 +4,7 @@ export default function Index() {
     return (
         <div style={{
             width: "100vw",
-            height: "100vh",
-            overflow: "hidden"
+            height: "100vh"
         }}>
             <BGThemePicker />
         </div>

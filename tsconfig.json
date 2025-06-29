@@ -1,44 +1,9 @@
 {
   "compilerOptions": {
-    "baseUrl": "./", // Base directory for resolution
+    "baseUrl": ".",
     "paths": {
-      "@components/*": [
-        "src/components/*"
-      ]
-    },
-    "outDir": "./dist/",
-    "module": "ESNext",
-    "target": "ES6",
-    "lib": [
-      "dom",
-      "esnext"
-    ],
-    "jsx": "preserve",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "strictNullChecks": true,
-    "allowJs": true,
-    "skipLibCheck": true,
-    "noEmit": true,
-    "incremental": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
-  },
-  "include": [
-    "./src/**/*",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+      "@flora/library": ["packages/library/src"],
+      "@flora/site": ["packages/site/src"]
+    }
+  }
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+"use client";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: 'primary' | 'secondary' | 'ghost';
@@ -19,6 +19,7 @@ export const Button: React.FC<ButtonProps> = ({
     return (
         <button
             className={`px-4 py-2 rounded-md font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 ${variantClasses[variant]} ${className}`}
+            onClick={() => console.log("success")}
             {...props}
         >
             {children}

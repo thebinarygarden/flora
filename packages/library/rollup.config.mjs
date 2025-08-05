@@ -3,11 +3,9 @@ import preserveDirectives from 'rollup-plugin-preserve-directives';
 import typescript from '@rollup/plugin-typescript';
 
 export default {
-    input: {
-        input: 'src/index.ts'
-    },
+    input: 'src/index.ts',
     output: {
-        dir: 'dist/index.js',
+        dir: 'dist',
         format: 'esm',
         preserveModules: true,
         sourcemap: true
@@ -16,12 +14,15 @@ export default {
         svgr(),
         preserveDirectives(),
         typescript({
-            tsconfig: './tsconfig.json'
+            tsconfig: './tsconfig.json',
+            declaration: false,
+            declarationMap: false
         })
     ],
     external: [
         'react',
-        'react-dom'
+        'react-dom',
+        'react/jsx-runtime'
     ],
     // onwarn(warning, warn) {
     //     if (warning.code === "MODULE_LEVEL_DIRECTIVE") return;

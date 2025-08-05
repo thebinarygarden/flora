@@ -7,7 +7,7 @@ export default {
         input: 'src/index.ts'
     },
     output: {
-        dir: 'dist',
+        dir: 'dist/index.js',
         format: 'esm',
         preserveModules: true,
         sourcemap: true

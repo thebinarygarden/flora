@@ -1,11 +1,12 @@
 import React, {FC} from "react";
-import EyeOn from './svg/eyeOn.svg';
-import IconProps from "@components/icons/IconProps";
+import Info from './svg/infoicon.svg';
+import { IconProps } from "./IconProps";
 
-export const IconEyeOn: FC<IconProps> = ({size = 9, unit, color = "currentColor" }) => {
+export const IconInfo: FC<IconProps> = ({size = 9, unit, color = "currentColor" }) => {
     const height = unit ? size+unit : size;
+
     return (
-        <EyeOn
+        <Info
             style={{
                 color,
                 height,

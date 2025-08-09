@@ -1,11 +1,11 @@
 import React, {FC} from "react";
-import BGDocs from './svg/bgdocs.svg';
-import IconProps from "@components/icons/IconProps";
+import Github from './svg/github.svg';
+import { IconProps } from "./IconProps";
 
-export const IconBGDocs: FC<IconProps> = ({size = 9, unit, color = "currentColor" }) => {
+export const IconGithub: FC<IconProps> = ({size = 9, unit, color = "currentColor" }) => {
     const height = unit ? size+unit : size;
     return (
-        <BGDocs
+        <Github
             style={{
                 color,
                 height,

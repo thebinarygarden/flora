@@ -1,11 +1,11 @@
 import React, {FC} from "react";
-import Github from './svg/github.svg';
-import IconProps from "@components/icons/IconProps";
+import EyeOn from './svg/eyeOn.svg';
+import { IconProps } from "./IconProps";
 
-export const IconGithub: FC<IconProps> = ({size = 9, unit, color = "currentColor" }) => {
+export const IconEyeOn: FC<IconProps> = ({size = 9, unit, color = "currentColor" }) => {
     const height = unit ? size+unit : size;
     return (
-        <Github
+        <EyeOn
             style={{
                 color,
                 height,

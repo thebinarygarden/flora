@@ -1,11 +1,11 @@
 import React, {FC} from "react";
-import EyeOff from './svg/eyeOff.svg';
-import IconProps from "@components/icons/IconProps";
+import BGDocs from './svg/bgdocs.svg';
+import { IconProps } from "./IconProps";
 
-export const IconEyeOff: FC<IconProps> = ({size = 9, unit, color = "currentColor" }) => {
+export const IconBGDocs: FC<IconProps> = ({size = 9, unit, color = "currentColor" }) => {
     const height = unit ? size+unit : size;
     return (
-        <EyeOff
+        <BGDocs
             style={{
                 color,
                 height,

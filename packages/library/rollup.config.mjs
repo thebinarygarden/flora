@@ -5,7 +5,12 @@ import postcss from 'rollup-plugin-postcss';
 import tailwindcss from '@tailwindcss/postcss';
 
 export default {
-    input: ['src/index.ts', 'src/styles.css'],
+    input: [
+        'src/index.ts', 
+        'src/input/index.ts', 
+        'src/icons/index.ts', 
+        'src/styles.css'
+    ],
     output: {
         dir: 'dist',
         format: 'esm',

@@ -1,12 +1,11 @@
 import React, {FC} from "react";
-import Info from './svg/infoicon.svg';
-import IconProps from "@components/icons/IconProps";
+import EyeOff from './svg/eyeOff.svg';
+import { IconProps } from "./IconProps";
 
-export const IconInfo: FC<IconProps> = ({size = 9, unit, color = "currentColor" }) => {
+export const IconEyeOff: FC<IconProps> = ({size = 9, unit, color = "currentColor" }) => {
     const height = unit ? size+unit : size;
-
     return (
-        <Info
+        <EyeOff
             style={{
                 color,
                 height,

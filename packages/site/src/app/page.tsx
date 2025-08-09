@@ -1,5 +1,5 @@
-import { Button } from '@flora/library/input';
-import { IconInfo, IconGithub } from '@flora/library/icons';
+import { Button } from '@flora/ui/input';
+import { IconInfo, IconGithub } from '@flora/ui/icons';
 
 export default function Home() {
   return (

@@ -53,7 +53,7 @@ importers:
 
   packages/site:
     dependencies:
-      '@flora/library':
+      '@flora/ui':
         specifier: workspace:*
         version: link:../library
       next:

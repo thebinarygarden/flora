@@ -1,10 +1,5 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-    transpilePackages: ['@flora/library'],
-    experimental: {
-        externalDir: true
-      }
-};
+const nextConfig: NextConfig = {};
 
 export default nextConfig;

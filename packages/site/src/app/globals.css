@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "@flora/library/styles.css";
 
 :root {
   --background: #ffffff;

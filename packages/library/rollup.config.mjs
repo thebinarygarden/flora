@@ -1,9 +1,11 @@
 import svgr from '@svgr/rollup';
 import preserveDirectives from 'rollup-plugin-preserve-directives';
 import typescript from '@rollup/plugin-typescript';
+import postcss from 'rollup-plugin-postcss';
+import tailwindcss from '@tailwindcss/postcss';
 
 export default {
-    input: 'src/index.ts',
+    input: ['src/index.ts', 'src/styles.css'],
     output: {
         dir: 'dist',
         format: 'esm',
@@ -14,10 +16,18 @@ export default {
     plugins: [
         svgr(),
         preserveDirectives(),
+        postcss({
+            extract: 'styles.css',
+            minimize: true,
+            plugins: [
+                tailwindcss()
+            ]
+        }),
         typescript({
             tsconfig: './tsconfig.json',
-            declaration: false,
-            declarationMap: false
+            declaration: true,
+            declarationMap: true,
+            declarationDir: 'dist'
         })
     ],
     external: [

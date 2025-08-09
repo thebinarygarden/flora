@@ -25,7 +25,7 @@ yarn-error.log*
 .next/
 out/
 
-# Rollup or general library builds
+# Rollup or general ui builds
 build/
 dist/
 packages/*/build

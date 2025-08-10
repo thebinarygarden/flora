@@ -22,7 +22,7 @@ const SCROLL_SNAP_THRESHOLD = viewportHeight/2;
             }
         };
         const handleScroll = () => {
-            if (scrollTimeout.current != null) {
+            if (scrollTimeout.current !== null) {
                 clearTimeout(scrollTimeout.current!);
             }
             if(showThumbnail) {

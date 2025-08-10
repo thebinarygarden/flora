@@ -1,8 +1,12 @@
 import {useScroll, useTransform} from "framer-motion";
+import {useMemo} from "react";
 import {AnimatedFieldsProps} from "./types";
 
 export const useAnimatedFields = ({viewportHeight}: AnimatedFieldsProps) => {
-    const phase = [0, .1, .5, .9, 1].map(n => n * viewportHeight);
+    const phase = useMemo(() => 
+        [0, .1, .5, .9, 1].map(n => n * viewportHeight), 
+        [viewportHeight]
+    );
     const {scrollY} = useScroll();
 
     const thumbnailY = useTransform(scrollY, [0, phase[4]], [0, -100]);

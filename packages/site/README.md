@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# @flora/site
+
+The development and demo site for Flora UI components. Built with Next.js 15 and React 19.
+
+## Purpose
+
+This package serves as:
+- **Development environment** for testing Flora UI components
+- **Demo site** showcasing component usage and variants
+- **Design Documentation** explaining the design decisions taken with flora
+- **Integration testing** for the UI library in a real Next.js application
+
+## Tech Stack
+
+- **Next.js 15.4.4** with App Router
+- **React 19.1.0** with latest features
+- **TailwindCSS 4.x** matching the UI library
+- **TypeScript 5.x** with strict configuration
+- **ESLint** with Next.js configuration
 
 ## Getting Started
 
-First, run the development server:
-
+### From Repository Root (Recommended)
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Quick start - builds UI library and starts dev server
+pnpm quick
+
+# Or manually
+pnpm install
+pnpm build:ui      # Must build UI library first
+pnpm run:site      # Start development server
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Individual Commands
+```bash
+# From this package directory
+pnpm dev          # Start development server (requires UI library built)
+pnpm build        # Build for production
+pnpm start        # Start production server
+pnpm lint         # Run ESLint
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The site runs at http://localhost:3000
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Key Features
 
-## Learn More
+### Demonstrates Flora Usage Patterns
+The site showcases the **correct import patterns** that Flora enforces:
 
-To learn more about Next.js, take a look at the following resources:
+### Tailwind Integration
+- Configured to work seamlessly with `@flora/ui` styles
+- Uses TailwindCSS 4.x matching the UI library
+- Imports Flora styles: `import '@flora/ui/styles.css'`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Development Workflow
+1. **Make changes** to UI components in `../ui/src/`
+2. **Rebuild UI library**: `pnpm build:ui` (from root)
+3. **View changes** automatically in the dev server
+4. **Test different variants** and usage patterns
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Development Notes
 
-## Deploy on Vercel
+### UI Library Dependency
+This site consumes `@flora/ui` as a workspace dependency:
+```json
+{
+  "dependencies": {
+    "@flora/ui": "workspace:*"
+  }
+}
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Hot Reloading
+- Changes to site code hot-reload automatically
+- Changes to UI library require rebuilding: `pnpm build:ui`

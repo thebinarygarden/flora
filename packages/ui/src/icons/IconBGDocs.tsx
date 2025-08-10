@@ -1,8 +1,7 @@
-import React, {FC} from "react";
 import BGDocs from './svg/bgdocs.svg';
 import { IconProps } from "./IconProps";
 
-export const IconBGDocs: FC<IconProps> = ({size = 9, unit, color = "currentColor" }) => {
+export const IconBGDocs = ({size = 9, unit, color = "currentColor" }: IconProps) => {
     const height = unit ? size+unit : size;
     return (
         <BGDocs

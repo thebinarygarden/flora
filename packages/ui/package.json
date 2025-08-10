@@ -13,6 +13,10 @@
       "import": "./dist/icons/index.js",
       "types": "./dist/icons/index.d.ts"
     },
+    "./core": {
+      "import": "./dist/core/index.js",
+      "types": "./dist/core/index.d.ts"
+    },
     "./styles.css": "./dist/styles.css"
   },
   "scripts": {
@@ -24,6 +28,7 @@
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "framer-motion": "^11.0.0",
     "tailwindcss": "^4"
   },
   "devDependencies": {

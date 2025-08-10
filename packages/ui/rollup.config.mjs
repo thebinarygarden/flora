@@ -8,6 +8,7 @@ export default {
     input: [
         'src/input/index.ts', 
         'src/icons/index.ts', 
+        'src/core/index.ts',
         'src/styles.css'
     ],
     output: {
@@ -37,6 +38,13 @@ export default {
     external: [
         'react',
         'react-dom',
-        'react/jsx-runtime'
-    ]
+        'react/jsx-runtime',
+        'framer-motion'
+    ],
+    onwarn(warning, warn) {
+        if (warning.code === "MODULE_LEVEL_DIRECTIVE") {
+            return;
+        }
+        warn(warning);
+    }
 };

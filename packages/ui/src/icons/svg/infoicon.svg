@@ -4,8 +4,8 @@
 
 <circle cx="256" cy="256" r="227.74" style="fill:none; stroke:currentColor; stroke-miterlimit:10; stroke-width:52px;"/>
 
-<rect x="226.48" y="187.78" width="59.04" height="227.37" rx="29.52" ry="29.52" style="fill:#231f20; stroke:#231f20; stroke-miterlimit:10;"/>
+<rect x="226.48" y="187.78" width="59.04" height="227.37" rx="29.52" ry="29.52" style="fill:currentColor; stroke:currentColor; stroke-miterlimit:10;"/>
 
-<circle cx="256" cy="122.18" r="29.52" style="fill:#231f20; stroke:#231f20; stroke-miterlimit:10;"/>
+<circle cx="256" cy="122.18" r="29.52" style="fill:currentColor; stroke:currentColor; stroke-miterlimit:10;"/>
 
 </svg>

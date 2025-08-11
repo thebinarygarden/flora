@@ -1,5 +1,6 @@
 "use client";
 import * as React from "react";
+import { useEffect } from "react";
 import {motion} from "framer-motion";
 import {BGLandingProps} from "./types";
 import {useAnimatedFields} from "./useAnimatedFields";
@@ -27,6 +28,14 @@ export const BGLanding = ({
     } = useAnimatedFields({viewportHeight});
     const {showThumbnail} = useBGLandingScroll({viewportHeight});
     const {videoRef, isLooping, handleToggle} = useVideoLooper();
+
+    // Apply conditional overscroll behavior
+    useEffect(() => {
+        document.body.style.overscrollBehaviorX = showThumbnail ? 'none' : 'auto';
+        return () => {
+            document.body.style.overscrollBehaviorX = 'auto';
+        };
+    }, [showThumbnail]);
 
     return (
         <ClientOnlyFadeIn>

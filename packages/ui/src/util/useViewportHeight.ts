@@ -22,7 +22,7 @@ export const useViewportHeight = () => {
         return () => {
             window.removeEventListener("resize", handleResize);
         };
-    }, []); // Empty dependency array, runs only once on mount
+    }, []);
 
     return {
         viewportHeight,

@@ -4,8 +4,8 @@ import {motion} from "framer-motion";
 import {BGLandingProps} from "./types";
 import {useAnimatedFields} from "./useAnimatedFields";
 import {useVideoLooper} from "./useVideoLooper";
-import {useThumbnailScrolling} from "./useThumbnailScrolling";
-import {useViewportHeight} from "../../util/useViewportHeight";
+import {useBGLandingScroll} from "./useBGLandingScroll";
+import {useViewportHeight, ClientOnlyFadeIn} from "../../util";
 import {IconYoutube, IconGithub, IconBGDocs, IconEyeOff, IconEyeOn, IconInfo} from "../../icons";
 
 export const BGLanding = ({
@@ -25,22 +25,23 @@ export const BGLanding = ({
         titleOpacity,
         buttonsOpacity
     } = useAnimatedFields({viewportHeight});
-    const {showThumbnail} = useThumbnailScrolling({viewportHeight});
+    const {showThumbnail} = useBGLandingScroll({viewportHeight});
     const {videoRef, isLooping, handleToggle} = useVideoLooper();
 
     return (
-        <div className="relative">
+        <ClientOnlyFadeIn>
             {showThumbnail && (
                 <>
                     {/* Landing Video */}
                     <motion.video
                         ref={videoRef}
-                        className="fixed inset-0 w-screen h-screen object-cover object-center -z-10"
+                        className="fixed w-screen h-screen object-cover object-center -z-10"
                         style={{
                             y: thumbnailY,
                             opacity: thumbnailOpacity
                         }}
                         src={mp4Path}
+                        preload="auto"
                         muted
                         playsInline
                     />
@@ -97,13 +98,13 @@ export const BGLanding = ({
 
             {/* Full Page Content */}
             <motion.div
-                className="absolute bg-white dark:bg-gray-900 min-h-screen min-w-full z-10"
+                className="bg-white dark:bg-gray-900 min-h-screen w-full z-10"
                 style={{
                     y: showThumbnail ? viewportHeight : 0
                 }}
             >
                 {children}
             </motion.div>
-        </div>
+        </ClientOnlyFadeIn>
     );
 };

@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState} from "react";
 import {ThumbnailScrollingProps} from "./types";
 
-export const useThumbnailScrolling = ({viewportHeight}: ThumbnailScrollingProps) => {
+export const useBGLandingScroll = ({viewportHeight}: ThumbnailScrollingProps) => {
 const SCROLL_SNAP_THRESHOLD = viewportHeight/2;
     const [showThumbnail, setShowThumbnail] = useState(true);
     const scrollTimeout = useRef<null | number>(null);

@@ -9,6 +9,7 @@ export default {
         'src/input/index.ts', 
         'src/icons/index.ts', 
         'src/core/index.ts',
+        'src/navigation/index.ts',
         'src/styles.css'
     ],
     output: {

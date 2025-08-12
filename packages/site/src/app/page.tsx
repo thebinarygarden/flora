@@ -1,6 +1,10 @@
+"use client";
 import { BGLanding } from '@flora/ui/core';
+import { useNavigationConfig } from '@/hooks/useNavigationConfig';
 
 export default function Home() {
+  const { navigationComponent, navigationItems, onNavigationItemClick } = useNavigationConfig();
+
   return (
     <main>
       <BGLanding 
@@ -9,6 +13,9 @@ export default function Home() {
         youtube="https://youtube.com"
         github="https://github.com"
         bgdocs="https://google.com"
+        navigationComponent={navigationComponent}
+        navigationItems={navigationItems}
+        onNavigationItemClick={onNavigationItemClick}
       >
         <div className="container mx-auto px-4 py-12">
           <h2 className="text-3xl font-bold mb-6">Welcome to Flora</h2>

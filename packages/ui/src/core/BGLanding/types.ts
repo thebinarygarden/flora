@@ -1,4 +1,5 @@
-import {ReactNode} from "react";
+import {ReactNode, ComponentType} from "react";
+import {NavigationComponentProps, NavItem} from "../../navigation";
 
 export type BGLandingProps = {
     children: ReactNode,
@@ -7,6 +8,9 @@ export type BGLandingProps = {
     youtube: string,
     github: string,
     bgdocs: string,
+    navigationComponent?: ComponentType<NavigationComponentProps>;
+    navigationItems?: NavItem[];
+    onNavigationItemClick?: (item: NavItem) => void;
 }
 
 export type AnimatedFieldsProps = {

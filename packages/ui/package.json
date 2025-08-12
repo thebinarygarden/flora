@@ -17,6 +17,10 @@
       "import": "./dist/core/index.js",
       "types": "./dist/core/index.d.ts"
     },
+    "./navigation": {
+      "import": "./dist/navigation/index.js",
+      "types": "./dist/navigation/index.d.ts"
+    },
     "./styles.css": "./dist/styles.css"
   },
   "scripts": {

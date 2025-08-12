@@ -1,13 +1,13 @@
 "use client";
 import * as React from "react";
-import { useEffect } from "react";
+import {useEffect} from "react";
 import {motion} from "framer-motion";
 import {BGLandingProps} from "./types";
 import {useAnimatedFields} from "./useAnimatedFields";
 import {useVideoLooper} from "./useVideoLooper";
 import {useBGLandingScroll} from "./useBGLandingScroll";
 import {useViewportHeight, ClientOnlyFadeIn} from "../../util";
-import {IconYoutube, IconGithub, IconBGDocs, IconEyeOff, IconEyeOn, IconInfo} from "../../icons";
+import {IconYoutube, IconGithub, IconBGDocs, IconEyeOff, IconEyeOn} from "../../icons";
 
 export const BGLanding = ({
                               children,
@@ -16,6 +16,9 @@ export const BGLanding = ({
                               youtube,
                               bgdocs,
                               github,
+                              navigationComponent: NavigationComponent,
+                              navigationItems = [],
+                              onNavigationItemClick,
                           }: BGLandingProps) => {
     const {unit, viewportHeight} = useViewportHeight();
     const {
@@ -85,14 +88,11 @@ export const BGLanding = ({
                                 <a href={bgdocs} className="text-white hover:text-gray-300 transition-colors">
                                     <IconBGDocs unit={unit}/>
                                 </a>
-                                <a href={bgdocs} className="text-white hover:text-gray-300 transition-colors">
-                                    <IconInfo unit={unit}/>
-                                </a>
                             </motion.div>
                         </>
                     )}
 
-                    {/* Toggle Visibility Button */}
+                    {/* Play Video Button */}
                     <motion.button
                         className="fixed right-[2vw] bottom-[2vh] text-white hover:text-gray-300 transition-colors"
                         onClick={handleToggle}
@@ -112,7 +112,16 @@ export const BGLanding = ({
                     y: showThumbnail ? viewportHeight : 0
                 }}
             >
-                {children}
+                <>
+                    {NavigationComponent && (
+                        <NavigationComponent
+                            brand={title}
+                            items={navigationItems}
+                            onItemClick={onNavigationItemClick}
+                        />
+                    )}
+                    {children}
+                </>
             </motion.div>
         </ClientOnlyFadeIn>
     );

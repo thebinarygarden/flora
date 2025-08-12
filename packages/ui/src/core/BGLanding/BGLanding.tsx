@@ -6,7 +6,7 @@ import {BGLandingProps} from "./types";
 import {useAnimatedFields} from "./useAnimatedFields";
 import {useVideoLooper} from "./useVideoLooper";
 import {useBGLandingScroll} from "./useBGLandingScroll";
-import {useViewportHeight, ClientOnlyFadeIn} from "../../util";
+import {useViewportHeight, ClientOnlyFadeIn, Lorem} from "../../util";
 import {IconYoutube, IconGithub, IconBGDocs, IconEyeOff, IconEyeOn} from "../../icons";
 
 export const BGLanding = ({
@@ -121,6 +121,7 @@ export const BGLanding = ({
                         />
                     )}
                     {children}
+                    <Lorem size = {"large"}/>
                 </>
             </motion.div>
         </ClientOnlyFadeIn>

@@ -32,13 +32,20 @@ export const BGLanding = ({
     const {showThumbnail} = useBGLandingScroll({viewportHeight});
     const {videoRef, isLooping, handleToggle} = useVideoLooper();
 
-    // Apply conditional overscroll behavior
+    // Apply conditional overscroll behavior and document height manipulation
     useEffect(() => {
         document.body.style.overscrollBehaviorX = showThumbnail ? 'none' : 'auto';
+        
+        // Manipulate document height to create/remove space for landing
+        document.body.style.minHeight = showThumbnail 
+            ? `${2*viewportHeight}px`
+            : `${viewportHeight}px`;
+            
         return () => {
             document.body.style.overscrollBehaviorX = 'auto';
+            document.body.style.minHeight = '100vh';
         };
-    }, [showThumbnail]);
+    }, [showThumbnail, viewportHeight]);
 
     return (
         <ClientOnlyFadeIn>
@@ -47,7 +54,7 @@ export const BGLanding = ({
                     {/* Landing Video */}
                     <motion.video
                         ref={videoRef}
-                        className="fixed w-screen h-screen object-cover object-center -z-10"
+                        className="fixed top-0 w-screen h-screen object-cover object-center -z-10"
                         style={{
                             y: thumbnailY,
                             opacity: thumbnailOpacity
@@ -62,7 +69,7 @@ export const BGLanding = ({
                         <>
                             {/* Landing Title */}
                             <motion.div
-                                className="fixed w-[70vw] left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-white font-bold text-6xl"
+                                className="fixed w-[70vw] left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-white font-bold text-6xl -z-10"
                                 style={{
                                     top: titleTop,
                                     opacity: titleOpacity,
@@ -74,7 +81,7 @@ export const BGLanding = ({
 
                             {/* Button Container */}
                             <motion.div
-                                className="fixed top-[60%] left-0 w-full px-5 z-10 flex justify-around"
+                                className="fixed top-[60%] left-0 w-full px-5 flex justify-around -z-10"
                                 style={{
                                     opacity: buttonsOpacity
                                 }}
@@ -94,7 +101,7 @@ export const BGLanding = ({
 
                     {/* Play Video Button */}
                     <motion.button
-                        className="fixed right-[2vw] bottom-[2vh] text-white hover:text-gray-300 transition-colors"
+                        className="fixed right-[2vw] bottom-[2vh] text-white hover:text-gray-300 transition-colors -z-10"
                         onClick={handleToggle}
                         style={{
                             opacity: buttonsOpacity
@@ -106,10 +113,10 @@ export const BGLanding = ({
             )}
 
             {/* Full Page Content */}
-            <motion.div
+            <div
                 className="bg-white dark:bg-gray-900 min-h-screen w-full z-10"
                 style={{
-                    y: showThumbnail ? viewportHeight : 0
+                    marginTop: showThumbnail ? `${viewportHeight}px` : '0'
                 }}
             >
                 <>
@@ -121,9 +128,9 @@ export const BGLanding = ({
                         />
                     )}
                     {children}
-                    <Lorem size = {"large"}/>
+                    <Lorem size={"large"}/>
                 </>
-            </motion.div>
+            </div>
         </ClientOnlyFadeIn>
     );
 };

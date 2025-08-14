@@ -1,12 +1,11 @@
 "use client";
 import * as React from "react";
-import {useEffect} from "react";
 import {motion} from "framer-motion";
 import {BGLandingProps} from "./types";
 import {useAnimatedFields} from "./useAnimatedFields";
 import {useVideoLooper} from "./useVideoLooper";
 import {useBGLandingScroll} from "./useBGLandingScroll";
-import {useViewportHeight, ClientOnlyFadeIn, Lorem} from "../../util";
+import {useViewportHeight, ClientOnlyFadeIn} from "../../util";
 import {IconYoutube, IconGithub, IconBGDocs, IconEyeOff, IconEyeOn} from "../../icons";
 
 export const BGLanding = ({
@@ -31,21 +30,6 @@ export const BGLanding = ({
     } = useAnimatedFields({viewportHeight});
     const {showThumbnail} = useBGLandingScroll({viewportHeight});
     const {videoRef, isLooping, handleToggle} = useVideoLooper();
-
-    // Apply conditional overscroll behavior and document height manipulation
-    useEffect(() => {
-        document.body.style.overscrollBehaviorX = showThumbnail ? 'none' : 'auto';
-        
-        // Manipulate document height to create/remove space for landing
-        document.body.style.minHeight = showThumbnail 
-            ? `${2*viewportHeight}px`
-            : `${viewportHeight}px`;
-            
-        return () => {
-            document.body.style.overscrollBehaviorX = 'auto';
-            document.body.style.minHeight = '100vh';
-        };
-    }, [showThumbnail, viewportHeight]);
 
     return (
         <ClientOnlyFadeIn>
@@ -128,7 +112,6 @@ export const BGLanding = ({
                         />
                     )}
                     {children}
-                    <Lorem size={"large"}/>
                 </>
             </div>
         </ClientOnlyFadeIn>

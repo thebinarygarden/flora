@@ -1,9 +1,12 @@
 "use client";
 import { BGLanding } from '@flora/ui/core';
+import { Button } from '@flora/ui/input';
 import { useNavigationConfig } from '@/hooks/useNavigationConfig';
+import { useTheme } from '@flora/ui/theme';
 
 export default function Home() {
   const { navigationComponent, navigationItems, onNavigationItemClick } = useNavigationConfig();
+  const { toggleTheme, isDark } = useTheme();
 
   return (
     <main>
@@ -22,6 +25,56 @@ export default function Home() {
           <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
             Performance-first React components with forced tree-shaking
           </p>
+          
+          {/* Theme Toggle Section */}
+          <div className="mb-12 p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
+            <h3 className="text-xl font-semibold mb-4">Theme Testing</h3>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
+              Current theme: <strong>{isDark ? 'Dark' : 'Light'}</strong>
+            </p>
+            <Button onClick={toggleTheme} className="mb-4">
+              Switch to {isDark ? 'Light' : 'Dark'} Theme
+            </Button>
+          </div>
+
+          {/* Button Variants Section */}
+          <div className="mb-12">
+            <h3 className="text-xl font-semibold mb-6">Button Variants</h3>
+            <div className="space-y-4">
+              <div>
+                <h4 className="text-lg font-medium mb-3">Primary Buttons</h4>
+                <div className="flex flex-wrap gap-3">
+                  <Button variant="primary">Primary Button</Button>
+                  <Button variant="primary" disabled>Primary Disabled</Button>
+                </div>
+              </div>
+              
+              <div>
+                <h4 className="text-lg font-medium mb-3">Secondary Buttons</h4>
+                <div className="flex flex-wrap gap-3">
+                  <Button variant="secondary">Secondary Button</Button>
+                  <Button variant="secondary" disabled>Secondary Disabled</Button>
+                </div>
+              </div>
+              
+              <div>
+                <h4 className="text-lg font-medium mb-3">Tertiary Buttons</h4>
+                <div className="flex flex-wrap gap-3">
+                  <Button variant="tertiary">Tertiary Button</Button>
+                  <Button variant="tertiary" disabled>Tertiary Disabled</Button>
+                </div>
+              </div>
+              
+              <div>
+                <h4 className="text-lg font-medium mb-3">Outline Buttons</h4>
+                <div className="flex flex-wrap gap-3">
+                  <Button variant="outline">Outline Button</Button>
+                  <Button variant="outline" disabled>Outline Disabled</Button>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="space-y-6">
             <section>
               <h3 className="text-xl font-semibold mb-4">Component Architecture</h3>

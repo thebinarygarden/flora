@@ -21,6 +21,10 @@
       "import": "./dist/navigation/index.js",
       "types": "./dist/navigation/index.d.ts"
     },
+    "./theme": {
+      "import": "./dist/theme/index.js",
+      "types": "./dist/theme/index.d.ts"
+    },
     "./styles.css": "./dist/styles.css"
   },
   "scripts": {

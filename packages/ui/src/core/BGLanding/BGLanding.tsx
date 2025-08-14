@@ -7,6 +7,7 @@ import {useVideoLooper} from "./useVideoLooper";
 import {useBGLandingScroll} from "./useBGLandingScroll";
 import {useViewportHeight, ClientOnlyFadeIn} from "../../util";
 import {IconYoutube, IconGithub, IconBGDocs, IconEyeOff, IconEyeOn} from "../../icons";
+import { useTheme } from "../../theme";
 
 export const BGLanding = ({
                               children,
@@ -19,6 +20,7 @@ export const BGLanding = ({
                               navigationItems = [],
                               onNavigationItemClick,
                           }: BGLandingProps) => {
+    const { theme } = useTheme();
     const {unit, viewportHeight} = useViewportHeight();
     const {
         thumbnailY,

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@flora/ui/theme";
+import { lightTheme, darkTheme } from "@/app/themes";
 
 export const metadata: Metadata = {
   title: "Flora",
@@ -18,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
+        <ThemeProvider lightTheme={lightTheme} darkTheme={darkTheme}>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

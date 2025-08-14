@@ -2,6 +2,7 @@
 import * as React from "react";
 import {motion} from "framer-motion";
 import {NavigationComponentProps, NavItem} from './types';
+import { useTheme } from '../theme';
 
 export interface MobileNavProps extends NavigationComponentProps {
 }
@@ -12,6 +13,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({
                                                         onItemClick,
                                                         className = '',
                                                     }) => {
+    const { theme } = useTheme();
     const [isOpen, setIsOpen] = React.useState(false);
 
     const handleItemClick = (item: NavItem) => {

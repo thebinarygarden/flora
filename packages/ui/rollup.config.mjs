@@ -10,7 +10,8 @@ export default {
         'src/icons/index.ts', 
         'src/core/index.ts',
         'src/navigation/index.ts',
-        'src/styles.css'
+        'src/theme/index.ts',
+        'src/styles.css',
     ],
     output: {
         dir: 'dist',

@@ -6,9 +6,9 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 }
 
 const variantClasses: Record<NonNullable<ButtonProps['variant']>, string> = {
-    primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
-    secondary: 'bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400',
-    ghost: 'bg-transparent text-blue-600 hover:bg-blue-50 focus:ring-blue-500',
+    primary: 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500',
+    secondary: 'bg-gray-200 hover:bg-gray-300 focus:ring-gray-400',
+    ghost: 'bg-transparent hover:bg-blue-50 focus:ring-blue-500',
 };
 
 export const Button: React.FC<ButtonProps> = ({

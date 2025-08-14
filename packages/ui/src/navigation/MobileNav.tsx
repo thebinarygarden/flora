@@ -38,7 +38,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({
                     <div className="flex items-center">
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+                            className="inline-flex items-center justify-center p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
                             aria-label="Open navigation menu"
                         >
                             {!isOpen &&
@@ -64,7 +64,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({
                     <div className="flex justify-end p-6">
                         <motion.button
                             onClick={() => setIsOpen(false)}
-                            className="p-2 text-gray-700 transition-colors"
+                            className="p-2 transition-colors"
                             initial={{opacity: 0, scale: 0.8}}
                             animate={{opacity: 1, scale: 1}}
                             transition={{delay: 0.1, duration: 0.3}}
@@ -84,8 +84,8 @@ export const MobileNav: React.FC<MobileNavProps> = ({
                                 onClick={() => handleItemClick(item)}
                                 className={`text-4xl md:text-5xl tracking-wide bg-transparent border-none outline-none focus:outline-none ${
                                     item.active
-                                        ? 'text-blue-600'
-                                        : 'text-gray-700'
+                                        ? 'opacity-50'
+                                        : ''
                                 }`}
                                 initial={{opacity: 0, y: 20}}
                                 animate={{opacity: 1, y: 0}}

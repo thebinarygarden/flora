@@ -53,7 +53,7 @@ export const BGLanding = ({
                         <>
                             {/* Landing Title */}
                             <motion.div
-                                className="fixed w-[70vw] left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-white font-bold text-6xl -z-10"
+                                className="fixed w-[70vw] left-1/2 -translate-x-1/2 -translate-y-1/2 text-center font-bold text-6xl -z-10"
                                 style={{
                                     top: titleTop,
                                     opacity: titleOpacity,
@@ -70,13 +70,13 @@ export const BGLanding = ({
                                     opacity: buttonsOpacity
                                 }}
                             >
-                                <a href={youtube} className="text-white hover:text-gray-300 transition-colors">
+                                <a href={youtube} className="transition-colors">
                                     <IconYoutube unit={unit}/>
                                 </a>
-                                <a href={github} className="text-white hover:text-gray-300 transition-colors">
+                                <a href={github} className="transition-colors">
                                     <IconGithub unit={unit}/>
                                 </a>
-                                <a href={bgdocs} className="text-white hover:text-gray-300 transition-colors">
+                                <a href={bgdocs} className="transition-colors">
                                     <IconBGDocs unit={unit}/>
                                 </a>
                             </motion.div>
@@ -85,7 +85,7 @@ export const BGLanding = ({
 
                     {/* Play Video Button */}
                     <motion.button
-                        className="fixed right-[2vw] bottom-[2vh] text-white hover:text-gray-300 transition-colors -z-10"
+                        className="fixed right-[2vw] bottom-[2vh] transition-colors -z-10"
                         onClick={handleToggle}
                         style={{
                             opacity: buttonsOpacity

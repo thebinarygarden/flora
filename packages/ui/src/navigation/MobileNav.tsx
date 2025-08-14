@@ -24,13 +24,25 @@ export const MobileNav: React.FC<MobileNavProps> = ({
     };
 
     return (
-        <nav className={`bg-white shadow-md ${className}`}>
+        <nav 
+            className={`shadow-md ${className}`}
+            style={{ 
+                backgroundColor: theme.surface,
+                color: theme.onSurface 
+            }}
+        >
             <div className="w-full px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
                     {/* Brand/Logo */}
                     <div className="flex items-center">
                         {brand && (
-                            <div className="flex-shrink-0">
+                            <div 
+                                className="flex-shrink-0"
+                                style={{ 
+                                    color: theme.onSurface,
+                                    fontFamily: theme.fontFamily 
+                                }}
+                            >
                                 {brand}
                             </div>
                         )}
@@ -40,8 +52,19 @@ export const MobileNav: React.FC<MobileNavProps> = ({
                     <div className="flex items-center">
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            className="inline-flex items-center justify-center p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+                            className="inline-flex items-center justify-center p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset transition-colors"
+                            style={{
+                                color: theme.onSurface,
+                                '--hover-bg': theme.hover + '10', // hover with opacity
+                                '--focus-ring': theme.focus,
+                            } as React.CSSProperties & { '--hover-bg': string, '--focus-ring': string }}
                             aria-label="Open navigation menu"
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.backgroundColor = theme.hover + '10';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.backgroundColor = 'transparent';
+                            }}
                         >
                             {!isOpen &&
                                 <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -56,7 +79,11 @@ export const MobileNav: React.FC<MobileNavProps> = ({
             {/* Full Page Mobile Navigation Menu */}
             {isOpen && (
                 <motion.div
-                    className="fixed inset-0 z-50 bg-white dark:bg-gray-900"
+                    className="fixed inset-0 z-50"
+                    style={{ 
+                        backgroundColor: theme.background,
+                        color: theme.onBackground 
+                    }}
                     initial={{opacity: 0}}
                     animate={{opacity: 1}}
                     exit={{opacity: 0}}
@@ -66,10 +93,19 @@ export const MobileNav: React.FC<MobileNavProps> = ({
                     <div className="flex justify-end p-6">
                         <motion.button
                             onClick={() => setIsOpen(false)}
-                            className="p-2 transition-colors"
+                            className="p-2 transition-colors rounded-md"
+                            style={{
+                                color: theme.onBackground,
+                            }}
                             initial={{opacity: 0, scale: 0.8}}
                             animate={{opacity: 1, scale: 1}}
                             transition={{delay: 0.1, duration: 0.3}}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.backgroundColor = theme.hover + '10';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.backgroundColor = 'transparent';
+                            }}
                         >
                             <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -84,11 +120,12 @@ export const MobileNav: React.FC<MobileNavProps> = ({
                             <motion.button
                                 key={index}
                                 onClick={() => handleItemClick(item)}
-                                className={`text-4xl md:text-5xl tracking-wide bg-transparent border-none outline-none focus:outline-none ${
-                                    item.active
-                                        ? 'opacity-50'
-                                        : ''
-                                }`}
+                                className="text-4xl md:text-5xl tracking-wide bg-transparent border-none outline-none focus:outline-none transition-colors rounded-md px-4 py-2"
+                                style={{
+                                    color: item.active ? theme.primary : theme.onBackground,
+                                    fontFamily: theme.fontFamily,
+                                    opacity: item.active ? 0.7 : 1,
+                                }}
                                 initial={{opacity: 0, y: 20}}
                                 animate={{opacity: 1, y: 0}}
                                 transition={{
@@ -98,6 +135,16 @@ export const MobileNav: React.FC<MobileNavProps> = ({
                                 }}
                                 whileHover={{scale: 1.05}}
                                 whileTap={{scale: 0.95}}
+                                onMouseEnter={(e) => {
+                                    if (!item.active) {
+                                        e.currentTarget.style.color = theme.primary;
+                                    }
+                                }}
+                                onMouseLeave={(e) => {
+                                    if (!item.active) {
+                                        e.currentTarget.style.color = theme.onBackground;
+                                    }
+                                }}
                             >
                                 {item.label}
                             </motion.button>

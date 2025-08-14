@@ -1,8 +1,17 @@
 import {useScroll, useTransform} from "framer-motion";
 import {useMemo} from "react";
 import {AnimatedFieldsProps} from "./types";
+import {useTheme} from "../../theme";
 
 export const useAnimatedFields = ({viewportHeight}: AnimatedFieldsProps) => {
+    const {theme} = useTheme()
+    const shadowColors = useMemo(() => {
+        const lightShadow = `3.5px 3.5px 10px ${theme.background}`;
+        const darkShadow = `4px 4px 30px ${theme.onBackground}`;
+
+        return [lightShadow, darkShadow];
+    }, [theme.background, theme.onBackground]);
+
     const phase = useMemo(() =>
         [0, .15, .4, .65, .8].map(n => n * viewportHeight),
         [viewportHeight]
@@ -14,7 +23,7 @@ export const useAnimatedFields = ({viewportHeight}: AnimatedFieldsProps) => {
     const titleShadow = useTransform(
         scrollY, 
         [phase[0], phase[2]],
-        ["3.5px 3.5px 10px rgb(2 2 2)", "4px 4px 30px rgb(254 254 254)"]
+        shadowColors
     );
     const titleTop = useTransform(scrollY, [phase[0], phase[4]], ['50%', '20%']);
     const titleOpacity = useTransform(scrollY, [phase[2], phase[4]], [1, 0]);

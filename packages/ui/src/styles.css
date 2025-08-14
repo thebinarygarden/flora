@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
-/*html, body {*/
-/*  overscroll-behavior-x: none;*/
-/*}*/
+:root {
+  --hover-color: currentColor; /* Default fallback for CSS linter */
+}
 
 @keyframes fade-in {
   from {
@@ -15,4 +15,12 @@
 
 .animate-fade-in {
   animation: fade-in;
+}
+
+/* Theme-aware hover utility
+   Currently only used for BGLanding icons
+*/
+
+.hover-themed:hover {
+  color: var(--hover-color) !important;
 }

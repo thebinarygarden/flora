@@ -7,7 +7,7 @@ import {useVideoLooper} from "./useVideoLooper";
 import {useBGLandingScroll} from "./useBGLandingScroll";
 import {useViewportHeight, ClientOnlyFadeIn} from "../../util";
 import {IconYoutube, IconGithub, IconBGDocs, IconEyeOff, IconEyeOn} from "../../icons";
-import { useTheme } from "../../theme";
+import {useTheme} from "../../theme";
 
 export const BGLanding = ({
                               children,
@@ -20,8 +20,12 @@ export const BGLanding = ({
                               navigationItems = [],
                               onNavigationItemClick,
                           }: BGLandingProps) => {
-    const { theme } = useTheme();
+    const {theme} = useTheme();
     const {unit, viewportHeight} = useViewportHeight();
+
+    // BGLanding icon styling utility
+    const bgLandingIconClass = `hover-themed transition-colors p-2 rounded-md text-[${theme.onBackground}]`;
+    const bgLandingIconStyle = {'--hover-color': theme.hover} as React.CSSProperties & { '--hover-color': string };
     const {
         thumbnailY,
         thumbnailOpacity,
@@ -59,7 +63,9 @@ export const BGLanding = ({
                                 style={{
                                     top: titleTop,
                                     opacity: titleOpacity,
-                                    textShadow: titleShadow
+                                    textShadow: titleShadow,
+                                    color: theme.onBackground,
+                                    fontFamily: theme.fontFamily
                                 }}
                             >
                                 {title}
@@ -72,13 +78,13 @@ export const BGLanding = ({
                                     opacity: buttonsOpacity
                                 }}
                             >
-                                <a href={youtube} className="transition-colors">
+                                <a href={youtube} className={bgLandingIconClass} style={bgLandingIconStyle}>
                                     <IconYoutube unit={unit}/>
                                 </a>
-                                <a href={github} className="transition-colors">
+                                <a href={github} className={bgLandingIconClass} style={bgLandingIconStyle}>
                                     <IconGithub unit={unit}/>
                                 </a>
-                                <a href={bgdocs} className="transition-colors">
+                                <a href={bgdocs} className={bgLandingIconClass} style={bgLandingIconStyle}>
                                     <IconBGDocs unit={unit}/>
                                 </a>
                             </motion.div>
@@ -86,22 +92,26 @@ export const BGLanding = ({
                     )}
 
                     {/* Play Video Button */}
-                    <motion.button
-                        className="fixed right-[2vw] bottom-[2vh] transition-colors -z-10"
-                        onClick={handleToggle}
+                    <motion.div
+                        className={`fixed right-[2vw] bottom-[2vh] -z-10`}
                         style={{
                             opacity: buttonsOpacity
                         }}
                     >
-                        {isLooping ? <IconEyeOff unit={unit}/> : <IconEyeOn unit={unit}/>}
-                    </motion.button>
+                        <a onClick={handleToggle} className={`${bgLandingIconClass} cursor-pointer`} style={bgLandingIconStyle}>
+                            {isLooping ? <IconEyeOff unit={unit}/> : <IconEyeOn unit={unit}/>}
+                        </a>
+                    </motion.div>
                 </>
             )}
 
             {/* Full Page Content */}
             <div
-                className="bg-white dark:bg-gray-900 min-h-screen w-full z-10"
+                className="min-h-screen w-full z-10"
                 style={{
+                    backgroundColor: theme.background,
+                    color: theme.onBackground,
+                    fontFamily: theme.fontFamily,
                     marginTop: showThumbnail ? `${viewportHeight}px` : '0'
                 }}
             >

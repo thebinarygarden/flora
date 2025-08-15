@@ -1,4 +1,3 @@
-// Convert HSB to hex for display
 export const hsbToHex = (h: number, s: number, b: number): string => {
   const sNorm = s / 100;
   const bNorm = b / 100;

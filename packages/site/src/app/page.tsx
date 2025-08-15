@@ -1,6 +1,7 @@
 "use client";
 import { BGLanding } from '@flora/ui/core';
 import { Button } from '@flora/ui/input';
+import { IconBGLogo } from '@flora/ui/icons';
 import { useNavigationConfig } from '@/hooks/useNavigationConfig';
 import { useTheme } from '@flora/ui/theme';
 
@@ -21,7 +22,10 @@ export default function Home() {
         onNavigationItemClick={onNavigationItemClick}
       >
         <div className="container mx-auto px-4 py-12">
-          <h2 className="text-3xl font-bold mb-6">Welcome to Flora</h2>
+          <div className="flex items-center gap-4 mb-6">
+            <h2 className="text-3xl font-bold">Welcome to Flora</h2>
+            <IconBGLogo size={24} color="#ec4899" />
+          </div>
           <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
             Performance-first React components with forced tree-shaking
           </p>

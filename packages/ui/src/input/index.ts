@@ -1,4 +1,4 @@
 export { Button } from './Button';
 export type { ButtonProps } from './Button';
-export { HSBColorPicker } from './HSBColorPicker';
-export type { HSBColor } from './HSBColorPicker';
+export { HSBColorPicker } from './HSBColorPicker/HSBColorPicker';
+export type { HSBColor, HSBColorPickerProps } from './HSBColorPicker/types';

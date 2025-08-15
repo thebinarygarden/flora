@@ -1,4 +1,5 @@
-export const hsbToHex = (h: number, s: number, b: number): string => {
+// Private helper function to convert HSB to normalized RGB values (0-1)
+const hsbToNormalizedRgb = (h: number, s: number, b: number): { r: number; g: number; b: number } => {
   const sNorm = s / 100;
   const bNorm = b / 100;
   
@@ -22,9 +23,29 @@ export const hsbToHex = (h: number, s: number, b: number): string => {
     r = c; g = 0; blue = x;
   }
   
-  const rHex = Math.round((r + m) * 255).toString(16).padStart(2, '0');
-  const gHex = Math.round((g + m) * 255).toString(16).padStart(2, '0');
-  const bHex = Math.round((blue + m) * 255).toString(16).padStart(2, '0');
+  return {
+    r: r + m,
+    g: g + m,
+    b: blue + m
+  };
+};
+
+export const hsbToHex = (h: number, s: number, b: number): string => {
+  const { r, g, b: blue } = hsbToNormalizedRgb(h, s, b);
+  
+  const rHex = Math.round(r * 255).toString(16).padStart(2, '0');
+  const gHex = Math.round(g * 255).toString(16).padStart(2, '0');
+  const bHex = Math.round(blue * 255).toString(16).padStart(2, '0');
   
   return `#${rHex}${gHex}${bHex}`;
+};
+
+export const hsbToRgb = (h: number, s: number, b: number): { r: number; g: number; b: number } => {
+  const { r, g, b: blue } = hsbToNormalizedRgb(h, s, b);
+  
+  return {
+    r: Math.round(r * 255),
+    g: Math.round(g * 255),
+    b: Math.round(blue * 255)
+  };
 };

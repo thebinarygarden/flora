@@ -3,7 +3,7 @@ import * as React from 'react';
 import {IconBGLogo} from '../../icons';
 import {useTheme} from '../../theme';
 import {HSBColorPickerProps} from './types';
-import {hsbToHex} from './colorUtils';
+import {hsbToHex, hsbToRgb} from './colorUtils';
 import {useColorPicker} from './useColorPicker';
 
 export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
@@ -32,23 +32,56 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
     // Derived colors
     const currentColor = hsbToHex(value.h, value.s, value.b);
     const hueColor = hsbToHex(value.h, 100, 100);
+    const rgbColor = hsbToRgb(value.h, value.s, value.b);
+
+    const [copied, setCopied] = React.useState(false);
+    const [copiedValue, setCopiedValue] = React.useState<string | null>(null);
+
+    const copyToClipboard = (text: string, valueType: string) => {
+        navigator.clipboard.writeText(text);
+        setCopied(true);
+        setCopiedValue(valueType);
+        setTimeout(() => {
+            setCopied(false);
+            setCopiedValue(null);
+        }, 500);
+    };
+
+    const copyHexToClipboard = () => {
+        copyToClipboard(currentColor, 'HEX');
+    };
 
     return (
         <div className={className}>
             {/* Color Preview */}
-            <div className="flex items-center gap-4 mb-4">
+            <div className="mb-6">
                 <div
-                    className="w-16 h-16 rounded-lg shadow-sm"
+                    className={`w-full h-16 rounded-lg shadow-sm cursor-pointer ${copied ? 'ring-2 ring-green-500' : ''}`}
                     style={{
                         backgroundColor: currentColor,
-                        border: `2px solid ${theme.onBackground}`
+                        border: `2px solid ${theme.onBackground}`,
+                        transition: copied ? 'box-shadow 200ms' : 'none'
                     }}
+                    onClick={copyHexToClipboard}
                 />
-                <div className="flex-1">
-                    <div className="text-sm font-medium">Current Color</div>
-                    <div className="text-xs text-onSurface opacity-60 font-mono">{currentColor}</div>
-                    <div className="text-xs text-onSurface opacity-60">
-                        HSB({value.h}, {value.s}%, {value.b}%)
+                <div className="flex justify-between items-center mt-3">
+                    <div 
+                        className={`text-sm font-mono cursor-pointer transition-all duration-200 hover:bg-onSurface hover:bg-opacity-10 px-2 py-1 rounded ${copiedValue === 'HEX' ? 'text-green-500' : 'text-onSurface opacity-60'}`}
+                        onClick={() => copyToClipboard(currentColor, 'HEX')}
+                    >
+                        HEX: {currentColor}
+                    </div>
+                    <div 
+                        className={`text-sm cursor-pointer transition-all duration-200 hover:bg-onSurface hover:bg-opacity-10 px-2 py-1 rounded ${copiedValue === 'HSB' ? 'text-green-500' : 'text-onSurface opacity-60'}`}
+                        onClick={() => copyToClipboard(`hsb(${value.h}, ${value.s}%, ${value.b}%)`, 'HSB')}
+                    >
+                        HSB: {value.h}, {value.s}%, {value.b}%
+                    </div>
+                    <div 
+                        className={`text-sm cursor-pointer transition-all duration-200 hover:bg-onSurface hover:bg-opacity-10 px-2 py-1 rounded ${copiedValue === 'RGB' ? 'text-green-500' : 'text-onSurface opacity-60'}`}
+                        onClick={() => copyToClipboard(`rgb(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b})`, 'RGB')}
+                    >
+                        RGB: {rgbColor.r}, {rgbColor.g}, {rgbColor.b}
                     </div>
                 </div>
             </div>

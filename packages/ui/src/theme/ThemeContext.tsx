@@ -1,6 +1,7 @@
 "use client";
 import * as React from 'react';
 import { Theme } from './types';
+import { useStyleInjector } from './useStyleInjector';
 
 interface ThemeContextType {
   theme: Theme;
@@ -32,6 +33,12 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
   defaultDark = false 
 }) => {
   const [isDark, setIsDark] = React.useState(defaultDark);
+  const toggleTheme = () => {
+    setIsDark(!isDark);
+  };
+
+  const theme = isDark ? darkTheme : lightTheme;
+  useStyleInjector(theme);
 
   // Initialize theme from system preference if no default provided
   React.useEffect(() => {
@@ -47,12 +54,6 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
-
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-  };
-
-  const theme = isDark ? darkTheme : lightTheme;
 
   return (
     <ThemeContext.Provider value={{ theme, isDark, toggleTheme }}>

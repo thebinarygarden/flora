@@ -7,7 +7,7 @@ import { useTheme } from '@flora/ui/theme';
 
 export default function Home() {
   const { navigationComponent, navigationItems, onNavigationItemClick } = useNavigationConfig();
-  const { toggleTheme, isDark } = useTheme();
+  const { theme, toggleTheme, isDark } = useTheme();
 
   return (
     <main>
@@ -26,14 +26,23 @@ export default function Home() {
             <h2 className="text-3xl font-bold">Welcome to Flora</h2>
             <IconBGLogo size={24} color="#ec4899" />
           </div>
-          <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
+          <p 
+            className="text-lg mb-8"
+            style={{ color: theme.onSurface }}
+          >
             Performance-first React components with forced tree-shaking
           </p>
           
           {/* Theme Toggle Section */}
-          <div className="mb-12 p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
+          <div 
+            className="mb-12 p-6 rounded-lg"
+            style={{ backgroundColor: theme.surface }}
+          >
             <h3 className="text-xl font-semibold mb-4">Theme Testing</h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
+            <p 
+              className="mb-4"
+              style={{ color: theme.onSurface }}
+            >
               Current theme: <strong>{isDark ? 'Dark' : 'Light'}</strong>
             </p>
             <Button onClick={toggleTheme} className="mb-4">
@@ -82,7 +91,7 @@ export default function Home() {
           <div className="space-y-6">
             <section>
               <h3 className="text-xl font-semibold mb-4">Component Architecture</h3>
-              <p className="text-gray-600 dark:text-gray-400">
+              <p style={{ color: theme.onSurface }}>
                 Flora is designed around tree-shakable, performance-first component architecture with selective imports.
               </p>
             </section>

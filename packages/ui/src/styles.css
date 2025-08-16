@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-:root {
-  --hover-color: currentColor; /* Default fallback for CSS linter */
-}
-
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -22,5 +18,5 @@
 */
 
 .hover-themed:hover {
-  color: var(--hover-color) !important;
+  color: var(--hover) !important;
 }

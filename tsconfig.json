@@ -1,9 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@flora/ui": ["packages/ui/src"],
-      "@flora/site": ["packages/site/src"]
-    }
+    "baseUrl": "."
   }
 }

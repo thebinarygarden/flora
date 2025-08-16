@@ -1,13 +1,13 @@
 import * as React from "react";
-import Info from './svg/info.svg';
+import Night from './svg/night.svg';
 import {IconProps, strokeWidthMap} from "./IconProps";
 
-export const IconInfo = ({size = 9, unit, color = "currentColor", strokeWidth = "base" }: IconProps) => {
+export const IconNight = ({size = 9, unit, color = "currentColor", strokeWidth = "base" }: IconProps) => {
     const height = unit ? size+unit : size;
     const strokeWidthValue = strokeWidthMap[strokeWidth];
-
+    
     return (
-        <Info
+        <Night
             style={{
                 color,
                 height,

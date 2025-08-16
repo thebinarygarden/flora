@@ -160,9 +160,8 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
                     <div className="flex items-center justify-center w-8 pointer-events-none" style={{height: '2rem'}}>
                         <div
                             className="flex items-center justify-center w-full h-full rounded"
-                            style={{border: `1px solid ${theme.onBackground}`}}
                         >
-                            <IconBGLogo size={48} color={currentColor} strokeWidth={"boldest"}/>
+                            <IconBGLogo size={48} color={currentColor} strokeWidth={"bolder"}/>
                         </div>
                     </div>
 

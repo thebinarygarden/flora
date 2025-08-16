@@ -1,13 +1,13 @@
 import * as React from "react";
-import Info from './svg/info.svg';
+import Arrow from './svg/arrow.svg';
 import {IconProps, strokeWidthMap} from "./IconProps";
 
-export const IconInfo = ({size = 9, unit, color = "currentColor", strokeWidth = "base" }: IconProps) => {
+export const IconArrow = ({size = 9, unit, color = "currentColor", strokeWidth = "base" }: IconProps) => {
     const height = unit ? size+unit : size;
     const strokeWidthValue = strokeWidthMap[strokeWidth];
-
+    
     return (
-        <Info
+        <Arrow
             style={{
                 color,
                 height,

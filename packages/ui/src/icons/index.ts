@@ -1,8 +1,14 @@
 export type { IconProps } from './IconProps';
+export { IconArrow } from './IconArrow';
 export { IconBGDocs } from './IconBGDocs';
 export { IconBGLogo } from './IconBGLogo';
-export { IconEyeOff } from './IconEyeOff';
-export { IconEyeOn } from './IconEyeOn';
+export { IconContact } from './IconContact';
+export { IconDay } from './IconDay';
 export { IconGithub } from './IconGithub';
+export { IconHide } from './IconHide';
 export { IconInfo } from './IconInfo';
+export { IconLinkOut } from './IconLinkOut';
+export { IconNight } from './IconNight';
+export { IconSearch } from './IconSearch';
+export { IconView } from './IconView';
 export { IconYoutube } from './IconYoutube';

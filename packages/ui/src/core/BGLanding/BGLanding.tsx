@@ -6,7 +6,7 @@ import {useAnimatedFields} from "./useAnimatedFields";
 import {useVideoLooper} from "./useVideoLooper";
 import {useBGLandingScroll} from "./useBGLandingScroll";
 import {useViewportHeight, ClientOnlyFadeIn} from "../../util";
-import {IconYoutube, IconGithub, IconBGDocs, IconEyeOff, IconEyeOn} from "../../icons";
+import {IconYoutube, IconGithub, IconBGDocs, IconView, IconHide} from "../../icons";
 import {useTheme} from "../../theme";
 
 export const BGLanding = ({
@@ -99,12 +99,11 @@ export const BGLanding = ({
                         }}
                     >
                         <a onClick={handleToggle} className={`${bgLandingIconClass} cursor-pointer`} style={bgLandingIconStyle}>
-                            {isLooping ? <IconEyeOff unit={unit}/> : <IconEyeOn unit={unit}/>}
+                            {isLooping ? <IconHide unit={unit}/> : <IconView unit={unit}/>}
                         </a>
                     </motion.div>
                 </>
             )}
-
             {/* Full Page Content */}
             <div
                 className="min-h-screen w-full z-10"

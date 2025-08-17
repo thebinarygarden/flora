@@ -8,6 +8,7 @@ import {IconYoutube, IconGithub, IconBGDocs, IconView, IconHide} from "../../ico
 export const BGLanding = ({
                               children,
                               title,
+                              description,
                               mp4Path,
                               youtube,
                               bgdocs,
@@ -16,7 +17,7 @@ export const BGLanding = ({
                               navigationItems = [],
                               onNavigationItemClick,
                           }: BGLandingProps) => {
-    const {unit} = useViewportHeight();
+    const {unit, viewportHeight} = useViewportHeight();
     const {videoRef, isLooping, handleToggle} = useVideoLooper();
 
     // BGLanding icon styling utility - use CSS variables to avoid flash
@@ -38,7 +39,7 @@ export const BGLanding = ({
             )}
 
             {/* Hero Section */}
-            <div className="relative h-screen w-full">
+            <div className="relative h-screen w-full" style={{ scrollSnapAlign: 'start' }}>
                 {/* Background Video */}
                 <video
                     ref={videoRef}
@@ -49,35 +50,49 @@ export const BGLanding = ({
                     playsInline
                 />
 
-                {/* Hero Content */}
-                {!isLooping && (
-                    <>
+                {/* Left Content Overlay */}
+                <div 
+                    className="absolute inset-y-0 left-0 w-4/5 md:w-4/5 lg:w-3/4 z-10 flex flex-col justify-center px-8 md:px-16 lg:px-24 transition-opacity duration-500"
+                    style={{
+                        background: 'linear-gradient(to right, var(--background) 0%, var(--background) 10%, transparent 100%)',
+                        opacity: isLooping ? 0 : 1
+                    }}
+                >
                         {/* Title */}
-                        <div className="absolute inset-0 flex items-center justify-center z-10">
-                            <h1
-                                className="text-6xl font-bold text-center max-w-[70vw]"
-                                style={{
-                                    textShadow: `4px 4px 30px var(--on-background)`
-                                }}
-                            >
-                                {title}
-                            </h1>
-                        </div>
+                        <h1
+                            className="text-6xl font-bold mb-6"
+                            style={{
+                                color: 'var(--on-background)',
+                                textShadow: `2px 2px 10px var(--background)`
+                            }}
+                        >
+                            {title}
+                        </h1>
 
-                        {/* Action Buttons */}
-                        <div className="absolute bottom-[40%] left-0 right-0 flex justify-around px-5 z-10">
+                        {/* Description */}
+                        <p
+                            className="text-xl mb-8 max-w-md"
+                            style={{
+                                color: 'var(--on-background)',
+                                opacity: 0.9
+                            }}
+                        >
+                            {description}
+                        </p>
+
+                        {/* Action Icons */}
+                        <div className="flex gap-4">
                             <a href={youtube} className={bgLandingIconClass} style={bgLandingIconStyle}>
-                                <IconYoutube unit={unit}/>
+                                <IconYoutube unit={unit} size={8}/>
                             </a>
                             <a href={github} className={bgLandingIconClass} style={bgLandingIconStyle}>
-                                <IconGithub unit={unit}/>
+                                <IconGithub unit={unit} size={8}/>
                             </a>
                             <a href={bgdocs} className={bgLandingIconClass} style={bgLandingIconStyle}>
-                                <IconBGDocs unit={unit}/>
+                                <IconBGDocs unit={unit} size={8}/>
                             </a>
                         </div>
-                    </>
-                )}
+                    </div>
 
                 {/* Video Toggle Button */}
                 <div className="absolute bottom-4 right-4 z-10">
@@ -93,7 +108,8 @@ export const BGLanding = ({
                 style={{
                     backgroundColor: 'var(--background)',
                     color: 'var(--on-background)',
-                    fontFamily: 'var(--font-family)'
+                    fontFamily: 'var(--font-family)',
+                    scrollSnapAlign: 'start'
                 }}
             >
                 {children}

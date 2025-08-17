@@ -4,6 +4,7 @@ import {NavigationComponentProps, NavItem} from "../../navigation";
 export type BGLandingProps = {
     children: ReactNode,
     title: string,
+    description: string,
     mp4Path: string,
     youtube: string,
     github: string,

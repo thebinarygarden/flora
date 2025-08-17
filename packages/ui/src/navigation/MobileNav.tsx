@@ -23,16 +23,16 @@ export const MobileNav: React.FC<MobileNavProps> = ({
 
     return (
         <nav 
-            className={`fixed top-0 left-0 right-0 shadow-md z-20 ${className}`}
+            className={`fixed top-0 left-0 right-0 z-20 ${className}`}
             style={{ 
-                backgroundColor: 'var(--surface)',
+                backgroundColor: 'transparent',
                 color: 'var(--on-surface)',
             }}
         >
             <div className="w-full px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between h-16">
-                    {/* Brand/Logo */}
-                    <div className="flex items-center">
+                <div className="flex justify-end h-16">
+                    {/* Brand/Logo - Commented out for now */}
+                    {/* <div className="flex items-center">
                         {brand && (
                             <div 
                                 className="flex-shrink-0"
@@ -40,7 +40,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({
                                 {brand}
                             </div>
                         )}
-                    </div>
+                    </div> */}
 
                     {/* Mobile menu button */}
                     <div className="flex items-center">

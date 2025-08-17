@@ -13,6 +13,7 @@ export default function Home() {
     <main>
       <BGLanding 
         title="Flora"
+        description="Performance-first React components with forced tree-shaking architecture"
         mp4Path="newhozions.mp4"
         youtube="https://youtube.com"
         github="https://github.com"

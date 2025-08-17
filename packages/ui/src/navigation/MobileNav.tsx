@@ -1,7 +1,8 @@
 "use client";
 import * as React from "react";
-import {motion} from "framer-motion";
+import {motion, MotionValue} from "framer-motion";
 import {NavigationComponentProps, NavItem} from './types';
+import {IconBGLogo} from '../icons';
 
 export interface MobileNavProps extends NavigationComponentProps {
 }
@@ -11,6 +12,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({
                                                         items,
                                                         onItemClick,
                                                         className = '',
+                                                        navOpacity,
                                                     }) => {
     const [isOpen, setIsOpen] = React.useState(false);
 
@@ -22,25 +24,32 @@ export const MobileNav: React.FC<MobileNavProps> = ({
     };
 
     return (
-        <nav 
+        <nav
             className={`fixed top-0 left-0 right-0 z-20 ${className}`}
-            style={{ 
-                backgroundColor: 'transparent',
+            style={{
                 color: 'var(--on-surface)',
             }}
         >
-            <div className="w-full px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-end h-16">
-                    {/* Brand/Logo - Commented out for now */}
-                    {/* <div className="flex items-center">
-                        {brand && (
-                            <div 
-                                className="flex-shrink-0"
-                            >
-                                {brand}
-                            </div>
-                        )}
-                    </div> */}
+            {/* Animated Background */}
+            <motion.div
+                className="absolute inset-0 transition-opacity duration-300 ease-in-out"
+                style={{
+                    backgroundColor: 'var(--background)',
+                    opacity: navOpacity || 0,
+                }}
+            />
+            <div className="relative w-full px-4 sm:px-6 lg:px-8">
+                <div className="flex justify-between h-16">
+                    {/* Brand/Logo */}
+                    <motion.div
+                        className="flex items-center transition-opacity duration-300 ease-in-out"
+                        style={{opacity: navOpacity || 0}}
+                    >
+                        <div className="flex-shrink-0 flex items-center gap-2">
+                            <IconBGLogo size={24}/>
+                            <span className="text-xl font-semibold">{brand}</span>
+                        </div>
+                    </motion.div>
 
                     {/* Mobile menu button */}
                     <div className="flex items-center">
@@ -74,7 +83,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({
             {isOpen && (
                 <motion.div
                     className="fixed inset-0 z-50"
-                    style={{ 
+                    style={{
                         backgroundColor: 'var(--background)',
                         color: 'var(--on-background)'
                     }}

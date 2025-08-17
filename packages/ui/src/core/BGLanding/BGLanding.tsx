@@ -2,8 +2,10 @@
 import * as React from "react";
 import {BGLandingProps} from "./types";
 import {useVideoLooper} from "./useVideoLooper";
+import {useAnimatedFields} from "./useAnimatedFields";
 import {useViewportHeight} from "../../util";
 import {IconYoutube, IconGithub, IconBGDocs, IconView, IconHide} from "../../icons";
+import {motion} from "framer-motion";
 
 export const BGLanding = ({
                               children,
@@ -19,6 +21,7 @@ export const BGLanding = ({
                           }: BGLandingProps) => {
     const {unit, viewportHeight} = useViewportHeight();
     const {videoRef, isLooping, handleToggle} = useVideoLooper();
+    const {heroContentOpacity, navOpacity, overlapGradientWidth} = useAnimatedFields({viewportHeight});
 
     // BGLanding icon styling utility - use CSS variables to avoid flash
     const bgLandingIconClass = `hover-themed transition-colors p-2 rounded-md`;
@@ -34,7 +37,8 @@ export const BGLanding = ({
                 <NavigationComponent
                     brand={title}
                     items={navigationItems}
-                    onItemClick={onNavigationItemClick}
+                    onItemClick={onNavigationItemClick!}
+                    navOpacity={navOpacity}
                 />
             )}
 
@@ -51,37 +55,41 @@ export const BGLanding = ({
                 />
 
                 {/* Left Content Overlay */}
-                <div 
-                    className="absolute inset-y-0 left-0 w-4/5 md:w-4/5 lg:w-3/4 z-10 flex flex-col justify-center px-8 md:px-16 lg:px-24 transition-opacity duration-500"
+                <motion.div 
+                    className="absolute inset-y-0 w-full left-0 z-10 flex flex-col justify-center px-8 md:px-16 lg:px-24 transition-opacity duration-500"
                     style={{
-                        background: 'linear-gradient(to right, var(--background) 0%, var(--background) 10%, transparent 100%)',
+                        background: overlapGradientWidth,
                         opacity: isLooping ? 0 : 1
                     }}
                 >
                         {/* Title */}
-                        <h1
+                        <motion.h1
                             className="text-6xl font-bold mb-6"
                             style={{
                                 color: 'var(--on-background)',
-                                textShadow: `2px 2px 10px var(--background)`
+                                textShadow: `2px 2px 10px var(--background)`,
+                                opacity: heroContentOpacity
                             }}
                         >
                             {title}
-                        </h1>
+                        </motion.h1>
 
                         {/* Description */}
-                        <p
+                        <motion.p
                             className="text-xl mb-8 max-w-md"
                             style={{
                                 color: 'var(--on-background)',
-                                opacity: 0.9
+                                opacity: heroContentOpacity
                             }}
                         >
                             {description}
-                        </p>
+                        </motion.p>
 
                         {/* Action Icons */}
-                        <div className="flex gap-4">
+                        <motion.div 
+                            className="flex gap-4"
+                            style={{ opacity: heroContentOpacity }}
+                        >
                             <a href={youtube} className={bgLandingIconClass} style={bgLandingIconStyle}>
                                 <IconYoutube unit={unit} size={8}/>
                             </a>
@@ -91,15 +99,18 @@ export const BGLanding = ({
                             <a href={bgdocs} className={bgLandingIconClass} style={bgLandingIconStyle}>
                                 <IconBGDocs unit={unit} size={8}/>
                             </a>
-                        </div>
-                    </div>
+                        </motion.div>
+                    </motion.div>
 
                 {/* Video Toggle Button */}
-                <div className="absolute bottom-4 right-4 z-10">
+                <motion.div 
+                    className="absolute bottom-4 right-4 z-10"
+                    style={{ opacity: heroContentOpacity }}
+                >
                     <button onClick={handleToggle} className={`${bgLandingIconClass} cursor-pointer`} style={bgLandingIconStyle}>
                         {isLooping ? <IconHide unit={unit}/> : <IconView unit={unit}/>}
                     </button>
-                </div>
+                </motion.div>
             </div>
 
             {/* Main Content */}
@@ -112,6 +123,14 @@ export const BGLanding = ({
                     scrollSnapAlign: 'start'
                 }}
             >
+                {/* Nav Spacer - Only when nav background is visible */}
+                <motion.div 
+                    className="w-full"
+                    style={{ 
+                        height: navOpacity ? '4rem' : '0rem',
+                        transition: 'height 0.3s ease-in-out'
+                    }}
+                />
                 {children}
             </div>
         </>

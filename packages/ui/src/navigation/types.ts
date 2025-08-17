@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import {MotionValue} from "framer-motion";
 
 export type NavItem = {
     label: string;
@@ -8,8 +9,9 @@ export type NavItem = {
 
 // Common navigation interface that all nav components must implement
 export interface NavigationComponentProps {
-    brand?: ReactNode;
+    brand: ReactNode;
     items: NavItem[];
-    onItemClick?: (item: NavItem) => void;
+    onItemClick: (item: NavItem) => void;
     className?: string;
+    navOpacity?: MotionValue<number>;
 }

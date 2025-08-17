@@ -1,40 +1,30 @@
-import {useScroll, useTransform} from "framer-motion";
+import {useScroll, useTransform, useMotionTemplate} from "framer-motion";
 import {useMemo} from "react";
 import {AnimatedFieldsProps} from "./types";
-import {useTheme} from "../../theme";
 
 export const useAnimatedFields = ({viewportHeight}: AnimatedFieldsProps) => {
-    const {theme} = useTheme()
-    const shadowColors = useMemo(() => {
-        const lightShadow = `3.5px 3.5px 10px ${theme.background}`;
-        const darkShadow = `4px 4px 30px ${theme.onBackground}`;
-
-        return [lightShadow, darkShadow];
-    }, [theme.background, theme.onBackground]);
-
-    const phase = useMemo(() =>
-        [0, .15, .4, .65, .8].map(n => n * viewportHeight),
-        [viewportHeight]
-    );
     const {scrollY} = useScroll();
 
-    const thumbnailY = useTransform(scrollY, [0, phase[4]], [0, -100]);
-    const thumbnailOpacity = useTransform(scrollY, [0, phase[3]], [1, 0]);
-    const titleShadow = useTransform(
-        scrollY, 
-        [phase[0], phase[2]],
-        shadowColors
+    // Re-implement phases with updated thresholds
+    const phase = useMemo(() => 
+        [0, .2, .5, .8, 1].map(n => n * viewportHeight),
+        [viewportHeight]
     );
-    const titleTop = useTransform(scrollY, [phase[0], phase[4]], ['50%', '20%']);
-    const titleOpacity = useTransform(scrollY, [phase[2], phase[4]], [1, 0]);
-    const buttonsOpacity = useTransform(scrollY, [phase[0], phase[1]], [1, 0]);
+
+    // Consolidated single opacity for all hero content
+    const heroContentOpacity = useTransform(scrollY, [phase[0], phase[2]], [1, 0]);
+    
+    // Overlay expands gradually through first half of viewport
+    const overlayWidth = useTransform(scrollY, [phase[0], phase[2]], ['10', '100']);
+    // Create animated gradient template
+    const overlapGradientWidth = useMotionTemplate`linear-gradient(to right, var(--background) 0%, var(--background) ${overlayWidth}%, transparent 100%)`;
+
+    // Nav animations happen at 80% of viewport height
+    const navOpacity = useTransform(scrollY, [phase[3], phase[4]], [0, 1]);
 
     return {
-        thumbnailY,
-        thumbnailOpacity,
-        titleShadow,
-        titleTop,
-        titleOpacity,
-        buttonsOpacity
+        heroContentOpacity,
+        navOpacity,
+        overlapGradientWidth
     };
 }

@@ -3,7 +3,7 @@
 import {usePathname, useRouter} from 'next/navigation';
 import { BGLanding } from '@flora/ui/core';
 import {MobileNav, NavItem} from '@flora/ui/navigation';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 
 interface AppNavigationProps {
   children: ReactNode;
@@ -11,6 +11,12 @@ interface AppNavigationProps {
 
 export function AppNavigation({ children }: AppNavigationProps) {
   const pathname = usePathname();
+
+  useEffect(() => {
+    // Force scroll to top on navigation
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
     const navigationItems = [
         {label: 'Components', href: '/components', active: false},
         {label: 'Theme', href: '/theme', active: false},
@@ -20,10 +26,12 @@ export function AppNavigation({ children }: AppNavigationProps) {
 
     const router = useRouter();
     const onNavigationItemClick = (item: NavItem) => {
+        if (pathname === item.href) return;
         router.push(item.href);
     };
 
     const onBrandClick = () => {
+        if (pathname === '/') return;
         router.push('/');
     };
 

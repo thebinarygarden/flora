@@ -12,6 +12,7 @@ export type BGLandingProps = {
     navigationComponent?: ComponentType<NavigationComponentProps>;
     navigationItems?: NavItem[];
     onNavigationItemClick?: (item: NavItem) => void;
+    onBrandClick?: () => void;
 }
 
 export type AnimatedFieldsProps = {

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider, ThemeScript } from "@flora/ui/theme";
 import { lightTheme, darkTheme } from "@/app/themes";
+import { AppNavigation } from "@/components/navigation/AppNavigation";
 
 export const metadata: Metadata = {
   title: "Flora",
@@ -24,7 +25,9 @@ export default function RootLayout({
       </head>
       <body>
         <ThemeProvider lightTheme={lightTheme} darkTheme={darkTheme}>
-          {children}
+          <AppNavigation>
+            {children}
+          </AppNavigation>
         </ThemeProvider>
       </body>
     </html>

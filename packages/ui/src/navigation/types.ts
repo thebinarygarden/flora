@@ -11,7 +11,7 @@ export type NavItem = {
 export interface NavigationComponentProps {
     brand: ReactNode;
     items: NavItem[];
+    onBrandClick: () => void;
     onItemClick: (item: NavItem) => void;
-    className?: string;
     navOpacity?: MotionValue<number>;
 }

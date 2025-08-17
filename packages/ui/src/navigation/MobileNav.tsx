@@ -1,20 +1,28 @@
 "use client";
 import * as React from "react";
-import {motion, MotionValue} from "framer-motion";
+import {motion} from "framer-motion";
 import {NavigationComponentProps, NavItem} from './types';
 import {IconBGLogo} from '../icons';
+import {useClientCheck} from "../util/useClientCheck";
 
-export interface MobileNavProps extends NavigationComponentProps {
-}
-
-export const MobileNav: React.FC<MobileNavProps> = ({
+export const MobileNav: React.FC<NavigationComponentProps> = ({
                                                         brand,
                                                         items,
                                                         onItemClick,
-                                                        className = '',
+                                                        onBrandClick,
                                                         navOpacity,
                                                     }) => {
+    const {isClient} = useClientCheck();
     const [isOpen, setIsOpen] = React.useState(false);
+
+    const finalOpacity = React.useMemo(() => {
+        if (isClient) {
+            // Client hydrated: use navOpacity if provided (BGLanding), otherwise fade to 1 (standalone)
+            return navOpacity !== undefined ? navOpacity : 1;
+        }
+        // Server render and initial client render: always 0 (no flash)
+        return 0;
+    }, [isClient, navOpacity]);
 
     const handleItemClick = (item: NavItem) => {
         if (onItemClick) {
@@ -24,32 +32,34 @@ export const MobileNav: React.FC<MobileNavProps> = ({
     };
 
     return (
-        <nav
-            className={`fixed top-0 left-0 right-0 z-20 ${className}`}
-            style={{
-                color: 'var(--on-surface)',
-            }}
-        >
+        <>
+            <nav
+                className={`fixed top-0 left-0 right-0 z-20`}
+                style={{
+                    color: 'var(--on-surface)',
+                }}
+            >
             {/* Animated Background */}
             <motion.div
                 className="absolute inset-0 transition-opacity duration-300 ease-in-out"
                 style={{
                     backgroundColor: 'var(--background)',
-                    opacity: navOpacity || 0,
+                    opacity: finalOpacity,
                 }}
             />
             <div className="relative w-full px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
                     {/* Brand/Logo */}
-                    <motion.div
-                        className="flex items-center transition-opacity duration-300 ease-in-out"
-                        style={{opacity: navOpacity || 0}}
+                    <motion.button
+                        onClick={onBrandClick}
+                        className="flex items-center transition-opacity duration-300 ease-in-out bg-transparent border-none outline-none focus:outline-none cursor-pointer"
+                        style={{opacity: finalOpacity}}
                     >
                         <div className="flex-shrink-0 flex items-center gap-2">
                             <IconBGLogo size={24}/>
                             <span className="text-xl font-semibold">{brand}</span>
                         </div>
-                    </motion.div>
+                    </motion.button>
 
                     {/* Mobile menu button */}
                     <div className="flex items-center">
@@ -155,6 +165,10 @@ export const MobileNav: React.FC<MobileNavProps> = ({
                     </div>
                 </motion.div>
             )}
-        </nav>
+            </nav>
+            
+            {/* Nav Spacer */}
+            {!Boolean(navOpacity) && (<div className="w-full h-16"/>)}
+        </>
     );
 };

@@ -1,13 +1,11 @@
 "use client";
 import {useRouter} from 'next/navigation';
-import {MobileNav, type NavItem} from '@flora/ui/navigation';
-import {ComponentType} from 'react';
-import {NavigationComponentProps} from '@flora/ui/navigation';
+import { type NavItem} from '@flora/ui/navigation';
 
 export const useNavigationConfig = (): {
-    navigationComponent: ComponentType<NavigationComponentProps>;
     navigationItems: NavItem[];
     onNavigationItemClick: (item: NavItem) => void;
+    onBrandClick: () => void;
 } => {
     const navigationItems = [
         {label: 'Components', href: '/components', active: false},
@@ -21,9 +19,13 @@ export const useNavigationConfig = (): {
         router.push(item.href);
     };
 
+    const handleBrandClick = () => {
+        router.push('/');
+    };
+
     return {
-        navigationComponent: MobileNav,
         navigationItems: navigationItems,
-        onNavigationItemClick: handleNavItemClick
+        onNavigationItemClick: handleNavItemClick,
+        onBrandClick: handleBrandClick
     };
 };

@@ -3,9 +3,11 @@ import * as React from "react";
 import {BGLandingProps} from "./types";
 import {useVideoLooper} from "./useVideoLooper";
 import {useAnimatedFields} from "./useAnimatedFields";
-import {useViewportHeight} from "../../util";
 import {IconYoutube, IconGithub, IconBGDocs, IconView, IconHide} from "../../icons";
 import {motion} from "framer-motion";
+import {useViewportHeight} from "../../util/useViewportHeight";
+import {Lorem} from "../../util/Lorem";
+import {useBGLandingScroll} from "./useBGLandingScroll";
 
 export const BGLanding = ({
                               children,
@@ -18,10 +20,14 @@ export const BGLanding = ({
                               navigationComponent: NavigationComponent,
                               navigationItems = [],
                               onNavigationItemClick,
+                              onBrandClick,
                           }: BGLandingProps) => {
     const {unit, viewportHeight} = useViewportHeight();
     const {videoRef, isLooping, handleToggle} = useVideoLooper();
     const {heroContentOpacity, navOpacity, leftOverlay, bottomOverlay} = useAnimatedFields({viewportHeight});
+    
+    // Auto-scroll behavior to prevent getting stuck between sections
+    useBGLandingScroll({ viewportHeight });
 
     // BGLanding icon styling utility - use CSS variables to avoid flash
     const bgLandingIconClass = `hover-themed transition-colors p-2 rounded-md`;
@@ -38,12 +44,13 @@ export const BGLanding = ({
                     brand={title}
                     items={navigationItems}
                     onItemClick={onNavigationItemClick!}
+                    onBrandClick={onBrandClick!}
                     navOpacity={navOpacity}
                 />
             )}
 
             {/* Hero Section */}
-            <div className="relative h-screen w-full" style={{ scrollSnapAlign: 'start' }}>
+            <div className="relative h-screen w-full">
                 {/* Background Video */}
                 <video
                     ref={videoRef}
@@ -123,23 +130,17 @@ export const BGLanding = ({
 
             {/* Main Content */}
             <div
-                className="relative w-full"
+                className="relative h-screen w-full"
                 style={{
                     backgroundColor: 'var(--background)',
                     color: 'var(--on-background)',
-                    fontFamily: 'var(--font-family)',
-                    scrollSnapAlign: 'start'
+                    fontFamily: 'var(--font-family)'
                 }}
             >
-                {/* Nav Spacer - Only when nav background is visible */}
-                <motion.div 
-                    className="w-full"
-                    style={{ 
-                        height: navOpacity ? '4rem' : '0rem',
-                        transition: 'height 0.3s ease-in-out'
-                    }}
-                />
+                {/* Nav Spacer */}
+                {Boolean(navOpacity) && (<div className="w-full h-16"/>)}
                 {children}
+                <Lorem size={"large"}/>
             </div>
         </>
     );

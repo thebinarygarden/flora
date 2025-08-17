@@ -1,6 +1,5 @@
 "use client";
 import * as React from "react";
-import { useTheme } from '../theme';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: 'primary' | 'secondary' | 'tertiary' | 'outline';
@@ -12,40 +11,38 @@ export const Button: React.FC<ButtonProps> = ({
                                                   className = '',
                                                   ...props
                                               }) => {
-    const { theme } = useTheme();
-
     const getVariantStyles = () => {
         switch (variant) {
             case 'primary':
                 return {
-                    backgroundColor: theme.primary,
-                    color: theme.onPrimary,
-                    borderColor: theme.primary,
+                    backgroundColor: 'var(--primary)',
+                    color: 'var(--on-primary)',
+                    borderColor: 'var(--primary)',
                 };
             case 'secondary':
                 return {
-                    backgroundColor: theme.secondary,
-                    color: theme.onSecondary,
-                    borderColor: theme.secondary,
+                    backgroundColor: 'var(--secondary)',
+                    color: 'var(--on-secondary)',
+                    borderColor: 'var(--secondary)',
                 };
             case 'tertiary':
                 return {
-                    backgroundColor: theme.tertiary || theme.primary,
-                    color: theme.onTertiary || theme.onPrimary,
-                    borderColor: theme.tertiary || theme.primary,
+                    backgroundColor: 'var(--tertiary)',
+                    color: 'var(--on-tertiary)',
+                    borderColor: 'var(--tertiary)',
                 };
             case 'outline':
                 return {
                     backgroundColor: 'transparent',
-                    color: theme.primary,
-                    borderColor: theme.border,
-                    border: `1px solid ${theme.border}`,
+                    color: 'var(--primary)',
+                    borderColor: 'var(--border)',
+                    border: `1px solid var(--border)`,
                 };
             default:
                 return {
-                    backgroundColor: theme.primary,
-                    color: theme.onPrimary,
-                    borderColor: theme.primary,
+                    backgroundColor: 'var(--primary)',
+                    color: 'var(--on-primary)',
+                    borderColor: 'var(--primary)',
                 };
         }
     };
@@ -57,9 +54,9 @@ export const Button: React.FC<ButtonProps> = ({
             className={`px-4 py-2 rounded-md font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors hover:opacity-90 disabled:opacity-50 ${className}`}
             style={{
                 ...variantStyles,
-                fontFamily: theme.fontFamily,
-                '--focus-ring-color': theme.focus,
-            } as React.CSSProperties & { '--focus-ring-color': string }}
+                fontFamily: 'var(--font-family)',
+                '--tw-ring-color': 'var(--focus)',
+            } as React.CSSProperties & { '--tw-ring-color': string }}
             onClick={() => console.log("success")}
             {...props}
         >

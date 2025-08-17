@@ -1,7 +1,6 @@
 "use client";
 import * as React from 'react';
 import {IconBGLogo} from '../../icons';
-import {useTheme} from '../../theme';
 import {HSBColorPickerProps} from './types';
 import {hsbToHex, hsbToRgb} from './colorUtils';
 import {useColorPicker} from './useColorPicker';
@@ -11,7 +10,6 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
                                                                   onChange,
                                                                   className = ''
                                                               }) => {
-    const {theme} = useTheme();
 
     // Refs
     const saturation2DRef = React.useRef<HTMLDivElement | null>(null);
@@ -59,7 +57,7 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
                     className={`w-full h-16 rounded-lg shadow-sm cursor-pointer ${copied ? 'ring-2 ring-green-500' : ''}`}
                     style={{
                         backgroundColor: currentColor,
-                        border: `2px solid ${theme.onBackground}`,
+                        border: `2px solid var(--on-background)`,
                         transition: copied ? 'box-shadow 200ms' : 'none'
                     }}
                     onClick={copyHexToClipboard}
@@ -92,7 +90,7 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
                 className="relative w-full h-8 cursor-pointer rounded overflow-hidden mb-4"
                 style={{
                     background: 'linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000)',
-                    border: `1px solid ${theme.onBackground}`
+                    border: `1px solid var(--on-background)`
                 }}
                 onMouseDown={handleMouseDown('hue')}
             >
@@ -101,7 +99,7 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
                     className="absolute w-3 h-full shadow-sm transform -translate-x-1/2 pointer-events-none rounded bg-white"
                     style={{
                         left: `${(value.h / 359) * 100}%`,
-                        border: `1px solid ${theme.onBackground}`
+                        border: `1px solid var(--on-background)`
                     }}
                 />
             </div>
@@ -117,7 +115,7 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
                         style={{
                             background: `linear-gradient(to bottom, ${hsbToHex(value.h, value.s, 100)}, #000000)`,
                             aspectRatio: '1 / 4',
-                            border: `1px solid ${theme.onBackground}`
+                            border: `1px solid var(--on-background)`
                         }}
                         onMouseDown={handleMouseDown('brightness')}
                     >
@@ -126,7 +124,7 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
                             className="absolute w-full h-3 shadow-sm transform -translate-y-1/2 pointer-events-none rounded bg-white"
                             style={{
                                 top: `${100 - value.b}%`,
-                                border: `1px solid ${theme.onBackground}`
+                                border: `1px solid var(--on-background)`
                             }}
                         />
                     </div>
@@ -137,7 +135,7 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
                         className="relative flex-1 aspect-square cursor-crosshair rounded overflow-hidden"
                         style={{
                             background: `linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, ${hueColor})`,
-                            border: `1px solid ${theme.onBackground}`
+                            border: `1px solid var(--on-background)`
                         }}
                         onMouseDown={handleMouseDown('saturation-2d')}
                     >
@@ -171,7 +169,7 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
                         className="relative flex-1 h-8 cursor-pointer rounded overflow-hidden"
                         style={{
                             background: `linear-gradient(to right, #808080, ${hsbToHex(value.h, 100, value.b)})`,
-                            border: `1px solid ${theme.onBackground}`
+                            border: `1px solid var(--on-background)`
                         }}
                         onMouseDown={handleMouseDown('saturation')}
                     >
@@ -180,7 +178,7 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
                             className="absolute w-3 h-full shadow-sm transform -translate-x-1/2 pointer-events-none rounded bg-white"
                             style={{
                                 left: `${value.s}%`,
-                                border: `1px solid ${theme.onBackground}`
+                                border: '1px solid var(--on-background)'
                             }}
                         />
                     </div>

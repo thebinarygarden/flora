@@ -2,18 +2,15 @@
 
 import { useState } from 'react';
 import { HSBColorPicker, type HSBColor } from '@flora/ui/input';
-import { useTheme } from '@flora/ui/theme';
-
 export default function ThemePicker() {
   const [seedColor, setSeedColor] = useState<HSBColor>({ h: 220, s: 80, b: 60 });
-  const { theme } = useTheme();
 
   return (
     <div 
       className="min-h-screen"
       style={{ 
-        backgroundColor: theme.background,
-        color: theme.onBackground 
+        backgroundColor: 'var(--background)',
+        color: 'var(--on-background)' 
       }}
     >
       <div className="container mx-auto px-4 py-8">

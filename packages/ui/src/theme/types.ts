@@ -4,8 +4,8 @@ export type Theme = {
   onPrimary: string;
   secondary: string;
   onSecondary: string;
-  tertiary?: string;         // optional third variant
-  onTertiary?: string;
+  tertiary: string;
+  onTertiary: string;
   
   // Surface hierarchy
   background: string;        // page background

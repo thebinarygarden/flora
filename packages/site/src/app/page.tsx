@@ -7,7 +7,7 @@ import { useTheme } from '@flora/ui/theme';
 
 export default function Home() {
   const { navigationComponent, navigationItems, onNavigationItemClick } = useNavigationConfig();
-  const { theme, toggleTheme, isDark } = useTheme();
+  const { toggleTheme, isDark } = useTheme();
 
   return (
     <main>
@@ -28,7 +28,7 @@ export default function Home() {
           </div>
           <p 
             className="text-lg mb-8"
-            style={{ color: theme.onSurface }}
+            style={{ color: 'var(--on-surface)' }}
           >
             Performance-first React components with forced tree-shaking
           </p>
@@ -36,12 +36,12 @@ export default function Home() {
           {/* Theme Toggle Section */}
           <div 
             className="mb-12 p-6 rounded-lg"
-            style={{ backgroundColor: theme.surface }}
+            style={{ backgroundColor: 'var(--surface)' }}
           >
             <h3 className="text-xl font-semibold mb-4">Theme Testing</h3>
             <p 
               className="mb-4"
-              style={{ color: theme.onSurface }}
+              style={{ color: 'var(--on-surface)' }}
             >
               Current theme: <strong>{isDark ? 'Dark' : 'Light'}</strong>
             </p>
@@ -91,7 +91,7 @@ export default function Home() {
           <div className="space-y-6">
             <section>
               <h3 className="text-xl font-semibold mb-4">Component Architecture</h3>
-              <p style={{ color: theme.onSurface }}>
+              <p style={{ color: 'var(--on-surface)' }}>
                 Flora is designed around tree-shakable, performance-first component architecture with selective imports.
               </p>
             </section>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { ThemeProvider } from "@flora/ui/theme";
+import { ThemeProvider, ThemeScript } from "@flora/ui/theme";
 import { lightTheme, darkTheme } from "@/app/themes";
 
 export const metadata: Metadata = {
@@ -17,7 +17,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning={true}>
+      <head>
+        <title>Flora</title>
+        <ThemeScript lightTheme={lightTheme} darkTheme={darkTheme} />
+      </head>
       <body>
         <ThemeProvider lightTheme={lightTheme} darkTheme={darkTheme}>
           {children}

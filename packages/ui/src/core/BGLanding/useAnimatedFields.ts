@@ -15,9 +15,14 @@ export const useAnimatedFields = ({viewportHeight}: AnimatedFieldsProps) => {
     const heroContentOpacity = useTransform(scrollY, [phase[0], phase[2]], [1, 0]);
     
     // Overlay expands gradually through first half of viewport
-    const overlayWidth = useTransform(scrollY, [phase[0], phase[2]], ['10', '100']);
+    const leftOverlayWidth = useTransform(scrollY, [phase[0], phase[2]], ['10', '100']);
     // Create animated gradient template
-    const overlapGradientWidth = useMotionTemplate`linear-gradient(to right, var(--background) 0%, var(--background) ${overlayWidth}%, transparent 100%)`;
+    const leftOverlay = useMotionTemplate`linear-gradient(to right, var(--background) 0%, var(--background) ${leftOverlayWidth}%, transparent 100%)`;
+
+    // Bottom blur effect height - goes from 0% to 20% during first 20% of scroll
+    const bottomOverlayHeight = useTransform(scrollY, [phase[0], phase[4]], ['0', '40']);
+    // Create animated blur gradient template
+    const bottomOverlay = useMotionTemplate`linear-gradient(to top, var(--background) 0%, transparent ${bottomOverlayHeight}%)`;
 
     // Nav animations happen at 80% of viewport height
     const navOpacity = useTransform(scrollY, [phase[3], phase[4]], [0, 1]);
@@ -25,6 +30,7 @@ export const useAnimatedFields = ({viewportHeight}: AnimatedFieldsProps) => {
     return {
         heroContentOpacity,
         navOpacity,
-        overlapGradientWidth
+        leftOverlay,
+        bottomOverlay
     };
 }

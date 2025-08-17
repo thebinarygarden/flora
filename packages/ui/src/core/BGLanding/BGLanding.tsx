@@ -21,7 +21,7 @@ export const BGLanding = ({
                           }: BGLandingProps) => {
     const {unit, viewportHeight} = useViewportHeight();
     const {videoRef, isLooping, handleToggle} = useVideoLooper();
-    const {heroContentOpacity, navOpacity, overlapGradientWidth} = useAnimatedFields({viewportHeight});
+    const {heroContentOpacity, navOpacity, leftOverlay, bottomOverlay} = useAnimatedFields({viewportHeight});
 
     // BGLanding icon styling utility - use CSS variables to avoid flash
     const bgLandingIconClass = `hover-themed transition-colors p-2 rounded-md`;
@@ -58,7 +58,7 @@ export const BGLanding = ({
                 <motion.div 
                     className="absolute inset-y-0 w-full left-0 z-10 flex flex-col justify-center px-8 md:px-16 lg:px-24 transition-opacity duration-500"
                     style={{
-                        background: overlapGradientWidth,
+                        background: leftOverlay,
                         opacity: isLooping ? 0 : 1
                     }}
                 >
@@ -101,6 +101,14 @@ export const BGLanding = ({
                             </a>
                         </motion.div>
                     </motion.div>
+
+                {/* Bottom Blur Overlay */}
+                <motion.div
+                    className="absolute h-full bottom-0 left-0 w-full z-5 pointer-events-none"
+                    style={{
+                        background: bottomOverlay,
+                    }}
+                />
 
                 {/* Video Toggle Button */}
                 <motion.div 

@@ -2,8 +2,8 @@ import * as React from 'react';
 import { DragType, UseColorPickerProps } from './types';
 
 export const useColorPicker = ({
-  value,
-  onChange,
+  internalHsb,
+  handleHsbChange,
   saturation2DRef,
   saturationRef,
   hueRef,
@@ -17,8 +17,8 @@ export const useColorPicker = ({
       const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
       const y = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
       
-      onChange({
-        ...value,
+      handleHsbChange({
+        ...internalHsb,
         s: Math.round(x * 100),
         b: Math.round((1 - y) * 100)
       });
@@ -26,28 +26,28 @@ export const useColorPicker = ({
       const rect = hueRef.current!.getBoundingClientRect();
       const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
       
-      onChange({
-        ...value,
+      handleHsbChange({
+        ...internalHsb,
         h: Math.round(x * 359)
       });
     } else if (type === 'saturation' && saturationRef.current) {
       const rect = saturationRef.current!.getBoundingClientRect();
       const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
       
-      onChange({
-        ...value,
+      handleHsbChange({
+        ...internalHsb,
         s: Math.round(x * 100)
       });
     } else if (type === 'brightness' && brightnessRef.current) {
       const rect = brightnessRef.current!.getBoundingClientRect();
       const y = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
       
-      onChange({
-        ...value,
+      handleHsbChange({
+        ...internalHsb,
         b: Math.round((1 - y) * 100)
       });
     }
-  }, [value, onChange, saturation2DRef, saturationRef, hueRef, brightnessRef]);
+  }, [internalHsb, handleHsbChange, saturation2DRef, saturationRef, hueRef, brightnessRef]);
 
   const handleMouseDown = React.useCallback((type: DragType) => (e: React.MouseEvent) => {
     e.preventDefault();

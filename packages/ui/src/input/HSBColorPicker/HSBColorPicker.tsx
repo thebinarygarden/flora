@@ -7,10 +7,12 @@ import {useColorPicker} from './useColorPicker';
 
 export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
                                                                   onChangeHex,
-                                                                  className = ''
+                                                                  className = '',
+                                                                  initialHex
                                                               }) => {
-    const initialColor = "#299bba";
-    onChangeHex(initialColor);
+    const defaultColor = "#299bba";
+    const initialColor = initialHex || defaultColor;
+    
     // Internal HSB state - maintains precision during interactions
     const [internalHsb, setInternalHsb] = React.useState(hexToHsb(initialColor));
 
@@ -28,7 +30,7 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
     }, [onChangeHex]);
 
     // Custom hook for color picker logic
-    const {handleMouseDown} = useColorPicker({
+    const {handleMouseDown, handleTouchStart} = useColorPicker({
         internalHsb,
         handleHsbChange,
         saturation2DRef,
@@ -51,9 +53,11 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
                 className="relative w-full h-8 cursor-pointer rounded overflow-hidden mb-4"
                 style={{
                     background: 'linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000)',
-                    border: `1px solid var(--on-background)`
+                    border: `1px solid var(--on-background)`,
+                    touchAction: 'none'
                 }}
                 onMouseDown={handleMouseDown('hue')}
+                onTouchStart={handleTouchStart('hue')}
             >
                 {/* Hue Indicator */}
                 <div
@@ -76,9 +80,11 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
                         style={{
                             background: brightnessGradient,
                             aspectRatio: '1 / 4',
-                            border: `1px solid var(--on-background)`
+                            border: `1px solid var(--on-background)`,
+                            touchAction: 'none'
                         }}
                         onMouseDown={handleMouseDown('brightness')}
+                        onTouchStart={handleTouchStart('brightness')}
                     >
                         {/* Brightness Indicator */}
                         <div
@@ -96,9 +102,11 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
                         className="relative flex-1 aspect-square cursor-crosshair rounded overflow-hidden"
                         style={{
                             background: `linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, ${hueColor})`,
-                            border: `1px solid var(--on-background)`
+                            border: `1px solid var(--on-background)`,
+                            touchAction: 'none'
                         }}
                         onMouseDown={handleMouseDown('saturation-2d')}
+                        onTouchStart={handleTouchStart('saturation-2d')}
                     >
                         {/* Saturation/Brightness Indicator */}
                         <div
@@ -130,9 +138,11 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
                         className="relative flex-1 h-8 cursor-pointer rounded overflow-hidden"
                         style={{
                             background: saturationGradient,
-                            border: `1px solid var(--on-background)`
+                            border: `1px solid var(--on-background)`,
+                            touchAction: 'none'
                         }}
                         onMouseDown={handleMouseDown('saturation')}
+                        onTouchStart={handleTouchStart('saturation')}
                     >
                         {/* Saturation Indicator */}
                         <div

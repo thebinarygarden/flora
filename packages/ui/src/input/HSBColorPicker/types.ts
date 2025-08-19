@@ -3,6 +3,7 @@ import * as React from 'react';
 export interface HSBColorPickerProps {
   onChangeHex: (hex: string) => void; // hex color callback
   className?: string;
+  initialHex?: string; // optional initial hex color
 }
 
 export type DragType = 'saturation' | 'hue' | 'brightness' | 'saturation-2d';

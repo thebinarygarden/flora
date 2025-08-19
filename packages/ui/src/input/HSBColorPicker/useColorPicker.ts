@@ -11,11 +11,11 @@ export const useColorPicker = ({
 }: UseColorPickerProps) => {
   const [isDragging, setIsDragging] = React.useState<DragType | null>(null);
 
-  const handleMouseMove = React.useCallback((type: DragType) => (e: React.MouseEvent | MouseEvent) => {
+  const updateColor = React.useCallback((type: DragType, clientX: number, clientY: number) => {
     if (type === 'saturation-2d' && saturation2DRef.current) {
       const rect = saturation2DRef.current!.getBoundingClientRect();
-      const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-      const y = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
+      const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+      const y = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
       
       handleHsbChange({
         ...internalHsb,
@@ -24,7 +24,7 @@ export const useColorPicker = ({
       });
     } else if (type === 'hue' && hueRef.current) {
       const rect = hueRef.current!.getBoundingClientRect();
-      const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
       
       handleHsbChange({
         ...internalHsb,
@@ -32,7 +32,7 @@ export const useColorPicker = ({
       });
     } else if (type === 'saturation' && saturationRef.current) {
       const rect = saturationRef.current!.getBoundingClientRect();
-      const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
       
       handleHsbChange({
         ...internalHsb,
@@ -40,7 +40,7 @@ export const useColorPicker = ({
       });
     } else if (type === 'brightness' && brightnessRef.current) {
       const rect = brightnessRef.current!.getBoundingClientRect();
-      const y = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
+      const y = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
       
       handleHsbChange({
         ...internalHsb,
@@ -52,13 +52,29 @@ export const useColorPicker = ({
   const handleMouseDown = React.useCallback((type: DragType) => (e: React.MouseEvent) => {
     e.preventDefault();
     setIsDragging(type);
-    handleMouseMove(type)(e);
-  }, [handleMouseMove]);
+    updateColor(type, e.clientX, e.clientY);
+  }, [updateColor]);
+
+  const handleTouchStart = React.useCallback((type: DragType) => (e: React.TouchEvent) => {
+    setIsDragging(type);
+    if (e.touches[0]) {
+      updateColor(type, e.touches[0].clientX, e.touches[0].clientY);
+    }
+  }, [updateColor]);
 
   React.useEffect(() => {
     const handleGlobalMouseMove = (e: MouseEvent) => {
       if (isDragging) {
-        handleMouseMove(isDragging)(e);
+        updateColor(isDragging, e.clientX, e.clientY);
+      }
+    };
+
+    const handleGlobalTouchMove = (e: TouchEvent) => {
+      if (isDragging) {
+        e.preventDefault(); // Prevent scrolling during drag
+        if (e.touches[0]) {
+          updateColor(isDragging, e.touches[0].clientX, e.touches[0].clientY);
+        }
       }
     };
 
@@ -66,19 +82,28 @@ export const useColorPicker = ({
       setIsDragging(null);
     };
 
+    const handleGlobalTouchEnd = () => {
+      setIsDragging(null);
+    };
+
     if (isDragging) {
       document.addEventListener('mousemove', handleGlobalMouseMove);
       document.addEventListener('mouseup', handleGlobalMouseUp);
+      document.addEventListener('touchmove', handleGlobalTouchMove, { passive: false });
+      document.addEventListener('touchend', handleGlobalTouchEnd);
     }
 
     return () => {
       document.removeEventListener('mousemove', handleGlobalMouseMove);
       document.removeEventListener('mouseup', handleGlobalMouseUp);
+      document.removeEventListener('touchmove', handleGlobalTouchMove);
+      document.removeEventListener('touchend', handleGlobalTouchEnd);
     };
-  }, [isDragging, handleMouseMove]);
+  }, [isDragging, updateColor]);
 
   return {
     handleMouseDown,
+    handleTouchStart,
     isDragging
   };
 };

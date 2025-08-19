@@ -25,6 +25,10 @@
       "import": "./dist/theme/index.js",
       "types": "./dist/theme/index.d.ts"
     },
+    "./display": {
+      "import": "./dist/display/index.js",
+      "types": "./dist/display/index.d.ts"
+    },
     "./styles.css": "./dist/styles.css"
   },
   "scripts": {

@@ -9,14 +9,16 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
                                                                   onChangeHex,
                                                                   className = ''
                                                               }) => {
+    const initialColor = "#299bba";
+    onChangeHex(initialColor);
+    // Internal HSB state - maintains precision during interactions
+    const [internalHsb, setInternalHsb] = React.useState(hexToHsb(initialColor));
+
     // Refs
     const saturation2DRef = React.useRef<HTMLDivElement | null>(null);
     const saturationRef = React.useRef<HTMLDivElement | null>(null);
     const hueRef = React.useRef<HTMLDivElement | null>(null);
     const brightnessRef = React.useRef<HTMLDivElement | null>(null);
-
-    // Internal HSB state - maintains precision during interactions
-    const [internalHsb, setInternalHsb] = React.useState(hexToHsb("#299bba"));
 
     // Handle HSB changes from useColorPicker
     const handleHsbChange = React.useCallback((newHsb: HSBColor) => {

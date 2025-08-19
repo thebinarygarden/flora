@@ -11,6 +11,7 @@ export default {
         'src/core/index.ts',
         'src/navigation/index.ts',
         'src/theme/index.ts',
+        'src/display/index.ts',
         'src/styles.css',
     ],
     output: {

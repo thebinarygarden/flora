@@ -50,7 +50,7 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
             {/* Hue Slider */}
             <div
                 ref={hueRef}
-                className="relative w-full h-8 cursor-pointer rounded overflow-hidden mb-4"
+                className="relative w-full h-6 cursor-pointer rounded overflow-hidden mb-4"
                 style={{
                     background: 'linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000)',
                     border: `1px solid var(--on-background)`,
@@ -70,13 +70,13 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
             </div>
 
             {/* Main Color Picker Area and Bottom Row Combined */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
                 {/* 2D Grid + Brightness Slider */}
-                <div className="flex gap-4">
+                <div className="flex gap-3">
                     {/* Brightness Slider (Vertical) */}
                     <div
                         ref={brightnessRef}
-                        className="relative w-8 cursor-pointer rounded overflow-hidden"
+                        className="relative w-4 cursor-pointer rounded overflow-hidden"
                         style={{
                             background: brightnessGradient,
                             aspectRatio: '1 / 4',
@@ -88,7 +88,7 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
                     >
                         {/* Brightness Indicator */}
                         <div
-                            className="absolute w-full h-3 shadow-sm transform -translate-y-1/2 pointer-events-none rounded bg-white"
+                            className="absolute w-full h-2 shadow-sm transform -translate-y-1/2 pointer-events-none rounded bg-white"
                             style={{
                                 top: `${100 - internalHsb.b}%`,
                                 border: `1px solid var(--on-background)`
@@ -122,9 +122,9 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
                 </div>
 
                 {/* Bottom Row: Logo + Saturation Slider */}
-                <div className="flex items-end gap-4">
+                <div className="flex items-end gap-3">
                     {/* BG Logo */}
-                    <div className="flex items-center justify-center w-8 pointer-events-none" style={{height: '2rem'}}>
+                    <div className="flex items-center justify-center w-4 pointer-events-none" style={{height: '1rem'}}>
                         <div
                             className="flex items-center justify-center w-full h-full rounded"
                         >
@@ -135,7 +135,7 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
                     {/* Saturation Slider */}
                     <div
                         ref={saturationRef}
-                        className="relative flex-1 h-8 cursor-pointer rounded overflow-hidden"
+                        className="relative flex-1 h-4 cursor-pointer rounded overflow-hidden"
                         style={{
                             background: saturationGradient,
                             border: `1px solid var(--on-background)`,
@@ -146,7 +146,7 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
                     >
                         {/* Saturation Indicator */}
                         <div
-                            className="absolute w-3 h-full shadow-sm transform -translate-x-1/2 pointer-events-none rounded bg-white"
+                            className="absolute w-2 h-full shadow-sm transform -translate-x-1/2 pointer-events-none rounded bg-white"
                             style={{
                                 left: `${internalHsb.s}%`,
                                 border: '1px solid var(--on-background)'

@@ -1,5 +1,5 @@
 # Flora
-
+ 
 > **The plants of a particular region** - These are the components that make up the Binary Garden
 
 Flora is designed around **tree-shakable, performance-first architecture** that forces optimal bundle sizes through selective imports.

@@ -2,6 +2,7 @@
 import * as React from "react";
 import { motion } from "framer-motion";
 import { IconX } from '../icons';
+import { useEffect } from 'react';
 
 export interface FullScreenOverlayProps {
     isOpen: boolean;
@@ -15,11 +16,25 @@ export const FullScreenOverlay = ({
     children
 }: FullScreenOverlayProps) => {
 
+    // Prevent body scroll when overlay is open
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+
+        // Cleanup on unmount
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [isOpen]);
+
     if (!isOpen) return null;
 
     return (
         <motion.div
-            className="fixed inset-0 z-50"
+            className="fixed inset-0 z-50 flex flex-col"
             style={{
                 backgroundColor: 'var(--background)',
                 color: 'var(--on-background)'
@@ -29,8 +44,8 @@ export const FullScreenOverlay = ({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
         >
-            {/* Close Button */}
-            <div className="flex justify-end pt-5 px-4 lg:px-8">
+            {/* Header with Close Button */}
+            <div className="flex justify-end pt-5 px-4 lg:px-8 flex-shrink-0">
                 <motion.button
                     onClick={() => setIsOpen(false)}
                     className="transition-colors rounded-md cursor-pointer icon-hover pr-8"
@@ -42,8 +57,8 @@ export const FullScreenOverlay = ({
                 </motion.button>
             </div>
 
-            {/* Content */}
-            <div className="flex flex-col items-center justify-center h-full -mt-20">
+            {/* Scrollable Content Area */}
+            <div className="flex-1 overflow-y-auto px-4 lg:px-8 pb-8">
                 {children}
             </div>
         </motion.div>

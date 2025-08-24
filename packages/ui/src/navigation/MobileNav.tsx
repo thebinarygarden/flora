@@ -48,7 +48,7 @@ export const MobileNav: React.FC<NavigationComponentProps> = ({
                         opacity: finalOpacity,
                     }}
                 />
-                <div className="relative w-full sm:px-4 lg:px-8">
+                <div className="relative w-full px-4 lg:px-8">
                     <div className="flex justify-between h-16">
                         {/* Brand/Logo */}
                         <motion.button

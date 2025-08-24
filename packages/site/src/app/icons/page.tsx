@@ -15,6 +15,9 @@ import {
   IconView,
   IconLinkOut,
   IconSearch,
+  IconCopy,
+  IconMenu,
+  IconX,
 } from '@flora/ui/icons';
 import { Button, HSBColorPicker } from '@flora/ui/input';
 import { CopyableText } from '@flora/ui/display';
@@ -35,6 +38,9 @@ const icons = [
   { name: 'View', component: IconView, description: 'View/eye open indicator' },
   { name: 'LinkOut', component: IconLinkOut, description: 'External link indicator' },
   { name: 'Search', component: IconSearch, description: 'Search functionality' },
+  { name: 'Copy', component: IconCopy, description: 'Copy to clipboard' },
+  { name: 'Menu', component: IconMenu, description: 'Navigation menu' },
+  { name: 'X', component: IconX, description: 'Close/dismiss' },
 ];
 
 const strokeWidthOptions = ['thinnest', 'thinner', 'thin', 'base', 'bold', 'bolder', 'boldest', 'rotund'] as const;

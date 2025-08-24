@@ -18,6 +18,8 @@ import {
   IconCopy,
   IconMenu,
   IconX,
+  IconEyeDropper,
+  IconPaintBrush,
 } from '@flora/ui/icons';
 import { Button, HSBColorPicker } from '@flora/ui/input';
 import { CopyableText } from '@flora/ui/display';
@@ -25,22 +27,24 @@ import { useTheme } from '@flora/ui/theme';
 import { downloadSVG } from '@/utils/downloadSVG';
 
 const icons = [
-  { name: 'Info', component: IconInfo, description: 'Information indicator'},
-  { name: 'Github', component: IconGithub, description: 'GitHub logo' },
-  { name: 'Youtube', component: IconYoutube, description: 'YouTube logo' },
+  { name: 'Arrow', component: IconArrow, description: 'Directional arrow' },
   { name: 'BGDocs', component: IconBGDocs, description: 'Binary Garden Documentation icon' },
   { name: 'BGLogo', component: IconBGLogo, description: 'Binary Garden logo' },
-  { name: 'Night', component: IconNight, description: 'Dark mode indicator' },
-  { name: 'Day', component: IconDay, description: 'Light mode indicator' },
   { name: 'Contact', component: IconContact, description: 'Contact/communication' },
-  { name: 'Arrow', component: IconArrow, description: 'Directional arrow' },
-  { name: 'Hide', component: IconHide, description: 'Hide/eye closed indicator' },
-  { name: 'View', component: IconView, description: 'View/eye open indicator' },
-  { name: 'LinkOut', component: IconLinkOut, description: 'External link indicator' },
-  { name: 'Search', component: IconSearch, description: 'Search functionality' },
   { name: 'Copy', component: IconCopy, description: 'Copy to clipboard' },
+  { name: 'Day', component: IconDay, description: 'Light mode indicator' },
+  { name: 'EyeDropper', component: IconEyeDropper, description: 'Color picker tool' },
+  { name: 'Github', component: IconGithub, description: 'GitHub logo' },
+  { name: 'Hide', component: IconHide, description: 'Hide/eye closed indicator' },
+  { name: 'Info', component: IconInfo, description: 'Information indicator'},
+  { name: 'LinkOut', component: IconLinkOut, description: 'External link indicator' },
   { name: 'Menu', component: IconMenu, description: 'Navigation menu' },
+  { name: 'Night', component: IconNight, description: 'Dark mode indicator' },
+  { name: 'PaintBrush', component: IconPaintBrush, description: 'Paint/drawing tool' },
+  { name: 'Search', component: IconSearch, description: 'Search functionality' },
+  { name: 'View', component: IconView, description: 'View/eye open indicator' },
   { name: 'X', component: IconX, description: 'Close/dismiss' },
+  { name: 'Youtube', component: IconYoutube, description: 'YouTube logo' },
 ];
 
 const strokeWidthOptions = ['thinnest', 'thinner', 'thin', 'base', 'bold', 'bolder', 'boldest', 'rotund'] as const;

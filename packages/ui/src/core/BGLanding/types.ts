@@ -11,7 +11,6 @@ export type BGLandingProps = {
     bgdocs: string,
     navigationComponent?: ComponentType<NavigationComponentProps>;
     navigationItems?: NavItem[];
-    onNavigationItemClick?: (item: NavItem) => void;
     onBrandClick?: () => void;
 }
 

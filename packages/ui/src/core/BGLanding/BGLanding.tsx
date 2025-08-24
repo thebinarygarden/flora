@@ -19,7 +19,6 @@ export const BGLanding = ({
                               github,
                               navigationComponent: NavigationComponent,
                               navigationItems = [],
-                              onNavigationItemClick,
                               onBrandClick,
                           }: BGLandingProps) => {
     const {unit, viewportHeight} = useViewportHeight();
@@ -39,7 +38,6 @@ export const BGLanding = ({
                 <NavigationComponent
                     brand={title}
                     items={navigationItems}
-                    onItemClick={onNavigationItemClick!}
                     onBrandClick={onBrandClick!}
                     navOpacity={navOpacity}
                 />

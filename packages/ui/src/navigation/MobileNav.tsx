@@ -9,7 +9,6 @@ import {FullScreenOverlay} from '../display';
 export const MobileNav: React.FC<NavigationComponentProps> = ({
                                                                   brand,
                                                                   items,
-                                                                  onItemClick,
                                                                   onBrandClick,
                                                                   navOpacity,
                                                               }) => {
@@ -26,9 +25,7 @@ export const MobileNav: React.FC<NavigationComponentProps> = ({
     }, [isClient, navOpacity]);
 
     const handleItemClick = (item: NavItem) => {
-        if (onItemClick) {
-            onItemClick(item);
-        }
+        item.onClick();
         setIsOpen(false);
     };
 
@@ -80,9 +77,38 @@ export const MobileNav: React.FC<NavigationComponentProps> = ({
                 <FullScreenOverlay
                     isOpen={isOpen}
                     setIsOpen={setIsOpen}
-                    items={items}
-                    onItemClick={handleItemClick}
-                />
+                >
+                    <div className="flex flex-col items-center justify-center h-full space-y-8 -mt-20">
+                        {items.map((item, index) => (
+                            <motion.button
+                                key={index}
+                                onClick={() => handleItemClick(item)}
+                                className="text-4xl md:text-5xl tracking-wide bg-transparent border-none outline-none focus:outline-none transition-colors rounded-md px-4 py-2"
+                                style={{
+                                    color: 'var(--on-background)',
+                                    fontFamily: 'var(--font-family)',
+                                }}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{
+                                    delay: (index * 0.1),
+                                    duration: 0.2,
+                                    ease: "easeOut"
+                                }}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.color = 'var(--primary)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.color = 'var(--on-background)';
+                                }}
+                            >
+                                {item.label}
+                            </motion.button>
+                        ))}
+                    </div>
+                </FullScreenOverlay>
             </nav>
 
             {/* Nav Spacer */}

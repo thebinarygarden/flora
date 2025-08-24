@@ -3,8 +3,7 @@ import {MotionValue} from "framer-motion";
 
 export type NavItem = {
     label: string;
-    href: string;
-    active?: boolean;
+    onClick: () => void;
 };
 
 // Common navigation interface that all nav components must implement
@@ -12,6 +11,5 @@ export interface NavigationComponentProps {
     brand: ReactNode;
     items: NavItem[];
     onBrandClick: () => void;
-    onItemClick: (item: NavItem) => void;
     navOpacity?: MotionValue<number>;
 }

@@ -18,17 +18,13 @@ export function AppNavigation({ children }: AppNavigationProps) {
   }, [pathname]);
 
     const navigationItems = [
-        {label: 'Components', href: '/components', active: false},
-        {label: 'Theme', href: '/theme', active: false},
-        {label: 'Postcards', href: '/postcards', active: false},
-        {label: 'Icons', href: '/icons', active: false},
+        {label: 'Components', onClick: () => { if (pathname === '/components') return; router.push('/components'); }},
+        {label: 'Theme', onClick: () => { if (pathname === '/theme') return; router.push('/theme'); }},
+        {label: 'Postcards', onClick: () => { if (pathname === '/postcards') return; router.push('/postcards'); }},
+        {label: 'Icons', onClick: () => { if (pathname === '/icons') return; router.push('/icons'); }},
     ];
 
     const router = useRouter();
-    const onNavigationItemClick = (item: NavItem) => {
-        if (pathname === item.href) return;
-        router.push(item.href);
-    };
 
     const onBrandClick = () => {
         if (pathname === '/') return;
@@ -47,7 +43,6 @@ export function AppNavigation({ children }: AppNavigationProps) {
         bgdocs="https://google.com"
         navigationComponent={MobileNav}
         navigationItems={navigationItems}
-        onNavigationItemClick={onNavigationItemClick}
         onBrandClick={onBrandClick}
       >
         {children}
@@ -61,7 +56,6 @@ export function AppNavigation({ children }: AppNavigationProps) {
       <MobileNav
         brand="Flora"
         items={navigationItems}
-        onItemClick={onNavigationItemClick}
         onBrandClick={onBrandClick}
       />
       <main className="h-screen">

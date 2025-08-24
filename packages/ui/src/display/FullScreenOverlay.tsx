@@ -2,25 +2,18 @@
 import * as React from "react";
 import { motion } from "framer-motion";
 import { IconX } from '../icons';
-import {NavItem} from "../navigation";
 
 export interface FullScreenOverlayProps {
     isOpen: boolean;
     setIsOpen: (open: boolean) => void;
-    items: NavItem[];
-    onItemClick: (item: NavItem) => void;
+    children: React.ReactNode;
 }
 
 export const FullScreenOverlay = ({
     isOpen,
     setIsOpen,
-    items,
-    onItemClick
+    children
 }: FullScreenOverlayProps) => {
-    const handleItemClick = (item: NavItem) => {
-        onItemClick(item);
-        setIsOpen(false);
-    };
 
     if (!isOpen) return null;
 
@@ -49,41 +42,9 @@ export const FullScreenOverlay = ({
                 </motion.button>
             </div>
 
-            {/* Navigation Items */}
-            <div className="flex flex-col items-center justify-center h-full space-y-8 -mt-20">
-                {items.map((item, index) => (
-                    <motion.button
-                        key={index}
-                        onClick={() => handleItemClick(item)}
-                        className="text-4xl md:text-5xl tracking-wide bg-transparent border-none outline-none focus:outline-none transition-colors rounded-md px-4 py-2"
-                        style={{
-                            color: item.active ? 'var(--primary)' : 'var(--on-background)',
-                            fontFamily: 'var(--font-family)',
-                            opacity: item.active ? 0.7 : 1,
-                        }}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{
-                            delay: (index * 0.1),
-                            duration: 0.2,
-                            ease: "easeOut"
-                        }}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onMouseEnter={(e) => {
-                            if (!item.active) {
-                                e.currentTarget.style.color = 'var(--primary)';
-                            }
-                        }}
-                        onMouseLeave={(e) => {
-                            if (!item.active) {
-                                e.currentTarget.style.color = 'var(--on-background)';
-                            }
-                        }}
-                    >
-                        {item.label}
-                    </motion.button>
-                ))}
+            {/* Content */}
+            <div className="flex flex-col items-center justify-center h-full -mt-20">
+                {children}
             </div>
         </motion.div>
     );

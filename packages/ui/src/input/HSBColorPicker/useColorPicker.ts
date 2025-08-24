@@ -4,41 +4,49 @@ import { DragType, UseColorPickerProps } from './types';
 export const useColorPicker = ({
   internalHsb,
   handleHsbChange,
-  saturation2DRef,
+  sbGridRef,
   hueRef
 }: UseColorPickerProps) => {
   const [isDragging, setIsDragging] = React.useState<DragType | null>(null);
 
   const updateColor = React.useCallback((type: DragType, clientX: number, clientY: number) => {
-    if (type === 'saturation-2d' && saturation2DRef.current) {
-      const rect = saturation2DRef.current!.getBoundingClientRect();
+    const element = type === 'sb-grid' ? sbGridRef.current : hueRef.current;
+    if (!Boolean(element)) return;
+    
+    const rect = element!.getBoundingClientRect();
+    
+    if (type === 'sb-grid') {
       const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
       const y = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
       
-      handleHsbChange({
-        ...internalHsb,
+      const newHsb = {
+        h: internalHsb.h,
         s: Math.round(x * 100),
         b: Math.round((1 - y) * 100)
-      });
-    } else if (type === 'hue' && hueRef.current) {
-      const rect = hueRef.current!.getBoundingClientRect();
+      };
+      handleHsbChange(newHsb);
+    } else if (type === 'hue') {
       const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
       
-      handleHsbChange({
-        ...internalHsb,
-        h: Math.round(x * 359)
-      });
+      const newHsb = {
+        h: Math.round(x * 359),
+        s: internalHsb.s,
+        b: internalHsb.b
+      };
+      handleHsbChange(newHsb);
     }
-  }, [internalHsb, handleHsbChange, saturation2DRef, hueRef]);
+  }, [internalHsb.h, internalHsb.s, internalHsb.b, handleHsbChange, sbGridRef, hueRef]);
 
   const handleMouseDown = React.useCallback((type: DragType) => (e: React.MouseEvent) => {
     e.preventDefault();
     setIsDragging(type);
+    
     updateColor(type, e.clientX, e.clientY);
   }, [updateColor]);
 
   const handleTouchStart = React.useCallback((type: DragType) => (e: React.TouchEvent) => {
     setIsDragging(type);
+    
     if (e.touches[0]) {
       updateColor(type, e.touches[0].clientX, e.touches[0].clientY);
     }
@@ -85,7 +93,6 @@ export const useColorPicker = ({
 
   return {
     handleMouseDown,
-    handleTouchStart,
-    isDragging
+    handleTouchStart
   };
 };

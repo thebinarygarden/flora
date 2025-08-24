@@ -17,7 +17,7 @@ export function AppNavigation({ children }: AppNavigationProps) {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-    const navigationItems = [
+    const navigationItems: NavItem[] = [
         {label: 'Components', onClick: () => { if (pathname === '/components') return; router.push('/components'); }},
         {label: 'Theme', onClick: () => { if (pathname === '/theme') return; router.push('/theme'); }},
         {label: 'Postcards', onClick: () => { if (pathname === '/postcards') return; router.push('/postcards'); }},

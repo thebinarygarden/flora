@@ -1,7 +1,4 @@
-"use client";
-
 export default function ThemeCreator() {
-  
   return (
     <div 
       className="min-h-screen p-8"

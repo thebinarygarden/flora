@@ -48,7 +48,10 @@ html, body {
 /* Theme-aware hover utility
    Currently only used for BGLanding icons
 */
-.hover-themed:hover {
+.icon-hover{
+  color: var(--on-background);
+}
+.icon-hover:hover {
   color: var(--hover) !important;
 }
 

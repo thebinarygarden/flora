@@ -66,7 +66,7 @@ export const MobileNav: React.FC<NavigationComponentProps> = ({
                         <div className="flex items-center pr-6">
                             <button
                                 onClick={() => setIsOpen(!isOpen)}
-                                className="p-2 transition-colors rounded-md cursor-pointer"
+                                className="p-2 transition-colors rounded-md cursor-pointer icon-hover"
                                 style={{
                                     color: 'var(--on-surface)',
                                 }}

@@ -40,10 +40,7 @@ export const FullScreenOverlay = ({
             <div className="flex justify-end pt-5 pr-8">
                 <motion.button
                     onClick={() => setIsOpen(false)}
-                    className="sm:px-4 lg:px-8 transition-colors rounded-md cursor-pointer"
-                    style={{
-                        color: 'var(--on-background)',
-                    }}
+                    className="sm:px-4 lg:px-8 transition-colors rounded-md cursor-pointer icon-hover"
                     initial={{ opacity: 0}}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0, duration: 0.2 }}

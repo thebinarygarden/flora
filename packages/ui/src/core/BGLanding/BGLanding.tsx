@@ -30,11 +30,7 @@ export const BGLanding = ({
     useBGLandingScroll({ viewportHeight });
 
     // BGLanding icon styling utility - use CSS variables to avoid flash
-    const bgLandingIconClass = `hover-themed transition-colors p-2 rounded-md`;
-    const bgLandingIconStyle = {
-        '--hover-color': 'var(--background)',
-        color: 'var(--on-background)'
-    } as React.CSSProperties & { '--hover-color': string };
+    const bgLandingIconClass = `icon-hover transition-colors p-2 rounded-md`;
 
     return (
         <>
@@ -97,13 +93,13 @@ export const BGLanding = ({
                             className="flex gap-4"
                             style={{ opacity: heroContentOpacity }}
                         >
-                            <a href={youtube} className={bgLandingIconClass} style={bgLandingIconStyle}>
+                            <a href={youtube} className={bgLandingIconClass}>
                                 <IconYoutube unit={unit} size={8}/>
                             </a>
-                            <a href={github} className={bgLandingIconClass} style={bgLandingIconStyle}>
+                            <a href={github} className={bgLandingIconClass}>
                                 <IconGithub unit={unit} size={8}/>
                             </a>
-                            <a href={bgdocs} className={bgLandingIconClass} style={bgLandingIconStyle}>
+                            <a href={bgdocs} className={bgLandingIconClass}>
                                 <IconBGDocs unit={unit} size={8}/>
                             </a>
                         </motion.div>
@@ -122,7 +118,7 @@ export const BGLanding = ({
                     className="absolute bottom-4 right-4 z-10"
                     style={{ opacity: heroContentOpacity }}
                 >
-                    <button onClick={handleToggle} className={`${bgLandingIconClass} cursor-pointer`} style={bgLandingIconStyle}>
+                    <button onClick={handleToggle} className={`${bgLandingIconClass} cursor-pointer`}>
                         {isLooping ? <IconHide unit={unit}/> : <IconView unit={unit}/>}
                     </button>
                 </motion.div>

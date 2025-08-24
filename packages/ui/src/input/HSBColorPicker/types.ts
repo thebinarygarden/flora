@@ -6,7 +6,7 @@ export interface HSBColorPickerProps {
   initialHex?: string; // optional initial hex color
 }
 
-export type DragType = 'saturation' | 'hue' | 'brightness' | 'saturation-2d';
+export type DragType = 'hue' | 'saturation-2d';
 
 export interface HSBColor {
   h: number; // 0-360
@@ -18,7 +18,5 @@ export interface UseColorPickerProps {
   internalHsb: HSBColor;
   handleHsbChange: (color: HSBColor) => void;
   saturation2DRef: React.RefObject<HTMLDivElement | null>;
-  saturationRef: React.RefObject<HTMLDivElement | null>;
   hueRef: React.RefObject<HTMLDivElement | null>;
-  brightnessRef: React.RefObject<HTMLDivElement | null>;
 }

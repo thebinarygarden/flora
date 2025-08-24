@@ -5,9 +5,7 @@ export const useColorPicker = ({
   internalHsb,
   handleHsbChange,
   saturation2DRef,
-  saturationRef,
-  hueRef,
-  brightnessRef
+  hueRef
 }: UseColorPickerProps) => {
   const [isDragging, setIsDragging] = React.useState<DragType | null>(null);
 
@@ -30,24 +28,8 @@ export const useColorPicker = ({
         ...internalHsb,
         h: Math.round(x * 359)
       });
-    } else if (type === 'saturation' && saturationRef.current) {
-      const rect = saturationRef.current!.getBoundingClientRect();
-      const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-      
-      handleHsbChange({
-        ...internalHsb,
-        s: Math.round(x * 100)
-      });
-    } else if (type === 'brightness' && brightnessRef.current) {
-      const rect = brightnessRef.current!.getBoundingClientRect();
-      const y = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
-      
-      handleHsbChange({
-        ...internalHsb,
-        b: Math.round((1 - y) * 100)
-      });
     }
-  }, [internalHsb, handleHsbChange, saturation2DRef, saturationRef, hueRef, brightnessRef]);
+  }, [internalHsb, handleHsbChange, saturation2DRef, hueRef]);
 
   const handleMouseDown = React.useCallback((type: DragType) => (e: React.MouseEvent) => {
     e.preventDefault();

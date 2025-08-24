@@ -2,16 +2,17 @@
 import * as React from "react";
 import {motion} from "framer-motion";
 import {NavigationComponentProps, NavItem} from './types';
-import {IconBGLogo} from '../icons';
+import {IconBGLogo, IconMenu} from '../icons';
 import {useClientCheck} from "../util/useClientCheck";
+import {FullScreenOverlay} from '../display';
 
 export const MobileNav: React.FC<NavigationComponentProps> = ({
-                                                        brand,
-                                                        items,
-                                                        onItemClick,
-                                                        onBrandClick,
-                                                        navOpacity,
-                                                    }) => {
+                                                                  brand,
+                                                                  items,
+                                                                  onItemClick,
+                                                                  onBrandClick,
+                                                                  navOpacity,
+                                                              }) => {
     const {isClient} = useClientCheck();
     const [isOpen, setIsOpen] = React.useState(false);
 
@@ -39,134 +40,51 @@ export const MobileNav: React.FC<NavigationComponentProps> = ({
                     color: 'var(--on-surface)',
                 }}
             >
-            {/* Animated Background */}
-            <motion.div
-                className="absolute inset-0 transition-opacity duration-300 ease-in-out"
-                style={{
-                    backgroundColor: 'var(--background)',
-                    opacity: finalOpacity,
-                }}
-            />
-            <div className="relative w-full px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between h-16">
-                    {/* Brand/Logo */}
-                    <motion.button
-                        onClick={onBrandClick}
-                        className="flex items-center transition-opacity duration-300 ease-in-out bg-transparent border-none outline-none focus:outline-none cursor-pointer"
-                        style={{opacity: finalOpacity}}
-                    >
-                        <div className="flex-shrink-0 flex items-center gap-2">
-                            <IconBGLogo size={24}/>
-                            <span className="text-xl font-semibold">{brand}</span>
-                        </div>
-                    </motion.button>
-
-                    {/* Mobile menu button */}
-                    <div className="flex items-center">
-                        <button
-                            onClick={() => setIsOpen(!isOpen)}
-                            className="inline-flex items-center justify-center p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset transition-colors"
-                            style={{
-                                color: 'var(--on-surface)',
-                                '--hover-bg': 'var(--hover)' + '10', // hover with opacity
-                                '--focus-ring': 'var(--focus)',
-                            } as React.CSSProperties & { '--hover-bg': string, '--focus-ring': string }}
-                            aria-label="Open navigation menu"
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.backgroundColor = 'var(--hover)' + '10';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.backgroundColor = 'transparent';
-                            }}
-                        >
-                            {!isOpen &&
-                                <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                          d="M4 6h16M4 12h16M4 18h16"/>
-                                </svg>}
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            {/* Full Page Mobile Navigation Menu */}
-            {isOpen && (
+                {/* Animated Background */}
                 <motion.div
-                    className="fixed inset-0 z-50"
+                    className="absolute inset-0 transition-opacity duration-300 ease-in-out"
                     style={{
                         backgroundColor: 'var(--background)',
-                        color: 'var(--on-background)'
+                        opacity: finalOpacity,
                     }}
-                    initial={{opacity: 0}}
-                    animate={{opacity: 1}}
-                    exit={{opacity: 0}}
-                    transition={{duration: 0.3}}
-                >
-                    {/* Close Button */}
-                    <div className="flex justify-end p-6">
+                />
+                <div className="relative w-full sm:px-4 lg:px-8">
+                    <div className="flex justify-between h-16">
+                        {/* Brand/Logo */}
                         <motion.button
-                            onClick={() => setIsOpen(false)}
-                            className="p-2 transition-colors rounded-md"
-                            style={{
-                                color: 'var(--on-background)',
-                            }}
-                            initial={{opacity: 0, scale: 0.8}}
-                            animate={{opacity: 1, scale: 1}}
-                            transition={{delay: 0.1, duration: 0.3}}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.backgroundColor = 'var(--hover)' + '10';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.backgroundColor = 'transparent';
-                            }}
+                            onClick={onBrandClick}
+                            className="flex items-center transition-opacity duration-300 ease-in-out bg-transparent border-none outline-none focus:outline-none cursor-pointer"
+                            style={{opacity: finalOpacity}}
                         >
-                            <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                      d="M6 18L18 6M6 6l12 12"/>
-                            </svg>
+                            <div className="flex-shrink-0 flex items-center gap-2">
+                                <IconBGLogo size={32}/>
+                                <span className="text-2xl font-bold">{brand}</span>
+                            </div>
                         </motion.button>
-                    </div>
 
-                    {/* Navigation Items */}
-                    <div className="flex flex-col items-center justify-center h-full space-y-8 -mt-20">
-                        {items.map((item, index) => (
-                            <motion.button
-                                key={index}
-                                onClick={() => handleItemClick(item)}
-                                className="text-4xl md:text-5xl tracking-wide bg-transparent border-none outline-none focus:outline-none transition-colors rounded-md px-4 py-2"
+                        {/* Mobile menu button */}
+                        <div className="flex items-center pr-6">
+                            <button
+                                onClick={() => setIsOpen(!isOpen)}
+                                className="p-2 transition-colors rounded-md cursor-pointer"
                                 style={{
-                                    color: item.active ? 'var(--primary)' : 'var(--on-background)',
-                                    fontFamily: 'var(--font-family)',
-                                    opacity: item.active ? 0.7 : 1,
-                                }}
-                                initial={{opacity: 0, y: 20}}
-                                animate={{opacity: 1, y: 0}}
-                                transition={{
-                                    delay: (index * 0.1),
-                                    duration: 0.2,
-                                    ease: "easeOut"
-                                }}
-                                whileHover={{scale: 1.05}}
-                                whileTap={{scale: 0.95}}
-                                onMouseEnter={(e) => {
-                                    if (!item.active) {
-                                        e.currentTarget.style.color = 'var(--primary)';
-                                    }
-                                }}
-                                onMouseLeave={(e) => {
-                                    if (!item.active) {
-                                        e.currentTarget.style.color = 'var(--on-background)';
-                                    }
+                                    color: 'var(--on-surface)',
                                 }}
                             >
-                                {item.label}
-                            </motion.button>
-                        ))}
+                                {!isOpen && <IconMenu size={32}/>}
+                            </button>
+                        </div>
                     </div>
-                </motion.div>
-            )}
+                </div>
+
+                <FullScreenOverlay
+                    isOpen={isOpen}
+                    setIsOpen={setIsOpen}
+                    items={items}
+                    onItemClick={handleItemClick}
+                />
             </nav>
-            
+
             {/* Nav Spacer */}
             {!Boolean(navOpacity) && (<div className="w-full h-16"/>)}
         </>

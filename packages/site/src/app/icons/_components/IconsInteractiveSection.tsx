@@ -20,7 +20,7 @@ import {
   IconX,
   IconEyeDropper,
   IconPaintBrush,
-} from '@flora/ui/dist/icons';
+} from '@flora/ui/icons';
 import { IconSizeSelector } from './IconSizeSelector';
 import { IconStrokeWidthSelector } from './IconStrokeWidthSelector';
 import { IconColorPicker } from './IconColorPicker';

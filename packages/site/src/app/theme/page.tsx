@@ -1,4 +1,4 @@
-import { ThemeInteractiveSection } from '@/components/pages/theme/ThemeInteractiveSection';
+import { ThemeInteractiveSection } from '@/app/theme/_components/ThemeInteractiveSection';
 
 export default function ThemePage() {
   return (

@@ -1,5 +1,5 @@
-import { ThemeToggleButton } from '@/components/ThemeToggleButton';
-import { IconsInteractiveSection } from '@/components/pages/icons/IconsInteractiveSection';
+import { ThemeToggleButton } from '@flora/ui/theme';
+import { IconsInteractiveSection } from '@/app/icons/_components/IconsInteractiveSection';
 
 export default function IconsPage() {
   return (

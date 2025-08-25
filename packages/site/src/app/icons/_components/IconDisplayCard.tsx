@@ -1,9 +1,9 @@
 'use client';
 
 import { ComponentType } from 'react';
-import { Button } from '@flora/ui/dist/input';
-import { CopyableText } from '@flora/ui/dist/display';
-import { downloadSVG } from '@/utils/downloadSVG';
+import { Button } from '@flora/ui/input';
+import { CopyableText } from '@flora/ui/display';
+import { downloadSVG } from '@/app/icons/_hooks/downloadSVG';
 
 interface IconDisplayCardProps {
   name: string;

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider, ThemeScript } from "@flora/ui/theme";
 import { lightTheme, darkTheme } from "@/app/themes";
-import { AppNavigation } from "@/components/AppNavigation";
+import { AppNavigation } from "@/app/_components/AppNavigation";
 
 export const metadata: Metadata = {
   title: "Flora",

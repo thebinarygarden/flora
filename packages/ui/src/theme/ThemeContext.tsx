@@ -29,8 +29,6 @@ const applyCSSVariables = (theme: Theme) => {
   root.style.setProperty('--on-success', theme.onSuccess);
   root.style.setProperty('--warning', theme.warning);
   root.style.setProperty('--on-warning', theme.onWarning);
-  root.style.setProperty('--font-family', theme.fontFamily);
-  root.style.setProperty('--font-family-mono', theme.fontFamilyMono);
 };
 
 interface ThemeContextType {

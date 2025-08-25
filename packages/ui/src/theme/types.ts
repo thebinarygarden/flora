@@ -27,8 +27,4 @@ export type Theme = {
   onSuccess: string;
   warning: string;
   onWarning: string;
-  
-  // Typography
-  fontFamily: string;
-  fontFamilyMono: string;
 };

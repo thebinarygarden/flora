@@ -67,11 +67,7 @@ const lightTheme: Theme = {
   success: '#16a34a',
   onSuccess: '#ffffff',
   warning: '#ca8a04',
-  onWarning: '#ffffff',
-  
-  // Typography
-  fontFamily: 'Inter, system-ui, sans-serif',
-  fontFamilyMono: 'JetBrains Mono, Consolas, monospace'
+  onWarning: '#ffffff'
 };
 
 const darkTheme: Theme = {
@@ -96,7 +92,6 @@ The `Theme` type includes all the colors and typography needed for consistent th
 - **Surface Hierarchy**: `background`, `surface` for different elevation levels
 - **Interactive States**: `hover`, `focus`, `disabled` for user interactions
 - **Semantic Colors**: `error`, `success`, `warning` for status communication
-- **Typography**: `fontFamily`, `fontFamilyMono` for text styling
 
 ### Using Themes in Components
 

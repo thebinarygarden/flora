@@ -86,7 +86,6 @@ export const MobileNav: React.FC<NavigationComponentProps> = ({
                                 className="text-4xl md:text-5xl tracking-wide bg-transparent border-none outline-none focus:outline-none transition-colors rounded-md px-4 py-2"
                                 style={{
                                     color: 'var(--on-background)',
-                                    fontFamily: 'var(--font-family)',
                                 }}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}

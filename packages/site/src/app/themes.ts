@@ -28,11 +28,7 @@ export const lightTheme: Theme = {
   success: '#16a34a',        // green-600
   onSuccess: '#ffffff',      // white
   warning: '#ca8a04',        // yellow-600
-  onWarning: '#ffffff',      // white
-  
-  // Typography
-  fontFamily: 'Inter, system-ui, sans-serif',
-  fontFamilyMono: 'JetBrains Mono, Consolas, monospace'
+  onWarning: '#ffffff'       // white
 };
 
 export const darkTheme: Theme = {
@@ -63,9 +59,5 @@ export const darkTheme: Theme = {
   success: '#22c55e',        // green-500 (brighter for dark)
   onSuccess: '#ffffff',      // white
   warning: '#eab308',        // yellow-500 (brighter for dark)
-  onWarning: '#111827',      // gray-900
-  
-  // Typography
-  fontFamily: 'Inter, system-ui, sans-serif',
-  fontFamilyMono: 'JetBrains Mono, Consolas, monospace'
+  onWarning: '#111827'       // gray-900
 };

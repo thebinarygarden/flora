@@ -54,9 +54,7 @@ export const ThemeScript: React.FC<ThemeScriptProps> = ({ lightTheme, darkTheme 
           success: '--success',
           onSuccess: '--on-success',
           warning: '--warning',
-          onWarning: '--on-warning',
-          fontFamily: '--font-family',
-          fontFamilyMono: '--font-family-mono'
+          onWarning: '--on-warning'
         };
         
         // Set CSS variables

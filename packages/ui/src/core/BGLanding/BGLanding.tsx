@@ -127,8 +127,7 @@ export const BGLanding = ({
                 className="relative h-screen w-full"
                 style={{
                     backgroundColor: 'var(--background)',
-                    color: 'var(--on-background)',
-                    fontFamily: 'var(--font-family)'
+                    color: 'var(--on-background)'
                 }}
             >
                 {/* Nav Spacer */}

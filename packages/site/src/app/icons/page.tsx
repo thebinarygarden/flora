@@ -1,5 +1,5 @@
-import { ThemeToggleButton } from '@/components/ui/ThemeToggleButton';
-import { IconsInteractiveSection } from '@/pages/icons/IconsInteractiveSection';
+import { ThemeToggleButton } from '@/components/ThemeToggleButton';
+import { IconsInteractiveSection } from '@/components/pages/icons/IconsInteractiveSection';
 
 export default function IconsPage() {
   return (

@@ -1,7 +1,7 @@
 'use client';
 
-import { IconDay, IconNight } from '@flora/ui/icons';
-import { useTheme } from '@flora/ui/theme';
+import { IconDay, IconNight } from '@flora/ui/dist/icons';
+import { useTheme } from '@flora/ui/dist/theme';
 
 export function ThemeToggleButton() {
   const { isDark, toggleTheme } = useTheme();

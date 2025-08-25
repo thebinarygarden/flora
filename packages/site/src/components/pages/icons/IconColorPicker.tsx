@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { HSBColorPicker } from '@flora/ui/input';
-import { Button } from '@flora/ui/input';
+import { HSBColorPicker } from '@flora/ui/dist/input';
+import { Button } from '@flora/ui/dist/input';
 
 interface ColorPickerProps {
   selectedColor: string;

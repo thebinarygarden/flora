@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@flora/ui/input';
+import { Button } from '@flora/ui/dist/input';
 
 const sizeOptions = [12, 18, 24, 30, 36, 42, 48, 60, 72, 84, 96];
 

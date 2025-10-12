@@ -1,4 +1,4 @@
-name: Deploy Site to App Engine
+name: Deploy Site to Google Cloud Run
 
 on:
   push:
@@ -6,6 +6,9 @@ on:
       - main
     paths:
       - 'packages/site/**'
+
+env:
+  IMAGE: flora
 
 jobs:
   deploy:
@@ -15,19 +18,37 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Authenticate with Google Cloud
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
       - name: Setup Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v2
+        uses: google-github-actions/setup-gcloud@v1
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-      - name: Deploy to App Engine
-        working-directory: packages/site
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_CICD_KEY }}
+
+      - name: Authenticate Docker to Google Cloud Artifact Registry
         run: |
-          gcloud app deploy \
-            --project=${{ secrets.GCP_PROJECT_ID }} \
-            --quiet
+          gcloud auth configure-docker ${{ secrets.GCP_PROJECT_REGION }}-docker.pkg.dev
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./packages/site/Dockerfile
+          push: true
+          tags: ${{ secrets.GCP_PROJECT_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/bg-images/${{ env.IMAGE }}:${{ github.sha }}
+          no-cache: true
+
+      - name: Deploy to Google Cloud Run
+        run: |
+          gcloud run deploy flora \
+          --image ${{ secrets.GCP_PROJECT_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/bg-images/${{ env.IMAGE }}:${{ github.sha }} \
+          --port=8080 \
+          --region ${{ secrets.GCP_PROJECT_REGION }} \
+          --allow-unauthenticated \
+          --service-account ${{ secrets.GCP_CICD_SERVICE_ACCOUNT }}

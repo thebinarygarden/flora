@@ -1,4 +1,4 @@
-import { ThemeToggleButton } from '@flora/ui/theme';
+import { ThemeToggleButton } from 'bgflora/theme';
 import { IconsInteractiveSection } from '@/app/icons/_components/IconsInteractiveSection';
 
 export default function IconsPage() {

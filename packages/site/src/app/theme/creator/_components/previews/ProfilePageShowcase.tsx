@@ -1,7 +1,7 @@
 "use client";
 
-import { Card, Badge } from '@flora/ui/display';
-import { Button } from '@flora/ui/input';
+import { Card, Badge } from 'bgflora/display';
+import { Button } from 'bgflora/input';
 import { useState } from 'react';
 
 interface Skill {

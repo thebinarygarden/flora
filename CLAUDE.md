@@ -7,8 +7,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Flora is a **performance-first React component library** built with a tree-shakable, subpath-only import architecture. The core philosophy prioritizes bundle optimization over developer convenience by enforcing specific subpath imports.
 
 This is a pnpm monorepo with two packages:
-- `@flora/ui` - The component library (packages/ui/)
-- `@flora/site` - Next.js demo/development site (packages/site/)
+- `bgflora` - The component library (packages/ui/)
+- `bgflora-site` - Next.js demo/development site (packages/site/)
 
 ## Core Architecture Principles
 
@@ -17,12 +17,12 @@ Flora **intentionally disables** convenience imports to prevent bundle bloat:
 
 ```javascript
 // ✅ Required pattern
-import { Button } from '@flora/ui/input';
-import { IconInfo } from '@flora/ui/icons';
-import { ThemeProvider } from '@flora/ui/theme';
+import { Button } from 'bgflora/input';
+import { IconInfo } from 'bgflora/icons';
+import { ThemeProvider } from 'bgflora/theme';
 
 // ❌ Intentionally NOT supported
-import { Button } from '@flora/ui';
+import { Button } from 'bgflora';
 ```
 
 **Why:** Icon collections can contain 100+ components. Separating icons from inputs ensures applications importing buttons don't accidentally pull in entire icon libraries.
@@ -57,8 +57,8 @@ pnpm quick  # Clean install, build UI, start dev site
 ### Individual Commands
 ```bash
 pnpm install           # Install all dependencies
-pnpm build:ui          # Build @flora/ui component library
-pnpm build:site        # Build @flora/site Next.js app
+pnpm build:ui          # Build bgflora component library
+pnpm build:site        # Build bgflora-site Next.js app
 pnpm run:site          # Start development server at localhost:3000
 pnpm clean             # Remove all node_modules, dist, and .next directories
 ```

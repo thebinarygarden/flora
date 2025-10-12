@@ -10,11 +10,11 @@ Flora prioritizes **bundle optimization over developer convenience**. Instead of
 
 ```javascript
 // Flora forces this pattern - only imports what you use
-import { Button } from '@flora/ui/input';
-import { IconInfo } from '@flora/ui/icons';
+import { Button } from 'bgflora/input';
+import { IconInfo } from 'bgflora/icons';
 
 // This is intentionally NOT supported - prevents bundle bloat
-import { Button, IconInfo } from '@flora/ui';
+import { Button, IconInfo } from 'bgflora';
 ```
 
 ## Features
@@ -29,14 +29,14 @@ import { Button, IconInfo } from '@flora/ui';
 
 ```bash
 # Install
-npm install @flora/ui
+npm install bgflora
 
 # Import specific components
-import { Button } from '@flora/ui/input';
-import { IconGithub } from '@flora/ui/icons';
+import { Button } from 'bgflora/input';
+import { IconGithub } from 'bgflora/icons';
 
 # Import styles
-import '@flora/ui/styles.css';
+import 'bgflora/styles.css';
 ```
 
 ## Development
@@ -45,8 +45,8 @@ This is a pnpm monorepo with two packages:
 
 ```
 packages/
-  ui/          # Main component library (@flora/ui)
-  site/        # Development/demo site (@flora/site)
+  ui/          # Main component library (bgflora)
+  site/        # Development/demo site (bgflora-site)
 ```
 
 ### Setup

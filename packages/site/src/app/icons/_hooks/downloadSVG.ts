@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { type IconProps, type StrokeWidth } from '@flora/ui/icons';
+import { type IconProps, type StrokeWidth } from 'bgflora/icons';
 
 export const downloadSVG = async (
   iconName: string,

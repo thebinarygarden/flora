@@ -5,7 +5,7 @@ import {
   HSBColor,
   themeToTemplate,
   templateToTheme,
-} from '@flora/ui/theme';
+} from 'bgflora/theme';
 
 const STORAGE_KEY = 'flora-theme-templates';
 

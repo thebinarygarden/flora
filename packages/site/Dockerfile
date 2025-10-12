@@ -28,10 +28,10 @@ COPY --from=deps /app/packages/site/node_modules ./packages/site/node_modules
 COPY . .
 
 # Build UI library first
-RUN pnpm --filter @flora/ui build
+RUN pnpm --filter bgflora build
 
 # Build Next.js site
-RUN pnpm --filter @flora/site build
+RUN pnpm --filter bgflora-site build
 
 # Production image
 FROM base AS runner

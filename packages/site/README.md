@@ -1,4 +1,4 @@
-# @flora/site
+# bgflora-site
 
 The development and demo site for Flora UI components. Built with Next.js 15 and React 19.
 
@@ -48,9 +48,9 @@ The site runs at http://localhost:3000
 The site showcases the **correct import patterns** that Flora enforces:
 
 ### Tailwind Integration
-- Configured to work seamlessly with `@flora/ui` styles
+- Configured to work seamlessly with `bgflora` styles
 - Uses TailwindCSS 4.x matching the UI library
-- Imports Flora styles: `import '@flora/ui/styles.css'`
+- Imports Flora styles: `import 'bgflora/styles.css'`
 
 ### Development Workflow
 1. **Make changes** to UI components in `../ui/src/`
@@ -61,11 +61,11 @@ The site showcases the **correct import patterns** that Flora enforces:
 ## Development Notes
 
 ### UI Library Dependency
-This site consumes `@flora/ui` as a workspace dependency:
+This site consumes `bgflora` as a workspace dependency:
 ```json
 {
   "dependencies": {
-    "@flora/ui": "workspace:*"
+    "bgflora": "workspace:*"
   }
 }
 ```

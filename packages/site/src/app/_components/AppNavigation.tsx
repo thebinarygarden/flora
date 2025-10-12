@@ -1,8 +1,8 @@
 "use client";
 
 import {usePathname, useRouter} from 'next/navigation';
-import { BGLanding } from '@flora/ui/core';
-import {MobileNav, NavItem} from '@flora/ui/navigation';
+import { BGLanding } from 'bgflora/core';
+import {MobileNav, NavItem} from 'bgflora/navigation';
 import { ReactNode, useEffect } from 'react';
 
 interface AppNavigationProps {

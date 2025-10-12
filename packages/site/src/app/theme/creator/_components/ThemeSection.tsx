@@ -1,6 +1,6 @@
 "use client";
 
-import { Theme, ColorPickerDropdown } from "@flora/ui/theme";
+import { Theme, ColorPickerDropdown } from "bgflora/theme";
 
 interface ThemeSectionProps {
     title: string;

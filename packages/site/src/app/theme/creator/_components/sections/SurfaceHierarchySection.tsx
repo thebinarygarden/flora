@@ -1,6 +1,6 @@
 "use client";
 
-import { Theme } from "@flora/ui/theme";
+import { Theme } from "bgflora/theme";
 import { ThemeSection } from '../ThemeSection';
 
 interface SurfaceHierarchySectionProps {

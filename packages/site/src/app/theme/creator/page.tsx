@@ -2,8 +2,8 @@
 
 import {useState, useRef} from 'react';
 import {useRouter} from 'next/navigation';
-import {FullScreenOverlay} from '@flora/ui/display';
-import {Theme, useTheme, ColorPickerDropdown} from "@flora/ui/theme";
+import {FullScreenOverlay} from 'bgflora/display';
+import {Theme, useTheme, ColorPickerDropdown} from "bgflora/theme";
 import {UIPreviewCarousel} from './_components/previews/UIPreviewCarousel';
 import {SurfaceHierarchySection} from './_components/sections/SurfaceHierarchySection';
 import {BrandColorsSection} from './_components/sections/BrandColorsSection';

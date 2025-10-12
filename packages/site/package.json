@@ -1,5 +1,5 @@
 {
-  "name": "@flora/site",
+  "name": "bgflora-site",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@flora/ui": "workspace:*",
+    "bgflora": "workspace:*",
     "framer-motion": "^11.0.0",
     "next": "15.4.4",
     "react": "19.1.0",

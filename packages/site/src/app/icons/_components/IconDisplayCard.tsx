@@ -3,15 +3,16 @@
 import { ComponentType } from 'react';
 import { Button } from '@flora/ui/input';
 import { CopyableText } from '@flora/ui/display';
+import { type IconProps, type StrokeWidth } from '@flora/ui/icons';
 import { downloadSVG } from '@/app/icons/_hooks/downloadSVG';
 
 interface IconDisplayCardProps {
   name: string;
-  component: ComponentType<any>;
+  component: ComponentType<IconProps>;
   description: string;
   selectedSize: number;
   selectedColor: string;
-  selectedStrokeWidth: string;
+  selectedStrokeWidth: StrokeWidth;
 }
 
 export function IconDisplayCard({ 

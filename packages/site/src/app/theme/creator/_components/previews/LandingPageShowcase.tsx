@@ -11,32 +11,42 @@ export function LandingPageShowcase() {
             author: "Sarah Chen",
             role: "Head of Design",
             company: "TechCorp",
-            color: 'primary'
+            color: 'primary' as const
         },
         {
             quote: "The component library is incredibly well-documented and easy to customize.",
             author: "Marcus Johnson",
             role: "Frontend Lead",
             company: "StartupXYZ",
-            color: 'secondary'
+            color: 'secondary' as const
         },
         {
             quote: "Best design system investment we've made. ROI was immediate.",
             author: "Lisa Rodriguez",
             role: "Product Manager",
             company: "Enterprise Co",
-            color: 'tertiary'
+            color: 'tertiary' as const
         }
-    ];
+    ] as const;
 
     // Mock pricing tiers
-    const pricingTiers = [
+    const pricingTiers: Array<{
+        name: string;
+        price: string;
+        period: string;
+        description: string;
+        color: 'primary' | 'secondary' | 'tertiary';
+        popular?: boolean;
+        features: string[];
+        cta: string;
+    }> = [
         {
             name: 'Starter',
             price: '$29',
             period: '/month',
             description: 'Perfect for small teams and side projects',
             color: 'tertiary',
+            popular: undefined,
             features: ['50 Components', 'Basic Templates', 'Email Support', 'Design Tokens'],
             cta: 'Start Free Trial'
         },
@@ -56,13 +66,20 @@ export function LandingPageShowcase() {
             period: '/month',
             description: 'Full-featured solution for large organizations',
             color: 'primary',
+            popular: undefined,
             features: ['Unlimited Components', 'Custom Development', 'Dedicated Support', 'On-premise Deployment', 'SLA Guarantee'],
             cta: 'Contact Sales'
         }
     ];
 
     // Mock feature highlights
-    const features = [
+    const features: Array<{
+        title: string;
+        description: string;
+        icon: string;
+        color: 'primary' | 'secondary' | 'tertiary' | 'success';
+        stats: string;
+    }> = [
         {
             title: 'Lightning Fast',
             description: 'Optimized for performance with tree-shaking and minimal bundle size',
@@ -138,7 +155,7 @@ export function LandingPageShowcase() {
                             </nav>
                         </div>
                         <div className="flex items-center gap-3">
-                            <Button variant="ghost" className="text-sm">
+                            <Button variant="outline" className="text-sm">
                                 Sign In
                             </Button>
                             <Button variant="primary" className="text-sm">
@@ -196,7 +213,7 @@ export function LandingPageShowcase() {
                             <Button variant="secondary" className="px-8 py-3 text-lg">
                                 View Documentation
                             </Button>
-                            <Button variant="ghost" className="px-6 py-3">
+                            <Button variant="outline" className="px-6 py-3">
                                 Watch Demo →
                             </Button>
                         </div>
@@ -366,7 +383,7 @@ export function LandingPageShowcase() {
                                     {feature.description}
                                 </p>
                                 <Badge
-                                    variant={feature.color as any}
+                                    variant={feature.color}
                                     size="small"
                                 >
                                     {feature.stats}
@@ -405,7 +422,7 @@ export function LandingPageShowcase() {
                                         className="text-sm italic mb-4"
                                         style={{ color: 'var(--on-surface)' }}
                                     >
-                                        "{testimonial.quote}"
+                                        &ldquo;{testimonial.quote}&rdquo;
                                     </p>
                                 </div>
                                 <div className="flex items-center gap-3">
@@ -523,7 +540,7 @@ export function LandingPageShowcase() {
                                 </ul>
 
                                 <Button
-                                    variant={tier.popular ? tier.color as any : 'outline'}
+                                    variant={tier.popular ? tier.color : 'outline'}
                                     className="w-full"
                                 >
                                     {tier.cta}

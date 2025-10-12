@@ -67,11 +67,11 @@ export function ProfilePageShowcase() {
         { name: 'Cross-functional Collaboration', level: 'Advanced', category: 'Soft Skills', color: 'success' }
     ];
 
-    const tabs: TabData[] = [
+    const tabs = [
         {
             id: 'profile',
             label: 'Profile',
-            color: 'primary',
+            color: 'primary' as const,
             badge: '2',
             content: (
                 <div className="space-y-4">
@@ -149,7 +149,8 @@ export function ProfilePageShowcase() {
         {
             id: 'settings',
             label: 'Settings',
-            color: 'secondary',
+            color: 'secondary' as const,
+            badge: undefined,
             content: (
                 <div className="space-y-6">
                     <div>
@@ -221,7 +222,8 @@ export function ProfilePageShowcase() {
         {
             id: 'activity',
             label: 'Activity',
-            color: 'tertiary',
+            color: 'tertiary' as const,
+            badge: undefined,
             content: (
                 <div className="space-y-4">
                     <h4 className="font-semibold mb-4" style={{ color: 'var(--on-surface)' }}>
@@ -270,9 +272,9 @@ export function ProfilePageShowcase() {
                 </div>
             )
         }
-    ];
+    ] as TabData[];
 
-    const getStatusColor = (status: string) => {
+    const getStatusColor = (status: string): 'primary' | 'secondary' | 'tertiary' | 'success' | 'error' | 'warning' | 'outline' => {
         switch (status) {
             case 'Complete': return 'success';
             case 'In Progress': return 'primary';
@@ -282,7 +284,7 @@ export function ProfilePageShowcase() {
         }
     };
 
-    const getLevelColor = (level: Skill['level']) => {
+    const getLevelColor = (level: Skill['level']): 'primary' | 'secondary' | 'tertiary' | 'success' | 'error' | 'warning' | 'outline' => {
         switch (level) {
             case 'Expert':
                 return 'success';
@@ -497,7 +499,7 @@ export function ProfilePageShowcase() {
                         >
                             Recent Projects
                         </h3>
-                        <Button variant="ghost" className="text-xs px-2 py-1">
+                        <Button variant="outline" className="text-xs px-2 py-1">
                             View All →
                         </Button>
                     </div>
@@ -528,7 +530,7 @@ export function ProfilePageShowcase() {
                                         </p>
                                     </div>
                                     <Badge
-                                        variant={getStatusColor(project.status) as any}
+                                        variant={getStatusColor(project.status)}
                                         size="small"
                                     >
                                         {project.status}
@@ -581,7 +583,7 @@ export function ProfilePageShowcase() {
                                             +5
                                         </div>
                                     </div>
-                                    <Button variant="ghost" className="text-xs px-2 py-1">
+                                    <Button variant="outline" className="text-xs px-2 py-1">
                                         View →
                                     </Button>
                                 </div>
@@ -659,7 +661,7 @@ export function ProfilePageShowcase() {
                                                     </Badge>
                                                 </div>
                                                 <Badge
-                                                    variant={getLevelColor(skill.level) as any}
+                                                    variant={getLevelColor(skill.level)}
                                                     size="small"
                                                 >
                                                     {skill.level}

@@ -140,7 +140,7 @@ export function DashboardShowcase() {
         }
     };
 
-    const getStatusBadgeVariant = (status: string) => {
+    const getStatusBadgeVariant = (status: string): 'primary' | 'secondary' | 'tertiary' | 'success' | 'error' | 'warning' | 'outline' => {
         switch (status) {
             case 'success': return 'success';
             case 'primary': return 'primary';
@@ -438,7 +438,7 @@ export function DashboardShowcase() {
                             >
                                 Recent Activity
                             </h3>
-                            <Button variant="ghost" className="text-xs px-2 py-1">
+                            <Button variant="outline" className="text-xs px-2 py-1">
                                 View All →
                             </Button>
                         </div>
@@ -488,7 +488,7 @@ export function DashboardShowcase() {
                                         </div>
                                     </div>
                                     <Badge
-                                        variant={getStatusBadgeVariant(activity.status) as any}
+                                        variant={getStatusBadgeVariant(activity.status)}
                                         size="small"
                                     >
                                         {activity.action}

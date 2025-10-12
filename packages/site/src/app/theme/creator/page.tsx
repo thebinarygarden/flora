@@ -44,10 +44,8 @@ export default function ThemeCreator() {
     });
 
     const [selectedColorKey, setSelectedColorKey] = useState<keyof Theme | null>(null);
-    const [selectedColor, setSelectedColor] = useState<string>(theme.primary);
 
     const handleColorChange = (colorKey: keyof Theme, newColor: string) => {
-        setSelectedColor(newColor);
         setTheme(prev => ({
             ...prev,
             [colorKey]: newColor
@@ -61,7 +59,6 @@ export default function ThemeCreator() {
             setSelectedColorKey(null);
         } else {
             setSelectedColorKey(colorKey);
-            setSelectedColor(theme[colorKey] as string);
 
             // Scroll the selected color to the top of the screen with navbar offset (overlay only)
             setTimeout(() => {
@@ -176,7 +173,7 @@ export default function ThemeCreator() {
                                     try {
                                         saveTemplate(theme, name.trim(), 190);
                                         router.push('/theme');
-                                    } catch (error) {
+                                    } catch {
                                         alert('Error saving template. Please try again.');
                                     }
                                 }
@@ -219,7 +216,7 @@ export default function ThemeCreator() {
                                                     isSelected={selectedColorKey === colorKey}
                                                     onSelect={handleColorSelect}
                                                     onColorChange={handleColorChange}
-                                                    colorRef={colorRef}
+                                                    colorRef={colorRef as React.RefObject<HTMLDivElement>}
                                                 />
                                             );
                                         })}

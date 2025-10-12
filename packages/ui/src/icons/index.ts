@@ -1,4 +1,4 @@
-export type { IconProps } from './IconProps';
+export type { IconProps, StrokeWidth } from './IconProps';
 export { IconArrow } from './IconArrow';
 export { IconBGDocs } from './IconBGDocs';
 export { IconBGLogo } from './IconBGLogo';

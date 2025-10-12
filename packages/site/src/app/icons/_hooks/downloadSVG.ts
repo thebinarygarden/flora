@@ -1,13 +1,13 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { type IconProps } from '@flora/ui/icons';
+import { type IconProps, type StrokeWidth } from '@flora/ui/icons';
 
 export const downloadSVG = async (
   iconName: string,
   IconComponent: React.ComponentType<IconProps>,
   selectedSize: number,
   selectedColor: string,
-  selectedStrokeWidth: string
+  selectedStrokeWidth: StrokeWidth
 ) => {
   try {
     // Create hidden container
@@ -34,22 +34,27 @@ export const downloadSVG = async (
 
     // Extract and download SVG
     const svgElement = container.querySelector('svg');
-    if (!svgElement) throw new Error('SVG element not found');
+    if (!svgElement) {
+      console.error('SVG element not found after rendering icon component');
+      root.unmount();
+      document.body.removeChild(container);
+      return;
+    }
 
     // Set size attributes and get content
     svgElement.setAttribute('width', selectedSize.toString());
     svgElement.setAttribute('height', selectedSize.toString());
-    
+
     // Create and trigger download
     const blob = new Blob([svgElement.outerHTML], { type: 'image/svg+xml' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
-    
+
     Object.assign(link, {
       href: url,
       download: `${iconName.toLowerCase()}-${selectedSize}px-${selectedStrokeWidth}.svg`
     });
-    
+
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

@@ -20,6 +20,7 @@ import {
   IconX,
   IconEyeDropper,
   IconPaintBrush,
+  type StrokeWidth,
 } from '@flora/ui/icons';
 import { IconSizeSelector } from './IconSizeSelector';
 import { IconStrokeWidthSelector } from './IconStrokeWidthSelector';
@@ -47,11 +48,10 @@ const icons = [
   { name: 'Youtube', component: IconYoutube, description: 'YouTube logo' },
 ];
 
-const strokeWidthOptions = ['thinnest', 'thinner', 'thin', 'base', 'bold', 'bolder', 'boldest', 'rotund'] as const;
 const defaultColorOptions = ['currentColor', '#3B82F6', '#EF4444', '#10B981', '#F59E0B', '#8B5CF6', '#EC4899'];
 
 export function IconsInteractiveSection() {
-  const [selectedStrokeWidth, setSelectedStrokeWidth] = useState<typeof strokeWidthOptions[number]>('base');
+  const [selectedStrokeWidth, setSelectedStrokeWidth] = useState<StrokeWidth>('base');
   const [selectedSize, setSelectedSize] = useState(35);
   const [selectedColor, setSelectedColor] = useState('currentColor');
   const [customColors, setCustomColors] = useState(defaultColorOptions);

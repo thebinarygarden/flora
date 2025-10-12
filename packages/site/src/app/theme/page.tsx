@@ -1,4 +1,4 @@
-import { ThemeInteractiveSection } from '@/app/theme/_components/ThemeInteractiveSection';
+import { TemplateGallery } from '@/app/theme/_components/TemplateGallery';
 
 export default function ThemePage() {
   return (
@@ -10,11 +10,16 @@ export default function ThemePage() {
       }}
     >
       <div className="container mx-auto px-4 py-8">
-        {/* Static Header */}
-        <h1 className="text-3xl font-bold mb-8">Theme Picker</h1>
-        
-        {/* Interactive Section - Client Component */}
-        <ThemeInteractiveSection />
+        {/* Header */}
+        <div className="mb-12">
+          <h1 className="text-4xl font-bold mb-3">Theme Templates</h1>
+          <p className="text-lg opacity-70">
+            Create and manage your custom theme templates
+          </p>
+        </div>
+
+        {/* Template Gallery - Client Component */}
+        <TemplateGallery />
       </div>
     </div>
   );

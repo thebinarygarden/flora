@@ -1,4 +1,4 @@
-export type { IconProps } from './IconProps';
+export type { IconProps, StrokeWidth } from './IconProps';
 export { IconArrow } from './IconArrow';
 export { IconBGDocs } from './IconBGDocs';
 export { IconBGLogo } from './IconBGLogo';
@@ -13,6 +13,7 @@ export { IconLinkOut } from './IconLinkOut';
 export { IconMenu } from './IconMenu';
 export { IconNight } from './IconNight';
 export { IconPaintBrush } from './IconPaintBrush';
+export { IconSave } from './IconSave';
 export { IconSearch } from './IconSearch';
 export { IconView } from './IconView';
 export { IconX } from './IconX';

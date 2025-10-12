@@ -22,7 +22,7 @@ export const CopyableText: React.FC<CopyableTextProps> = ({
       // Reset after 2 seconds
       setTimeout(() => setCopied(false), 500);
     } catch (err) {
-      console.error('Failed to copy text: ', err);
+      // Silently fail - user will notice copy didn't work
     }
   };
 

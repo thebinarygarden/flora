@@ -9,9 +9,10 @@ import { ProfilePageShowcase } from './ProfilePageShowcase';
 
 interface UIPreviewCarouselProps {
     setIsOverlayOpen: (isOpen: boolean) => void;
+    onSave: () => void;
 }
 
-export function UIPreviewCarousel({ setIsOverlayOpen }: UIPreviewCarouselProps) {
+export function UIPreviewCarousel({ setIsOverlayOpen, onSave }: UIPreviewCarouselProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const contentRef = useRef<HTMLDivElement>(null);
 
@@ -65,21 +66,66 @@ export function UIPreviewCarousel({ setIsOverlayOpen }: UIPreviewCarouselProps) 
 
     return (
         <div className="space-y-6">
-            {/* Header with Navigation - Sticky */}
-            <div
-                className="sticky top-20 z-10 flex items-center justify-between bg-gray-100 p-4 rounded-2xl"
-                style={{ backgroundColor: 'var(--surface)' }}
-            >
-                <div>
-                    <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--on-background)' }}>
+            {/* Header with Navigation - Sticky - Two separate divs */}
+            <div className="sticky top-20 z-10 flex items-center gap-3">
+                {/* Left Section: Title, Dots, and Arrows - Single line */}
+                <div
+                    className="flex-1 flex items-center justify-between gap-4 py-3 px-4 rounded-2xl"
+                    style={{ backgroundColor: 'var(--surface)' }}
+                >
+                    {/* Title */}
+                    <h3 className="text-lg font-semibold" style={{ color: 'var(--on-background)' }}>
                         {currentPreview.title}
                     </h3>
-                    <p className="text-sm opacity-70" style={{ color: 'var(--on-background)' }}>
-                        {currentPreview.description}
-                    </p>
+
+                    {/* Dots Indicator and Navigation Arrows - Same line */}
+                    <div className="flex items-center gap-3">
+                        {/* Dots Indicator */}
+                        <div className="flex gap-2">
+                            {previews.map((_, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => setCurrentIndex(index)}
+                                    className="transition-all duration-300"
+                                    style={{
+                                        width: currentIndex === index ? '32px' : '8px',
+                                        height: '8px',
+                                        borderRadius: '4px',
+                                        backgroundColor: currentIndex === index
+                                            ? 'var(--primary)'
+                                            : 'var(--border)',
+                                        cursor: 'pointer'
+                                    }}
+                                    aria-label={`Go to ${previews[index].title}`}
+                                />
+                            ))}
+                        </div>
+
+                        {/* Navigation Arrows */}
+                        <div className="flex gap-2">
+                            <Button
+                                variant="secondary"
+                                onClick={goToPrevious}
+                                className="px-3 py-2"
+                            >
+                                ←
+                            </Button>
+                            <Button
+                                variant="primary"
+                                onClick={goToNext}
+                                className="px-3 py-2"
+                            >
+                                →
+                            </Button>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="flex items-center gap-4">
+                {/* Right Section: Paintbrush and Done Button */}
+                <div
+                    className="flex items-center gap-3 py-3 px-4 rounded-2xl"
+                    style={{ backgroundColor: 'var(--surface)' }}
+                >
                     {/* Paintbrush Icon */}
                     <button
                         onClick={() => setIsOverlayOpen(true)}
@@ -94,44 +140,14 @@ export function UIPreviewCarousel({ setIsOverlayOpen }: UIPreviewCarouselProps) 
                         <IconPaintBrush size={24} />
                     </button>
 
-                    {/* Dots Indicator */}
-                    <div className="flex justify-center gap-2 pt-4">
-                        {previews.map((_, index) => (
-                            <button
-                                key={index}
-                                onClick={() => setCurrentIndex(index)}
-                                className="transition-all duration-300"
-                                style={{
-                                    width: currentIndex === index ? '32px' : '8px',
-                                    height: '8px',
-                                    borderRadius: '4px',
-                                    backgroundColor: currentIndex === index
-                                        ? 'var(--primary)'
-                                        : 'var(--border)',
-                                    cursor: 'pointer'
-                                }}
-                                aria-label={`Go to ${previews[index].title}`}
-                            />
-                        ))}
-                    </div>
-
-                    {/* Navigation Buttons */}
-                    <div className="flex gap-2">
-                        <Button
-                            variant="secondary"
-                            onClick={goToPrevious}
-                            className="px-3 py-2"
-                        >
-                            ←
-                        </Button>
-                        <Button
-                            variant="primary"
-                            onClick={goToNext}
-                            className="px-3 py-2"
-                        >
-                            →
-                        </Button>
-                    </div>
+                    {/* Done Button */}
+                    <Button
+                        variant="primary"
+                        onClick={onSave}
+                        className="px-6 py-2.5 font-semibold"
+                    >
+                        Done
+                    </Button>
                 </div>
             </div>
 

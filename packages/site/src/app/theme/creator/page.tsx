@@ -1,6 +1,7 @@
 "use client";
 
 import {useState, useRef} from 'react';
+import {useRouter} from 'next/navigation';
 import {FullScreenOverlay} from '@flora/ui/display';
 import {Theme, useTheme} from "@flora/ui/theme";
 import {ColorPickerDropdown} from './_components/ColorPickerDropdown';
@@ -9,9 +10,11 @@ import {SurfaceHierarchySection} from './_components/sections/SurfaceHierarchySe
 import {BrandColorsSection} from './_components/sections/BrandColorsSection';
 import {InteractiveStatesSection} from './_components/sections/InteractiveStatesSection';
 import {SemanticStatesSection} from './_components/sections/SemanticStatesSection';
+import {saveTemplate} from './_utils/themeStorage';
 import * as React from "react";
 
 export default function ThemeCreator() {
+    const router = useRouter();
     const [isOverlayOpen, setIsOverlayOpen] = useState(false);
     const { theme: currentTheme } = useTheme();
 
@@ -155,18 +158,32 @@ export default function ThemeCreator() {
                         onColorChange={handleColorChange}
                     />
 
-                    {/* Section 5: Realistic UI Previews */}
+                    {/* Section 5: Theme Review */}
                     <section className="mb-16">
                         <div className="text-center mb-8">
                             <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--on-background)' }}>
-                                Realistic UI Previews
+                                Theme Review
                             </h2>
                             <p className="text-lg opacity-70" style={{ color: 'var(--on-background)' }}>
-                                See your theme in action with complete interface examples
+                                Review your theme across different interfaces to ensure everything looks correct before saving
                             </p>
                         </div>
 
-                        <UIPreviewCarousel setIsOverlayOpen={setIsOverlayOpen} />
+                        <UIPreviewCarousel
+                            setIsOverlayOpen={setIsOverlayOpen}
+                            onSave={() => {
+                                const name = prompt('Enter a name for this theme template:');
+                                if (name && name.trim()) {
+                                    try {
+                                        saveTemplate(theme, name.trim(), 190);
+                                        router.push('/theme');
+                                    } catch (error) {
+                                        alert('Error saving template. Please try again.');
+                                        console.error(error);
+                                    }
+                                }
+                            }}
+                        />
                     </section>
                 </div>
             </div>

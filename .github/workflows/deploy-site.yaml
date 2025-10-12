@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'packages/site/**'
+      - '.github/workflows/deploy-site.yaml'
 
 env:
   IMAGE: flora

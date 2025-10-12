@@ -10,9 +10,10 @@ import { ProfilePageShowcase } from './ProfilePageShowcase';
 interface UIPreviewCarouselProps {
     setIsOverlayOpen: (isOpen: boolean) => void;
     onSave: () => void;
+    onCancel: () => void;
 }
 
-export function UIPreviewCarousel({ setIsOverlayOpen, onSave }: UIPreviewCarouselProps) {
+export function UIPreviewCarousel({ setIsOverlayOpen, onSave, onCancel }: UIPreviewCarouselProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const contentRef = useRef<HTMLDivElement>(null);
 
@@ -37,20 +38,8 @@ export function UIPreviewCarousel({ setIsOverlayOpen, onSave }: UIPreviewCarouse
         }
     ];
 
-    const goToPrevious = () => {
-        setCurrentIndex((prevIndex) =>
-            prevIndex === 0 ? previews.length - 1 : prevIndex - 1
-        );
-    };
-
-    const goToNext = () => {
-        setCurrentIndex((prevIndex) =>
-            prevIndex === previews.length - 1 ? 0 : prevIndex + 1
-        );
-    };
-
     // Scroll to content with offset for sticky header
-    useEffect(() => {
+    const scrollToContent = () => {
         if (contentRef.current) {
             const elementPosition = contentRef.current.getBoundingClientRect().top + window.pageYOffset;
             const offsetPosition = elementPosition - 200; // Offset for navbar + sticky header + padding
@@ -60,7 +49,21 @@ export function UIPreviewCarousel({ setIsOverlayOpen, onSave }: UIPreviewCarouse
                 behavior: 'smooth'
             });
         }
-    }, [currentIndex]);
+    };
+
+    const goToPrevious = () => {
+        setCurrentIndex((prevIndex) =>
+            prevIndex === 0 ? previews.length - 1 : prevIndex - 1
+        );
+        scrollToContent();
+    };
+
+    const goToNext = () => {
+        setCurrentIndex((prevIndex) =>
+            prevIndex === previews.length - 1 ? 0 : prevIndex + 1
+        );
+        scrollToContent();
+    };
 
     const currentPreview = previews[currentIndex];
 
@@ -121,7 +124,7 @@ export function UIPreviewCarousel({ setIsOverlayOpen, onSave }: UIPreviewCarouse
                     </div>
                 </div>
 
-                {/* Right Section: Paintbrush and Done Button */}
+                {/* Right Section: Paintbrush, Cancel, and Done Button */}
                 <div
                     className="flex items-center gap-3 py-3 px-4 rounded-2xl"
                     style={{ backgroundColor: 'var(--surface)' }}
@@ -139,6 +142,15 @@ export function UIPreviewCarousel({ setIsOverlayOpen, onSave }: UIPreviewCarouse
                     >
                         <IconPaintBrush size={24} />
                     </button>
+
+                    {/* Cancel Button */}
+                    <Button
+                        variant="secondary"
+                        onClick={onCancel}
+                        className="px-6 py-2.5"
+                    >
+                        Cancel
+                    </Button>
 
                     {/* Done Button */}
                     <Button

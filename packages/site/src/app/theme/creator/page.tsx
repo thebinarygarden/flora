@@ -183,6 +183,9 @@ export default function ThemeCreator() {
                                     }
                                 }
                             }}
+                            onCancel={() => {
+                                router.push('/theme');
+                            }}
                         />
                     </section>
                 </div>

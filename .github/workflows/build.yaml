@@ -31,4 +31,4 @@ jobs:
         run: pnpm build:site
 
       - name: Lint site
-        run: pnpm --filter @flora/site lint
+        run: pnpm --filter bgflora-site lint

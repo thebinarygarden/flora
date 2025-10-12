@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import * as React from "react";
-import { HSBColorPicker, hexToHsb, hexToRgb } from '@flora/ui/input';
+import { HSBColorPicker, hexToHsb, hexToRgb } from 'bgflora/input';
 
 export function ThemeInteractiveSection() {
   const [color, setColor] = useState<string>("#299bba");

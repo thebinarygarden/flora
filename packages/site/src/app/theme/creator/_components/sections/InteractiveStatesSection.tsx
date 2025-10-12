@@ -1,8 +1,8 @@
 "use client";
 
-import { Theme } from "@flora/ui/theme";
+import { Theme } from "bgflora/theme";
 import { ThemeSection } from '../ThemeSection';
-import { Button } from '@flora/ui/input';
+import { Button } from 'bgflora/input';
 
 interface InteractiveStatesSectionProps {
     theme: Theme;

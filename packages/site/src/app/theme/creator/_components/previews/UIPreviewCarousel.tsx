@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useRef } from 'react';
-import { Button } from '@flora/ui/input';
-import { IconPaintBrush } from '@flora/ui/icons';
+import { Button } from 'bgflora/input';
+import { IconPaintBrush } from 'bgflora/icons';
 import { LandingPageShowcase } from './LandingPageShowcase';
 import { DashboardShowcase } from './DashboardShowcase';
 import { ProfilePageShowcase } from './ProfilePageShowcase';

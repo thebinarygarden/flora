@@ -1,12 +1,12 @@
 {
-  "name": "@flora/ui",
+  "name": "bgflora",
   "version": "0.0.1",
   "description": "Performance-first React component library with tree-shakable subpath imports",
   "author": "Binary Garden",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/flora.git",
+    "url": "https://github.com/thebinarygarden/flora.git",
     "directory": "packages/ui"
   },
   "main": "dist/index.js",

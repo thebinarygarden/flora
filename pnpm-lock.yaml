@@ -10,7 +10,7 @@ importers:
 
   packages/site:
     dependencies:
-      '@flora/ui':
+      bgflora:
         specifier: workspace:*
         version: link:../ui
       framer-motion:

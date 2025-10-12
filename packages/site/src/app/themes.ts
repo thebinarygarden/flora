@@ -1,4 +1,4 @@
-import { Theme } from '@flora/ui/theme';
+import { Theme } from 'bgflora/theme';
 
 export const lightTheme: Theme = {
   // Brand colors

@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@flora/ui/input';
+import { Button } from 'bgflora/input';
 
 const strokeWidthOptions = ['thinnest', 'thinner', 'thin', 'base', 'bold', 'bolder', 'boldest', 'rotund'] as const;
 const strokeWidthValues = {

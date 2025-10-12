@@ -1,5 +1,5 @@
-import { Button } from '@flora/ui/input';
-import { IconBGLogo } from '@flora/ui/icons';
+import { Button } from 'bgflora/input';
+import { IconBGLogo } from 'bgflora/icons';
 
 export default function Home() {
   return (

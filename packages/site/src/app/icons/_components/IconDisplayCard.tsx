@@ -1,9 +1,9 @@
 'use client';
 
 import { ComponentType } from 'react';
-import { Button } from '@flora/ui/input';
-import { CopyableText } from '@flora/ui/display';
-import { type IconProps, type StrokeWidth } from '@flora/ui/icons';
+import { Button } from 'bgflora/input';
+import { CopyableText } from 'bgflora/display';
+import { type IconProps, type StrokeWidth } from 'bgflora/icons';
 import { downloadSVG } from '@/app/icons/_hooks/downloadSVG';
 
 interface IconDisplayCardProps {

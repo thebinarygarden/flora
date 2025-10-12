@@ -22,7 +22,7 @@ import {
   IconPaintBrush,
   IconSave,
   type StrokeWidth,
-} from '@flora/ui/icons';
+} from 'bgflora/icons';
 import { IconSizeSelector } from './IconSizeSelector';
 import { IconStrokeWidthSelector } from './IconStrokeWidthSelector';
 import { IconColorPicker } from './IconColorPicker';

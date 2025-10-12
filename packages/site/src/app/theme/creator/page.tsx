@@ -3,9 +3,8 @@
 import {useState, useRef} from 'react';
 import {useRouter} from 'next/navigation';
 import {FullScreenOverlay} from '@flora/ui/display';
-import {Theme, useTheme} from "@flora/ui/theme";
-import {ColorPickerDropdown} from './_components/ColorPickerDropdown';
-import {UIPreviewCarousel} from './_components/UIPreviewCarousel';
+import {Theme, useTheme, ColorPickerDropdown} from "@flora/ui/theme";
+import {UIPreviewCarousel} from './_components/previews/UIPreviewCarousel';
 import {SurfaceHierarchySection} from './_components/sections/SurfaceHierarchySection';
 import {BrandColorsSection} from './_components/sections/BrandColorsSection';
 import {InteractiveStatesSection} from './_components/sections/InteractiveStatesSection';
@@ -179,7 +178,6 @@ export default function ThemeCreator() {
                                         router.push('/theme');
                                     } catch (error) {
                                         alert('Error saving template. Please try again.');
-                                        console.error(error);
                                     }
                                 }
                             }}

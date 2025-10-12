@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { Theme } from "@flora/ui/theme";
-import { HSBColorPicker } from '@flora/ui/input';
+import * as React from 'react';
+import { Theme } from './types';
+import { HSBColorPicker } from '../input/HSBColorPicker/HSBColorPicker';
 
 interface ColorPickerDropdownProps {
     colorKey: keyof Theme;
@@ -21,14 +21,14 @@ export function ColorPickerDropdown({
     onColorChange,
     colorRef
 }: ColorPickerDropdownProps) {
-    const cardRef = useRef<HTMLDivElement>(null);
-    const pickerRef = useRef<HTMLDivElement>(null);
+    const cardRef = React.useRef<HTMLDivElement>(null);
+    const pickerRef = React.useRef<HTMLDivElement>(null);
 
     // Sync picker open state with isSelected prop
     const isPickerOpen = isSelected;
 
     // Close picker when clicking outside
-    useEffect(() => {
+    React.useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             const target = event.target as Node;
             const clickedOutsideCard = cardRef.current && !cardRef.current.contains(target);
@@ -56,8 +56,8 @@ export function ColorPickerDropdown({
         onSelect(colorKey);
     };
 
-    const formatLabel = (key: string) => {
-        return key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+    const formatLabel = (key: keyof Theme) => {
+        return String(key).replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
     };
 
     return (
@@ -108,11 +108,12 @@ export function ColorPickerDropdown({
             {isPickerOpen && (
                 <div
                     ref={pickerRef}
-                    className="absolute top-full left-0 right-0 mt-2 z-50 rounded-xl border-2 p-4 animate-fadeIn"
+                    className="absolute top-full left-0 right-0 mt-2 z-50 rounded-xl border-2 p-4"
                     style={{
                         backgroundColor: 'var(--surface)',
                         borderColor: 'var(--border)',
-                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+                        animation: 'fadeIn 0.2s ease-out',
                     }}
                     onClick={(e) => e.stopPropagation()}
                 >
@@ -123,21 +124,20 @@ export function ColorPickerDropdown({
                 </div>
             )}
 
-            <style jsx>{`
-                @keyframes fadeIn {
-                    from {
-                        opacity: 0;
-                        transform: translateY(-8px);
+            <style dangerouslySetInnerHTML={{
+                __html: `
+                    @keyframes fadeIn {
+                        from {
+                            opacity: 0;
+                            transform: translateY(-8px);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
                     }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-                .animate-fadeIn {
-                    animation: fadeIn 0.2s ease-out;
-                }
-            `}</style>
+                `
+            }} />
         </div>
     );
 }

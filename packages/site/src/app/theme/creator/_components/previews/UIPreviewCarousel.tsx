@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { Button } from '@flora/ui/input';
 import { IconPaintBrush } from '@flora/ui/icons';
 import { LandingPageShowcase } from './LandingPageShowcase';

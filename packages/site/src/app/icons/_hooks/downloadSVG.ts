@@ -59,6 +59,6 @@ export const downloadSVG = async (
     root.unmount();
     document.body.removeChild(container);
   } catch (error) {
-    console.error('Failed to download SVG:', error);
+    // Silently fail - user will notice download didn't work
   }
 };

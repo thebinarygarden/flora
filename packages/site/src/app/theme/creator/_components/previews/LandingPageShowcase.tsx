@@ -109,28 +109,28 @@ export function LandingPageShowcase() {
                             <nav className="hidden md:flex items-center gap-6">
                                 <a
                                     href="#"
-                                    className="font-medium transition-colors hover:opacity-80"
+                                    className="font-medium hover:opacity-80"
                                     style={{ color: 'var(--primary)' }}
                                 >
                                     Components
                                 </a>
                                 <a
                                     href="#"
-                                    className="transition-colors hover:opacity-80"
+                                    className="hover:opacity-80"
                                     style={{ color: 'var(--secondary)' }}
                                 >
                                     Documentation
                                 </a>
                                 <a
                                     href="#"
-                                    className="transition-colors hover:opacity-80"
+                                    className="hover:opacity-80"
                                     style={{ color: 'var(--tertiary)' }}
                                 >
                                     Examples
                                 </a>
                                 <a
                                     href="#"
-                                    className="transition-colors hover:opacity-80"
+                                    className="hover:opacity-80"
                                     style={{ color: 'var(--on-surface)', opacity: 0.7 }}
                                 >
                                     Pricing

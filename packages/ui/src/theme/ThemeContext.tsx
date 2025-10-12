@@ -96,7 +96,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
     return () => {
       mediaQuery.removeEventListener('change', handleChange);
     };
-  }, []);
+  }, [lightTheme, darkTheme]);
 
   const theme = isDark ? darkTheme : lightTheme;
 

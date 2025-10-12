@@ -1,6 +1,11 @@
-import { Theme } from '@flora/ui/theme';
-import { ThemeTemplate, ThemeTemplateStorage, HSBColor } from '../_types/ThemeTemplate';
-import { themeToTemplate, templateToTheme } from './templateCalculation';
+import {
+  Theme,
+  ThemeTemplate,
+  ThemeTemplateStorage,
+  HSBColor,
+  themeToTemplate,
+  templateToTheme,
+} from '@flora/ui/theme';
 
 const STORAGE_KEY = 'flora-theme-templates';
 

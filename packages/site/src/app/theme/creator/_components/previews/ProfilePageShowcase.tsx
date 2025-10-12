@@ -167,7 +167,7 @@ export function ProfilePageShowcase() {
                                     </div>
                                 </div>
                                 <div
-                                    className="w-12 h-6 rounded-full flex items-center px-1 cursor-pointer transition-colors"
+                                    className="w-12 h-6 rounded-full flex items-center px-1 cursor-pointer"
                                     style={{ backgroundColor: 'var(--secondary)' }}
                                 >
                                     <div

@@ -1,7 +1,6 @@
 "use client";
 
-import { Theme } from "@flora/ui/theme";
-import { ColorPickerDropdown } from './ColorPickerDropdown';
+import { Theme, ColorPickerDropdown } from "@flora/ui/theme";
 
 interface ThemeSectionProps {
     title: string;

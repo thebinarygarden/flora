@@ -6,7 +6,6 @@ import {useAnimatedFields} from "./useAnimatedFields";
 import {IconYoutube, IconGithub, IconBGDocs, IconView, IconHide} from "../../icons";
 import {motion} from "framer-motion";
 import {useViewportHeight} from "../../util/useViewportHeight";
-import {Lorem} from "../../util/Lorem";
 import {useBGLandingScroll} from "./useBGLandingScroll";
 
 export const BGLanding = ({
@@ -131,9 +130,8 @@ export const BGLanding = ({
                 }}
             >
                 {/* Nav Spacer */}
-                {Boolean(navOpacity) && (<div className="w-full h-16"/>)}
+                {navOpacity && (<div className="w-full h-16"/>)}
                 {children}
-                <Lorem size={"large"}/>
             </div>
         </>
     );

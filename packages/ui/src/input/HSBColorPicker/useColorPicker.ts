@@ -11,9 +11,9 @@ export const useColorPicker = ({
 
   const updateColor = React.useCallback((type: DragType, clientX: number, clientY: number) => {
     const element = type === 'sb-grid' ? sbGridRef.current : hueRef.current;
-    if (!Boolean(element)) return;
-    
-    const rect = element!.getBoundingClientRect();
+    if (!element) return;
+
+    const rect = element.getBoundingClientRect();
     
     if (type === 'sb-grid') {
       const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));

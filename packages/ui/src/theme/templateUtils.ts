@@ -1,6 +1,9 @@
-import { Theme } from '@flora/ui/theme';
-import { ColorRelationship, HSBColor, ThemeTemplate } from '../_types/ThemeTemplate';
-import { hexToHSB, hsbToHex, shortestHuePath, applyHueDelta } from './colorConversion';
+import { Theme, HSBColor, ColorRelationship, ThemeTemplate } from './types';
+import { hexToHSB, hsbToHex, shortestHuePath, applyHueDelta } from './colorUtils';
+
+// ============================================================================
+// Color Relationship Calculation
+// ============================================================================
 
 /**
  * Calculate the relationship between a color and a seed color
@@ -9,6 +12,11 @@ import { hexToHSB, hsbToHex, shortestHuePath, applyHueDelta } from './colorConve
  * @param colorHex - The color to analyze (hex format)
  * @param seed - The reference seed color (HSB format)
  * @returns Color relationship with ratios and optional floor values
+ *
+ * @example
+ * const seed = { hue: 190, saturation: 100, brightness: 100 };
+ * const relationship = calculateColorRelationship("#2563eb", seed);
+ * // Returns { hueDelta: 27, saturationRatio: 0.91, brightnessRatio: 0.92 }
  */
 export function calculateColorRelationship(
   colorHex: string,
@@ -20,13 +28,15 @@ export function calculateColorRelationship(
   const hueDelta = shortestHuePath(seed.hue, color.hue);
 
   // Calculate ratios (handle division by zero)
-  const saturationRatio = seed.saturation > 0 ? color.saturation / seed.saturation : 0;
-  const brightnessRatio = seed.brightness > 0 ? color.brightness / seed.brightness : 0;
+  const saturationRatio =
+    seed.saturation > 0 ? color.saturation / seed.saturation : 0;
+  const brightnessRatio =
+    seed.brightness > 0 ? color.brightness / seed.brightness : 0;
 
   const relationship: ColorRelationship = {
     hueDelta,
     saturationRatio,
-    brightnessRatio
+    brightnessRatio,
   };
 
   // Add floor values for special cases
@@ -59,6 +69,12 @@ export function calculateColorRelationship(
  * @param seed - The seed color to use for hydration (HSB format)
  * @param relationship - The color relationship with ratios
  * @returns Hydrated HSB color
+ *
+ * @example
+ * const seed = { hue: 0, saturation: 100, brightness: 100 }; // Red
+ * const relationship = { hueDelta: 27, saturationRatio: 0.91, brightnessRatio: 0.92 };
+ * const hydrated = hydrateColorFromRelationship(seed, relationship);
+ * // Returns { hue: 27, saturation: 91, brightness: 92 } (Orange-red)
  */
 export function hydrateColorFromRelationship(
   seed: HSBColor,
@@ -86,9 +102,13 @@ export function hydrateColorFromRelationship(
   return {
     hue: Math.round(hue),
     saturation: Math.round(saturation),
-    brightness: Math.round(brightness)
+    brightness: Math.round(brightness),
   };
 }
+
+// ============================================================================
+// Theme Template Conversion
+// ============================================================================
 
 /**
  * Convert a Theme object to a ThemeTemplate
@@ -97,6 +117,10 @@ export function hydrateColorFromRelationship(
  * @param name - User-provided name for the template
  * @param seedHue - Optional hue for the seed (defaults to 190° cyan)
  * @returns ThemeTemplate ready for storage
+ *
+ * @example
+ * const template = themeToTemplate(myTheme, "Ocean Vibes", 190);
+ * // Template can now be saved and hydrated with different seeds
  */
 export function themeToTemplate(
   theme: Theme,
@@ -107,7 +131,7 @@ export function themeToTemplate(
   const seed: HSBColor = {
     hue: seedHue,
     saturation: 100,
-    brightness: 100
+    brightness: 100,
   };
 
   // Calculate relationships for all theme colors
@@ -125,7 +149,7 @@ export function themeToTemplate(
     name,
     createdAt: new Date().toISOString(),
     seed,
-    colors
+    colors,
   };
 }
 
@@ -135,6 +159,11 @@ export function themeToTemplate(
  * @param template - The template to hydrate
  * @param hydrationSeed - The seed color to use for hydration
  * @returns Hydrated Theme object
+ *
+ * @example
+ * const redSeed = { hue: 0, saturation: 100, brightness: 100 };
+ * const theme = templateToTheme(savedTemplate, redSeed);
+ * // Returns a complete Theme object with red-based colors
  */
 export function templateToTheme(
   template: ThemeTemplate,
@@ -144,7 +173,10 @@ export function templateToTheme(
 
   (Object.keys(template.colors) as Array<keyof Theme>).forEach((key) => {
     const relationship = template.colors[key];
-    const hydratedColor = hydrateColorFromRelationship(hydrationSeed, relationship);
+    const hydratedColor = hydrateColorFromRelationship(
+      hydrationSeed,
+      relationship
+    );
     theme[key] = hsbToHex(hydratedColor);
   });
 

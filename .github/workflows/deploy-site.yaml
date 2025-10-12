@@ -6,7 +6,6 @@ on:
       - main
     paths:
       - 'packages/site/**'
-      - 'packages/ui/**'
 
 jobs:
   deploy:

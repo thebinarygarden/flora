@@ -111,7 +111,7 @@ export const MobileNav: React.FC<NavigationComponentProps> = ({
             </nav>
 
             {/* Nav Spacer */}
-            {!Boolean(navOpacity) && (<div className="w-full h-16"/>)}
+            {!navOpacity && (<div className="w-full h-16"/>)}
         </>
     );
 };

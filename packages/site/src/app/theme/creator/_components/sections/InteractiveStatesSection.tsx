@@ -31,7 +31,7 @@ export function InteractiveStatesSection(props: InteractiveStatesSectionProps) {
 
             {/* Hover Example */}
             <div
-                className="p-3 rounded-lg cursor-pointer transition-colors"
+                className="p-3 rounded-lg cursor-pointer"
                 style={{
                     border: '2px solid var(--border)',
                     backgroundColor: 'var(--background)'

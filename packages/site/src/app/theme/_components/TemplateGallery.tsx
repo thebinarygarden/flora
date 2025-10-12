@@ -2,9 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ThemeTemplate } from '@/app/theme/creator/_types/ThemeTemplate';
+import { ThemeTemplate, hsbToHex } from '@flora/ui/theme';
 import { loadTemplates, deleteTemplate } from '@/app/theme/creator/_utils/themeStorage';
-import { hsbToHex } from '@/app/theme/creator/_utils/colorConversion';
 
 export function TemplateGallery() {
   const router = useRouter();

@@ -34,10 +34,10 @@ export function AppNavigation({ children }: AppNavigationProps) {
   // Root page uses BGLanding
   if (pathname === '/') {
     return (
-      <BGLanding 
+      <BGLanding
         title="Flora"
         description="Performance-first React components with forced tree-shaking architecture"
-        mp4Path="newhozions.mp4"
+        mp4Path="/newhozions.mp4"
         youtube="https://youtube.com"
         github="https://github.com"
         bgdocs="https://google.com"

@@ -20,6 +20,7 @@ import {
   IconX,
   IconEyeDropper,
   IconPaintBrush,
+  IconSave,
   type StrokeWidth,
 } from '@flora/ui/icons';
 import { IconSizeSelector } from './IconSizeSelector';
@@ -42,6 +43,7 @@ const icons = [
   { name: 'Menu', component: IconMenu, description: 'Navigation menu' },
   { name: 'Night', component: IconNight, description: 'Dark mode indicator' },
   { name: 'PaintBrush', component: IconPaintBrush, description: 'Paint/drawing tool' },
+  { name: 'Save', component: IconSave, description: 'Save/disk icon' },
   { name: 'Search', component: IconSearch, description: 'Search functionality' },
   { name: 'View', component: IconView, description: 'View/eye open indicator' },
   { name: 'X', component: IconX, description: 'Close/dismiss' },

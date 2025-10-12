@@ -83,10 +83,11 @@ export function UIPreviewCarousel({ setIsOverlayOpen }: UIPreviewCarouselProps) 
                     {/* Paintbrush Icon */}
                     <button
                         onClick={() => setIsOverlayOpen(true)}
-                        className="cursor-pointer icon-hover p-2 rounded-lg transition-colors"
+                        className="cursor-pointer icon-hover p-2 rounded-lg"
                         style={{
                             color: 'var(--on-surface)',
-                            backgroundColor: 'var(--background)'
+                            backgroundColor: 'var(--surface)',
+                            border: '1px solid var(--border)'
                         }}
                         aria-label="Open theme editor"
                     >

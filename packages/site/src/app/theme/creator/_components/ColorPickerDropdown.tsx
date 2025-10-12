@@ -21,14 +21,21 @@ export function ColorPickerDropdown({
     onColorChange,
     colorRef
 }: ColorPickerDropdownProps) {
-    const [isPickerOpen, setIsPickerOpen] = useState(false);
+    const cardRef = useRef<HTMLDivElement>(null);
     const pickerRef = useRef<HTMLDivElement>(null);
+
+    // Sync picker open state with isSelected prop
+    const isPickerOpen = isSelected;
 
     // Close picker when clicking outside
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (pickerRef.current && !pickerRef.current.contains(event.target as Node)) {
-                setIsPickerOpen(false);
+            const target = event.target as Node;
+            const clickedOutsideCard = cardRef.current && !cardRef.current.contains(target);
+            const clickedOutsidePicker = pickerRef.current && !pickerRef.current.contains(target);
+
+            if (clickedOutsideCard && clickedOutsidePicker) {
+                onSelect(null as any); // Deselect when clicking outside
             }
         };
 
@@ -39,7 +46,7 @@ export function ColorPickerDropdown({
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [isPickerOpen]);
+    }, [isPickerOpen, onSelect]);
 
     const handleColorChange = (newColor: string) => {
         onColorChange(colorKey, newColor);
@@ -47,7 +54,6 @@ export function ColorPickerDropdown({
 
     const handleClick = () => {
         onSelect(colorKey);
-        setIsPickerOpen(!isPickerOpen);
     };
 
     const formatLabel = (key: string) => {
@@ -59,16 +65,16 @@ export function ColorPickerDropdown({
             ref={colorRef}
             className="relative"
         >
+            {/* Color Card - Fixed Height */}
             <div
-                ref={pickerRef}
+                ref={cardRef}
                 onClick={handleClick}
-                className="flex flex-col items-center gap-3 p-4 rounded-xl border-2 transition-all cursor-pointer overflow-hidden hover:shadow-md"
+                className="flex flex-col items-center gap-3 p-4 rounded-xl border-2 cursor-pointer hover:shadow-md"
                 style={{
                     borderColor: isSelected ? 'var(--primary)' : 'var(--border)',
                     backgroundColor: isSelected ? 'var(--surface)' : 'var(--background)',
                     boxShadow: isSelected ? '0 4px 12px rgba(0, 0, 0, 0.1)' : 'none',
-                    maxHeight: isPickerOpen ? '600px' : '140px',
-                    transition: 'all 0.3s ease'
+                    transition: 'border-color 0.2s, background-color 0.2s, box-shadow 0.2s'
                 }}
             >
                 {/* Color Preview Circle */}
@@ -96,36 +102,40 @@ export function ColorPickerDropdown({
                         {colorValue}
                     </div>
                 </div>
-
-                {/* Integrated HSB Color Picker */}
-                {isPickerOpen && (
-                    <div
-                        className="w-full pt-3 mt-2 border-t"
-                        style={{
-                            borderColor: 'var(--border)',
-                            opacity: 1,
-                            animation: 'fadeIn 0.2s ease-out'
-                        }}
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <HSBColorPicker
-                            initialHex={colorValue}
-                            onChangeHex={handleColorChange}
-                        />
-                    </div>
-                )}
             </div>
+
+            {/* HSB Color Picker - Absolute Positioned Below Card */}
+            {isPickerOpen && (
+                <div
+                    ref={pickerRef}
+                    className="absolute top-full left-0 right-0 mt-2 z-50 rounded-xl border-2 p-4 animate-fadeIn"
+                    style={{
+                        backgroundColor: 'var(--surface)',
+                        borderColor: 'var(--border)',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <HSBColorPicker
+                        initialHex={colorValue}
+                        onChangeHex={handleColorChange}
+                    />
+                </div>
+            )}
 
             <style jsx>{`
                 @keyframes fadeIn {
                     from {
                         opacity: 0;
-                        transform: translateY(-10px);
+                        transform: translateY(-8px);
                     }
                     to {
                         opacity: 1;
                         transform: translateY(0);
                     }
+                }
+                .animate-fadeIn {
+                    animation: fadeIn 0.2s ease-out;
                 }
             `}</style>
         </div>

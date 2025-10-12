@@ -1,6 +1,14 @@
 {
   "name": "@flora/ui",
   "version": "0.0.1",
+  "description": "Performance-first React component library with tree-shakable subpath imports",
+  "author": "Binary Garden",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/flora.git",
+    "directory": "packages/ui"
+  },
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -31,6 +39,10 @@
     },
     "./styles.css": "./dist/styles.css"
   },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "rollup -c"
   },

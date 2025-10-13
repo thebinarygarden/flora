@@ -1,195 +1,163 @@
-# @flora/ui
+# @binarygarden/flora
 
-The core UI component library for Flora. Built with performance-first architecture and forced tree-shaking.
+[![npm version](https://img.shields.io/npm/v/@binarygarden/flora)](https://www.npmjs.com/package/@binarygarden/flora)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+> **The plants of a particular region** - Performance-first React component library for Binary Garden
+
+Flora is a React component library built for Binary Garden projects. It leverages **Tailwind CSS** for styling and **Framer Motion** for animations. Flora's CSS system is **theme-driven**, consuming color themes from your application through the `ThemeProvider` - allowing complete control over your design system while maintaining consistent component behavior. Flora enforces subpath-only imports (`@binarygarden/flora/input`) instead of barrel exports to guarantee optimal production bundles regardless of bundler configuration.
+
+## Overview
+
+Flora uses subpath-only imports. The main export `import { Button } from '@binarygarden/flora'` is intentionally disabled - components must be imported from explicit subpaths like `import { Button } from '@binarygarden/flora/input'`.
 
 ## Installation
 
 ```bash
-npm install @flora/ui
+npm install @binarygarden/flora framer-motion
 # or
-pnpm add @flora/ui
-# or  
-yarn add @flora/ui
+pnpm add @binarygarden/flora framer-motion
+# or
+yarn add @binarygarden/flora framer-motion
+```
+
+### Peer Dependencies
+
+Required in your project:
+
+```json
+{
+  "react": "^18.2.0",
+  "react-dom": "^18.2.0",
+  "framer-motion": "^11.0.0",
+  "tailwindcss": "^4"
+}
 ```
 
 ## Usage
 
-Flora enforces **subpath-only imports** to prevent accidental bundle bloat:
+### Import Pattern
+
+Flora **requires** explicit subpath imports:
 
 ```javascript
-// ✅ Required import pattern
-import { Button } from '@flora/ui/input';
-import { IconGithub, IconInfo } from '@flora/ui/icons';
-import { ThemeProvider, useTheme } from '@flora/ui/theme';
+// ✅ Required pattern - explicit subpath imports
+import { Button } from '@binarygarden/flora/input';
+import { IconGithub, IconInfo } from '@binarygarden/flora/icons';
+import { ThemeProvider, useTheme } from '@binarygarden/flora/theme';
+import { Badge, Card } from '@binarygarden/flora/display';
+
+// Import compiled styles
+import '@binarygarden/flora/styles.css';
 
 // ❌ This will NOT work (intentionally disabled)
-// import { Button, IconGithub } from '@flora/ui';
+import { Button, IconGithub } from '@binarygarden/flora';
 ```
 
-Flora comes with it's own compiled styles, and requires that the style sheet be imported to the global.css of the consuming project:
-``` css
-@import '@flora/ui/styles.css';
-```
+**Why?** This architecture prevents accidentally importing entire icon collections (100+ components) when you only need a button. See [Design Philosophy](#design-philosophy) for details.
 
-## Theme Setup
-
-Flora requires you to wrap your application with the `ThemeProvider` and provide both light and dark themes:
+### Basic Setup
 
 ```tsx
-import { ThemeProvider, type Theme } from '@flora/ui/theme';
+import { ThemeProvider } from '@binarygarden/flora/theme';
+import { Button } from '@binarygarden/flora/input';
+import '@binarygarden/flora/styles.css';
 
-// Define your themes
-const lightTheme: Theme = {
-  // Brand colors
-  primary: '#2563eb',
-  onPrimary: '#ffffff',
-  secondary: '#6b7280',
-  onSecondary: '#ffffff',
-  tertiary: '#7c3aed',
-  onTertiary: '#ffffff',
-  
-  // Surface hierarchy
-  background: '#ffffff',
-  onBackground: '#111827',
-  surface: '#f9fafb',
-  onSurface: '#374151',
-  
-  // Interactive states
-  border: '#d1d5db',
-  hover: '#2563eb',
-  focus: '#3b82f6',
-  disabled: '#f3f4f6',
-  onDisabled: '#9ca3af',
-  
-  // Semantic states
-  error: '#dc2626',
-  onError: '#ffffff',
-  success: '#16a34a',
-  onSuccess: '#ffffff',
-  warning: '#ca8a04',
-  onWarning: '#ffffff'
-};
-
-const darkTheme: Theme = {
-  // ... your dark theme values
-};
-
-// Wrap your app
 function App() {
   return (
     <ThemeProvider lightTheme={lightTheme} darkTheme={darkTheme}>
-      {/* Your app content */}
+      <Button variant="primary">Click me</Button>
     </ThemeProvider>
-  );
-}
-```
-
-### Theme Structure
-
-The `Theme` type includes all the colors and typography needed for consistent theming:
-
-- **Brand Colors**: `primary`, `secondary`, `tertiary` (with corresponding `on*` colors)
-- **Surface Hierarchy**: `background`, `surface` for different elevation levels
-- **Interactive States**: `hover`, `focus`, `disabled` for user interactions
-- **Semantic Colors**: `error`, `success`, `warning` for status communication
-
-### Using Themes in Components
-
-Components automatically receive the current theme via React context. The theme switches automatically based on system preference, but you can also provide manual controls:
-
-```tsx
-import { useTheme } from '@flora/ui/theme';
-
-function MyComponent() {
-  const { theme, isDark, toggleTheme } = useTheme();
-  
-  return (
-    <div style={{ backgroundColor: theme.surface, color: theme.onSurface }}>
-      <button onClick={toggleTheme}>
-        Switch to {isDark ? 'light' : 'dark'} mode
-      </button>
-    </div>
   );
 }
 ```
 
 ## Available Components
 
-Available components can be searched and observed using Flora's site: https://@binarygarden/flora.app
-
-## Architecture
-
-### Build System
-- **Rollup** with ESM output and preserved modules
-- **TypeScript** with full declaration files
-- **@svgr/rollup** for SVG-to-React conversion
-- **PostCSS + Tailwind** for style processing
-
-### Package Exports
-```json
-{
-  "exports": {
-    "./input": {
-      "import": "./dist/input/index.js",
-      "types": "./dist/input/index.d.ts"
-    },
-    "./icons": {
-      "import": "./dist/icons/index.js", 
-      "types": "./dist/icons/index.d.ts"
-    },
-    "./core": {
-      "import": "./dist/core/index.js",
-      "types": "./dist/core/index.d.ts"
-    },
-    "./navigation": {
-      "import": "./dist/navigation/index.js",
-      "types": "./dist/navigation/index.d.ts"
-    },
-    "./theme": {
-      "import": "./dist/theme/index.js",
-      "types": "./dist/theme/index.d.ts"
-    },
-    "./styles.css": "./dist/styles.css"
-  }
-}
-```
-
-## Development
-
-### Setup
-```bash
-# From repository root
-pnpm install
-pnpm build:ui
-```
+View all components with live demos and API documentation at **[bgflora.app/components](https://bgflora.app/components)**
 
 ## Design Philosophy
 
-### Why No Convenience Imports?
-The main `index.ts` is intentionally empty to force developers to import from specific subpaths. This:
+Flora uses a **defensive architecture** approach: instead of relying on bundler tree-shaking to eliminate unused code, Flora makes it architecturally impossible to accidentally import unnecessary components.
 
-1. **Prevents accidental bloat** - Can't accidentally import entire icon collection
-2. **Makes dependencies explicit** - Clear what parts of the library you're using  
-3. **Improves tree-shaking** - Bundlers can eliminate unused categories entirely
-4. **Better bundle analysis** - Easier to track what's actually being used
+### Subpath-Only Imports
 
-### Performance First
-Every architectural decision prioritizes bundle size:
-- Icons separated from inputs to prevent importing large collections
-- ESM with preserved modules for optimal tree-shaking
-- Minimal runtime dependencies (only `tslib`)
-- SVGs converted to React components for better optimization
+The main `index.ts` is intentionally empty to force developers to import from specific subpaths:
 
-## Peer Dependencies
+```javascript
+// ✅ Required - explicit subpath imports
+import { Button } from '@binarygarden/flora/input';
+import { IconGithub } from '@binarygarden/flora/icons';
 
-Required in your project:
-- `react`: ^18.2.0
-- `react-dom`: ^18.2.0  
-- `tailwindcss`: ^4
+// ❌ Not supported - main export is empty
+import { Button, IconGithub } from '@binarygarden/flora';
+```
+
+### Why This Approach?
+
+Modern bundlers (Webpack 5+, Vite, Rollup) **can tree-shake barrel exports effectively when properly configured**. However, tree-shaking can fail or be incomplete when:
+
+- Bundlers aren't optimally configured
+- Modules contain side effects
+- Circular dependencies exist
+- Development mode is active (tree-shaking disabled)
+- Complex re-export chains obscure dependencies
+
+Even when tree-shaking works correctly, barrel exports can obscure bundle impact during development. You might import a Button without realizing the same module also exports 100+ icon components that your bundler must analyze and eliminate.
+
+### How It Works
+
+Subpath imports enforce separation at the module resolution level:
+- Each component category is a separate entry point
+- Unused categories are eliminated before tree-shaking runs
+- The main `index.ts` is empty, forcing subpath usage
+
+### The Icon Problem
+
+Icon collections commonly grow to 100+ components. Without subpath isolation, importing a button could cause your bundler to analyze the entire icon collection:
+
+```javascript
+// Traditional library - all exports in one barrel
+import { Button } from '@library';
+// Bundler must parse and analyze 100+ icon exports even if unused
+
+// Flora - physically separated
+import { Button } from '@binarygarden/flora/input';
+import { IconGithub } from '@binarygarden/flora/icons';
+// Icons directory never loaded unless explicitly imported
+```
+
+For technical details on build system, package structure, and Rollup configuration, see the [Architecture Guide](../../docs/ARCHITECTURE.md).
+
+For contributing, adding components, and development workflow, see the [Development Guide](../../docs/DEVELOPMENT.md).
 
 ## TypeScript Support
 
 Full TypeScript support with:
-- Declaration files for all components
-- Source maps for debugging
-- Strict type checking
+
+- **Declaration files** (`.d.ts`) for all exports
+- **Declaration maps** (`.d.ts.map`) for IDE navigation
+- **Source maps** (`.js.map`) for debugging
+- **Strict type checking**
+
+Your IDE will have full autocomplete and type information:
+
+```tsx
+import { Button } from '@binarygarden/flora/input';
+import type { ButtonProps, Theme } from '@binarygarden/flora/input';
+//            ^-- Full type information available
+```
+
+## Browser Support
+
+Flora supports all modern browsers that support:
+
+- ES2020+ JavaScript features
+- CSS Grid and Flexbox
+- CSS Custom Properties (CSS variables)
+
+Effectively: Chrome 88+, Firefox 78+, Safari 14+, Edge 88+
+
+## License
+
+MIT - Binary Garden | [GitHub](https://github.com/thebinarygarden/flora) | [npm](https://www.npmjs.com/package/@binarygarden/flora)

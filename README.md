@@ -1,100 +1,52 @@
-# Flora
- 
-> **The plants of a particular region** - These are the components that make up the Binary Garden
+# Flora Monorepo
 
-Flora is designed around **tree-shakable, performance-first architecture** that forces optimal bundle sizes through selective imports.
-
-## Philosophy
-
-Flora prioritizes **bundle optimization over developer convenience**. Instead of allowing large bundle imports, we enforce specific subpath imports that guarantee only the components you need make it to production.
-
-```javascript
-// Flora forces this pattern - only imports what you use
-import { Button } from '@binarygarden/flora/input';
-import { IconInfo } from '@binarygarden/flora/icons';
-
-// This is intentionally NOT supported - prevents bundle bloat
-import { Button, IconInfo } from '@binarygarden/flora';
-```
-
-## Features
-
-- **Forced Tree-Shaking** - Subpath-only imports prevent accidental bundle bloat
-- **Performance First** - Icons and inputs separated to avoid large collections
-- **Tailwind Native** - Components compile within your application's Tailwind setup  
-- **Zero Runtime Bloat** - Minimal dependencies, maximum performance
-- **TypeScript First** - Full type safety with declaration maps
+Development repository for Flora - a React component library for Binary Garden projects.
 
 ## Quick Start
 
 ```bash
-# Install
-npm install @binarygarden/flora
-
-# Import specific components
-import { Button } from '@binarygarden/flora/input';
-import { IconGithub } from '@binarygarden/flora/icons';
-
-# Import styles
-import '@binarygarden/flora/styles.css';
+pnpm quick  # Clean, install, build, and start dev server at localhost:3000
 ```
 
-## Development
+This command:
+1. Cleans all build artifacts and dependencies
+2. Installs all workspace dependencies
+3. Builds the Flora component library
+4. Starts the Next.js demo site for testing
 
-This is a pnpm monorepo with two packages:
+## What's in this Monorepo
 
-```
-packages/
-  ui/          # Main component library (@binarygarden/flora)
-  site/        # Development/demo site (@binarygarden/flora-site)
-```
+### `packages/flora`
+The main component library published to npm as `@binarygarden/flora`. Uses subpath-only imports for optimal bundle sizes.
 
-### Setup
+### `packages/site`
+Next.js 15 demo site for developing and testing components during development.
+
+## Navigation
+
+**For Library Users:**
+- **[Component Documentation](https://bgflora.app/components)** - Live demos and API reference
+- **[Package README](packages/flora/README.md)** - Installation and usage guide
+
+**For Contributors:**
+- **[Development Guide](docs/DEVELOPMENT.md)** - How to contribute, add components, workflows
+- **[Architecture Guide](docs/ARCHITECTURE.md)** - Technical design and build system
+- **[Theme System Guide](docs/THEME_SYSTEM.md)** - Theme templates and color utilities
+
+## Development Workflow
 
 ```bash
-# Quick start (recommended)
-pnpm quick
-
-# Or manual setup
-pnpm install
-pnpm build:ui
-pnpm run:site
+# Available commands
+pnpm build:ui       # Build the Flora component library
+pnpm build:site     # Build the Next.js demo site
+pnpm run:site       # Start dev server at localhost:3000
+pnpm clean          # Remove all build artifacts
 ```
 
-### Commands
+**Important:** Library changes require rebuild - there's no HMR for the library itself. Run `pnpm build:ui` after making changes to components.
 
-```bash
-pnpm build:ui     # Build component library
-pnpm build:site   # Build demo site  
-pnpm run:site     # Start development server
-pnpm clean        # Clean all build artifacts
-```
-
-## Architecture Decisions
-
-### Why Subpath-Only Imports?
-
-Traditional component libraries allow convenience imports like `import { Button, Icon } from '@library'`. This seems developer-friendly but leads to:
-
-1. **Accidental large bundles** when importing from icon collections
-2. **Poor tree-shaking** due to complex dependency graphs
-3. **Unclear bundle impact** for developers
-
-Flora forces intentional imports:
-- Want a button? Import from `/input`
-- Want an icon? Import from `/icons`
-- This makes bundle impact explicit and prevents accidents
-
-### Why Icons Are Separate?
-
-Icon collections can easily become 100+ components. By separating icons from inputs, applications importing buttons don't accidentally pull in entire icon libraries.
-
-## Contributing
-
-See individual package READMEs for detailed development information:
-- [UI Package README](packages/flora/README.md)
-- [Site Package README](packages/site/README.md)
+See [Development Guide](docs/DEVELOPMENT.md) for detailed contribution instructions.
 
 ## License
 
-MIT – Binary Garden
+MIT - Binary Garden | [GitHub](https://github.com/thebinarygarden/flora)

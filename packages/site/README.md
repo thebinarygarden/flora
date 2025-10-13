@@ -1,75 +1,58 @@
-# @binarygarden/flora-site
+# bgflora-site
 
-The development and demo site for Flora UI components. Built with Next.js 15 and React 19.
+Next.js 15 demo site for developing and testing Flora components.
 
-## Purpose
+## Quick Start
 
-This package serves as:
-- **Development environment** for testing Flora UI components
-- **Demo site** showcasing component usage and variants
-- **Design Documentation** explaining the design decisions taken with flora
-- **Integration testing** for the UI library in a real Next.js application
+From the repository root:
 
-## Tech Stack
-
-- **Next.js 15.4.4** with App Router
-- **React 19.1.0** with latest features
-- **TailwindCSS 4.x** matching the UI library
-- **TypeScript 5.x** with strict configuration
-- **ESLint** with Next.js configuration
-
-## Getting Started
-
-### From Repository Root (Recommended)
 ```bash
-# Quick start - builds UI library and starts dev server
-pnpm quick
+pnpm quick  # Clean, install, build UI, and start dev server at localhost:3000
+```
 
-# Or manually
+Or step-by-step:
+
+```bash
 pnpm install
-pnpm build:ui      # Must build UI library first
-pnpm run:site      # Start development server
+pnpm build:ui    # Required - build the UI library first
+pnpm run:site    # Start development server
 ```
 
-### Individual Commands
+See [Root README](../../README.md) for full monorepo setup.
+
+## Workspace Dependency
+
+This site consumes `@binarygarden/flora` as a workspace dependency (`"@binarygarden/flora": "workspace:*"`). The UI library must be built before the site will work.
+
+**Important:** Changes to Flora components require rebuilding the library (`pnpm build:ui` from root) before they appear in the site. Site code changes hot-reload automatically.
+
+## Pages
+
+- `/` - Component examples and demos
+- `/theme` - Theme system documentation
+- `/theme/creator` - Interactive theme creator tool
+- `/icons` - Icon gallery
+
+Live version: https://bgflora.app
+
+## Commands
+
+From this package directory:
+
 ```bash
-# From this package directory
-pnpm dev          # Start development server (requires UI library built)
-pnpm build        # Build for production
-pnpm start        # Start production server
-pnpm lint         # Run ESLint
+pnpm dev      # Start dev server (requires UI library built)
+pnpm build    # Production build
+pnpm start    # Start production server
+pnpm lint     # Run ESLint
 ```
 
-The site runs at http://localhost:3000
+## Related Documentation
 
-## Key Features
+- [Root README](../../README.md) - Monorepo setup and workflows
+- [Flora Package README](../flora/README.md) - Component documentation
+- [Development Guide](../../docs/DEVELOPMENT.md) - Contributing guide
+- [Architecture Guide](../../docs/ARCHITECTURE.md) - Technical design
 
-### Demonstrates Flora Usage Patterns
-The site showcases the **correct import patterns** that Flora enforces:
+## License
 
-### Tailwind Integration
-- Configured to work seamlessly with `@binarygarden/flora` styles
-- Uses TailwindCSS 4.x matching the UI library
-- Imports Flora styles: `import '@binarygarden/flora/styles.css'`
-
-### Development Workflow
-1. **Make changes** to UI components in `../ui/src/`
-2. **Rebuild UI library**: `pnpm build:ui` (from root)
-3. **View changes** automatically in the dev server
-4. **Test different variants** and usage patterns
-
-## Development Notes
-
-### UI Library Dependency
-This site consumes `@binarygarden/flora` as a workspace dependency:
-```json
-{
-  "dependencies": {
-    "@binarygarden/flora": "workspace:*"
-  }
-}
-```
-
-### Hot Reloading
-- Changes to site code hot-reload automatically
-- Changes to UI library require rebuilding: `pnpm build:ui`
+MIT - Binary Garden

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ThemeTemplate, hsbToHex } from 'bgflora/theme';
+import { ThemeTemplate, hsbToHex } from '@binarygarden/flora/theme';
 import { loadTemplates, deleteTemplate } from '@/app/theme/creator/_utils/themeStorage';
 
 export function TemplateGallery() {

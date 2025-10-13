@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useRef } from 'react';
-import { Button } from 'bgflora/input';
-import { IconPaintBrush } from 'bgflora/icons';
+import { Button } from '@binarygarden/flora/input';
+import { IconPaintBrush } from '@binarygarden/flora/icons';
 import { LandingPageShowcase } from './LandingPageShowcase';
 import { DashboardShowcase } from './DashboardShowcase';
 import { ProfilePageShowcase } from './ProfilePageShowcase';

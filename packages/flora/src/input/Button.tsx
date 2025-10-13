@@ -55,7 +55,7 @@ export const Button: React.FC<ButtonProps> = ({
             style={{
                 ...variantStyles,
                 '--tw-ring-color': 'var(--focus)',
-            } as React.CSSProperties}
+            } as React.CSSProperties & Record<string, string>}
             {...props}
         >
             {children}

@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { HSBColorPicker } from 'bgflora/input';
-import { Button } from 'bgflora/input';
+import { HSBColorPicker } from '@binarygarden/flora/input';
+import { Button } from '@binarygarden/flora/input';
 
 interface ColorPickerProps {
   selectedColor: string;

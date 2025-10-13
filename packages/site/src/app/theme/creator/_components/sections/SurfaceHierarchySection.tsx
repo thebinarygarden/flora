@@ -1,6 +1,6 @@
 "use client";
 
-import { Theme } from "bgflora/theme";
+import { Theme } from '@binarygarden/flora/theme';
 import { ThemeSection } from '../ThemeSection';
 
 interface SurfaceHierarchySectionProps {

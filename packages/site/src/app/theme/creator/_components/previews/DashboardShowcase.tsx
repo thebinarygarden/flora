@@ -1,7 +1,7 @@
 "use client";
 
-import { Card, Badge } from 'bgflora/display';
-import { Button } from 'bgflora/input';
+import { Card, Badge } from '@binarygarden/flora/display';
+import { Button } from '@binarygarden/flora/input';
 
 interface StatData {
     title: string;

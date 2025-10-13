@@ -115,7 +115,7 @@ function MyComponent() {
 
 ## Available Components
 
-Available components can be searched and observed using Flora's site: https://bgflora.app
+Available components can be searched and observed using Flora's site: https://@binarygarden/flora.app
 
 ## Architecture
 

@@ -1,8 +1,8 @@
 "use client";
 
-import { Theme } from "bgflora/theme";
+import { Theme } from '@binarygarden/flora/theme';
 import { ThemeSection } from '../ThemeSection';
-import { Button } from 'bgflora/input';
+import { Button } from '@binarygarden/flora/input';
 
 interface BrandColorsSectionProps {
     theme: Theme;

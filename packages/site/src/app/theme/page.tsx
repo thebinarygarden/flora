@@ -1,6 +1,11 @@
-import { TemplateGallery } from '@/app/theme/_components/TemplateGallery';
+'use client';
+
+import { TemplateGallery, loadTemplates, deleteTemplate } from '@binarygarden/flora/theme';
+import { useRouter } from 'next/navigation';
 
 export default function ThemePage() {
+  const router = useRouter();
+
   return (
     <div
       className="min-h-screen"
@@ -19,7 +24,11 @@ export default function ThemePage() {
         </div>
 
         {/* Template Gallery - Client Component */}
-        <TemplateGallery />
+        <TemplateGallery
+          loadTemplates={loadTemplates}
+          deleteTemplate={deleteTemplate}
+          onCreateNew={() => router.push('/theme/creator')}
+        />
       </div>
     </div>
   );

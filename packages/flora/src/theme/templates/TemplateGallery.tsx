@@ -1,18 +1,26 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { ThemeTemplate, hsbToHex } from '@binarygarden/flora/theme';
-import { loadTemplates, deleteTemplate } from '@/app/theme/creator/_utils/themeStorage';
+import { ThemeTemplate } from '../types';
+import { hsbToHex } from '../utils';
 
-export function TemplateGallery() {
-  const router = useRouter();
+interface TemplateGalleryProps {
+  loadTemplates: () => ThemeTemplate[];
+  deleteTemplate: (id: string) => boolean;
+  onCreateNew: () => void;
+}
+
+export function TemplateGallery({
+  loadTemplates,
+  deleteTemplate,
+  onCreateNew,
+}: TemplateGalleryProps) {
   const [templates, setTemplates] = useState<ThemeTemplate[]>([]);
 
   // Load templates on mount and when returning to page
   useEffect(() => {
     setTemplates(loadTemplates());
-  }, []);
+  }, [loadTemplates]);
 
   const handleDelete = (id: string, name: string) => {
     if (confirm(`Delete template "${name}"?`)) {
@@ -25,15 +33,11 @@ export function TemplateGallery() {
     }
   };
 
-  const handleCreateNew = () => {
-    router.push('/theme/creator');
-  };
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {/* Create New Template Card */}
       <button
-        onClick={handleCreateNew}
+        onClick={onCreateNew}
         className="border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center gap-4 min-h-[240px] transition-all hover:scale-[1.02] hover:border-opacity-100"
         style={{
           borderColor: 'var(--border)',

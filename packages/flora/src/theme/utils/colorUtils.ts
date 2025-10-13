@@ -1,4 +1,4 @@
-import { HSBColor } from './types';
+import { HSBColor } from '../types';
 
 // ============================================================================
 // Internal Helpers

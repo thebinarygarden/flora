@@ -3,13 +3,12 @@
 import {useState, useRef, createRef, CSSProperties, RefObject} from 'react';
 import {useRouter} from 'next/navigation';
 import {FullScreenOverlay} from '@binarygarden/flora/display';
-import {Theme, useTheme, ColorPickerDropdown} from '@binarygarden/flora/theme';
+import {Theme, useTheme, ColorPickerDropdown, saveTemplate} from '@binarygarden/flora/theme';
 import {UIPreviewCarousel} from './_components/previews/UIPreviewCarousel';
 import {SurfaceHierarchySection} from './_components/sections/SurfaceHierarchySection';
 import {BrandColorsSection} from './_components/sections/BrandColorsSection';
 import {InteractiveStatesSection} from './_components/sections/InteractiveStatesSection';
 import {SemanticStatesSection} from './_components/sections/SemanticStatesSection';
-import {saveTemplate} from './_utils/themeStorage';
 
 export default function ThemeCreator() {
     const router = useRouter();

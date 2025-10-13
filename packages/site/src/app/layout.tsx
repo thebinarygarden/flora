@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { ThemeProvider, ThemeScript } from '@binarygarden/flora/theme';
+import { ThemeProvider, ScriptPreloadTheme } from '@binarygarden/flora/theme';
 import { lightTheme, darkTheme } from "@/app/themes";
 import { AppNavigation } from "@/app/_components/AppNavigation";
 
@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning={true}>
       <head>
         <title>Flora</title>
-        <ThemeScript lightTheme={lightTheme} darkTheme={darkTheme} />
+        <ScriptPreloadTheme lightTheme={lightTheme} darkTheme={darkTheme} />
       </head>
       <body>
         <ThemeProvider lightTheme={lightTheme} darkTheme={darkTheme}>

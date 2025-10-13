@@ -126,9 +126,11 @@ input: [
 2. Add entry point to `rollup.config.mjs` inputs
 3. Add subpath to `packages/flora/package.json` exports:
    ```json
-   "./category-name": {
-     "import": "./dist/category-name/index.js",
-     "types": "./dist/category-name/index.d.ts"
+   {
+     "./category-name": {
+       "import": "./dist/category-name/index.js",
+       "types": "./dist/category-name/index.d.ts"
+     }
    }
    ```
 4. Build: `pnpm build:ui`
@@ -137,7 +139,7 @@ input: [
 
 All components use CSS variables provided by `ThemeProvider`:
 
-```typescript
+```tsx
 import { ThemeProvider } from '@binarygarden/flora/theme';
 
 <ThemeProvider theme={myTheme}>

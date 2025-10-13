@@ -1,5 +1,5 @@
-import { Theme, HSBColor, ColorRelationship, ThemeTemplate } from './types';
-import { hexToHSB, hsbToHex, shortestHuePath, applyHueDelta } from './colorUtils';
+import { Theme, HSBColor, ColorRelationship, ThemeTemplate } from '../types';
+import { hexToHSB, hsbToHex, shortestHuePath, applyHueDelta } from '../utils/colorUtils';
 
 // ============================================================================
 // Color Relationship Calculation
@@ -139,9 +139,7 @@ export function themeToTemplate(
 
   (Object.keys(theme) as Array<keyof Theme>).forEach((key) => {
     const colorValue = theme[key];
-    if (typeof colorValue === 'string') {
-      colors[key] = calculateColorRelationship(colorValue, seed);
-    }
+    colors[key] = calculateColorRelationship(colorValue, seed);
   });
 
   return {

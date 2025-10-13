@@ -3,9 +3,8 @@ import {
   ThemeTemplate,
   ThemeTemplateStorage,
   HSBColor,
-  themeToTemplate,
-  templateToTheme,
-} from '@binarygarden/flora/theme';
+} from '../types';
+import { themeToTemplate, templateToTheme } from './templateUtils';
 
 const STORAGE_KEY = 'flora-theme-templates';
 

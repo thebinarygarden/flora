@@ -8,24 +8,34 @@ export type {
 } from './types';
 
 // Components
-export { ThemeProvider, useTheme } from './ThemeContext';
-export { ThemeScript } from './ThemeScript';
-export { ThemeToggleButton } from './ThemeToggleButton';
-export { ColorPickerDropdown } from './ColorPickerDropdown';
+export {
+  ThemeProvider,
+  useTheme,
+  ThemeToggleButton,
+  ColorPickerDropdown,
+} from './components';
 
-// Color utilities
+// Utilities (color utils and scripts)
 export {
   hsbToHex,
   hexToHSB,
   hexToRgb,
   shortestHuePath,
   applyHueDelta,
-} from './colorUtils';
+  ScriptPreloadTheme,
+} from './utils';
 
-// Template utilities
+// Templates (component, utilities, and storage)
 export {
+  TemplateGallery,
   calculateColorRelationship,
   hydrateColorFromRelationship,
   themeToTemplate,
   templateToTheme,
-} from './templateUtils';
+  loadTemplates,
+  saveTemplate,
+  deleteTemplate,
+  hydrateTemplate,
+  updateTemplateName,
+  getTemplateById,
+} from './templates';

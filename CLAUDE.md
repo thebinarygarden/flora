@@ -4,215 +4,196 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Flora is a **performance-first React component library** for Binary Garden projects. It enforces a **tree-shakable, subpath-only import architecture** that prevents accidental bundle bloat by requiring explicit subpath imports instead of barrel exports.
+Flora is a React component library for Binary Garden projects built as a pnpm monorepo. It uses a **defensive architecture** with subpath-only imports to guarantee optimal bundle sizes without relying on tree-shaking.
 
-**Core Philosophy:** Force intentional imports to prevent accidental large bundles, improve tree-shaking, and make bundle impact explicit.
+Published to npm as `@binarygarden/flora` (currently v0.0.2).
 
 ## Monorepo Structure
 
-This is a pnpm workspace with two packages:
-- **`packages/flora/`** - `@binarygarden/flora` - The component library (published to npm)
-- **`packages/site/`** - `bgflora-site` - Next.js 15 development/demo site
+- `packages/flora/` - Main component library (published package)
+- `packages/site/` - Next.js 15 demo site for testing components
+- `docs/` - Architecture, development, and theme system documentation
 
 ## Essential Commands
 
-### Development Workflow
-
+### Quick Start
 ```bash
-# Quick start (recommended) - clean, install, build UI, run dev server
-pnpm quick
-
-# Step-by-step
-pnpm install        # Install all dependencies
-pnpm build:ui       # Build @binarygarden/flora component library
-pnpm build:site     # Build bgflora-site Next.js app
-pnpm run:site       # Start dev server at localhost:3000
-
-# Clean everything
-pnpm clean          # Remove node_modules, dist, .next directories
+pnpm quick  # Clean, install, build UI, start dev server at localhost:3000
 ```
 
-### Making UI Changes
+### Build Commands
+```bash
+pnpm build:ui       # Build @binarygarden/flora (required after library changes)
+pnpm build:site     # Build Next.js demo site
+pnpm run:site       # Start dev server at localhost:3000
+pnpm clean          # Remove node_modules, dist, .next from all packages
+```
 
-**Important:** UI library changes require rebuild - no hot module reload for the library itself.
+### Development Workflow
+**Important:** Library changes require rebuild - no HMR for the library itself.
 
-1. Edit components in `packages/flora/src/`
-2. Run `pnpm build:ui` from repository root
-3. Changes appear at `localhost:3000` (if dev server running)
+```bash
+# Terminal 1 - Keep dev server running
+pnpm run:site
 
-## Architecture
+# Terminal 2 - Rebuild after each component change
+pnpm build:ui
+# Then refresh browser
+```
 
-### Subpath Import System
+Demo site changes have hot module reload.
 
-Flora **intentionally disables** barrel exports. Components must be imported from explicit subpaths:
+### Publishing (from packages/flora/)
+```bash
+# 1. Update version in packages/flora/package.json
+# 2. Build the library
+pnpm build:ui
+# 3. Publish from library directory
+cd packages/flora && npm publish
+```
 
-```typescript
-// ✅ Correct
+## Architecture Principles
+
+### Defensive Architecture: Subpath-Only Imports
+
+Flora enforces subpath imports at the package level to guarantee optimal bundle sizes:
+
+```javascript
+// ✅ Required (explicit category imports)
 import { Button } from '@binarygarden/flora/input';
 import { IconGithub } from '@binarygarden/flora/icons';
 import { ThemeProvider } from '@binarygarden/flora/theme';
 
-// ❌ This will NOT work (intentionally)
+// ❌ Not supported (main index.ts is empty)
 import { Button } from '@binarygarden/flora';
 ```
 
-**Why:** Prevents accidentally importing 100+ icon components when you only need a button. Icons are isolated from other components to prevent bundle bloat.
+**Why this matters:**
+- Icons directory isolated from inputs/navigation/etc
+- Unused categories eliminated at module resolution (before bundler optimizations)
+- Bundle size controlled by structure, not tooling
+- No risk of accidentally importing 100+ icons when you only need a button
 
 ### Available Subpaths
+- `@binarygarden/flora/input` - Form components (Button, HSBColorPicker, etc)
+- `@binarygarden/flora/icons` - Icon components (20+ SVG icons)
+- `@binarygarden/flora/core` - Core utilities
+- `@binarygarden/flora/navigation` - Navigation components
+- `@binarygarden/flora/theme` - ThemeProvider and theme utilities
+- `@binarygarden/flora/display` - Display components
+- `@binarygarden/flora/styles.css` - Global styles
 
-Defined in `packages/flora/package.json` exports and `rollup.config.mjs` inputs:
+### Critical Rules
 
-- `@binarygarden/flora/input` - Input components (Button, HSBColorPicker)
-- `@binarygarden/flora/icons` - Icon collection (20+ icons)
-- `@binarygarden/flora/core` - Core components (BGLanding)
-- `@binarygarden/flora/navigation` - Navigation components (MobileNav)
-- `@binarygarden/flora/display` - Display components (Badge, Card, CopyableText, FullScreenOverlay)
-- `@binarygarden/flora/theme` - Theme system (ThemeProvider, hooks, utilities)
-- `@binarygarden/flora/styles.css` - Compiled Tailwind styles
-
-### Source Directory Mapping
-
-Source structure in `packages/flora/src/`:
-```
-src/
-├── input/          → @binarygarden/flora/input
-├── icons/          → @binarygarden/flora/icons
-├── core/           → @binarygarden/flora/core
-├── navigation/     → @binarygarden/flora/navigation
-├── display/        → @binarygarden/flora/display
-├── theme/          → @binarygarden/flora/theme
-├── util/           → Internal utilities (not exported)
-└── styles.css      → @binarygarden/flora/styles.css
-```
+1. **Never add barrel exports** - `packages/flora/src/index.ts` must stay empty
+2. **Keep icons isolated** - Icon category never imported unless explicitly needed
+3. **All components depend on ThemeProvider** - Use CSS variables like `var(--primary)`, never hardcoded colors
+4. **One category = one directory** - Each with its own `index.ts` export file
 
 ## Build System
 
-### Rollup Configuration
+Uses Rollup with `preserveModules: true` to maintain source structure in output:
 
-- **Config:** `packages/flora/rollup.config.mjs`
-- **Output:** `packages/flora/dist/` with preserved directory structure matching `src/`
-- **Format:** ESM only with `preserveModules: true` for optimal tree-shaking
-- **Plugins:**
-  - `@rollup/plugin-typescript` - TypeScript compilation with declarations
-  - `@svgr/rollup` - Converts SVGs to React components
-  - `rollup-plugin-postcss` - Compiles Tailwind CSS 4.x
-  - `rollup-plugin-preserve-directives` - Preserves "use client" directives
+```javascript
+// rollup.config.mjs inputs (packages/flora/rollup.config.mjs:8-16)
+input: [
+    'src/input/index.ts',
+    'src/icons/index.ts',
+    'src/core/index.ts',
+    'src/navigation/index.ts',
+    'src/theme/index.ts',
+    'src/display/index.ts',
+    'src/styles.css',
+]
+```
 
-### TypeScript Configuration
+**Key settings:**
+- ESM only (`format: 'esm'`)
+- `preserveModules: true` - Each component becomes separate file for optimal tree-shaking
+- External: react, react-dom, framer-motion (peer dependencies)
+- Plugins: svgr (SVG → React components), TypeScript, PostCSS (Tailwind)
 
-- **Root config:** `tsconfig.json` (base configuration)
-- **Flora package:** `packages/flora/tsconfig.json` extends root
-- **Target:** ES2017, ESM modules
-- **Output:** Declaration files with source maps in `dist/`
+### Adding New Components
 
-### External Dependencies
+1. Create component in appropriate category directory (input, display, navigation, etc.)
+2. Export from category's `index.ts`
+3. Build: `pnpm build:ui`
+4. Test in demo site: `pnpm run:site`
 
-The following are peer dependencies (not bundled):
-- `react` ^18.2.0
-- `react-dom` ^18.2.0
-- `framer-motion` ^11.0.0
-- `tailwindcss` ^4
+### Creating New Subpaths
+
+1. Create category directory in `packages/flora/src/`
+2. Add entry point to `rollup.config.mjs` inputs
+3. Add subpath to `packages/flora/package.json` exports:
+   ```json
+   "./category-name": {
+     "import": "./dist/category-name/index.js",
+     "types": "./dist/category-name/index.d.ts"
+   }
+   ```
+4. Build: `pnpm build:ui`
 
 ## Theme System
 
-### Required Setup
-
-All Flora components require `ThemeProvider` wrapper with light and dark themes:
+All components use CSS variables provided by `ThemeProvider`:
 
 ```typescript
-import { ThemeProvider, type Theme } from '@binarygarden/flora/theme';
+import { ThemeProvider } from '@binarygarden/flora/theme';
 
-const lightTheme: Theme = {
-  primary: '#2563eb',
-  onPrimary: '#ffffff',
-  secondary: '#10b981',
-  onSecondary: '#ffffff',
-  // ... 22 total color properties required
-};
-
-function App() {
-  return (
-    <ThemeProvider lightTheme={lightTheme} darkTheme={darkTheme}>
-      {children}
-    </ThemeProvider>
-  );
-}
+<ThemeProvider theme={myTheme}>
+  <App />
+</ThemeProvider>
 ```
 
-### Theme Structure
+**Theme Template System:**
+- Saves color themes as **ratios** (relationships between colors)
+- Hydrate templates with different seed colors to create variations
+- Preserves relative color properties (hue shifts, saturation/brightness ratios)
+- Handles edge cases: pure grays, near-black, near-white colors
 
-The `Theme` type (in `packages/flora/src/theme/types.ts`) requires 22 color properties:
-- **Brand colors:** primary, onPrimary, secondary, onSecondary, tertiary, onTertiary
-- **Surfaces:** background, onBackground, surface, onSurface
-- **Interactive states:** border, hover, focus, disabled, onDisabled
-- **Semantic states:** error, onError, success, onSuccess, warning, onWarning
+See `docs/THEME_SYSTEM.md` for detailed API.
 
-### Theme Template System
+## Icon Handling
 
-Advanced feature documented in `packages/flora/src/theme/TEMPLATE_SYSTEM.md`:
-- **Purpose:** Save color themes and "hydrate" them with different seed colors
-- **Storage:** Uses ratios/relationships instead of absolute colors
-- **Use case:** Generate theme variations by rotating hue or adjusting saturation/brightness
-- **API:** `saveTemplate()`, `hydrateTemplate()`, `loadTemplates()` in `templateUtils.ts`
+Icons are SVGs converted to React components via `@svgr/rollup`:
 
-## Adding New Components
+1. Add SVG to `packages/flora/src/icons/`
+2. Use `currentColor` for fills/strokes
+3. Include `viewBox` attribute
+4. Export from `packages/flora/src/icons/index.ts`
+5. Build: `pnpm build:ui`
 
-1. **Create component** in appropriate `packages/flora/src/` subdirectory:
-   - `input/` for input components
-   - `icons/` for icons (keep isolated!)
-   - `display/` for display components
-   - `navigation/` for navigation components
-   - `core/` for core components
+Icons remain architecturally isolated - never imported unless explicitly needed.
 
-2. **Export from subdirectory's `index.ts`**
+## Demo Site (packages/site/)
 
-3. **For new subpath categories:**
-   - Add to `rollup.config.mjs` `input` array
-   - Add to `package.json` `exports` field
-   - Update documentation
+Next.js 15 app for testing components during development:
 
-4. **Build and test:** `pnpm build:ui && pnpm run:site`
+```bash
+pnpm run:site  # Starts dev server at localhost:3000
+pnpm build:site  # Production build
+```
 
-## Key Design Patterns
+Uses workspace dependency: `"@binarygarden/flora": "workspace:*"`
 
-### "use client" Directives
+## Documentation
 
-Many components use `"use client"` directive for Next.js App Router compatibility. These are preserved by `rollup-plugin-preserve-directives`.
+- `docs/ARCHITECTURE.md` - Defensive architecture philosophy, build system details
+- `docs/DEVELOPMENT.md` - Contribution workflow, adding components
+- `docs/THEME_SYSTEM.md` - Theme templates, color relationships, hydration API
+- `packages/flora/README.md` - Public API documentation
 
-### Framer Motion Integration
+## Technologies
 
-Animation components use `framer-motion` (peer dependency). Components like `Button`, `MobileNav`, and `BGLanding` use motion components for animations.
+- **Build:** Rollup, TypeScript, PostCSS
+- **Styling:** Tailwind CSS v4, CSS variables
+- **Animation:** Framer Motion (peer dependency)
+- **Icons:** SVGR (SVG → React components)
+- **Demo Site:** Next.js 15, React 19
 
-### Theme CSS Variables
+## Important Files
 
-The `ThemeProvider` applies theme colors as CSS variables (`--primary`, `--on-primary`, etc.) on `:root`. Components reference these variables via Tailwind classes.
-
-### HSB Color System
-
-The theme system uses HSB (Hue, Saturation, Brightness) internally for color manipulation, particularly for the template system. See `colorUtils.ts` for conversion utilities.
-
-## Tech Stack Summary
-
-**UI Library:**
-- React 18.2+, React DOM 18.2+ (peer deps)
-- TypeScript 5.3+
-- Rollup 4.6+ for bundling
-- Framer Motion 11.0+ (peer dep)
-- Tailwind CSS 4.x (peer dep)
-
-**Demo Site:**
-- Next.js 15.4.4 with App Router
-- React 19.1.0
-- TypeScript 5.x
-- Tailwind CSS 4.x
-
-**Package Manager:** pnpm 10.8.0+ (required - enforced via `packageManager` field)
-
-## Important Constraints
-
-1. **Never add barrel exports** - Maintain subpath-only architecture
-2. **Keep icons isolated** - Don't merge icon imports with other component categories
-3. **UI changes require rebuild** - No HMR for the component library itself
-4. **All components need ThemeProvider** - Components expect theme CSS variables
-5. **Preserve module structure** - Rollup's `preserveModules: true` is critical for tree-shaking
-6. **Use pnpm** - This is a pnpm workspace, don't use npm or yarn
+- `packages/flora/rollup.config.mjs` - Build configuration, entry points
+- `packages/flora/package.json` - Subpath exports, version, peer dependencies
+- `packages/flora/src/index.ts` - Must remain empty (enforces subpath imports)
+- `pnpm-workspace.yaml` - Monorepo workspace configuration

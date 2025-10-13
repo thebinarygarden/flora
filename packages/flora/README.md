@@ -1,22 +1,15 @@
 # @binarygarden/flora
 
-Performance-first React component library with tree-shakable subpath imports.
-
 [![npm version](https://img.shields.io/npm/v/@binarygarden/flora)](https://www.npmjs.com/package/@binarygarden/flora)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
+> **The plants of a particular region** - Performance-first React component library for Binary Garden
+
+Flora is a React component library built for Binary Garden projects. It leverages **Tailwind CSS** for styling and **Framer Motion** for animations. Flora's CSS system is **theme-driven**, consuming color themes from your application through the `ThemeProvider` - allowing complete control over your design system while maintaining consistent component behavior. Flora enforces subpath-only imports (`@binarygarden/flora/input`) instead of barrel exports to guarantee optimal production bundles regardless of bundler configuration.
+
 ## Overview
 
-Flora is built around **forced tree-shaking** through subpath-only imports. Unlike traditional component libraries that allow barrel imports, Flora intentionally prevents `import { Button } from '@binarygarden/flora'` to eliminate accidental bundle bloat.
-
-### Key Features
-
-- **Subpath-Only Imports** - Enforced separation prevents accidental large bundles
-- **Performance First** - Every architectural decision prioritizes bundle size
-- **Tailwind Native** - Components use Tailwind CSS 4.x
-- **Zero Runtime Bloat** - Minimal dependencies (only tslib)
-- **TypeScript First** - Full type safety with declaration maps
-- **Advanced Theme System** - Dynamic theming with template support
+Flora uses subpath-only imports. The main export `import { Button } from '@binarygarden/flora'` is intentionally disabled - components must be imported from explicit subpaths like `import { Button } from '@binarygarden/flora/input'`.
 
 ## Installation
 
@@ -81,561 +74,62 @@ function App() {
 
 ## Available Components
 
-### Input (`@binarygarden/flora/input`)
-
-Interactive input components for user interaction.
-
-#### Button
-
-```tsx
-import { Button } from '@binarygarden/flora/input';
-
-<Button variant="primary">Primary</Button>
-<Button variant="secondary">Secondary</Button>
-<Button variant="tertiary">Tertiary</Button>
-<Button variant="outline">Outline</Button>
-<Button disabled>Disabled</Button>
-```
-
-**Props:**
-- `variant`: `'primary' | 'secondary' | 'tertiary' | 'outline'`
-- `disabled`: `boolean`
-- Standard button HTML attributes
-
-#### HSBColorPicker
-
-Interactive HSB (Hue, Saturation, Brightness) color picker component.
-
-```tsx
-import { HSBColorPicker, type HSBColor } from '@binarygarden/flora/input';
-
-const [color, setColor] = useState<HSBColor>({
-  hue: 180,
-  saturation: 50,
-  brightness: 50
-});
-
-<HSBColorPicker value={color} onChange={setColor} />
-```
-
-**Props:**
-- `value`: `HSBColor` - Current color value
-- `onChange`: `(color: HSBColor) => void` - Change handler
-
-**Color Utilities:**
-```tsx
-import { hsbToHex, hexToHsb, hexToRgb } from '@binarygarden/flora/input';
-
-const hex = hsbToHex({ hue: 180, saturation: 50, brightness: 50 });
-const hsb = hexToHsb('#3b82f6');
-const rgb = hexToRgb('#3b82f6');
-```
-
-### Icons (`@binarygarden/flora/icons`)
-
-SVG icon components optimized for performance.
-
-```tsx
-import { IconGithub, IconInfo, IconArrow } from '@binarygarden/flora/icons';
-
-<IconGithub size={24} color="#000000" />
-<IconInfo size={16} strokeWidth="regular" />
-<IconArrow direction="right" size={20} />
-```
-
-**Available Icons:**
-
-- `IconArrow` - Directional arrow (supports `direction` prop)
-- `IconBGDocs` - Binary Garden documentation icon
-- `IconBGLogo` - Binary Garden logo
-- `IconContact` - Contact/mail icon
-- `IconCopy` - Copy to clipboard icon
-- `IconDay` - Sun/day mode icon
-- `IconEyeDropper` - Color picker/eyedropper icon
-- `IconGithub` - GitHub logo
-- `IconHide` - Hide/visibility off icon
-- `IconInfo` - Information icon
-- `IconLinkOut` - External link icon
-- `IconMenu` - Hamburger menu icon
-- `IconNight` - Moon/night mode icon
-- `IconPaintBrush` - Paint brush/theme icon
-- `IconSave` - Save/disk icon
-- `IconSearch` - Search/magnifying glass icon
-- `IconView` - View/visibility on icon
-- `IconX` - Close/X icon
-- `IconYoutube` - YouTube logo
-
-**IconProps:**
-```tsx
-type IconProps = {
-  size?: number;
-  color?: string;
-  strokeWidth?: 'thin' | 'regular' | 'thick';
-  className?: string;
-};
-```
-
-### Display (`@binarygarden/flora/display`)
-
-Components for displaying content and information.
-
-#### Badge
-
-```tsx
-import { Badge } from '@binarygarden/flora/display';
-
-<Badge variant="primary">New</Badge>
-<Badge variant="success">Active</Badge>
-<Badge variant="error">Error</Badge>
-<Badge variant="warning">Warning</Badge>
-```
-
-#### Card
-
-```tsx
-import { Card } from '@binarygarden/flora/display';
-
-<Card>
-  <h3>Card Title</h3>
-  <p>Card content goes here</p>
-</Card>
-```
-
-#### CopyableText
-
-Text component with built-in copy-to-clipboard functionality.
-
-```tsx
-import { CopyableText } from '@binarygarden/flora/display';
-
-<CopyableText value="#3b82f6" />
-```
-
-#### FullScreenOverlay
-
-Full-screen modal overlay component.
-
-```tsx
-import { FullScreenOverlay } from '@binarygarden/flora/display';
-
-<FullScreenOverlay isOpen={isOpen} onClose={() => setIsOpen(false)}>
-  <div>Overlay content</div>
-</FullScreenOverlay>
-```
-
-### Navigation (`@binarygarden/flora/navigation`)
-
-Navigation components for application structure.
-
-#### MobileNav
-
-Responsive mobile navigation component with animated menu.
-
-```tsx
-import { MobileNav, type NavItem } from '@binarygarden/flora/navigation';
-
-const navItems: NavItem[] = [
-  { label: 'Home', href: '/' },
-  { label: 'About', href: '/about' },
-  { label: 'Contact', href: '/contact' }
-];
-
-<MobileNav items={navItems} />
-```
-
-### Core (`@binarygarden/flora/core`)
-
-Core Binary Garden components.
-
-#### BGLanding
-
-Binary Garden branded landing component.
-
-```tsx
-import { BGLanding } from '@binarygarden/flora/core';
-
-<BGLanding />
-```
-
-### Theme (`@binarygarden/flora/theme`)
-
-Complete theming system with dynamic color management.
-
-#### ThemeProvider & useTheme
-
-```tsx
-import { ThemeProvider, useTheme, type Theme } from '@binarygarden/flora/theme';
-
-// Define themes
-const lightTheme: Theme = {
-  // Brand colors
-  primary: '#2563eb',
-  onPrimary: '#ffffff',
-  secondary: '#6b7280',
-  onSecondary: '#ffffff',
-  tertiary: '#7c3aed',
-  onTertiary: '#ffffff',
-
-  // Surface hierarchy
-  background: '#ffffff',
-  onBackground: '#111827',
-  surface: '#f9fafb',
-  onSurface: '#374151',
-
-  // Interactive states
-  border: '#d1d5db',
-  hover: '#2563eb',
-  focus: '#3b82f6',
-  disabled: '#f3f4f6',
-  onDisabled: '#9ca3af',
-
-  // Semantic states
-  error: '#dc2626',
-  onError: '#ffffff',
-  success: '#16a34a',
-  onSuccess: '#ffffff',
-  warning: '#ca8a04',
-  onWarning: '#ffffff'
-};
-
-const darkTheme: Theme = {
-  // ... dark theme colors
-};
-
-// Wrap your app
-function App() {
-  return (
-    <ThemeProvider lightTheme={lightTheme} darkTheme={darkTheme}>
-      <YourApp />
-    </ThemeProvider>
-  );
-}
-
-// Use in components
-function MyComponent() {
-  const { theme, isDark, toggleTheme } = useTheme();
-
-  return (
-    <div style={{ backgroundColor: theme.surface, color: theme.onSurface }}>
-      <button onClick={toggleTheme}>
-        Switch to {isDark ? 'light' : 'dark'} mode
-      </button>
-    </div>
-  );
-}
-```
-
-**Theme Type Structure:**
-
-```typescript
-type Theme = {
-  // Brand colors
-  primary: string;
-  onPrimary: string;
-  secondary: string;
-  onSecondary: string;
-  tertiary: string;
-  onTertiary: string;
-
-  // Surface hierarchy
-  background: string;    // Page background
-  onBackground: string;
-  surface: string;       // Cards, modals
-  onSurface: string;
-
-  // Interactive states
-  border: string;        // Borders, dividers
-  hover: string;         // Hover overlays
-  focus: string;         // Focus rings
-  disabled: string;      // Disabled backgrounds
-  onDisabled: string;
-
-  // Semantic states
-  error: string;
-  onError: string;
-  success: string;
-  onSuccess: string;
-  warning: string;
-  onWarning: string;
-};
-```
-
-#### ThemeToggleButton
-
-Pre-built theme toggle button component.
-
-```tsx
-import { ThemeToggleButton } from '@binarygarden/flora/theme';
-
-<ThemeToggleButton />
-```
-
-#### ColorPickerDropdown
-
-Advanced color picker with theme integration.
-
-```tsx
-import { ColorPickerDropdown } from '@binarygarden/flora/theme';
-
-<ColorPickerDropdown />
-```
-
-#### ThemeScript
-
-Client-side script for preventing theme flash on page load. Add to your HTML `<head>`:
-
-```tsx
-import { ThemeScript } from '@binarygarden/flora/theme';
-
-<head>
-  <ThemeScript />
-</head>
-```
-
-#### Theme Templates
-
-Flora includes a powerful template system for saving and rehydrating themes with different seed colors.
-
-```tsx
-import {
-  themeToTemplate,
-  templateToTheme,
-  type ThemeTemplate
-} from '@binarygarden/flora/theme';
-
-// Save current theme as template
-const template: ThemeTemplate = themeToTemplate(
-  currentLightTheme,
-  currentDarkTheme,
-  { name: 'My Theme', id: 'theme-123' }
-);
-
-// Rehydrate template with new seed color
-const newTheme = templateToTheme(template, {
-  hue: 200,
-  saturation: 60,
-  brightness: 50
-});
-```
-
-**Color Utilities:**
-
-```tsx
-import {
-  hsbToHex,
-  hexToHSB,
-  hexToRgb,
-  applyHueDelta,
-  shortestHuePath
-} from '@binarygarden/flora/theme';
-
-// Convert between color formats
-const hex = hsbToHex({ hue: 200, saturation: 50, brightness: 50 });
-const hsb = hexToHSB('#3b82f6');
-const rgb = hexToRgb('#3b82f6');
-
-// Calculate hue relationships
-const delta = shortestHuePath(180, 270); // -90
-const newHue = applyHueDelta(180, -90);   // 90
-```
+View all components with live demos and API documentation at **[bgflora.app/components](https://bgflora.app/components)**
 
 ## Design Philosophy
 
-### Why No Convenience Imports?
+Flora uses a **defensive architecture** approach: instead of relying on bundler tree-shaking to eliminate unused code, Flora makes it architecturally impossible to accidentally import unnecessary components.
 
-The main `index.ts` is intentionally empty to force developers to import from specific subpaths. This provides:
+### Subpath-Only Imports
 
-1. **Prevents accidental bloat** - Can't accidentally import entire icon collection (100+ components)
-2. **Makes dependencies explicit** - Clear visibility into what parts of library you're using
-3. **Improves tree-shaking** - Bundlers can eliminate unused categories entirely
-4. **Better bundle analysis** - Easier to track actual usage in production builds
-
-### Performance First
-
-Every architectural decision prioritizes bundle size:
-
-- **Icons separated from inputs** - Prevents importing large collections accidentally
-- **ESM with preserved modules** - Optimal tree-shaking
-- **Minimal runtime dependencies** - Only `tslib` (automatically added by TypeScript)
-- **SVGs converted to React components** - Better optimization than runtime SVG parsing
-- **Compiled Tailwind styles** - Single CSS file, no runtime style generation
-
-### The Icon Problem Explained
-
-Icon collections commonly grow to 100+ components. Without subpath isolation:
+The main `index.ts` is intentionally empty to force developers to import from specific subpaths:
 
 ```javascript
-// packages/ui/src/index.ts (typical library)
-export * from './input/Button';
-export * from './icons/IconGithub';
-export * from './icons/IconTwitter';
-// ... 98 more icon exports
-
-// Developer imports a button
-import { Button } from '@library';
-
-// Their bundler may pull in references to ALL exports,
-// even with tree-shaking, depending on bundler config
-```
-
-With Flora's architecture:
-
-```javascript
-// Icons are completely separate
+// ✅ Required - explicit subpath imports
 import { Button } from '@binarygarden/flora/input';
 import { IconGithub } from '@binarygarden/flora/icons';
 
-// Bundler can eliminate the entire icons/ directory
-// if you never import from it
+// ❌ Not supported - main export is empty
+import { Button, IconGithub } from '@binarygarden/flora';
 ```
 
-## Architecture
+### Why This Approach?
 
-### Build System
+Modern bundlers (Webpack 5+, Vite, Rollup) **can tree-shake barrel exports effectively when properly configured**. However, tree-shaking can fail or be incomplete when:
 
-Flora uses Rollup for optimal ESM output:
+- Bundlers aren't optimally configured
+- Modules contain side effects
+- Circular dependencies exist
+- Development mode is active (tree-shaking disabled)
+- Complex re-export chains obscure dependencies
+
+Even when tree-shaking works correctly, barrel exports can obscure bundle impact during development. You might import a Button without realizing the same module also exports 100+ icon components that your bundler must analyze and eliminate.
+
+### How It Works
+
+Subpath imports enforce separation at the module resolution level:
+- Each component category is a separate entry point
+- Unused categories are eliminated before tree-shaking runs
+- The main `index.ts` is empty, forcing subpath usage
+
+### The Icon Problem
+
+Icon collections commonly grow to 100+ components. Without subpath isolation, importing a button could cause your bundler to analyze the entire icon collection:
 
 ```javascript
-// rollup.config.mjs
-export default {
-  input: [
-    'src/input/index.ts',
-    'src/icons/index.ts',
-    'src/core/index.ts',
-    'src/navigation/index.ts',
-    'src/theme/index.ts',
-    'src/display/index.ts',
-    'src/styles.css'
-  ],
-  output: {
-    dir: 'dist',
-    format: 'esm',
-    preserveModules: true,      // Keeps directory structure
-    preserveModulesRoot: 'src',
-    sourcemap: true
-  },
-  plugins: [
-    svgr(),           // SVG to React components
-    typescript(),     // TypeScript compilation
-    postcss()         // Tailwind CSS compilation
-  ]
-};
+// Traditional library - all exports in one barrel
+import { Button } from '@library';
+// Bundler must parse and analyze 100+ icon exports even if unused
+
+// Flora - physically separated
+import { Button } from '@binarygarden/flora/input';
+import { IconGithub } from '@binarygarden/flora/icons';
+// Icons directory never loaded unless explicitly imported
 ```
 
-**Key Features:**
-- **preserveModules: true** - Maintains source directory structure for optimal tree-shaking
-- **ESM only** - Modern bundle format for best performance
-- **Full TypeScript support** - Declaration files and source maps
-- **SVG optimization** - SVGs converted to optimized React components
+For technical details on build system, package structure, and Rollup configuration, see the [Architecture Guide](../../docs/ARCHITECTURE.md).
 
-### Package Exports
-
-All subpaths are explicitly defined in `package.json`:
-
-```json
-{
-  "exports": {
-    "./input": {
-      "import": "./dist/input/index.js",
-      "types": "./dist/input/index.d.ts"
-    },
-    "./icons": {
-      "import": "./dist/icons/index.js",
-      "types": "./dist/icons/index.d.ts"
-    },
-    "./core": {
-      "import": "./dist/core/index.js",
-      "types": "./dist/core/index.d.ts"
-    },
-    "./navigation": {
-      "import": "./dist/navigation/index.js",
-      "types": "./dist/navigation/index.d.ts"
-    },
-    "./theme": {
-      "import": "./dist/theme/index.js",
-      "types": "./dist/theme/index.d.ts"
-    },
-    "./display": {
-      "import": "./dist/display/index.js",
-      "types": "./dist/display/index.d.ts"
-    },
-    "./styles.css": "./dist/styles.css"
-  }
-}
-```
-
-This enforces subpath-only imports at the package level.
-
-## Development
-
-### Building the Library
-
-```bash
-# From packages/flora/ directory
-pnpm build
-
-# Or from repository root
-pnpm build:ui
-```
-
-Output goes to `dist/` with preserved source directory structure:
-
-```
-dist/
-  input/
-    index.js
-    index.d.ts
-    Button.js
-    Button.d.ts
-  icons/
-    index.js
-    index.d.ts
-    IconGithub.js
-    IconGithub.d.ts
-  // ... other subpaths
-  styles.css
-```
-
-### Adding New Components
-
-1. **Create component** in appropriate `src/` subdirectory
-2. **Export from index.ts** in that subdirectory
-3. **Build and test**: `pnpm build:ui`
-
-**Example:**
-
-```tsx
-// src/input/TextField.tsx
-export function TextField(props: TextFieldProps) {
-  return <input {...props} />;
-}
-
-// src/input/index.ts
-export { TextField } from './TextField';
-export type { TextFieldProps } from './TextField';
-
-// Usage
-import { TextField } from '@binarygarden/flora/input';
-```
-
-### Creating New Subpaths
-
-If you need a new category (e.g., `./layout`):
-
-1. **Create directory**: `src/layout/`
-2. **Add to rollup.config.mjs inputs**: `'src/layout/index.ts'`
-3. **Add to package.json exports**:
-   ```json
-   {
-     "exports": {
-       "./layout": {
-         "import": "./dist/layout/index.js",
-         "types": "./dist/layout/index.d.ts"
-       }
-     }
-   }
-   ```
-4. **Build**: `pnpm build`
+For contributing, adding components, and development workflow, see the [Development Guide](../../docs/DEVELOPMENT.md).
 
 ## TypeScript Support
 
@@ -664,18 +158,6 @@ Flora supports all modern browsers that support:
 
 Effectively: Chrome 88+, Firefox 78+, Safari 14+, Edge 88+
 
-## Repository
-
-- **GitHub**: https://github.com/thebinarygarden/flora
-- **Issues**: https://github.com/thebinarygarden/flora/issues
-- **npm**: https://www.npmjs.com/package/@binarygarden/flora
-
 ## License
 
-MIT - Binary Garden
-
----
-
-**Built with ❤️ by Binary Garden**
-
-For development site and live examples, see [Demo Site README](../site/README.md)
+MIT - Binary Garden | [GitHub](https://github.com/thebinarygarden/flora) | [npm](https://www.npmjs.com/package/@binarygarden/flora)

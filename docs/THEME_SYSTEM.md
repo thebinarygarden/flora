@@ -48,7 +48,7 @@ interface ColorRelationship {
 4. Template saved with cyan (190°) seed by default
 
 ```typescript
-import { saveTemplate } from './_utils/themeStorage';
+import { saveTemplate } from '@binarygarden/flora/theme';
 
 const template = saveTemplate(myTheme, "Ocean Vibes", 190);
 ```
@@ -56,7 +56,7 @@ const template = saveTemplate(myTheme, "Ocean Vibes", 190);
 ### Loading Templates
 
 ```typescript
-import { loadTemplates, getTemplateById } from './_utils/themeStorage';
+import { loadTemplates, getTemplateById } from '@binarygarden/flora/theme';
 
 // Get all templates
 const templates = loadTemplates();
@@ -68,7 +68,7 @@ const template = getTemplateById("1699123456789");
 ### Hydrating a Template
 
 ```typescript
-import { hydrateTemplate } from './_utils/themeStorage';
+import { hydrateTemplate } from '@binarygarden/flora/theme';
 
 // Hydrate with pure red (full saturation/brightness)
 const redTheme = hydrateTemplate("1699123456789", 0, 100, 100);
@@ -122,21 +122,18 @@ Near-white colors stay white:
           "brightnessRatio": 0.10,
           "minSaturation": 5,
           "minBrightness": 10
-        }
-        // ... all theme colors
+        },
+        "secondary": {
+          "hueDelta": 0,
+          "saturationRatio": 1.0,
+          "brightnessRatio": 1.0
+        },
+        "additionalThemeColors": "..."
       }
     }
   ]
 }
 ```
-
-## Benefits
-
-1. **Hue Rotation**: Change entire theme color scheme instantly
-2. **Tone Shifting**: Create darker/lighter or muted/vibrant variants
-3. **Accessibility**: Generate high-contrast or low-contrast versions
-4. **Compact Storage**: Only stores mathematical relationships
-5. **Infinite Variations**: One template → unlimited color schemes
 
 ## API Reference
 
@@ -159,3 +156,9 @@ Near-white colors stay white:
 - `hydrateTemplate(id: string, hue: number, sat?: number, bright?: number): Theme | null`
 - `getTemplateById(id: string): ThemeTemplate | null`
 - `updateTemplateName(id: string, name: string): boolean`
+
+## Related Documentation
+
+- [Package README](../packages/flora/README.md) - Main API documentation
+- [Architecture Guide](./ARCHITECTURE.md) - Design philosophy
+- [Development Guide](./DEVELOPMENT.md) - Contributing guide

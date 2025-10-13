@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { ThemeTemplate } from '../types';
 import { hsbToHex } from '../utils';
+import { useDialog } from '../../display/DialogContext';
+import { IconPlus } from '../../icons/IconPlus';
 
 interface TemplateGalleryProps {
   loadTemplates: () => ThemeTemplate[];
@@ -45,7 +47,7 @@ export function TemplateGallery({
           color: 'var(--on-surface)',
         }}
       >
-        <div className="text-6xl" style={{ color: 'var(--primary)' }}>+</div>
+        <IconPlus size={64} color="var(--primary)" />
         <div className="text-lg font-semibold">Create New Template</div>
         <div className="text-sm opacity-70">Design a custom theme</div>
       </button>

@@ -1,16 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import * as React from "react";
-import { HSBColorPicker, hexToHsb, hexToRgb } from '@binarygarden/flora/input';
+import { HSBColorPicker } from '@binarygarden/flora/input';
+import { hexToHSB, hexToRgb } from '@binarygarden/flora/theme';
 
 export function ThemeInteractiveSection() {
   const [color, setColor] = useState<string>("#299bba");
-  const [copied, setCopied] = React.useState(false);
-  const [copiedValue, setCopiedValue] = React.useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+  const [copiedValue, setCopiedValue] = useState<string | null>(null);
 
   // Convert hex to other color formats for display
-  const hsbColor = hexToHsb(color);
+  const hsbColor = hexToHSB(color);
   const rgbColor = hexToRgb(color);
 
   const copyToClipboard = (text: string, valueType: string) => {
@@ -51,9 +51,9 @@ export function ThemeInteractiveSection() {
           </div>
           <div
             className={`text-sm cursor-pointer transition-all duration-200 hover:bg-onSurface hover:bg-opacity-10 px-2 py-1 rounded ${copiedValue === 'HSB' ? 'text-green-500' : 'text-onSurface opacity-60'}`}
-            onClick={() => copyToClipboard(`hsb(${hsbColor.h}, ${hsbColor.s}%, ${hsbColor.b}%)`, 'HSB')}
+            onClick={() => copyToClipboard(`hsb(${hsbColor.hue}, ${hsbColor.saturation}%, ${hsbColor.brightness}%)`, 'HSB')}
           >
-            HSB: {hsbColor.h}, {hsbColor.s}%, {hsbColor.b}%
+            HSB: {hsbColor.hue}, {hsbColor.saturation}%, {hsbColor.brightness}%
           </div>
           <div
             className={`text-sm cursor-pointer transition-all duration-200 hover:bg-onSurface hover:bg-opacity-10 px-2 py-1 rounded ${copiedValue === 'RGB' ? 'text-green-500' : 'text-onSurface opacity-60'}`}

@@ -40,9 +40,9 @@ export function ThemeSection({
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 gap-8">
                 {/* Color Pickers */}
-                <div className="lg:col-span-2 grid grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
                     {colors.map((colorKey) => (
                         <ColorPickerDropdown
                             key={colorKey}
@@ -57,9 +57,9 @@ export function ThemeSection({
 
                 {/* Live Preview */}
                 {preview && (
-                    <div className="lg:col-span-1">
+                    <div>
                         <div
-                            className="p-6 rounded-xl border-2 sticky top-24"
+                            className="p-6 rounded-xl border-2"
                             style={{
                                 backgroundColor: 'var(--surface)',
                                 borderColor: 'var(--border)'

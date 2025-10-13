@@ -4,128 +4,215 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Flora is a **performance-first React component library** built with a tree-shakable, subpath-only import architecture. The core philosophy prioritizes bundle optimization over developer convenience by enforcing specific subpath imports.
+Flora is a **performance-first React component library** for Binary Garden projects. It enforces a **tree-shakable, subpath-only import architecture** that prevents accidental bundle bloat by requiring explicit subpath imports instead of barrel exports.
 
-This is a pnpm monorepo with two packages:
-- `@binarygarden/flora` - The component library (packages/flora/)
-- `@binarygarden/flora-site` - Next.js demo/development site (packages/site/)
+**Core Philosophy:** Force intentional imports to prevent accidental large bundles, improve tree-shaking, and make bundle impact explicit.
 
-## Core Architecture Principles
+## Monorepo Structure
 
-### Subpath-Only Imports (Critical)
-Flora **intentionally disables** convenience imports to prevent bundle bloat:
+This is a pnpm workspace with two packages:
+- **`packages/flora/`** - `@binarygarden/flora` - The component library (published to npm)
+- **`packages/site/`** - `bgflora-site` - Next.js 15 development/demo site
 
-```javascript
-// ✅ Required pattern
+## Essential Commands
+
+### Development Workflow
+
+```bash
+# Quick start (recommended) - clean, install, build UI, run dev server
+pnpm quick
+
+# Step-by-step
+pnpm install        # Install all dependencies
+pnpm build:ui       # Build @binarygarden/flora component library
+pnpm build:site     # Build bgflora-site Next.js app
+pnpm run:site       # Start dev server at localhost:3000
+
+# Clean everything
+pnpm clean          # Remove node_modules, dist, .next directories
+```
+
+### Making UI Changes
+
+**Important:** UI library changes require rebuild - no hot module reload for the library itself.
+
+1. Edit components in `packages/flora/src/`
+2. Run `pnpm build:ui` from repository root
+3. Changes appear at `localhost:3000` (if dev server running)
+
+## Architecture
+
+### Subpath Import System
+
+Flora **intentionally disables** barrel exports. Components must be imported from explicit subpaths:
+
+```typescript
+// ✅ Correct
 import { Button } from '@binarygarden/flora/input';
-import { IconInfo } from '@binarygarden/flora/icons';
+import { IconGithub } from '@binarygarden/flora/icons';
 import { ThemeProvider } from '@binarygarden/flora/theme';
 
-// ❌ Intentionally NOT supported
+// ❌ This will NOT work (intentionally)
 import { Button } from '@binarygarden/flora';
 ```
 
-**Why:** Icon collections can contain 100+ components. Separating icons from inputs ensures applications importing buttons don't accidentally pull in entire icon libraries.
+**Why:** Prevents accidentally importing 100+ icon components when you only need a button. Icons are isolated from other components to prevent bundle bloat.
 
-### Package Exports Structure
-The UI library uses explicit subpath exports defined in packages/flora/package.json:
-- `./input` - Input components (Button, HSBColorPicker, etc.)
-- `./icons` - Icon collection (separate to prevent accidental bloat)
-- `./core` - Core components (BGLanding, etc.)
-- `./navigation` - Navigation components (MobileNav, etc.)
-- `./display` - Display components
-- `./theme` - ThemeProvider, useTheme, types
-- `./styles.css` - Compiled Tailwind styles
+### Available Subpaths
 
-Each subpath exports from its own index.ts file in packages/flora/src/
+Defined in `packages/flora/package.json` exports and `rollup.config.mjs` inputs:
 
-### Build System
-- **Rollup** with ESM output and `preserveModules: true` for optimal tree-shaking
-- **@svgr/rollup** converts SVGs to React components
-- **PostCSS + Tailwind 4.x** for style compilation
-- **TypeScript** with full declaration files and source maps
+- `@binarygarden/flora/input` - Input components (Button, HSBColorPicker)
+- `@binarygarden/flora/icons` - Icon collection (20+ icons)
+- `@binarygarden/flora/core` - Core components (BGLanding)
+- `@binarygarden/flora/navigation` - Navigation components (MobileNav)
+- `@binarygarden/flora/display` - Display components (Badge, Card, CopyableText, FullScreenOverlay)
+- `@binarygarden/flora/theme` - Theme system (ThemeProvider, hooks, utilities)
+- `@binarygarden/flora/styles.css` - Compiled Tailwind styles
 
-Build output goes to packages/flora/dist/ with preserved directory structure matching src/
+### Source Directory Mapping
 
-## Development Commands
-
-### Quick Start
-```bash
-pnpm quick  # Clean install, build UI, start dev site
+Source structure in `packages/flora/src/`:
+```
+src/
+├── input/          → @binarygarden/flora/input
+├── icons/          → @binarygarden/flora/icons
+├── core/           → @binarygarden/flora/core
+├── navigation/     → @binarygarden/flora/navigation
+├── display/        → @binarygarden/flora/display
+├── theme/          → @binarygarden/flora/theme
+├── util/           → Internal utilities (not exported)
+└── styles.css      → @binarygarden/flora/styles.css
 ```
 
-### Individual Commands
-```bash
-pnpm install           # Install all dependencies
-pnpm build:ui          # Build @binarygarden/flora component library
-pnpm build:site        # Build @binarygarden/flora-site Next.js app
-pnpm run:site          # Start development server at localhost:3000
-pnpm clean             # Remove all node_modules, dist, and .next directories
+## Build System
+
+### Rollup Configuration
+
+- **Config:** `packages/flora/rollup.config.mjs`
+- **Output:** `packages/flora/dist/` with preserved directory structure matching `src/`
+- **Format:** ESM only with `preserveModules: true` for optimal tree-shaking
+- **Plugins:**
+  - `@rollup/plugin-typescript` - TypeScript compilation with declarations
+  - `@svgr/rollup` - Converts SVGs to React components
+  - `rollup-plugin-postcss` - Compiles Tailwind CSS 4.x
+  - `rollup-plugin-preserve-directives` - Preserves "use client" directives
+
+### TypeScript Configuration
+
+- **Root config:** `tsconfig.json` (base configuration)
+- **Flora package:** `packages/flora/tsconfig.json` extends root
+- **Target:** ES2017, ESM modules
+- **Output:** Declaration files with source maps in `dist/`
+
+### External Dependencies
+
+The following are peer dependencies (not bundled):
+- `react` ^18.2.0
+- `react-dom` ^18.2.0
+- `framer-motion` ^11.0.0
+- `tailwindcss` ^4
+
+## Theme System
+
+### Required Setup
+
+All Flora components require `ThemeProvider` wrapper with light and dark themes:
+
+```typescript
+import { ThemeProvider, type Theme } from '@binarygarden/flora/theme';
+
+const lightTheme: Theme = {
+  primary: '#2563eb',
+  onPrimary: '#ffffff',
+  secondary: '#10b981',
+  onSecondary: '#ffffff',
+  // ... 22 total color properties required
+};
+
+function App() {
+  return (
+    <ThemeProvider lightTheme={lightTheme} darkTheme={darkTheme}>
+      {children}
+    </ThemeProvider>
+  );
+}
 ```
 
-### Package-Specific Commands
-```bash
-# From packages/flora/
-pnpm build             # Build component library (uses Rollup)
+### Theme Structure
 
-# From packages/site/
-pnpm dev               # Start Next.js dev server (requires UI library built first)
-pnpm build             # Production build
-pnpm start             # Start production server
-pnpm lint              # Run ESLint
-```
+The `Theme` type (in `packages/flora/src/theme/types.ts`) requires 22 color properties:
+- **Brand colors:** primary, onPrimary, secondary, onSecondary, tertiary, onTertiary
+- **Surfaces:** background, onBackground, surface, onSurface
+- **Interactive states:** border, hover, focus, disabled, onDisabled
+- **Semantic states:** error, onError, success, onSuccess, warning, onWarning
 
-## Development Workflow
+### Theme Template System
 
-### Making Changes to UI Components
-1. Edit components in `packages/flora/src/`
-2. Run `pnpm build:ui` from root to rebuild
-3. View changes at `localhost:3000` (if dev server running)
-4. UI library changes require rebuild - no hot reload
+Advanced feature documented in `packages/flora/src/theme/TEMPLATE_SYSTEM.md`:
+- **Purpose:** Save color themes and "hydrate" them with different seed colors
+- **Storage:** Uses ratios/relationships instead of absolute colors
+- **Use case:** Generate theme variations by rotating hue or adjusting saturation/brightness
+- **API:** `saveTemplate()`, `hydrateTemplate()`, `loadTemplates()` in `templateUtils.ts`
 
-### Adding New Components
-1. Add component to appropriate directory in `packages/flora/src/`
-   - Input components → `src/input/`
-   - Icons → `src/icons/`
-   - Navigation → `src/navigation/`
-   - Core → `src/core/`
-   - Display → `src/display/`
-2. Export from the directory's `index.ts`
-3. Add to rollup.config.mjs inputs if creating new subpath
-4. Update package.json exports if creating new subpath
-5. Build and test: `pnpm build:ui && pnpm run:site`
+## Adding New Components
 
-### Theme System
-Flora requires ThemeProvider wrapping the application with both lightTheme and darkTheme objects conforming to the Theme type. See packages/flora/README.md for full theme structure.
+1. **Create component** in appropriate `packages/flora/src/` subdirectory:
+   - `input/` for input components
+   - `icons/` for icons (keep isolated!)
+   - `display/` for display components
+   - `navigation/` for navigation components
+   - `core/` for core components
 
-Components access theme via `useTheme()` hook which provides:
-- `theme` - Current theme object with all color values
-- `isDark` - Boolean for current mode
-- `toggleTheme` - Function to switch themes
+2. **Export from subdirectory's `index.ts`**
 
-Theme automatically switches based on system preference.
+3. **For new subpath categories:**
+   - Add to `rollup.config.mjs` `input` array
+   - Add to `package.json` `exports` field
+   - Update documentation
 
-## Tech Stack
+4. **Build and test:** `pnpm build:ui && pnpm run:site`
+
+## Key Design Patterns
+
+### "use client" Directives
+
+Many components use `"use client"` directive for Next.js App Router compatibility. These are preserved by `rollup-plugin-preserve-directives`.
+
+### Framer Motion Integration
+
+Animation components use `framer-motion` (peer dependency). Components like `Button`, `MobileNav`, and `BGLanding` use motion components for animations.
+
+### Theme CSS Variables
+
+The `ThemeProvider` applies theme colors as CSS variables (`--primary`, `--on-primary`, etc.) on `:root`. Components reference these variables via Tailwind classes.
+
+### HSB Color System
+
+The theme system uses HSB (Hue, Saturation, Brightness) internally for color manipulation, particularly for the template system. See `colorUtils.ts` for conversion utilities.
+
+## Tech Stack Summary
 
 **UI Library:**
-- React 18.2+ / React DOM 18.2+
-- Framer Motion 11.0+ (peer dependency)
-- Tailwind CSS 4.x (peer dependency)
+- React 18.2+, React DOM 18.2+ (peer deps)
 - TypeScript 5.3+
 - Rollup 4.6+ for bundling
+- Framer Motion 11.0+ (peer dep)
+- Tailwind CSS 4.x (peer dep)
 
 **Demo Site:**
 - Next.js 15.4.4 with App Router
 - React 19.1.0
-- Tailwind CSS 4.x
 - TypeScript 5.x
+- Tailwind CSS 4.x
 
-## Important Files
+**Package Manager:** pnpm 10.8.0+ (required - enforced via `packageManager` field)
 
-- `rollup.config.mjs` - Build configuration for UI library
-- `packages/flora/src/styles.css` - Global styles compiled with Tailwind
-- `packages/flora/package.json` - Defines all subpath exports
-- `packages/site/src/app/themes.ts` - Example theme definitions
+## Important Constraints
 
-## Testing Changes
-Always test UI library changes in the demo site before committing. The site demonstrates correct usage patterns and integration.
+1. **Never add barrel exports** - Maintain subpath-only architecture
+2. **Keep icons isolated** - Don't merge icon imports with other component categories
+3. **UI changes require rebuild** - No HMR for the component library itself
+4. **All components need ThemeProvider** - Components expect theme CSS variables
+5. **Preserve module structure** - Rollup's `preserveModules: true` is critical for tree-shaking
+6. **Use pnpm** - This is a pnpm workspace, don't use npm or yarn

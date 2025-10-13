@@ -1,6 +1,6 @@
 "use client";
 
-import {useState, useRef} from 'react';
+import {useState, useRef, createRef, CSSProperties, RefObject} from 'react';
 import {useRouter} from 'next/navigation';
 import {FullScreenOverlay} from '@binarygarden/flora/display';
 import {Theme, useTheme, ColorPickerDropdown} from '@binarygarden/flora/theme';
@@ -10,7 +10,6 @@ import {BrandColorsSection} from './_components/sections/BrandColorsSection';
 import {InteractiveStatesSection} from './_components/sections/InteractiveStatesSection';
 import {SemanticStatesSection} from './_components/sections/SemanticStatesSection';
 import {saveTemplate} from './_utils/themeStorage';
-import * as React from "react";
 
 export default function ThemeCreator() {
     const router = useRouter();
@@ -106,7 +105,7 @@ export default function ThemeCreator() {
         '--on-success': theme.onSuccess,
         '--warning': theme.warning,
         '--on-warning': theme.onWarning,
-    } as React.CSSProperties;
+    } as CSSProperties;
 
     return (
         <div style={pageStyles}>
@@ -205,7 +204,7 @@ export default function ThemeCreator() {
                                     <h3 className="text-lg font-semibold text-center">{category}</h3>
                                     <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-3">
                                         {colors.map((colorKey) => {
-                                            const colorRef = React.createRef<HTMLDivElement>();
+                                            const colorRef = createRef<HTMLDivElement>();
                                             colorRefs.current[colorKey] = colorRef.current;
 
                                             return (
@@ -216,7 +215,7 @@ export default function ThemeCreator() {
                                                     isSelected={selectedColorKey === colorKey}
                                                     onSelect={handleColorSelect}
                                                     onColorChange={handleColorChange}
-                                                    colorRef={colorRef as React.RefObject<HTMLDivElement>}
+                                                    colorRef={colorRef as RefObject<HTMLDivElement>}
                                                 />
                                             );
                                         })}

@@ -18,6 +18,7 @@ export function TemplateGallery({
   onCreateNew,
 }: TemplateGalleryProps) {
   const [templates, setTemplates] = useState<ThemeTemplate[]>([]);
+  const { showConfirm, showAlert } = useDialog();
 
   // Load templates on mount and when returning to page
   useEffect(() => {
@@ -25,14 +26,18 @@ export function TemplateGallery({
   }, [loadTemplates]);
 
   const handleDelete = (id: string, name: string) => {
-    if (confirm(`Delete template "${name}"?`)) {
-      const success = deleteTemplate(id);
-      if (success) {
-        setTemplates(loadTemplates());
-      } else {
-        alert('Failed to delete template.');
-      }
-    }
+    showConfirm(
+      `Delete template "${name}"?`,
+      () => {
+        const success = deleteTemplate(id);
+        if (success) {
+          setTemplates(loadTemplates());
+        } else {
+          showAlert('Failed to delete template.');
+        }
+      },
+      undefined,
+    );
   };
 
   return (

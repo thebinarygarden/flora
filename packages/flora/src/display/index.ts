@@ -4,5 +4,8 @@ export { Card } from './Card';
 export type { CardProps } from './Card';
 export { CopyableText } from './CopyableText';
 export type { CopyableTextProps } from './CopyableText';
+export { Dialog } from './Dialog';
+export type { DialogProps } from './Dialog';
+export { DialogProvider, useDialog } from './DialogContext';
 export { FullScreenOverlay } from './FullScreenOverlay';
 export type { FullScreenOverlayProps } from './FullScreenOverlay';

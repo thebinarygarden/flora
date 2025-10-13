@@ -2,7 +2,7 @@
 
 import {useState, useRef, createRef, CSSProperties, RefObject} from 'react';
 import {useRouter} from 'next/navigation';
-import {FullScreenOverlay} from '@binarygarden/flora/display';
+import {FullScreenOverlay, useDialog} from '@binarygarden/flora/display';
 import {Theme, useTheme, ColorPickerDropdown, saveTemplate} from '@binarygarden/flora/theme';
 import {UIPreviewCarousel} from './_components/previews/UIPreviewCarousel';
 import {SurfaceHierarchySection} from './_components/sections/SurfaceHierarchySection';
@@ -14,6 +14,7 @@ export default function ThemeCreator() {
     const router = useRouter();
     const [isOverlayOpen, setIsOverlayOpen] = useState(false);
     const { theme: currentTheme } = useTheme();
+    const { showPrompt, showAlert } = useDialog();
 
     // Single theme state used by both main page sections and overlay
     const [theme, setTheme] = useState<Theme>({
@@ -166,15 +167,18 @@ export default function ThemeCreator() {
                         <UIPreviewCarousel
                             setIsOverlayOpen={setIsOverlayOpen}
                             onSave={() => {
-                                const name = prompt('Enter a name for this theme template:');
-                                if (name && name.trim()) {
-                                    try {
-                                        saveTemplate(theme, name.trim(), 190);
-                                        router.push('/theme');
-                                    } catch {
-                                        alert('Error saving template. Please try again.');
-                                    }
-                                }
+                                showPrompt(
+                                    'Enter a name for this theme template:',
+                                    (name) => {
+                                        try {
+                                            saveTemplate(theme, name, 190);
+                                            router.push('/theme');
+                                        } catch {
+                                            showAlert('Error saving template. Please try again.');
+                                        }
+                                    },
+                                    '',
+                                );
                             }}
                             onCancel={() => {
                                 router.push('/theme');

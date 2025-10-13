@@ -1,4 +1,4 @@
-import { ThemeToggleButton } from 'bgflora/theme';
+import { ThemeToggleButton } from '@binarygarden/flora/theme';
 import { IconsInteractiveSection } from '@/app/icons/_components/IconsInteractiveSection';
 
 export default function IconsPage() {

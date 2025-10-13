@@ -22,7 +22,7 @@ import {
   IconPaintBrush,
   IconSave,
   type StrokeWidth,
-} from 'bgflora/icons';
+} from '@binarygarden/flora/icons';
 import { IconSizeSelector } from './IconSizeSelector';
 import { IconStrokeWidthSelector } from './IconStrokeWidthSelector';
 import { IconColorPicker } from './IconColorPicker';

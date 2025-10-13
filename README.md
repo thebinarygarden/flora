@@ -10,11 +10,11 @@ Flora prioritizes **bundle optimization over developer convenience**. Instead of
 
 ```javascript
 // Flora forces this pattern - only imports what you use
-import { Button } from 'bgflora/input';
-import { IconInfo } from 'bgflora/icons';
+import { Button } from '@binarygarden/flora/input';
+import { IconInfo } from '@binarygarden/flora/icons';
 
 // This is intentionally NOT supported - prevents bundle bloat
-import { Button, IconInfo } from 'bgflora';
+import { Button, IconInfo } from '@binarygarden/flora';
 ```
 
 ## Features
@@ -29,14 +29,14 @@ import { Button, IconInfo } from 'bgflora';
 
 ```bash
 # Install
-npm install bgflora
+npm install @binarygarden/flora
 
 # Import specific components
-import { Button } from 'bgflora/input';
-import { IconGithub } from 'bgflora/icons';
+import { Button } from '@binarygarden/flora/input';
+import { IconGithub } from '@binarygarden/flora/icons';
 
 # Import styles
-import 'bgflora/styles.css';
+import '@binarygarden/flora/styles.css';
 ```
 
 ## Development
@@ -45,8 +45,8 @@ This is a pnpm monorepo with two packages:
 
 ```
 packages/
-  ui/          # Main component library (bgflora)
-  site/        # Development/demo site (bgflora-site)
+  ui/          # Main component library (@binarygarden/flora)
+  site/        # Development/demo site (@binarygarden/flora-site)
 ```
 
 ### Setup
@@ -92,7 +92,7 @@ Icon collections can easily become 100+ components. By separating icons from inp
 ## Contributing
 
 See individual package READMEs for detailed development information:
-- [UI Package README](packages/ui/README.md)
+- [UI Package README](packages/flora/README.md)
 - [Site Package README](packages/site/README.md)
 
 ## License

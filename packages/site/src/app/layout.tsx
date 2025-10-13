@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { ThemeProvider, ThemeScript } from "bgflora/theme";
+import { ThemeProvider, ThemeScript } from '@binarygarden/flora/theme';
 import { lightTheme, darkTheme } from "@/app/themes";
 import { AppNavigation } from "@/app/_components/AppNavigation";
 

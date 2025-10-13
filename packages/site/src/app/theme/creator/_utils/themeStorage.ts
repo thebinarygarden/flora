@@ -5,7 +5,7 @@ import {
   HSBColor,
   themeToTemplate,
   templateToTheme,
-} from 'bgflora/theme';
+} from '@binarygarden/flora/theme';
 
 const STORAGE_KEY = 'flora-theme-templates';
 

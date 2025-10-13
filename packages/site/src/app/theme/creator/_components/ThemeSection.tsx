@@ -1,6 +1,6 @@
 "use client";
 
-import { Theme, ColorPickerDropdown } from "bgflora/theme";
+import { Theme, ColorPickerDropdown } from '@binarygarden/flora/theme';
 
 interface ThemeSectionProps {
     title: string;

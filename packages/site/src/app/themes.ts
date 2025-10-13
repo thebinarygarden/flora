@@ -1,4 +1,4 @@
-import { Theme } from 'bgflora/theme';
+import { Theme } from '@binarygarden/flora/theme';
 
 export const lightTheme: Theme = {
   // Brand colors

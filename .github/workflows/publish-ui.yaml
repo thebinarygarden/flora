@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'packages/ui/**'
+      - 'packages/flora/**'
       - '.github/workflows/publish-ui.yaml'
 
 jobs:
@@ -33,7 +33,7 @@ jobs:
         run: pnpm build:ui
 
       - name: Publish to npm
-        working-directory: packages/ui
+        working-directory: packages/flora
         run: pnpm publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

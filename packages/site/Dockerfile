@@ -10,7 +10,7 @@ WORKDIR /app
 
 # Copy monorepo config files
 COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
-COPY packages/ui/package.json ./packages/ui/package.json
+COPY packages/flora/package.json ./packages/flora/package.json
 COPY packages/site/package.json ./packages/site/package.json
 
 RUN pnpm install --frozen-lockfile
@@ -21,14 +21,14 @@ WORKDIR /app
 
 # Copy dependencies
 COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/packages/ui/node_modules ./packages/ui/node_modules
+COPY --from=deps /app/packages/flora/node_modules ./packages/flora/node_modules
 COPY --from=deps /app/packages/site/node_modules ./packages/site/node_modules
 
 # Copy source code
 COPY . .
 
 # Build UI library first
-RUN pnpm --filter bgflora build
+RUN pnpm --filter @binarygarden/flora build
 
 # Build Next.js site
 RUN pnpm --filter bgflora-site build

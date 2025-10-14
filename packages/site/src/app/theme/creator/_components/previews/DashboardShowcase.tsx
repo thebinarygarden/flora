@@ -743,6 +743,185 @@ export function DashboardShowcase() {
                         </div>
                     </div>
                 </Card>
+
+                {/* Data Table with Surface Variant Header */}
+                <Card variant="outlined" padding="medium">
+                    <h3
+                        className="text-lg font-semibold mb-4"
+                        style={{ color: 'var(--on-surface)' }}
+                    >
+                        Recent Transactions
+                    </h3>
+                    <div className="overflow-x-auto">
+                        {/* Table Header with surfaceVariant */}
+                        <div
+                            className="grid grid-cols-4 gap-4 p-3 rounded-t-lg text-sm font-semibold"
+                            style={{
+                                backgroundColor: 'var(--surface-variant)',
+                                color: 'var(--on-surface-variant)'
+                            }}
+                        >
+                            <div>Transaction ID</div>
+                            <div>Date</div>
+                            <div>Amount</div>
+                            <div>Status</div>
+                        </div>
+                        {/* Table Rows */}
+                        <div className="space-y-2 mt-2">
+                            {['#TXN-1234', '#TXN-1235', '#TXN-1236', '#TXN-1237'].map((id, index) => (
+                                <div
+                                    key={id}
+                                    className="grid grid-cols-4 gap-4 p-3 rounded-lg text-sm border"
+                                    style={{
+                                        backgroundColor: 'var(--background)',
+                                        borderColor: 'var(--border)'
+                                    }}
+                                >
+                                    <div style={{ color: 'var(--link)' }} className="font-mono">{id}</div>
+                                    <div style={{ color: 'var(--on-background)' }}>Dec {10 + index}, 2024</div>
+                                    <div style={{ color: 'var(--on-background)' }} className="font-semibold">${(2500 - index * 300).toFixed(2)}</div>
+                                    <div>
+                                        <Badge
+                                            variant={index === 0 ? 'success' : index === 3 ? 'warning' : 'primary'}
+                                            size="small"
+                                        >
+                                            {index === 0 ? 'Completed' : index === 3 ? 'Pending' : 'Processing'}
+                                        </Badge>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </Card>
+
+                {/* Command Line / Code Snippet with Surface Variant */}
+                <Card variant="outlined" padding="medium">
+                    <h3
+                        className="text-lg font-semibold mb-4"
+                        style={{ color: 'var(--on-surface)' }}
+                    >
+                        API Integration
+                    </h3>
+                    <div className="space-y-4">
+                        <p className="text-sm opacity-80" style={{ color: 'var(--on-surface)' }}>
+                            Use this API key to authenticate your requests:
+                        </p>
+                        {/* API Key Box */}
+                        <div
+                            className="p-4 rounded-lg font-mono text-sm flex items-center justify-between"
+                            style={{
+                                backgroundColor: 'var(--surface-variant)',
+                                color: 'var(--on-surface-variant)'
+                            }}
+                        >
+                            <span>sk_live_51Hx...j8Ks2</span>
+                            <button
+                                className="text-xs px-3 py-1 rounded"
+                                style={{
+                                    backgroundColor: 'var(--primary)',
+                                    color: 'var(--on-primary)'
+                                }}
+                            >
+                                Copy
+                            </button>
+                        </div>
+                        {/* Code Example */}
+                        <div>
+                            <p className="text-sm font-semibold mb-2" style={{ color: 'var(--on-surface)' }}>
+                                Example Request:
+                            </p>
+                            <pre
+                                className="p-4 rounded-lg text-xs overflow-x-auto"
+                                style={{
+                                    backgroundColor: 'var(--surface-variant)',
+                                    color: 'var(--on-surface-variant)'
+                                }}
+                            >
+{`curl -X POST https://api.example.com/data \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{"query": "dashboard_stats"}'`}
+                            </pre>
+                        </div>
+                    </div>
+                </Card>
+
+                {/* Filter/Sidebar Panel Mock */}
+                <Card variant="outlined" padding="medium">
+                    <h3
+                        className="text-lg font-semibold mb-4"
+                        style={{ color: 'var(--on-surface)' }}
+                    >
+                        Report Filters
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        {/* Sidebar with surfaceVariant */}
+                        <div
+                            className="p-4 rounded-lg"
+                            style={{
+                                backgroundColor: 'var(--surface-variant)',
+                                color: 'var(--on-surface-variant)'
+                            }}
+                        >
+                            <h4 className="font-semibold mb-3 text-sm">Date Range</h4>
+                            <div className="space-y-2 text-xs">
+                                {['Last 7 days', 'Last 30 days', 'Last 90 days', 'Custom Range'].map((option, idx) => (
+                                    <div key={option} className="flex items-center gap-2">
+                                        <div
+                                            className="w-3 h-3 rounded-full border-2"
+                                            style={{
+                                                borderColor: idx === 1 ? 'var(--primary)' : 'var(--border)',
+                                                backgroundColor: idx === 1 ? 'var(--primary)' : 'transparent'
+                                            }}
+                                        />
+                                        <span className={idx === 1 ? 'font-semibold' : ''}>{option}</span>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="mt-4 pt-4 border-t" style={{ borderColor: 'var(--border)' }}>
+                                <h4 className="font-semibold mb-3 text-sm">Categories</h4>
+                                <div className="space-y-2 text-xs">
+                                    {['Sales', 'Marketing', 'Engineering'].map((cat) => (
+                                        <label key={cat} className="flex items-center gap-2 cursor-pointer">
+                                            <input type="checkbox" defaultChecked className="rounded" />
+                                            <span>{cat}</span>
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                        {/* Content Area */}
+                        <div className="md:col-span-3 space-y-3">
+                            <div className="p-4 rounded-lg border" style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)' }}>
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="font-semibold" style={{ color: 'var(--on-background)' }}>Revenue Report</span>
+                                    <Badge variant="success" size="small">Generated</Badge>
+                                </div>
+                                <p className="text-sm opacity-70" style={{ color: 'var(--on-background)' }}>
+                                    Last 30 days: $127,450 • +12% vs previous period
+                                </p>
+                            </div>
+                            <div className="p-4 rounded-lg border" style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)' }}>
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="font-semibold" style={{ color: 'var(--on-background)' }}>User Activity Report</span>
+                                    <Badge variant="primary" size="small">Processing</Badge>
+                                </div>
+                                <p className="text-sm opacity-70" style={{ color: 'var(--on-background)' }}>
+                                    Last 30 days: 45,230 active users • +8% vs previous period
+                                </p>
+                            </div>
+                            <div className="p-4 rounded-lg border" style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)' }}>
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="font-semibold" style={{ color: 'var(--on-background)' }}>Conversion Report</span>
+                                    <Badge variant="warning" size="small">Scheduled</Badge>
+                                </div>
+                                <p className="text-sm opacity-70" style={{ color: 'var(--on-background)' }}>
+                                    Will generate at 12:00 AM tomorrow
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </Card>
             </div>
         </Card>
     );

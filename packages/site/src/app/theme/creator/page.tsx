@@ -220,7 +220,7 @@ export default function ThemeCreator() {
                             {Object.entries(colorCategories).map(([category, colors]) => (
                                 <div key={category} className="space-y-3">
                                     <h3 className="text-lg font-semibold text-center">{category}</h3>
-                                    <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-3">
+                                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
                                         {colors.map((colorKey) => {
                                             const colorRef = createRef<HTMLDivElement>();
                                             colorRefs.current[colorKey] = colorRef.current;

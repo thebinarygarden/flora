@@ -15,23 +15,26 @@ export function SurfaceHierarchySection(props: SurfaceHierarchySectionProps) {
 
     const preview = (
         <div className="space-y-4">
-            {/* Background Layer */}
-            <div
-                className="p-4 rounded-lg"
-                style={{
-                    backgroundColor: 'var(--background)',
-                    border: '2px solid var(--border)'
-                }}
-            >
-                <p className="text-sm font-medium" style={{ color: 'var(--on-background)' }}>
-                    Background Layer
-                </p>
-                <p className="text-xs opacity-70 mt-1" style={{ color: 'var(--on-background)' }}>
-                    Main page background with on-background text
-                </p>
+            {/* Background - Simple inline display */}
+            <div className="flex items-center gap-2 px-2 py-1">
+                <div
+                    className="w-6 h-6 rounded border-2"
+                    style={{
+                        backgroundColor: 'var(--background)',
+                        borderColor: 'var(--border)'
+                    }}
+                />
+                <div>
+                    <p className="text-xs font-medium" style={{ color: 'var(--on-background)' }}>
+                        Background Layer
+                    </p>
+                    <p className="text-xs opacity-60" style={{ color: 'var(--on-background)' }}>
+                        Main page background
+                    </p>
+                </div>
             </div>
 
-            {/* Surface Layer */}
+            {/* Surface Layer with nested Surface Variant */}
             <div
                 className="p-4 rounded-lg"
                 style={{
@@ -42,25 +45,25 @@ export function SurfaceHierarchySection(props: SurfaceHierarchySectionProps) {
                 <p className="text-sm font-medium" style={{ color: 'var(--on-surface)' }}>
                     Surface Layer
                 </p>
-                <p className="text-xs opacity-70 mt-1" style={{ color: 'var(--on-surface)' }}>
+                <p className="text-xs opacity-70 mt-1 mb-3" style={{ color: 'var(--on-surface)' }}>
                     Elevated cards with on-surface text
                 </p>
-            </div>
 
-            {/* Surface Variant Layer */}
-            <div
-                className="p-4 rounded-lg"
-                style={{
-                    backgroundColor: 'var(--surface-variant)',
-                    border: '2px solid var(--border)'
-                }}
-            >
-                <p className="text-sm font-medium" style={{ color: 'var(--on-surface-variant)' }}>
-                    Surface Variant Layer
-                </p>
-                <p className="text-xs opacity-70 mt-1" style={{ color: 'var(--on-surface-variant)' }}>
-                    Alternative surface for emphasis and visual hierarchy
-                </p>
+                {/* Surface Variant - Nested inside Surface */}
+                <div
+                    className="p-3 rounded-lg mt-2"
+                    style={{
+                        backgroundColor: 'var(--surface-variant)',
+                        border: '2px solid var(--border)'
+                    }}
+                >
+                    <p className="text-sm font-medium" style={{ color: 'var(--on-surface-variant)' }}>
+                        Surface Variant Layer
+                    </p>
+                    <p className="text-xs opacity-70 mt-1" style={{ color: 'var(--on-surface-variant)' }}>
+                        Alternative surface for emphasis and hierarchy
+                    </p>
+                </div>
             </div>
         </div>
     );

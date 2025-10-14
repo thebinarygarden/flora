@@ -2,7 +2,6 @@
 
 import { Theme } from '@binarygarden/flora/theme';
 import { ThemeSection } from '../ThemeSection';
-import { Button } from '@binarygarden/flora/form';
 
 interface InteractiveStatesSectionProps {
     theme: Theme;
@@ -67,9 +66,16 @@ export function InteractiveStatesSection(props: InteractiveStatesSectionProps) {
             />
 
             {/* Disabled Example */}
-            <Button variant="primary" disabled className="w-full">
+            <div
+                className="w-full px-4 py-2 rounded-md font-medium text-center"
+                style={{
+                    backgroundColor: 'var(--disabled)',
+                    color: 'var(--on-disabled)',
+                    cursor: 'not-allowed'
+                }}
+            >
                 Disabled Button
-            </Button>
+            </div>
 
             {/* Link Example */}
             <div

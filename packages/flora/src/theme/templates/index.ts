@@ -1,5 +1,6 @@
-// Template component
+// Template components
 export { TemplateGallery } from './TemplateGallery';
+export { TemplateCard } from './TemplateCard';
 
 // Template utilities and constants
 export {

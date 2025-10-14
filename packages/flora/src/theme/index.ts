@@ -13,6 +13,7 @@ export {
   useTheme,
   ThemeToggleButton,
   ColorPickerDropdown,
+  TemplateColorGrid,
 } from './components';
 
 // Utilities (color utils and scripts)
@@ -25,9 +26,10 @@ export {
   ScriptPreloadTheme,
 } from './utils';
 
-// Templates (component, utilities, constants, and storage)
+// Templates (components, utilities, constants, and storage)
 export {
   TemplateGallery,
+  TemplateCard,
   calculateColorRelationship,
   hydrateColorFromRelationship,
   themeToTemplate,

@@ -1,10 +1,14 @@
 'use client';
 
+import { useState } from 'react';
 import { TemplateGallery, loadTemplates, deleteTemplate } from '@binarygarden/flora/theme';
+import { HuePicker } from '@binarygarden/flora/form';
 import { useRouter } from 'next/navigation';
 
 export default function ThemePage() {
   const router = useRouter();
+  const [selectedHue, setSelectedHue] = useState(0);
+  const [selectedHex, setSelectedHex] = useState('#ff0000');
 
   return (
     <div
@@ -21,6 +25,36 @@ export default function ThemePage() {
           <p className="text-lg opacity-70">
             Create and manage your custom theme templates
           </p>
+        </div>
+
+        {/* Hue Picker Section */}
+        <div className="mb-12">
+          <h3 className="text-xl font-semibold mb-6">Hue Picker</h3>
+          <div className="max-w-xl">
+            <HuePicker
+              initialHue={selectedHue}
+              onChangeHue={setSelectedHue}
+              onChangeHex={setSelectedHex}
+              className="mb-4"
+            />
+            <div className="flex gap-6 text-sm">
+              <div>
+                <span className="font-medium" style={{ color: 'var(--on-surface)' }}>Hue: </span>
+                <span style={{ color: 'var(--on-surface)' }}>{selectedHue}°</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-medium" style={{ color: 'var(--on-surface)' }}>Color: </span>
+                <div
+                  className="w-6 h-6 rounded border-2"
+                  style={{
+                    backgroundColor: selectedHex,
+                    borderColor: 'var(--border)'
+                  }}
+                />
+                <span className="font-mono" style={{ color: 'var(--on-surface)' }}>{selectedHex}</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Template Gallery - Client Component */}

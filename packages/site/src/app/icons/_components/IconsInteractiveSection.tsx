@@ -24,6 +24,7 @@ import {
   IconEyeDropper,
   IconPaintBrush,
   IconSave,
+  IconTrashcan,
   type StrokeWidth,
 } from '@binarygarden/flora/icons';
 import { IconSizeSelector } from './IconSizeSelector';
@@ -51,6 +52,7 @@ const icons = [
   { name: 'Plus', component: IconPlus, description: 'Add/plus sign' },
   { name: 'Save', component: IconSave, description: 'Save/disk icon' },
   { name: 'Search', component: IconSearch, description: 'Search functionality' },
+  { name: 'Trashcan', component: IconTrashcan, description: 'Delete/trash icon' },
   { name: 'View', component: IconView, description: 'View/eye open indicator' },
   { name: 'X', component: IconX, description: 'Close/dismiss' },
   { name: 'Youtube', component: IconYoutube, description: 'YouTube logo' },

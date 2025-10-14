@@ -18,6 +18,7 @@ export { IconPaintBrush } from './IconPaintBrush';
 export { IconPlus } from './IconPlus';
 export { IconSave } from './IconSave';
 export { IconSearch } from './IconSearch';
+export { IconTrashcan } from './IconTrashcan';
 export { IconView } from './IconView';
 export { IconX } from './IconX';
 export { IconYoutube } from './IconYoutube';

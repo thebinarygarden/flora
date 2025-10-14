@@ -77,9 +77,9 @@ export function ColorPickerDropdown({
                     transition: 'border-color 0.2s, background-color 0.2s, box-shadow 0.2s'
                 }}
             >
-                {/* Color Preview Circle */}
+                {/* Color Preview Rectangle */}
                 <div
-                    className="w-16 h-16 rounded-full border-2"
+                    className="w-full h-12 rounded-lg border-2"
                     style={{
                         backgroundColor: colorValue,
                         borderColor: 'var(--border)',

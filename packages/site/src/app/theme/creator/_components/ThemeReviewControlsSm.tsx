@@ -131,7 +131,7 @@ export function ThemeReviewControlsSm({ theme, setIsOverlayOpen }: ThemeReviewCo
                     </div>
 
                     {/* Divider */}
-                    <div style={{ height: '40px', width: '1px', backgroundColor: 'var(--border)' }} />
+                    <div style={{ height: '40px', width: '2px', backgroundColor: 'var(--on-surface)', opacity: 0.3 }} />
 
                     {/* Paintbrush Icon */}
                     <button

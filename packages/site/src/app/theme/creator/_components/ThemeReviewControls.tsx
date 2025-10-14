@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from 'react';
-import { Theme, saveTemplate } from '@binarygarden/flora/theme';
+import { Theme, saveTemplate, DEFAULT_SEED_HUE } from '@binarygarden/flora/theme';
 import { UIPreviewCarousel, previews } from './previews/UIPreviewCarousel';
 import { useRouter } from 'next/navigation';
 import { useDialog } from '@binarygarden/flora/overlay';
@@ -181,7 +181,7 @@ export function ThemeReviewControls({ theme, setIsOverlayOpen }: ThemeReviewCont
                                     'Enter a name for this theme template:',
                                     (name) => {
                                         try {
-                                            saveTemplate(theme, name, 190);
+                                            saveTemplate(theme, name, DEFAULT_SEED_HUE);
                                             router.push('/theme');
                                         } catch {
                                             showAlert('Error saving template. Please try again.');

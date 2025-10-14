@@ -2,6 +2,24 @@ import { Theme, HSBColor, ColorRelationship, ThemeTemplate } from '../types';
 import { hexToHSB, hsbToHex, shortestHuePath, applyHueDelta } from '../utils/colorUtils';
 
 // ============================================================================
+// Constants
+// ============================================================================
+
+/**
+ * Default seed hue for theme templates (red)
+ */
+export const DEFAULT_SEED_HUE = 0;
+
+/**
+ * Default seed color for theme templates (red at full saturation and brightness)
+ */
+export const DEFAULT_SEED: HSBColor = {
+  hue: DEFAULT_SEED_HUE,
+  saturation: 100,
+  brightness: 100,
+};
+
+// ============================================================================
 // Color Relationship Calculation
 // ============================================================================
 
@@ -125,7 +143,7 @@ export function hydrateColorFromRelationship(
 export function themeToTemplate(
   theme: Theme,
   name: string,
-  seedHue: number = 190
+  seedHue: number = DEFAULT_SEED_HUE
 ): ThemeTemplate {
   // Create seed with full saturation and brightness
   const seed: HSBColor = {

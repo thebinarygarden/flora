@@ -25,13 +25,15 @@ export {
   ScriptPreloadTheme,
 } from './utils';
 
-// Templates (component, utilities, and storage)
+// Templates (component, utilities, constants, and storage)
 export {
   TemplateGallery,
   calculateColorRelationship,
   hydrateColorFromRelationship,
   themeToTemplate,
   templateToTheme,
+  DEFAULT_SEED_HUE,
+  DEFAULT_SEED,
   loadTemplates,
   saveTemplate,
   deleteTemplate,

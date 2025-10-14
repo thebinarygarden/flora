@@ -1,12 +1,14 @@
 // Template component
 export { TemplateGallery } from './TemplateGallery';
 
-// Template utilities
+// Template utilities and constants
 export {
   calculateColorRelationship,
   hydrateColorFromRelationship,
   themeToTemplate,
   templateToTheme,
+  DEFAULT_SEED_HUE,
+  DEFAULT_SEED,
 } from './templateUtils';
 
 // Template storage

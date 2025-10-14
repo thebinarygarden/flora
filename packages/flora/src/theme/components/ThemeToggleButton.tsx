@@ -1,7 +1,7 @@
 'use client';
 
-import { IconDay, IconNight } from '../icons';
-import { useTheme } from './ThemeContext';
+import { IconDay, IconNight } from '../../icons';
+import { useTheme } from '../ThemeContext';
 
 export function ThemeToggleButton() {
   const { isDark, toggleTheme } = useTheme();

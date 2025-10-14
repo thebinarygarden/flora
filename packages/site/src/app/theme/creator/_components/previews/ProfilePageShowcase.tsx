@@ -1,7 +1,7 @@
 "use client";
 
-import { Card, Badge } from '@binarygarden/flora/display';
-import { Button } from '@binarygarden/flora/input';
+import { Card, Badge } from '@binarygarden/flora/ui';
+import { Button } from '@binarygarden/flora/form';
 import { useState } from 'react';
 
 interface Skill {

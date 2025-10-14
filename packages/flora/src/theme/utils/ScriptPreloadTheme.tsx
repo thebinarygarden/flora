@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Theme } from './types';
+import { Theme } from '../types';
 
 interface ThemeScriptProps {
   lightTheme: Theme;
@@ -19,7 +19,7 @@ interface ThemeScriptProps {
  * </head>
  * ```
  */
-export const ThemeScript: React.FC<ThemeScriptProps> = ({ lightTheme, darkTheme }) => {
+export const ScriptPreloadTheme: React.FC<ThemeScriptProps> = ({ lightTheme, darkTheme }) => {
   const script = `
     (function() {
       try {

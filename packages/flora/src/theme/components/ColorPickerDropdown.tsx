@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from 'react';
-import { Theme } from './types';
-import { HSBColorPicker } from '../input/HSBColorPicker/HSBColorPicker';
+import { Theme } from '../types';
+import { HSBColorPicker } from '../../form';
 
 interface ColorPickerDropdownProps {
     colorKey: keyof Theme;

@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { HSBColorPicker } from '@binarygarden/flora/input';
-import { Button } from '@binarygarden/flora/input';
+import { HSBColorPicker } from '@binarygarden/flora/form';
+import { Button } from '@binarygarden/flora/form';
+import { IconPlus } from '@binarygarden/flora/icons';
 
 interface ColorPickerProps {
   selectedColor: string;
@@ -59,7 +60,7 @@ export function IconColorPicker({ selectedColor, onColorSelect, customColors, on
               color: 'var(--on-background)'
             }}
           >
-            {!showCustomColorPicker && ('+')}
+            {!showCustomColorPicker && (<IconPlus size={16} />)}
           </button>
         </div>
 

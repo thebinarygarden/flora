@@ -3,9 +3,8 @@ import {
   ThemeTemplate,
   ThemeTemplateStorage,
   HSBColor,
-  themeToTemplate,
-  templateToTheme,
-} from '@binarygarden/flora/theme';
+} from '../types';
+import { themeToTemplate, templateToTheme, DEFAULT_SEED_HUE } from './templateUtils';
 
 const STORAGE_KEY = 'flora-theme-templates';
 
@@ -32,13 +31,13 @@ export function loadTemplates(): ThemeTemplate[] {
  *
  * @param theme - The theme to save
  * @param name - User-provided name for the template
- * @param seedHue - Optional hue for the seed (defaults to 190° cyan)
+ * @param seedHue - Optional hue for the seed (defaults to red)
  * @returns The saved template
  */
 export function saveTemplate(
   theme: Theme,
   name: string,
-  seedHue: number = 190
+  seedHue: number = DEFAULT_SEED_HUE
 ): ThemeTemplate {
   const template = themeToTemplate(theme, name, seedHue);
 

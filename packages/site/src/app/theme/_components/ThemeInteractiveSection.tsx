@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { HSBColorPicker } from '@binarygarden/flora/input';
+import { HSBColorPicker } from '@binarygarden/flora/form';
 import { hexToHSB, hexToRgb } from '@binarygarden/flora/theme';
 
 export function ThemeInteractiveSection() {

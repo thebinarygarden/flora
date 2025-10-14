@@ -13,17 +13,29 @@
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
-    "./input": {
-      "import": "./dist/input/index.js",
-      "types": "./dist/input/index.d.ts"
+    "./form": {
+      "import": "./dist/form/index.js",
+      "types": "./dist/form/index.d.ts"
+    },
+    "./ui": {
+      "import": "./dist/ui/index.js",
+      "types": "./dist/ui/index.d.ts"
+    },
+    "./overlay": {
+      "import": "./dist/overlay/index.js",
+      "types": "./dist/overlay/index.d.ts"
+    },
+    "./bg": {
+      "import": "./dist/bg/index.js",
+      "types": "./dist/bg/index.d.ts"
+    },
+    "./hooks": {
+      "import": "./dist/hooks/index.js",
+      "types": "./dist/hooks/index.d.ts"
     },
     "./icons": {
       "import": "./dist/icons/index.js",
       "types": "./dist/icons/index.d.ts"
-    },
-    "./core": {
-      "import": "./dist/core/index.js",
-      "types": "./dist/core/index.d.ts"
     },
     "./navigation": {
       "import": "./dist/navigation/index.js",
@@ -32,10 +44,6 @@
     "./theme": {
       "import": "./dist/theme/index.js",
       "types": "./dist/theme/index.d.ts"
-    },
-    "./display": {
-      "import": "./dist/display/index.js",
-      "types": "./dist/display/index.d.ts"
     },
     "./styles.css": "./dist/styles.css"
   },

@@ -1,14 +1,15 @@
 'use client';
 
 import { ComponentType } from 'react';
-import { Button } from '@binarygarden/flora/input';
-import { CopyableText } from '@binarygarden/flora/display';
-import { type IconProps, type StrokeWidth } from '@binarygarden/flora/icons';
+import { Button } from '@binarygarden/flora/form';
+import { CopyableText } from '@binarygarden/flora/ui';
+import { type StrokeWidth } from '@binarygarden/flora/icons';
 import { downloadSVG } from '@/app/icons/_hooks/downloadSVG';
 
 interface IconDisplayCardProps {
   name: string;
-  component: ComponentType<IconProps>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  component: ComponentType<any>;
   description: string;
   selectedSize: number;
   selectedColor: string;

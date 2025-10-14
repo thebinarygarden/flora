@@ -1,20 +1,35 @@
 "use client";
 
-import {useState, useRef, createRef, CSSProperties, RefObject} from 'react';
-import {useRouter} from 'next/navigation';
-import {FullScreenOverlay} from '@binarygarden/flora/display';
+import {useState, useRef, createRef, useEffect, CSSProperties, RefObject} from 'react';
+import {FullScreenOverlay} from '@binarygarden/flora/overlay';
 import {Theme, useTheme, ColorPickerDropdown} from '@binarygarden/flora/theme';
-import {UIPreviewCarousel} from './_components/previews/UIPreviewCarousel';
 import {SurfaceHierarchySection} from './_components/sections/SurfaceHierarchySection';
 import {BrandColorsSection} from './_components/sections/BrandColorsSection';
 import {InteractiveStatesSection} from './_components/sections/InteractiveStatesSection';
 import {SemanticStatesSection} from './_components/sections/SemanticStatesSection';
-import {saveTemplate} from './_utils/themeStorage';
+import {ThemeReviewControls} from './_components/ThemeReviewControls';
+import {ThemeReviewControlsSm} from './_components/ThemeReviewControlsSm';
+
+function useWindowSize() {
+    const [windowSize, setWindowSize] = useState({ width: 0 });
+
+    useEffect(() => {
+        function handleResize() {
+            setWindowSize({ width: window.innerWidth });
+        }
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    return windowSize;
+}
 
 export default function ThemeCreator() {
-    const router = useRouter();
     const [isOverlayOpen, setIsOverlayOpen] = useState(false);
     const { theme: currentTheme } = useTheme();
+    const { width } = useWindowSize();
+    const isLargeScreen = width >= 1024;
 
     // Single theme state used by both main page sections and overlay
     const [theme, setTheme] = useState<Theme>({
@@ -154,34 +169,17 @@ export default function ThemeCreator() {
                     />
 
                     {/* Section 5: Theme Review */}
-                    <section className="mb-16">
-                        <div className="text-center mb-8">
-                            <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--on-background)' }}>
-                                Theme Review
-                            </h2>
-                            <p className="text-lg opacity-70" style={{ color: 'var(--on-background)' }}>
-                                Review your theme across different interfaces to ensure everything looks correct before saving
-                            </p>
-                        </div>
-
-                        <UIPreviewCarousel
+                    {isLargeScreen ? (
+                        <ThemeReviewControls
+                            theme={theme}
                             setIsOverlayOpen={setIsOverlayOpen}
-                            onSave={() => {
-                                const name = prompt('Enter a name for this theme template:');
-                                if (name && name.trim()) {
-                                    try {
-                                        saveTemplate(theme, name.trim(), 190);
-                                        router.push('/theme');
-                                    } catch {
-                                        alert('Error saving template. Please try again.');
-                                    }
-                                }
-                            }}
-                            onCancel={() => {
-                                router.push('/theme');
-                            }}
                         />
-                    </section>
+                    ) : (
+                        <ThemeReviewControlsSm
+                            theme={theme}
+                            setIsOverlayOpen={setIsOverlayOpen}
+                        />
+                    )}
                 </div>
             </div>
 

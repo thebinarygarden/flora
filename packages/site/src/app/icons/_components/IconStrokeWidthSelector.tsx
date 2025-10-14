@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@binarygarden/flora/input';
+import { Button } from '@binarygarden/flora/form';
 
 const strokeWidthOptions = ['thinnest', 'thinner', 'thin', 'base', 'bold', 'bolder', 'boldest', 'rotund'] as const;
 const strokeWidthValues = {

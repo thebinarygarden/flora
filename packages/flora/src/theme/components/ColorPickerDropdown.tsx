@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Theme } from '../types';
-import { HSBColorPicker } from '../../input';
+import { HSBColorPicker } from '../../form';
 
 interface ColorPickerDropdownProps {
     colorKey: keyof Theme;

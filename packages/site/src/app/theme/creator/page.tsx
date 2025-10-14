@@ -1,7 +1,7 @@
 "use client";
 
 import {useState, useRef, createRef, useEffect, CSSProperties, RefObject} from 'react';
-import {FullScreenOverlay} from '@binarygarden/flora/display';
+import {FullScreenOverlay} from '@binarygarden/flora/overlay';
 import {Theme, useTheme, ColorPickerDropdown} from '@binarygarden/flora/theme';
 import {SurfaceHierarchySection} from './_components/sections/SurfaceHierarchySection';
 import {BrandColorsSection} from './_components/sections/BrandColorsSection';

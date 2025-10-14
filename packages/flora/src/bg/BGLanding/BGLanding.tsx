@@ -5,7 +5,7 @@ import {useVideoLooper} from "./useVideoLooper";
 import {useAnimatedFields} from "./useAnimatedFields";
 import {IconYoutube, IconGithub, IconBGDocs, IconView, IconHide} from "../../icons";
 import {motion} from "framer-motion";
-import {useViewportHeight} from "../../util/useViewportHeight";
+import {useViewportHeight} from "../../hooks/useViewportHeight";
 import {useBGLandingScroll} from "./useBGLandingScroll";
 
 export const BGLanding = ({

@@ -2,7 +2,7 @@
 import * as React from "react";
 import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 import { Dialog } from './Dialog';
-import { Button } from '../input/Button';
+import { Button } from '../form/Button';
 
 interface DialogOptions {
     title?: string;

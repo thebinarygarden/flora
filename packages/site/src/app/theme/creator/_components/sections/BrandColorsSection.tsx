@@ -2,7 +2,7 @@
 
 import { Theme } from '@binarygarden/flora/theme';
 import { ThemeSection } from '../ThemeSection';
-import { Button } from '@binarygarden/flora/input';
+import { Button } from '@binarygarden/flora/form';
 
 interface BrandColorsSectionProps {
     theme: Theme;

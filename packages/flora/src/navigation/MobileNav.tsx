@@ -3,8 +3,8 @@ import * as React from "react";
 import {motion} from "framer-motion";
 import {NavigationComponentProps, NavItem} from './types';
 import {IconBGLogo, IconMenu} from '../icons';
-import {useClientCheck} from "../util/useClientCheck";
-import {FullScreenOverlay} from '../display';
+import {useClientCheck} from "../hooks/useClientCheck";
+import {FullScreenOverlay} from '../overlay';
 
 export const MobileNav: React.FC<NavigationComponentProps> = ({
                                                                   brand,

@@ -6,12 +6,14 @@ import tailwindcss from '@tailwindcss/postcss';
 
 export default {
     input: [
-        'src/input/index.ts', 
-        'src/icons/index.ts', 
-        'src/core/index.ts',
+        'src/form/index.ts',
+        'src/ui/index.ts',
+        'src/overlay/index.ts',
+        'src/bg/index.ts',
+        'src/hooks/index.ts',
+        'src/icons/index.ts',
         'src/navigation/index.ts',
         'src/theme/index.ts',
-        'src/display/index.ts',
         'src/styles.css',
     ],
     output: {

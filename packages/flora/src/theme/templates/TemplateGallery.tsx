@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { ThemeTemplate } from '../types';
 import { hsbToHex } from '../utils';
-import { useDialog } from '../../display/DialogContext';
+import { useDialog } from '../../overlay/DialogContext';
 import { IconPlus } from '../../icons/IconPlus';
 
 interface TemplateGalleryProps {

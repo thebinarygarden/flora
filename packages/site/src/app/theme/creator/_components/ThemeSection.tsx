@@ -57,7 +57,7 @@ export function ThemeSection({
 
                 {/* Live Preview */}
                 {preview && (
-                    <div>
+                    <div className="max-w-xl min-w-[400px] mx-auto">
                         <div
                             className="p-6 rounded-xl border-2"
                             style={{

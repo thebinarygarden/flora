@@ -60,27 +60,32 @@ Flora enforces subpath imports at the package level to guarantee optimal bundle 
 
 ```javascript
 // ✅ Required (explicit category imports)
-import { Button } from '@binarygarden/flora/input';
+import { Button } from '@binarygarden/flora/form';
+import { Badge, Card } from '@binarygarden/flora/ui';
+import { Dialog, DialogProvider } from '@binarygarden/flora/overlay';
 import { IconGithub } from '@binarygarden/flora/icons';
 import { ThemeProvider } from '@binarygarden/flora/theme';
+import { BGLanding } from '@binarygarden/flora/bg';
 
 // ❌ Not supported (main index.ts is empty)
 import { Button } from '@binarygarden/flora';
 ```
 
 **Why this matters:**
-- Icons directory isolated from inputs/navigation/etc
+- Icons directory isolated from form/navigation/etc
 - Unused categories eliminated at module resolution (before bundler optimizations)
 - Bundle size controlled by structure, not tooling
 - No risk of accidentally importing 100+ icons when you only need a button
 
 ### Available Subpaths
-- `@binarygarden/flora/input` - Form components (Button, HSBColorPicker, etc)
+- `@binarygarden/flora/form` - Form controls (Button, HSBColorPicker, etc)
+- `@binarygarden/flora/ui` - General UI components (Badge, Card, CopyableText)
+- `@binarygarden/flora/overlay` - Overlay/modal system (Dialog, DialogProvider, FullScreenOverlay)
+- `@binarygarden/flora/bg` - Binary Garden specific components (BGLanding)
+- `@binarygarden/flora/hooks` - React hooks (useClientCheck, useViewportHeight)
 - `@binarygarden/flora/icons` - Icon components (20+ SVG icons)
-- `@binarygarden/flora/core` - Core utilities
-- `@binarygarden/flora/navigation` - Navigation components
+- `@binarygarden/flora/navigation` - Navigation components (MobileNav)
 - `@binarygarden/flora/theme` - ThemeProvider and theme utilities
-- `@binarygarden/flora/display` - Display components
 - `@binarygarden/flora/styles.css` - Global styles
 
 ### Critical Rules
@@ -95,14 +100,16 @@ import { Button } from '@binarygarden/flora';
 Uses Rollup with `preserveModules: true` to maintain source structure in output:
 
 ```javascript
-// rollup.config.mjs inputs (packages/flora/rollup.config.mjs:8-16)
+// rollup.config.mjs inputs (packages/flora/rollup.config.mjs:8-18)
 input: [
-    'src/input/index.ts',
+    'src/form/index.ts',
+    'src/ui/index.ts',
+    'src/overlay/index.ts',
+    'src/bg/index.ts',
+    'src/hooks/index.ts',
     'src/icons/index.ts',
-    'src/core/index.ts',
     'src/navigation/index.ts',
     'src/theme/index.ts',
-    'src/display/index.ts',
     'src/styles.css',
 ]
 ```
@@ -115,7 +122,7 @@ input: [
 
 ### Adding New Components
 
-1. Create component in appropriate category directory (input, display, navigation, etc.)
+1. Create component in appropriate category directory (form, ui, overlay, bg, hooks, navigation, theme, icons)
 2. Export from category's `index.ts`
 3. Build: `pnpm build:ui`
 4. Test in demo site: `pnpm run:site`

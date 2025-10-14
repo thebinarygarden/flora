@@ -1,4 +1,4 @@
-import { Button } from '@binarygarden/flora/input';
+import { Button } from '@binarygarden/flora/form';
 import { IconBGLogo } from '@binarygarden/flora/icons';
 
 export default function Home() {

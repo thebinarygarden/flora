@@ -1,10 +1,11 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { type IconProps, type StrokeWidth } from '@binarygarden/flora/icons';
+import { type StrokeWidth } from '@binarygarden/flora/icons';
 
 export const downloadSVG = async (
   iconName: string,
-  IconComponent: React.ComponentType<IconProps>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  IconComponent: React.ComponentType<any>,
   selectedSize: number,
   selectedColor: string,
   selectedStrokeWidth: StrokeWidth

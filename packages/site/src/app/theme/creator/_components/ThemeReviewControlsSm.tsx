@@ -4,7 +4,7 @@ import { useState, useRef } from 'react';
 import { Theme, saveTemplate } from '@binarygarden/flora/theme';
 import { UIPreviewCarousel, previews } from './previews/UIPreviewCarousel';
 import { useRouter } from 'next/navigation';
-import { useDialog } from '@binarygarden/flora/display';
+import { useDialog } from '@binarygarden/flora/overlay';
 import { IconPaintBrush, IconArrow, IconX, IconCheck } from '@binarygarden/flora/icons';
 
 interface ThemeReviewControlsSmProps {

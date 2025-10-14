@@ -51,12 +51,6 @@ export function TemplateGallery({
     );
   };
 
-  const copyToClipboard = (hex: string, colorName: string) => {
-    navigator.clipboard.writeText(hex).then(() => {
-      showAlert(`Copied ${colorName}: ${hex}`);
-    });
-  };
-
   const selectedTemplate = templates.find((t) => t.id === selectedId);
 
   return (
@@ -84,7 +78,6 @@ export function TemplateGallery({
             template={selectedTemplate}
             expanded={true}
             onDelete={handleDelete}
-            onCopyColor={copyToClipboard}
           />
         )}
 

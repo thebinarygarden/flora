@@ -9,7 +9,6 @@ interface TemplateCardProps {
   template: ThemeTemplate;
   expanded: boolean;
   onDelete: (id: string, name: string) => void;
-  onCopyColor?: (hex: string, colorName: string) => void;
   onClick?: () => void;
 }
 
@@ -17,7 +16,6 @@ export function TemplateCard({
   template,
   expanded,
   onDelete,
-  onCopyColor,
   onClick
 }: TemplateCardProps) {
   // Get key colors to display
@@ -83,7 +81,7 @@ export function TemplateCard({
         </div>
 
         {/* All Template Colors */}
-        <TemplateColorGrid theme={theme} onCopyColor={onCopyColor} />
+        <TemplateColorGrid theme={theme} />
       </div>
     );
   }

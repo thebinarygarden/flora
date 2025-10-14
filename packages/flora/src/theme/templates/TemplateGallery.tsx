@@ -10,12 +10,14 @@ interface TemplateGalleryProps {
   loadTemplates: () => ThemeTemplate[];
   deleteTemplate: (id: string) => boolean;
   onCreateNew: () => void;
+  hydrationSeedHue?: number;
 }
 
 export function TemplateGallery({
   loadTemplates,
   deleteTemplate,
   onCreateNew,
+  hydrationSeedHue,
 }: TemplateGalleryProps) {
   const [templates, setTemplates] = useState<ThemeTemplate[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -78,6 +80,7 @@ export function TemplateGallery({
             template={selectedTemplate}
             expanded={true}
             onDelete={handleDelete}
+            hydrationSeedHue={hydrationSeedHue}
           />
         )}
 
@@ -115,6 +118,7 @@ export function TemplateGallery({
                 expanded={false}
                 onDelete={handleDelete}
                 onClick={() => setSelectedId(template.id)}
+                hydrationSeedHue={hydrationSeedHue}
               />
             ))}
           </div>

@@ -27,9 +27,12 @@ export default function ThemePage() {
           </p>
         </div>
 
-        {/* Hue Picker Section */}
+        {/* Seed Hue Selector */}
         <div className="mb-12">
-          <h3 className="text-xl font-semibold mb-6">Hue Picker</h3>
+          <h3 className="text-xl font-semibold mb-3">Template Preview Seed</h3>
+          <p className="text-sm opacity-70 mb-6">
+            Move the hue slider to see all templates below rehydrate with different seed colors
+          </p>
           <div className="max-w-xl">
             <HuePicker
               initialHue={selectedHue}
@@ -39,11 +42,11 @@ export default function ThemePage() {
             />
             <div className="flex gap-6 text-sm">
               <div>
-                <span className="font-medium" style={{ color: 'var(--on-surface)' }}>Hue: </span>
+                <span className="font-medium" style={{ color: 'var(--on-surface)' }}>Seed Hue: </span>
                 <span style={{ color: 'var(--on-surface)' }}>{selectedHue}°</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="font-medium" style={{ color: 'var(--on-surface)' }}>Color: </span>
+                <span className="font-medium" style={{ color: 'var(--on-surface)' }}>Pure Color: </span>
                 <div
                   className="w-6 h-6 rounded border-2"
                   style={{
@@ -62,6 +65,7 @@ export default function ThemePage() {
           loadTemplates={loadTemplates}
           deleteTemplate={deleteTemplate}
           onCreateNew={() => router.push('/theme/creator')}
+          hydrationSeedHue={selectedHue}
         />
       </div>
     </div>

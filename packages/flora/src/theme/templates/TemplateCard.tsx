@@ -10,17 +10,26 @@ interface TemplateCardProps {
   expanded: boolean;
   onDelete: (id: string, name: string) => void;
   onClick?: () => void;
+  hydrationSeedHue?: number;
 }
 
 export function TemplateCard({
   template,
   expanded,
   onDelete,
-  onClick
+  onClick,
+  hydrationSeedHue
 }: TemplateCardProps) {
+  // Create hydration seed from provided hue or use default
+  const hydrationSeed = {
+    hue: hydrationSeedHue ?? DEFAULT_SEED.hue,
+    saturation: 100,
+    brightness: 100
+  };
+
   // Get key colors to display
   const getKeyColors = (template: ThemeTemplate) => {
-    const theme = templateToTheme(template, DEFAULT_SEED);
+    const theme = templateToTheme(template, hydrationSeed);
     return [
       { name: 'Background', hex: theme.background },
       { name: 'Surface', hex: theme.surface },
@@ -34,7 +43,7 @@ export function TemplateCard({
 
   // Expanded view (selected)
   if (expanded) {
-    const theme = templateToTheme(template, DEFAULT_SEED);
+    const theme = templateToTheme(template, hydrationSeed);
 
     return (
       <div

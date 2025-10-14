@@ -12,7 +12,7 @@ interface InteractiveStatesSectionProps {
 }
 
 export function InteractiveStatesSection(props: InteractiveStatesSectionProps) {
-    const colors = ['border', 'hover', 'focus', 'disabled', 'onDisabled'] as const;
+    const colors = ['border', 'hover', 'focus', 'disabled', 'onDisabled', 'link', 'onLink'] as const;
 
     const preview = (
         <div className="space-y-4">
@@ -70,6 +70,27 @@ export function InteractiveStatesSection(props: InteractiveStatesSectionProps) {
             <Button variant="primary" disabled className="w-full">
                 Disabled Button
             </Button>
+
+            {/* Link Example */}
+            <div
+                className="p-3 rounded-lg"
+                style={{
+                    backgroundColor: 'var(--background)'
+                }}
+            >
+                <p className="text-xs" style={{ color: 'var(--on-background)' }}>
+                    Click{' '}
+                    <a
+                        href="#"
+                        className="font-medium underline hover:opacity-80"
+                        style={{ color: 'var(--link)' }}
+                        onClick={(e) => e.preventDefault()}
+                    >
+                        here
+                    </a>
+                    {' '}to learn more
+                </p>
+            </div>
         </div>
     );
 

@@ -4,7 +4,7 @@ import React from 'react';
 
 export interface BadgeProps {
     children: React.ReactNode;
-    variant?: 'primary' | 'secondary' | 'tertiary' | 'success' | 'error' | 'warning' | 'outline';
+    variant?: 'primary' | 'secondary' | 'tertiary' | 'success' | 'error' | 'warning' | 'info' | 'neutral' | 'highlight' | 'link' | 'surfaceVariant' | 'outline';
     size?: 'small' | 'medium';
     className?: string;
     style?: React.CSSProperties;
@@ -51,6 +51,31 @@ export function Badge({
         warning: {
             backgroundColor: 'var(--warning)',
             color: 'var(--on-warning)',
+            border: 'none'
+        },
+        info: {
+            backgroundColor: 'var(--info)',
+            color: 'var(--on-info)',
+            border: 'none'
+        },
+        neutral: {
+            backgroundColor: 'var(--neutral)',
+            color: 'var(--on-neutral)',
+            border: 'none'
+        },
+        highlight: {
+            backgroundColor: 'var(--highlight)',
+            color: 'var(--on-highlight)',
+            border: 'none'
+        },
+        link: {
+            backgroundColor: 'var(--link)',
+            color: 'var(--on-link)',
+            border: 'none'
+        },
+        surfaceVariant: {
+            backgroundColor: 'var(--surface-variant)',
+            color: 'var(--on-surface-variant)',
             border: 'none'
         },
         outline: {

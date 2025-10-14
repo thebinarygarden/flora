@@ -777,6 +777,125 @@ export function ProfilePageShowcase() {
                     </div>
                 </Card>
 
+                {/* Notification Center */}
+                <Card variant="outlined" padding="medium">
+                    <div className="flex items-center justify-between mb-4">
+                        <h3
+                            className="text-lg font-semibold"
+                            style={{ color: 'var(--on-surface)' }}
+                        >
+                            Notification Center
+                        </h3>
+                        <div className="flex gap-2">
+                            <Badge variant="info" size="small">3 New</Badge>
+                            <button
+                                className="text-sm hover:underline"
+                                style={{ color: 'var(--link)' }}
+                            >
+                                Mark all as read
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="space-y-3">
+                        {/* Info Notification */}
+                        <div
+                            className="p-4 rounded-lg border-l-4 flex items-start gap-3"
+                            style={{
+                                backgroundColor: 'var(--surface)',
+                                borderLeftColor: 'var(--info)'
+                            }}
+                        >
+                            <span className="text-xl" style={{ color: 'var(--info)' }}>ℹ️</span>
+                            <div className="flex-1">
+                                <div className="flex items-center gap-2 mb-1">
+                                    <p className="font-semibold text-sm" style={{ color: 'var(--on-surface)' }}>
+                                        Profile Complete
+                                    </p>
+                                    <Badge variant="info" size="small">Info</Badge>
+                                </div>
+                                <p className="text-sm opacity-80 mb-2" style={{ color: 'var(--on-surface)' }}>
+                                    Your profile is now 100% complete! This increases your visibility.
+                                </p>
+                                <span className="text-xs opacity-60" style={{ color: 'var(--on-surface)' }}>2 hours ago</span>
+                            </div>
+                        </div>
+
+                        {/* Highlight Notification */}
+                        <div
+                            className="p-4 rounded-lg flex items-start gap-3"
+                            style={{
+                                backgroundColor: 'var(--highlight)',
+                                color: 'var(--on-highlight)'
+                            }}
+                        >
+                            <span className="text-xl">⭐</span>
+                            <div className="flex-1">
+                                <div className="flex items-center gap-2 mb-1">
+                                    <p className="font-semibold text-sm">Featured Opportunity</p>
+                                    <Badge variant="highlight" size="small">NEW</Badge>
+                                </div>
+                                <p className="text-sm opacity-90 mb-2">
+                                    You've been selected for an exclusive project opportunity!
+                                </p>
+                                <span className="text-xs opacity-70">1 day ago</span>
+                            </div>
+                        </div>
+
+                        {/* Neutral Notification */}
+                        <div
+                            className="p-4 rounded-lg border-l-4 flex items-start gap-3"
+                            style={{
+                                backgroundColor: 'var(--surface)',
+                                borderLeftColor: 'var(--neutral)'
+                            }}
+                        >
+                            <span className="text-xl" style={{ color: 'var(--neutral)' }}>📢</span>
+                            <div className="flex-1">
+                                <div className="flex items-center gap-2 mb-1">
+                                    <p className="font-semibold text-sm" style={{ color: 'var(--on-surface)' }}>
+                                        System Update
+                                    </p>
+                                    <Badge variant="neutral" size="small">Notice</Badge>
+                                </div>
+                                <p className="text-sm opacity-80 mb-2" style={{ color: 'var(--on-surface)' }}>
+                                    Scheduled maintenance on Saturday 2-4 AM. No action required.
+                                </p>
+                                <span className="text-xs opacity-60" style={{ color: 'var(--on-surface)' }}>3 days ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Surface Variant Toast Simulation */}
+                    <div className="mt-6 pt-6 border-t" style={{ borderColor: 'var(--border)' }}>
+                        <p className="text-sm opacity-70 mb-3" style={{ color: 'var(--on-surface)' }}>
+                            Toast notifications use surfaceVariant for emphasis:
+                        </p>
+                        <div className="flex flex-wrap gap-3">
+                            <div
+                                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg shadow-lg"
+                                style={{
+                                    backgroundColor: 'var(--surface-variant)',
+                                    color: 'var(--on-surface-variant)'
+                                }}
+                            >
+                                <span className="text-sm">✓</span>
+                                <span className="text-sm font-medium">Settings saved</span>
+                            </div>
+                            <div
+                                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg shadow-lg"
+                                style={{
+                                    backgroundColor: 'var(--surface-variant)',
+                                    color: 'var(--on-surface-variant)'
+                                }}
+                            >
+                                <span className="text-sm">📸</span>
+                                <span className="text-sm font-medium">Profile photo updated</span>
+                            </div>
+                        </div>
+                    </div>
+                </Card>
+
                 {/* Profile Tabs */}
                 <Card variant="outlined" padding="medium">
                     <div className="mb-6">

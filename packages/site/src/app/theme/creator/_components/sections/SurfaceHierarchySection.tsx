@@ -11,7 +11,7 @@ interface SurfaceHierarchySectionProps {
 }
 
 export function SurfaceHierarchySection(props: SurfaceHierarchySectionProps) {
-    const colors = ['background', 'onBackground', 'surface', 'onSurface'] as const;
+    const colors = ['background', 'onBackground', 'surface', 'onSurface', 'surfaceVariant', 'onSurfaceVariant'] as const;
 
     const preview = (
         <div className="space-y-4">
@@ -44,6 +44,22 @@ export function SurfaceHierarchySection(props: SurfaceHierarchySectionProps) {
                 </p>
                 <p className="text-xs opacity-70 mt-1" style={{ color: 'var(--on-surface)' }}>
                     Elevated cards with on-surface text
+                </p>
+            </div>
+
+            {/* Surface Variant Layer */}
+            <div
+                className="p-4 rounded-lg"
+                style={{
+                    backgroundColor: 'var(--surface-variant)',
+                    border: '2px solid var(--border)'
+                }}
+            >
+                <p className="text-sm font-medium" style={{ color: 'var(--on-surface-variant)' }}>
+                    Surface Variant Layer
+                </p>
+                <p className="text-xs opacity-70 mt-1" style={{ color: 'var(--on-surface-variant)' }}>
+                    Alternative surface for emphasis and visual hierarchy
                 </p>
             </div>
         </div>

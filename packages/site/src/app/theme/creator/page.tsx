@@ -44,17 +44,27 @@ export default function ThemeCreator() {
         onBackground: currentTheme.onBackground,
         surface: currentTheme.surface,
         onSurface: currentTheme.onSurface,
+        surfaceVariant: currentTheme.surfaceVariant,
+        onSurfaceVariant: currentTheme.onSurfaceVariant,
         border: currentTheme.border,
         hover: currentTheme.hover,
         focus: currentTheme.focus,
         disabled: currentTheme.disabled,
         onDisabled: currentTheme.onDisabled,
+        link: currentTheme.link,
+        onLink: currentTheme.onLink,
         error: currentTheme.error,
         onError: currentTheme.onError,
         success: currentTheme.success,
         onSuccess: currentTheme.onSuccess,
         warning: currentTheme.warning,
-        onWarning: currentTheme.onWarning
+        onWarning: currentTheme.onWarning,
+        info: currentTheme.info,
+        onInfo: currentTheme.onInfo,
+        neutral: currentTheme.neutral,
+        onNeutral: currentTheme.onNeutral,
+        highlight: currentTheme.highlight,
+        onHighlight: currentTheme.onHighlight
     });
 
     const [selectedColorKey, setSelectedColorKey] = useState<keyof Theme | null>(null);
@@ -91,10 +101,10 @@ export default function ThemeCreator() {
     };
 
     const colorCategories = {
-        'Surface Hierarchy': ['background', 'onBackground', 'surface', 'onSurface'],
+        'Surface Hierarchy': ['background', 'onBackground', 'surface', 'onSurface', 'surfaceVariant', 'onSurfaceVariant'],
         'Brand Colors': ['primary', 'onPrimary', 'secondary', 'onSecondary', 'tertiary', 'onTertiary'],
-        'Interactive States': ['border', 'hover', 'focus', 'disabled', 'onDisabled'],
-        'Semantic States': ['error', 'onError', 'success', 'onSuccess', 'warning', 'onWarning']
+        'Interactive States': ['border', 'hover', 'focus', 'disabled', 'onDisabled', 'link', 'onLink'],
+        'Semantic States': ['error', 'onError', 'success', 'onSuccess', 'warning', 'onWarning', 'info', 'onInfo', 'neutral', 'onNeutral', 'highlight', 'onHighlight']
     };
 
     // Generate CSS custom properties for the page based on current selections
@@ -109,17 +119,27 @@ export default function ThemeCreator() {
         '--on-background': theme.onBackground,
         '--surface': theme.surface,
         '--on-surface': theme.onSurface,
+        '--surface-variant': theme.surfaceVariant,
+        '--on-surface-variant': theme.onSurfaceVariant,
         '--border': theme.border,
         '--hover': theme.hover,
         '--focus': theme.focus,
         '--disabled': theme.disabled,
         '--on-disabled': theme.onDisabled,
+        '--link': theme.link,
+        '--on-link': theme.onLink,
         '--error': theme.error,
         '--on-error': theme.onError,
         '--success': theme.success,
         '--on-success': theme.onSuccess,
         '--warning': theme.warning,
         '--on-warning': theme.onWarning,
+        '--info': theme.info,
+        '--on-info': theme.onInfo,
+        '--neutral': theme.neutral,
+        '--on-neutral': theme.onNeutral,
+        '--highlight': theme.highlight,
+        '--on-highlight': theme.onHighlight,
     } as CSSProperties;
 
     return (

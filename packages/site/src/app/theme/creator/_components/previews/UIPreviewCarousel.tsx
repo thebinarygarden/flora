@@ -3,6 +3,7 @@
 import { LandingPageShowcase } from './LandingPageShowcase';
 import { DashboardShowcase } from './DashboardShowcase';
 import { ProfilePageShowcase } from './ProfilePageShowcase';
+import { NotificationsShowcase } from './NotificationsShowcase';
 
 interface UIPreviewCarouselProps {
     currentIndex: number;
@@ -26,6 +27,12 @@ export const previews = [
         title: '👤 Profile Page',
         description: 'User profile with tabs, skills, projects, and achievements',
         component: <ProfilePageShowcase />
+    },
+    {
+        id: 'notifications',
+        title: '🔔 Notifications & Alerts',
+        description: 'Comprehensive semantic colors in alerts, toasts, and messaging',
+        component: <NotificationsShowcase />
     }
 ];
 

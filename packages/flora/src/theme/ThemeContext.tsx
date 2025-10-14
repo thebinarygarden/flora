@@ -18,17 +18,27 @@ const applyCSSVariables = (theme: Theme) => {
   root.style.setProperty('--on-background', theme.onBackground);
   root.style.setProperty('--surface', theme.surface);
   root.style.setProperty('--on-surface', theme.onSurface);
+  root.style.setProperty('--surface-variant', theme.surfaceVariant);
+  root.style.setProperty('--on-surface-variant', theme.onSurfaceVariant);
   root.style.setProperty('--border', theme.border);
   root.style.setProperty('--hover', theme.hover);
   root.style.setProperty('--focus', theme.focus);
   root.style.setProperty('--disabled', theme.disabled);
   root.style.setProperty('--on-disabled', theme.onDisabled);
+  root.style.setProperty('--link', theme.link);
+  root.style.setProperty('--on-link', theme.onLink);
   root.style.setProperty('--error', theme.error);
   root.style.setProperty('--on-error', theme.onError);
   root.style.setProperty('--success', theme.success);
   root.style.setProperty('--on-success', theme.onSuccess);
   root.style.setProperty('--warning', theme.warning);
   root.style.setProperty('--on-warning', theme.onWarning);
+  root.style.setProperty('--info', theme.info);
+  root.style.setProperty('--on-info', theme.onInfo);
+  root.style.setProperty('--neutral', theme.neutral);
+  root.style.setProperty('--on-neutral', theme.onNeutral);
+  root.style.setProperty('--highlight', theme.highlight);
+  root.style.setProperty('--on-highlight', theme.onHighlight);
 };
 
 interface ThemeContextType {

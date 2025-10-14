@@ -42,6 +42,8 @@ export function TemplateColorGrid({ theme, onCopyColor }: TemplateColorGridProps
         { key: 'onBackground', hex: theme.onBackground },
         { key: 'surface', hex: theme.surface },
         { key: 'onSurface', hex: theme.onSurface },
+        { key: 'surfaceVariant', hex: theme.surfaceVariant },
+        { key: 'onSurfaceVariant', hex: theme.onSurfaceVariant },
       ]
     },
     {
@@ -52,6 +54,8 @@ export function TemplateColorGrid({ theme, onCopyColor }: TemplateColorGridProps
         { key: 'focus', hex: theme.focus },
         { key: 'disabled', hex: theme.disabled },
         { key: 'onDisabled', hex: theme.onDisabled },
+        { key: 'link', hex: theme.link },
+        { key: 'onLink', hex: theme.onLink },
       ]
     },
     {
@@ -63,6 +67,12 @@ export function TemplateColorGrid({ theme, onCopyColor }: TemplateColorGridProps
         { key: 'onSuccess', hex: theme.onSuccess },
         { key: 'warning', hex: theme.warning },
         { key: 'onWarning', hex: theme.onWarning },
+        { key: 'info', hex: theme.info },
+        { key: 'onInfo', hex: theme.onInfo },
+        { key: 'neutral', hex: theme.neutral },
+        { key: 'onNeutral', hex: theme.onNeutral },
+        { key: 'highlight', hex: theme.highlight },
+        { key: 'onHighlight', hex: theme.onHighlight },
       ]
     }
   ];

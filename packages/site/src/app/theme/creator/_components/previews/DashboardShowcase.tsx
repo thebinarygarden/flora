@@ -154,6 +154,31 @@ export function DashboardShowcase() {
     return (
         <Card variant="flat" padding="large">
             <div className="space-y-6">
+                {/* Info Banner - New Feature Announcement */}
+                <div
+                    className="p-4 rounded-lg flex items-center gap-3"
+                    style={{
+                        backgroundColor: 'var(--info)',
+                        color: 'var(--on-info)'
+                    }}
+                >
+                    <span className="text-lg">ℹ️</span>
+                    <div className="flex-1">
+                        <p className="text-sm font-semibold">New Dashboard Features Available</p>
+                        <p className="text-xs opacity-90 mt-1">
+                            Check out our updated analytics and export options.{' '}
+                            <a
+                                href="#"
+                                className="underline font-medium hover:opacity-80"
+                                style={{ color: 'var(--on-info)' }}
+                                onClick={(e) => e.preventDefault()}
+                            >
+                                Learn more →
+                            </a>
+                        </p>
+                    </div>
+                </div>
+
                 {/* Dashboard Header */}
                 <div className="flex items-center justify-between">
                     <div>
@@ -246,6 +271,51 @@ export function DashboardShowcase() {
                         ))}
                     </div>
                 </div>
+
+                {/* Highlighted Featured Section */}
+                <Card variant="outlined" padding="medium">
+                    <div
+                        className="p-4 rounded-lg mb-4"
+                        style={{
+                            backgroundColor: 'var(--highlight)',
+                            color: 'var(--on-highlight)'
+                        }}
+                    >
+                        <div className="flex items-center gap-2 mb-2">
+                            <span className="text-lg">⭐</span>
+                            <p className="text-sm font-bold">Featured Metric of the Week</p>
+                        </div>
+                        <p className="text-2xl font-bold mb-1">+47% User Engagement</p>
+                        <p className="text-xs opacity-80">
+                            Your user engagement has increased significantly. See our{' '}
+                            <a
+                                href="#"
+                                className="underline font-medium hover:opacity-80"
+                                style={{ color: 'var(--link)' }}
+                                onClick={(e) => e.preventDefault()}
+                            >
+                                analytics report
+                            </a>
+                            {' '}for details.
+                        </p>
+                    </div>
+
+                    {/* Neutral Status Examples */}
+                    <div className="space-y-2">
+                        <div className="flex items-center justify-between p-2 rounded" style={{ backgroundColor: 'var(--background)' }}>
+                            <span className="text-xs" style={{ color: 'var(--on-background)' }}>System Status</span>
+                            <Badge variant="neutral" size="small">Operational</Badge>
+                        </div>
+                        <div className="flex items-center justify-between p-2 rounded" style={{ backgroundColor: 'var(--background)' }}>
+                            <span className="text-xs" style={{ color: 'var(--on-background)' }}>Last Backup</span>
+                            <Badge variant="info" size="small">2 hours ago</Badge>
+                        </div>
+                        <div className="flex items-center justify-between p-2 rounded" style={{ backgroundColor: 'var(--background)' }}>
+                            <span className="text-xs" style={{ color: 'var(--on-background)' }}>API Status</span>
+                            <Badge variant="success" size="small">Healthy</Badge>
+                        </div>
+                    </div>
+                </Card>
 
                 {/* Charts and Activity */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -612,6 +682,65 @@ export function DashboardShowcase() {
                                 <div className="text-xs opacity-80">View analytics</div>
                             </div>
                         </Button>
+                    </div>
+                </Card>
+
+                {/* Surface Variant Examples */}
+                <Card variant="outlined" padding="medium">
+                    <h3
+                        className="text-lg font-semibold mb-4"
+                        style={{ color: 'var(--on-surface)' }}
+                    >
+                        Notifications & Tooltips
+                    </h3>
+                    <div className="space-y-3">
+                        {/* Surface Variant Snackbar/Toast */}
+                        <div
+                            className="inline-flex items-center gap-2 px-4 py-3 rounded-lg shadow-lg"
+                            style={{
+                                backgroundColor: 'var(--surface-variant)',
+                                color: 'var(--on-surface-variant)'
+                            }}
+                        >
+                            <span className="text-sm">✓</span>
+                            <span className="text-sm font-medium">Changes saved successfully</span>
+                        </div>
+
+                        {/* Link color demonstration */}
+                        <div
+                            className="p-3 rounded-lg"
+                            style={{ backgroundColor: 'var(--background)' }}
+                        >
+                            <p className="text-sm" style={{ color: 'var(--on-background)' }}>
+                                Need help?{' '}
+                                <a
+                                    href="#"
+                                    className="font-medium underline hover:opacity-80"
+                                    style={{ color: 'var(--link)' }}
+                                    onClick={(e) => e.preventDefault()}
+                                >
+                                    Check our documentation
+                                </a>
+                                {' '}or{' '}
+                                <a
+                                    href="#"
+                                    className="font-medium underline hover:opacity-80"
+                                    style={{ color: 'var(--link)' }}
+                                    onClick={(e) => e.preventDefault()}
+                                >
+                                    contact support
+                                </a>
+                            </p>
+                        </div>
+
+                        {/* Badge showcase with new variants */}
+                        <div className="flex flex-wrap gap-2">
+                            <Badge variant="info" size="small">Info Badge</Badge>
+                            <Badge variant="neutral" size="small">Neutral</Badge>
+                            <Badge variant="error" size="small">Error</Badge>
+                            <Badge variant="highlight" size="small">Highlighted</Badge>
+                            <Badge variant="surfaceVariant" size="small">Variant</Badge>
+                        </div>
                     </div>
                 </Card>
             </div>

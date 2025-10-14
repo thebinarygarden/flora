@@ -11,7 +11,7 @@ interface SemanticStatesSectionProps {
 }
 
 export function SemanticStatesSection(props: SemanticStatesSectionProps) {
-    const colors = ['error', 'onError', 'success', 'onSuccess', 'warning', 'onWarning'] as const;
+    const colors = ['error', 'onError', 'success', 'onSuccess', 'warning', 'onWarning', 'info', 'onInfo', 'neutral', 'onNeutral', 'highlight', 'onHighlight'] as const;
 
     const preview = (
         <div className="space-y-3">
@@ -50,13 +50,49 @@ export function SemanticStatesSection(props: SemanticStatesSectionProps) {
                 <p className="text-xs font-semibold">✕ Error</p>
                 <p className="text-xs opacity-80 mt-1">Something went wrong</p>
             </div>
+
+            {/* Info Alert */}
+            <div
+                className="p-3 rounded-lg"
+                style={{
+                    backgroundColor: 'var(--info)',
+                    color: 'var(--on-info)'
+                }}
+            >
+                <p className="text-xs font-semibold">ℹ Info</p>
+                <p className="text-xs opacity-80 mt-1">New features available</p>
+            </div>
+
+            {/* Neutral Alert */}
+            <div
+                className="p-3 rounded-lg"
+                style={{
+                    backgroundColor: 'var(--neutral)',
+                    color: 'var(--on-neutral)'
+                }}
+            >
+                <p className="text-xs font-semibold">● Neutral</p>
+                <p className="text-xs opacity-80 mt-1">System notification</p>
+            </div>
+
+            {/* Highlight Alert */}
+            <div
+                className="p-3 rounded-lg"
+                style={{
+                    backgroundColor: 'var(--highlight)',
+                    color: 'var(--on-highlight)'
+                }}
+            >
+                <p className="text-xs font-semibold">★ Highlighted</p>
+                <p className="text-xs opacity-80 mt-1">Featured promotion</p>
+            </div>
         </div>
     );
 
     return (
         <ThemeSection
             title="4. Semantic States"
-            description="Set colors for error, success, and warning messages"
+            description="Set colors for status messages (error, success, warning, info, neutral, highlight)"
             colors={colors}
             {...props}
             preview={preview}

@@ -127,28 +127,28 @@ export function LandingPageShowcase() {
                                 <a
                                     href="#"
                                     className="font-medium hover:opacity-80"
-                                    style={{ color: 'var(--primary)' }}
+                                    style={{ color: 'var(--link)' }}
                                 >
                                     Components
                                 </a>
                                 <a
                                     href="#"
                                     className="hover:opacity-80"
-                                    style={{ color: 'var(--secondary)' }}
+                                    style={{ color: 'var(--link)' }}
                                 >
                                     Documentation
                                 </a>
                                 <a
                                     href="#"
                                     className="hover:opacity-80"
-                                    style={{ color: 'var(--tertiary)' }}
+                                    style={{ color: 'var(--link)' }}
                                 >
                                     Examples
                                 </a>
                                 <a
                                     href="#"
                                     className="hover:opacity-80"
-                                    style={{ color: 'var(--on-surface)', opacity: 0.7 }}
+                                    style={{ color: 'var(--link)' }}
                                 >
                                     Pricing
                                 </a>
@@ -165,19 +165,38 @@ export function LandingPageShowcase() {
                     </div>
                 </Card>
 
+                {/* Info Announcement Banner */}
+                <div
+                    className="p-3 rounded-lg flex items-center justify-center gap-2"
+                    style={{
+                        backgroundColor: 'var(--info)',
+                        color: 'var(--on-info)'
+                    }}
+                >
+                    <span className="text-sm font-medium">ℹ️ New: Theme Creator 2.0 is now live!</span>
+                    <a
+                        href="#"
+                        className="text-sm font-bold underline hover:opacity-80"
+                        style={{ color: 'var(--on-info)' }}
+                        onClick={(e) => e.preventDefault()}
+                    >
+                        Learn more →
+                    </a>
+                </div>
+
                 {/* Hero Section */}
                 <Card variant="flat" padding="large">
                     <div className="text-center max-w-4xl mx-auto">
-                        {/* Header with brand color hierarchy */}
+                        {/* Highlighted promotional banner */}
                         <div className="mb-6">
                             <span
-                                className="inline-block px-3 py-1 rounded-full text-sm font-medium mb-4"
+                                className="inline-block px-4 py-2 rounded-full text-sm font-medium mb-4"
                                 style={{
-                                    backgroundColor: 'var(--tertiary)',
-                                    color: 'var(--on-tertiary)'
+                                    backgroundColor: 'var(--highlight)',
+                                    color: 'var(--on-highlight)'
                                 }}
                             >
-                                New Release 🎉
+                                ⭐ Limited Offer: 50% off Enterprise plans
                             </span>
                         </div>
 
@@ -565,7 +584,7 @@ export function LandingPageShowcase() {
                         >
                             Join thousands of developers building amazing products with Flora UI
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
                             <Button variant="primary" className="px-8 py-3">
                                 Start Building Today
                             </Button>
@@ -573,8 +592,42 @@ export function LandingPageShowcase() {
                                 Book a Demo
                             </Button>
                         </div>
+
+                        {/* Neutral status badges */}
+                        <div className="flex gap-2 justify-center items-center flex-wrap">
+                            <Badge variant="neutral" size="small">Free tier available</Badge>
+                            <Badge variant="neutral" size="small">No credit card required</Badge>
+                            <Badge variant="info" size="small">14-day trial</Badge>
+                        </div>
                     </div>
                 </Card>
+
+                {/* Surface Variant Toast/Notification */}
+                <div className="flex justify-center">
+                    <div
+                        className="inline-flex items-center gap-3 px-6 py-4 rounded-lg shadow-xl"
+                        style={{
+                            backgroundColor: 'var(--surface-variant)',
+                            color: 'var(--on-surface-variant)'
+                        }}
+                    >
+                        <span className="text-lg">🎉</span>
+                        <div>
+                            <p className="text-sm font-semibold">Welcome to Flora UI!</p>
+                            <p className="text-xs opacity-90 mt-1">
+                                Your account has been created.{' '}
+                                <a
+                                    href="#"
+                                    className="underline font-medium hover:opacity-80"
+                                    style={{ color: 'var(--on-surface-variant)' }}
+                                    onClick={(e) => e.preventDefault()}
+                                >
+                                    Get started →
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </Card>
     );

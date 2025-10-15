@@ -1,13 +1,13 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata } from 'next';
+import './globals.css';
 import { ThemeProvider, ScriptPreloadTheme } from '@binarygarden/flora/theme';
 import { DialogProvider } from '@binarygarden/flora/overlay';
-import { lightTheme, darkTheme } from "@/app/themes";
-import { AppNavigation } from "@/app/_components/AppNavigation";
+import { lightTheme, darkTheme } from '@/app/themes';
+import { AppNavigation } from '@/app/_components/AppNavigation';
 
 export const metadata: Metadata = {
-  title: "Flora",
-  description: "the plants of a particular region",
+  title: 'Flora',
+  description: 'the plants of a particular region',
   icons: {
     icon: '/favicon.ico',
   },
@@ -27,9 +27,7 @@ export default function RootLayout({
       <body>
         <ThemeProvider lightTheme={lightTheme} darkTheme={darkTheme}>
           <DialogProvider>
-            <AppNavigation>
-              {children}
-            </AppNavigation>
+            <AppNavigation>{children}</AppNavigation>
           </DialogProvider>
         </ThemeProvider>
       </body>

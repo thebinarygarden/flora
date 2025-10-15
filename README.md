@@ -9,6 +9,7 @@ pnpm quick  # Clean, install, build, and start dev server at localhost:3000
 ```
 
 This command:
+
 1. Cleans all build artifacts and dependencies
 2. Installs all workspace dependencies
 3. Builds the Flora component library
@@ -17,18 +18,22 @@ This command:
 ## What's in this Monorepo
 
 ### `packages/flora`
+
 The main component library published to npm as `@binarygarden/flora`. Uses subpath-only imports for optimal bundle sizes.
 
 ### `packages/site`
+
 Next.js 15 demo site for developing and testing components during development.
 
 ## Navigation
 
 **For Library Users:**
+
 - **[Component Documentation](https://bgflora.app/components)** - Live demos and API reference
 - **[Package README](packages/flora/README.md)** - Installation and usage guide
 
 **For Contributors:**
+
 - **[Development Guide](docs/DEVELOPMENT.md)** - How to contribute, add components, workflows
 - **[Architecture Guide](docs/ARCHITECTURE.md)** - Technical design and build system
 - **[Theme System Guide](docs/THEME_SYSTEM.md)** - Theme templates and color utilities

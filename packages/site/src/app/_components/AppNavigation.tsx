@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import {usePathname, useRouter} from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { BGLanding } from '@binarygarden/flora/bg';
-import {MobileNav, NavItem} from '@binarygarden/flora/navigation';
+import { MobileNav, NavItem } from '@binarygarden/flora/navigation';
 import { ReactNode, useEffect } from 'react';
 
 interface AppNavigationProps {
@@ -17,19 +17,43 @@ export function AppNavigation({ children }: AppNavigationProps) {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-    const navigationItems: NavItem[] = [
-        {label: 'Components', onClick: () => { if (pathname === '/components') return; router.push('/components'); }},
-        {label: 'Theme', onClick: () => { if (pathname === '/theme') return; router.push('/theme'); }},
-        {label: 'Postcards', onClick: () => { if (pathname === '/postcards') return; router.push('/postcards'); }},
-        {label: 'Icons', onClick: () => { if (pathname === '/icons') return; router.push('/icons'); }},
-    ];
+  const navigationItems: NavItem[] = [
+    {
+      label: 'Components',
+      onClick: () => {
+        if (pathname === '/components') return;
+        router.push('/components');
+      },
+    },
+    {
+      label: 'Theme',
+      onClick: () => {
+        if (pathname === '/theme') return;
+        router.push('/theme');
+      },
+    },
+    {
+      label: 'Postcards',
+      onClick: () => {
+        if (pathname === '/postcards') return;
+        router.push('/postcards');
+      },
+    },
+    {
+      label: 'Icons',
+      onClick: () => {
+        if (pathname === '/icons') return;
+        router.push('/icons');
+      },
+    },
+  ];
 
-    const router = useRouter();
+  const router = useRouter();
 
-    const onBrandClick = () => {
-        if (pathname === '/') return;
-        router.push('/');
-    };
+  const onBrandClick = () => {
+    if (pathname === '/') return;
+    router.push('/');
+  };
 
   // Root page uses BGLanding
   if (pathname === '/') {
@@ -58,9 +82,7 @@ export function AppNavigation({ children }: AppNavigationProps) {
         items={navigationItems}
         onBrandClick={onBrandClick}
       />
-      <main className="h-screen">
-        {children}
-      </main>
+      <main className="h-screen">{children}</main>
     </>
   );
 }

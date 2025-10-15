@@ -1,7 +1,12 @@
 'use client';
 
-import { ThemeTemplate } from '../types';
-import { IconTrashcan } from '../../icons';
+import { ThemeTemplate, HSBColor } from '../types';
+import {
+  IconLock,
+  IconUnlock,
+  IconPaintBrush,
+  IconTrashcan,
+} from '../../icons';
 import { templateToTheme, DEFAULT_SEED } from './templateUtils';
 import { TemplateColorGrid } from '../components/TemplateColorGrid';
 
@@ -9,33 +14,39 @@ interface TemplateCardProps {
   template: ThemeTemplate;
   expanded: boolean;
   onDelete: (id: string, name: string) => void;
+  onEdit?: (id: string) => void;
   onClick?: () => void;
-  hydrationSeedHue?: number;
+  hydrationSeed?: HSBColor;
+  isSelected?: boolean;
+  isLocked?: boolean;
+  onToggleLock?: (id: string) => void;
 }
 
 export function TemplateCard({
   template,
   expanded,
   onDelete,
+  onEdit,
   onClick,
-  hydrationSeedHue
+  hydrationSeed = DEFAULT_SEED,
+  isSelected = false,
+  isLocked = false,
+  onToggleLock,
 }: TemplateCardProps) {
-  // Create hydration seed from provided hue or use default
-  const hydrationSeed = {
-    hue: hydrationSeedHue ?? DEFAULT_SEED.hue,
-    saturation: 100,
-    brightness: 100
-  };
+  // Determine which seed to use: original if locked, hydration seed if unlocked
+  const effectiveSeed =
+    isLocked && template.seed ? template.seed : hydrationSeed;
 
   // Get key colors to display
   const getKeyColors = (template: ThemeTemplate) => {
-    const theme = templateToTheme(template, hydrationSeed);
+    const theme = templateToTheme(template, effectiveSeed);
     return [
-      { name: 'Background', hex: theme.background },
-      { name: 'Surface', hex: theme.surface },
       { name: 'Primary', hex: theme.primary },
       { name: 'Secondary', hex: theme.secondary },
       { name: 'Tertiary', hex: theme.tertiary },
+      { name: 'Background', hex: theme.background },
+      { name: 'Surface', hex: theme.surface },
+      { name: 'Surface Variant', hex: theme.surfaceVariant },
     ];
   };
 
@@ -43,7 +54,7 @@ export function TemplateCard({
 
   // Expanded view (selected)
   if (expanded) {
-    const theme = templateToTheme(template, hydrationSeed);
+    const theme = templateToTheme(template, effectiveSeed);
 
     return (
       <div
@@ -69,24 +80,76 @@ export function TemplateCard({
               Created {new Date(template.createdAt).toLocaleDateString()}
             </p>
           </div>
-          <button
-            onClick={() => onDelete(template.id, template.name)}
-            className="p-2 rounded-lg transition-all group/delete"
-            style={{
-              backgroundColor: 'transparent',
-              color: 'var(--error)',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'var(--error)';
-              e.currentTarget.style.color = 'var(--on-error)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'transparent';
-              e.currentTarget.style.color = 'var(--error)';
-            }}
-          >
-            <IconTrashcan size={20} color="currentColor" />
-          </button>
+          <div className="flex gap-2">
+            {onEdit && (
+              <button
+                onClick={() => onEdit(template.id)}
+                className="p-2 rounded-lg transition-all"
+                style={{
+                  backgroundColor: 'transparent',
+                  color: 'var(--primary)',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--primary)';
+                  e.currentTarget.style.color = 'var(--on-primary)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.color = 'var(--primary)';
+                }}
+              >
+                <IconPaintBrush size={20} color="currentColor" />
+              </button>
+            )}
+            {onToggleLock && (
+              <button
+                onClick={() => onToggleLock(template.id)}
+                className="p-2 rounded-lg transition-all"
+                style={{
+                  backgroundColor: 'transparent',
+                  color: isLocked ? 'var(--on-surface)' : 'var(--primary)',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = isLocked
+                    ? 'var(--surface-variant)'
+                    : 'var(--primary)';
+                  e.currentTarget.style.color = isLocked
+                    ? 'var(--on-surface)'
+                    : 'var(--on-primary)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.color = isLocked
+                    ? 'var(--on-surface)'
+                    : 'var(--primary)';
+                }}
+              >
+                {isLocked ? (
+                  <IconLock size={20} color="currentColor" />
+                ) : (
+                  <IconUnlock size={20} color="currentColor" />
+                )}
+              </button>
+            )}
+            <button
+              onClick={() => onDelete(template.id, template.name)}
+              className="p-2 rounded-lg transition-all"
+              style={{
+                backgroundColor: 'transparent',
+                color: 'var(--error)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--error)';
+                e.currentTarget.style.color = 'var(--on-error)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.color = 'var(--error)';
+              }}
+            >
+              <IconTrashcan size={20} color="currentColor" />
+            </button>
+          </div>
         </div>
 
         {/* All Template Colors */}
@@ -99,10 +162,11 @@ export function TemplateCard({
   return (
     <div
       onClick={onClick}
-      className="rounded-xl p-3 border-2 transition-all hover:scale-[1.02] cursor-pointer flex flex-row items-center gap-3"
+      className="rounded-xl p-3 border-2 transition-all hover:scale-[1.01] cursor-pointer flex flex-row items-center gap-3 min-h-[66px]"
       style={{
         backgroundColor: 'var(--surface)',
-        borderColor: 'var(--border)',
+        borderColor: isSelected ? 'var(--primary)' : 'var(--border)',
+        transform: isSelected ? 'scale(1.02)' : 'scale(1)',
       }}
     >
       {/* Content (Title and Date) - Left */}
@@ -136,28 +200,65 @@ export function TemplateCard({
         ))}
       </div>
 
-      {/* Trashcan Icon - Right */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onDelete(template.id, template.name);
-        }}
-        className="p-2 rounded-lg transition-all flex-shrink-0"
-        style={{
-          backgroundColor: 'transparent',
-          color: 'var(--error)',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = 'var(--error)';
-          e.currentTarget.style.color = 'var(--on-error)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = 'transparent';
-          e.currentTarget.style.color = 'var(--error)';
-        }}
-      >
-        <IconTrashcan size={20} color="currentColor" />
-      </button>
+      {/* Action Buttons - Right */}
+      <div className="flex gap-2 flex-shrink-0">
+        {onEdit && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit(template.id);
+            }}
+            className="p-1.5 rounded-lg transition-all"
+            style={{
+              backgroundColor: 'transparent',
+              color: 'var(--primary)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--primary)';
+              e.currentTarget.style.color = 'var(--on-primary)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.color = 'var(--primary)';
+            }}
+          >
+            <IconPaintBrush size={20} color="currentColor" />
+          </button>
+        )}
+        {onToggleLock && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggleLock(template.id);
+            }}
+            className="p-1.5 rounded-lg transition-all"
+            style={{
+              backgroundColor: 'transparent',
+              color: isLocked ? 'var(--on-surface)' : 'var(--primary)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = isLocked
+                ? 'var(--surface-variant)'
+                : 'var(--primary)';
+              e.currentTarget.style.color = isLocked
+                ? 'var(--on-surface)'
+                : 'var(--on-primary)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.color = isLocked
+                ? 'var(--on-surface)'
+                : 'var(--primary)';
+            }}
+          >
+            {isLocked ? (
+              <IconLock size={20} color="currentColor" />
+            ) : (
+              <IconUnlock size={20} color="currentColor" />
+            )}
+          </button>
+        )}
+      </div>
     </div>
   );
 }

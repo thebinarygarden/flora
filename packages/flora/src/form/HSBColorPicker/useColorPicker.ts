@@ -5,52 +5,101 @@ export const useColorPicker = ({
   internalHsb,
   handleHsbChange,
   sbGridRef,
-  hueRef
+  hueRef,
+  saturationRef,
+  brightnessRef,
 }: UseColorPickerProps) => {
   const [isDragging, setIsDragging] = React.useState<DragType | null>(null);
 
-  const updateColor = React.useCallback((type: DragType, clientX: number, clientY: number) => {
-    const element = type === 'sb-grid' ? sbGridRef.current : hueRef.current;
-    if (!element) return;
+  const updateColor = React.useCallback(
+    (type: DragType, clientX: number, clientY: number) => {
+      let element: HTMLDivElement | null = null;
 
-    const rect = element.getBoundingClientRect();
-    
-    if (type === 'sb-grid') {
-      const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-      const y = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
-      
-      const newHsb = {
-        h: internalHsb.h,
-        s: Math.round(x * 100),
-        b: Math.round((1 - y) * 100)
-      };
-      handleHsbChange(newHsb);
-    } else if (type === 'hue') {
-      const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-      
-      const newHsb = {
-        h: Math.round(x * 359),
-        s: internalHsb.s,
-        b: internalHsb.b
-      };
-      handleHsbChange(newHsb);
-    }
-  }, [internalHsb.h, internalHsb.s, internalHsb.b, handleHsbChange, sbGridRef, hueRef]);
+      if (type === 'sb-grid') {
+        element = sbGridRef.current;
+      } else if (type === 'hue') {
+        element = hueRef.current;
+      } else if (type === 'saturation') {
+        element = saturationRef?.current ?? null;
+      } else if (type === 'brightness') {
+        element = brightnessRef?.current ?? null;
+      }
 
-  const handleMouseDown = React.useCallback((type: DragType) => (e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsDragging(type);
-    
-    updateColor(type, e.clientX, e.clientY);
-  }, [updateColor]);
+      if (!element) return;
 
-  const handleTouchStart = React.useCallback((type: DragType) => (e: React.TouchEvent) => {
-    setIsDragging(type);
-    
-    if (e.touches[0]) {
-      updateColor(type, e.touches[0].clientX, e.touches[0].clientY);
-    }
-  }, [updateColor]);
+      const rect = element.getBoundingClientRect();
+
+      if (type === 'sb-grid') {
+        const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+        const y = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
+
+        const newHsb = {
+          h: internalHsb.h,
+          s: Math.round(x * 100),
+          b: Math.round((1 - y) * 100),
+        };
+        handleHsbChange(newHsb);
+      } else if (type === 'hue') {
+        const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+
+        const newHsb = {
+          h: Math.round(x * 359),
+          s: internalHsb.s,
+          b: internalHsb.b,
+        };
+        handleHsbChange(newHsb);
+      } else if (type === 'saturation') {
+        const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+
+        const newHsb = {
+          h: internalHsb.h,
+          s: Math.round(x * 100),
+          b: internalHsb.b,
+        };
+        handleHsbChange(newHsb);
+      } else if (type === 'brightness') {
+        const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+
+        const newHsb = {
+          h: internalHsb.h,
+          s: internalHsb.s,
+          b: Math.round(x * 100),
+        };
+        handleHsbChange(newHsb);
+      }
+    },
+    [
+      internalHsb.h,
+      internalHsb.s,
+      internalHsb.b,
+      handleHsbChange,
+      sbGridRef,
+      hueRef,
+      saturationRef,
+      brightnessRef,
+    ]
+  );
+
+  const handleMouseDown = React.useCallback(
+    (type: DragType) => (e: React.MouseEvent) => {
+      e.preventDefault();
+      setIsDragging(type);
+
+      updateColor(type, e.clientX, e.clientY);
+    },
+    [updateColor]
+  );
+
+  const handleTouchStart = React.useCallback(
+    (type: DragType) => (e: React.TouchEvent) => {
+      setIsDragging(type);
+
+      if (e.touches[0]) {
+        updateColor(type, e.touches[0].clientX, e.touches[0].clientY);
+      }
+    },
+    [updateColor]
+  );
 
   React.useEffect(() => {
     const handleGlobalMouseMove = (e: MouseEvent) => {
@@ -79,7 +128,9 @@ export const useColorPicker = ({
     if (isDragging) {
       document.addEventListener('mousemove', handleGlobalMouseMove);
       document.addEventListener('mouseup', handleGlobalMouseUp);
-      document.addEventListener('touchmove', handleGlobalTouchMove, { passive: false });
+      document.addEventListener('touchmove', handleGlobalTouchMove, {
+        passive: false,
+      });
       document.addEventListener('touchend', handleGlobalTouchEnd);
     }
 
@@ -93,6 +144,6 @@ export const useColorPicker = ({
 
   return {
     handleMouseDown,
-    handleTouchStart
+    handleTouchStart,
   };
 };

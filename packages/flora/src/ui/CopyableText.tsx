@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import * as React from 'react';
 import { IconBGDocs } from '../icons';
 
@@ -11,7 +11,7 @@ export interface CopyableTextProps {
 export const CopyableText: React.FC<CopyableTextProps> = ({
   value,
   className = '',
-  label
+  label,
 }) => {
   const [copied, setCopied] = React.useState(false);
 
@@ -21,7 +21,7 @@ export const CopyableText: React.FC<CopyableTextProps> = ({
       setCopied(true);
       // Reset after 2 seconds
       setTimeout(() => setCopied(false), 500);
-    } catch (err) {
+    } catch {
       // Silently fail - user will notice copy didn't work
     }
   };
@@ -29,36 +29,39 @@ export const CopyableText: React.FC<CopyableTextProps> = ({
   return (
     <div className={className}>
       {label && (
-        <label className="block text-sm font-medium mb-2" style={{ color: 'var(--on-surface)' }}>
+        <label
+          className="block text-sm font-medium mb-2"
+          style={{ color: 'var(--on-surface)' }}
+        >
           {label}
         </label>
       )}
-      <div className="flex gap-2">
-        <textarea
-          value={value}
-          readOnly
-          rows={1}
-          className="flex-1 p-3 rounded text-xs font-mono border resize-none no-scrollbar"
-          style={{ 
-            backgroundColor: 'var(--background)', 
-            color: 'var(--on-background)',
-            borderColor: 'var(--border)',
+      <button
+        onClick={handleCopy}
+        className="w-full flex items-center gap-3 p-3 rounded border transition-all cursor-pointer group"
+        style={{
+          backgroundColor: copied ? 'var(--success)' : 'var(--surface-variant)',
+          borderColor: copied ? 'var(--success)' : 'var(--border)',
+          color: copied ? 'var(--on-success)' : 'var(--on-surface-variant)',
+        }}
+      >
+        <code
+          className="flex-1 text-left text-xs font-mono overflow-x-auto no-scrollbar select-all"
+          style={{
             whiteSpace: 'nowrap',
-            overflowX: 'auto'
           }}
-        />
-        <button
-          onClick={handleCopy}
-          className="p-2 rounded border transition-colors cursor-pointer"
-          style={{ 
-            backgroundColor: 'var(--surface)',
-            borderColor: 'var(--border)',
-            color: copied ? 'var(--success, #10B981)' : 'var(--on-surface)'
+        >
+          {value}
+        </code>
+        <div
+          className="flex-shrink-0 transition-transform group-hover:scale-110"
+          style={{
+            color: copied ? 'var(--on-success)' : 'var(--on-surface)',
           }}
         >
           <IconBGDocs size={16} />
-        </button>
-      </div>
+        </div>
+      </button>
     </div>
   );
 };

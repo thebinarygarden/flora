@@ -2,19 +2,18 @@
 
 import { useState } from 'react';
 import { Theme } from '../types';
-import { IconCopy } from '../../icons';
+import { ColorTile } from './ColorTile';
 
 interface TemplateColorGridProps {
   theme: Theme;
   onCopyColor?: (hex: string, colorName: string) => void;
 }
 
-export function TemplateColorGrid({ theme, onCopyColor }: TemplateColorGridProps) {
+export function TemplateColorGrid({
+  theme,
+  onCopyColor: _onCopyColor,
+}: TemplateColorGridProps) {
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
-
-  const formatLabel = (key: string) => {
-    return key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
-  };
 
   const handleCopy = (key: string, hex: string) => {
     navigator.clipboard.writeText(hex).then(() => {
@@ -23,108 +22,189 @@ export function TemplateColorGrid({ theme, onCopyColor }: TemplateColorGridProps
     });
   };
 
+  // Helper function to chunk pairs into groups of N
+  const chunkPairs = <T,>(array: T[], size: number): T[][] => {
+    const chunks: T[][] = [];
+    for (let i = 0; i < array.length; i += size) {
+      chunks.push(array.slice(i, i + size));
+    }
+    return chunks;
+  };
+
+  // Group colors into pairs (base + on color) and singles
   const colorGroups = [
     {
       title: 'Brand Colors',
-      colors: [
-        { key: 'primary', hex: theme.primary },
-        { key: 'onPrimary', hex: theme.onPrimary },
-        { key: 'secondary', hex: theme.secondary },
-        { key: 'onSecondary', hex: theme.onSecondary },
-        { key: 'tertiary', hex: theme.tertiary },
-        { key: 'onTertiary', hex: theme.onTertiary },
-      ]
+      pairs: [
+        {
+          base: { key: 'primary', hex: theme.primary },
+          on: { key: 'onPrimary', hex: theme.onPrimary },
+        },
+        {
+          base: { key: 'secondary', hex: theme.secondary },
+          on: { key: 'onSecondary', hex: theme.onSecondary },
+        },
+        {
+          base: { key: 'tertiary', hex: theme.tertiary },
+          on: { key: 'onTertiary', hex: theme.onTertiary },
+        },
+      ],
     },
     {
       title: 'Surface Hierarchy',
-      colors: [
-        { key: 'background', hex: theme.background },
-        { key: 'onBackground', hex: theme.onBackground },
-        { key: 'surface', hex: theme.surface },
-        { key: 'onSurface', hex: theme.onSurface },
-      ]
+      pairs: [
+        {
+          base: { key: 'background', hex: theme.background },
+          on: { key: 'onBackground', hex: theme.onBackground },
+        },
+        {
+          base: { key: 'surface', hex: theme.surface },
+          on: { key: 'onSurface', hex: theme.onSurface },
+        },
+        {
+          base: { key: 'surfaceVariant', hex: theme.surfaceVariant },
+          on: { key: 'onSurfaceVariant', hex: theme.onSurfaceVariant },
+        },
+      ],
     },
     {
       title: 'Interactive States',
-      colors: [
+      pairs: [
+        {
+          base: { key: 'disabled', hex: theme.disabled },
+          on: { key: 'onDisabled', hex: theme.onDisabled },
+        },
+        {
+          base: { key: 'link', hex: theme.link },
+          on: { key: 'onLink', hex: theme.onLink },
+        },
+      ],
+      singles: [
         { key: 'border', hex: theme.border },
         { key: 'hover', hex: theme.hover },
         { key: 'focus', hex: theme.focus },
-        { key: 'disabled', hex: theme.disabled },
-        { key: 'onDisabled', hex: theme.onDisabled },
-      ]
+      ],
     },
     {
       title: 'Semantic States',
-      colors: [
-        { key: 'error', hex: theme.error },
-        { key: 'onError', hex: theme.onError },
-        { key: 'success', hex: theme.success },
-        { key: 'onSuccess', hex: theme.onSuccess },
-        { key: 'warning', hex: theme.warning },
-        { key: 'onWarning', hex: theme.onWarning },
-      ]
-    }
+      pairs: [
+        {
+          base: { key: 'error', hex: theme.error },
+          on: { key: 'onError', hex: theme.onError },
+        },
+        {
+          base: { key: 'success', hex: theme.success },
+          on: { key: 'onSuccess', hex: theme.onSuccess },
+        },
+        {
+          base: { key: 'warning', hex: theme.warning },
+          on: { key: 'onWarning', hex: theme.onWarning },
+        },
+        {
+          base: { key: 'info', hex: theme.info },
+          on: { key: 'onInfo', hex: theme.onInfo },
+        },
+        {
+          base: { key: 'neutral', hex: theme.neutral },
+          on: { key: 'onNeutral', hex: theme.onNeutral },
+        },
+        {
+          base: { key: 'highlight', hex: theme.highlight },
+          on: { key: 'onHighlight', hex: theme.onHighlight },
+        },
+      ],
+    },
   ];
 
   return (
     <div className="space-y-4">
-      {colorGroups.map((group) => (
-        <div key={group.title}>
-          {/* Group Title */}
-          <h4
-            className="text-xs font-semibold mb-2 opacity-70"
-            style={{ color: 'var(--on-surface)' }}
-          >
-            {group.title}
-          </h4>
+      {colorGroups.map((group) => {
+        // Chunk pairs into groups of 3 (6 colors per row)
+        const pairChunks = group.pairs ? chunkPairs(group.pairs, 3) : [];
 
-          {/* Color Grid - Horizontal Layout */}
-          <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
-            {group.colors.map(({ key, hex }) => {
-              const isCopied = copiedKey === key;
-              return (
-                <button
-                  key={key}
-                  onClick={() => handleCopy(key, hex)}
-                  className="flex flex-col items-center gap-1 p-2 rounded-lg border-2 transition-all hover:scale-105 cursor-pointer"
-                  style={{
-                    borderColor: isCopied ? 'var(--success)' : 'var(--border)',
-                    backgroundColor: 'var(--background)',
-                    boxShadow: isCopied ? '0 0 8px var(--success)' : 'none',
-                  }}
-                >
-                  {/* Color Preview Circle */}
-                  <div
-                    className="w-8 h-8 rounded-full border-2"
-                    style={{
-                      backgroundColor: hex,
-                      borderColor: 'var(--border)',
-                    }}
-                  />
+        return (
+          <div key={group.title}>
+            {/* Group Title */}
+            <h4
+              className="text-sm font-semibold mb-2 opacity-80"
+              style={{ color: 'var(--on-surface)' }}
+            >
+              {group.title}
+            </h4>
 
-                  {/* Label */}
-                  <div className="text-[10px] font-semibold text-center leading-tight" style={{ color: 'var(--on-surface)' }}>
-                    {formatLabel(key)}
-                  </div>
+            {/* Color Pairs - 3 pairs per row (6 colors) */}
+            <div className="space-y-1.5">
+              {pairChunks.map((chunk, chunkIndex) => (
+                <div key={chunkIndex} className="flex gap-1.5">
+                  {chunk.map((pair, pairIndex) => {
+                    const baseIsCopied = copiedKey === pair.base.key;
+                    const onIsCopied = copiedKey === pair.on.key;
 
-                  {/* Hex Value with Copy Icon / Copied Indicator */}
-                  {isCopied ? (
-                    <div className="flex items-center justify-center gap-0.5 text-[9px] font-semibold" style={{ color: 'var(--success)' }}>
-                      Copied!
-                    </div>
-                  ) : (
-                    <div className="flex items-center justify-center gap-0.5 text-[9px] opacity-70" style={{ color: 'var(--on-surface)' }}>
-                      <IconCopy size={8} color="currentColor" />
-                      <span className="font-mono">{hex}</span>
-                    </div>
-                  )}
-                </button>
-              );
-            })}
+                    return (
+                      <div key={pairIndex} className="flex flex-1 gap-1.5">
+                        {/* Base Color */}
+                        <div className="flex-1">
+                          <ColorTile
+                            hex={pair.base.hex}
+                            label={pair.base.key}
+                            showLabel={true}
+                            showHex={true}
+                            showCopyIcon={true}
+                            onClick={() =>
+                              handleCopy(pair.base.key, pair.base.hex)
+                            }
+                            reactOnClick={baseIsCopied}
+                            previewClassName="w-full h-8"
+                            variant="card"
+                          />
+                        </div>
+
+                        {/* On Color */}
+                        <div className="flex-1">
+                          <ColorTile
+                            hex={pair.on.hex}
+                            label={pair.on.key}
+                            showLabel={true}
+                            showHex={true}
+                            showCopyIcon={true}
+                            onClick={() => handleCopy(pair.on.key, pair.on.hex)}
+                            reactOnClick={onIsCopied}
+                            previewClassName="w-full h-8"
+                            variant="card"
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ))}
+
+              {/* Single Colors (if any) */}
+              {group.singles && group.singles.length > 0 && (
+                <div className="grid grid-cols-3 gap-1.5 mt-1">
+                  {group.singles.map(({ key, hex }) => {
+                    const isCopied = copiedKey === key;
+                    return (
+                      <ColorTile
+                        key={key}
+                        hex={hex}
+                        label={key}
+                        showLabel={true}
+                        showHex={true}
+                        showCopyIcon={true}
+                        onClick={() => handleCopy(key, hex)}
+                        reactOnClick={isCopied}
+                        previewClassName="w-full h-8"
+                        variant="card"
+                      />
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

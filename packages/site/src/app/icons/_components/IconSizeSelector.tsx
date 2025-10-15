@@ -9,10 +9,21 @@ interface SizeSelectorProps {
   onSizeChange: (size: number) => void;
 }
 
-export function IconSizeSelector({ selectedSize, onSizeChange }: SizeSelectorProps) {
+export function IconSizeSelector({
+  selectedSize,
+  onSizeChange,
+}: SizeSelectorProps) {
   return (
-    <div className="p-6 rounded-lg border" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
-      <h3 className="font-semibold mb-4" style={{ color: 'var(--on-surface)' }}>Size</h3>
+    <div
+      className="p-6 rounded-lg border"
+      style={{
+        backgroundColor: 'var(--surface)',
+        borderColor: 'var(--border)',
+      }}
+    >
+      <h3 className="font-semibold mb-4" style={{ color: 'var(--on-surface)' }}>
+        Size
+      </h3>
       <div className="flex flex-wrap gap-2">
         {sizeOptions.map((size) => (
           <Button

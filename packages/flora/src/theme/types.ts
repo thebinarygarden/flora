@@ -12,17 +12,21 @@ export type Theme = {
   onTertiary: string;
 
   // Surface hierarchy
-  background: string;        // page background
+  background: string; // page background
   onBackground: string;
-  surface: string;           // cards, modals
+  surface: string; // cards, modals
   onSurface: string;
+  surfaceVariant: string; // alternative surface for emphasis and hierarchy
+  onSurfaceVariant: string;
 
   // Interactive states
-  border: string;            // input borders, dividers
-  hover: string;             // hover overlay
-  focus: string;             // focus rings
-  disabled: string;          // disabled backgrounds
+  border: string; // input borders, dividers
+  hover: string; // hover overlay
+  focus: string; // focus rings
+  disabled: string; // disabled backgrounds
   onDisabled: string;
+  link: string; // clickable text links
+  onLink: string;
 
   // Semantic states
   error: string;
@@ -31,6 +35,12 @@ export type Theme = {
   onSuccess: string;
   warning: string;
   onWarning: string;
+  info: string; // informational messages
+  onInfo: string;
+  neutral: string; // default/non-critical notifications
+  onNeutral: string;
+  highlight: string; // emphasized/featured content background
+  onHighlight: string;
 };
 
 // ============================================================================

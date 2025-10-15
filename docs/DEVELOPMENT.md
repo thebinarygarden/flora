@@ -27,13 +27,13 @@ pnpm run:site
 
 ## Available Commands
 
-| Command | Description |
-|---------|-------------|
-| `pnpm quick` | Clean, install, build UI, start dev server |
-| `pnpm build:ui` | Build @binarygarden/flora component library |
-| `pnpm build:site` | Build bgflora-site Next.js app |
-| `pnpm run:site` | Start dev server at localhost:3000 |
-| `pnpm clean` | Remove all node_modules, dist, .next |
+| Command           | Description                                 |
+| ----------------- | ------------------------------------------- |
+| `pnpm quick`      | Clean, install, build UI, start dev server  |
+| `pnpm build:ui`   | Build @binarygarden/flora component library |
+| `pnpm build:site` | Build bgflora-site Next.js app              |
+| `pnpm run:site`   | Start dev server at localhost:3000          |
+| `pnpm clean`      | Remove all node_modules, dist, .next        |
 
 ## Development Workflow
 
@@ -135,6 +135,7 @@ The `@svgr/rollup` plugin converts SVGs to React components automatically.
 See [Architecture Guide](./ARCHITECTURE.md) for detailed Rollup configuration and `preserveModules` explanation.
 
 **Key points:**
+
 - ESM only (`format: 'esm'`)
 - `preserveModules: true` maintains source structure
 - Each component is a separate file for optimal tree-shaking
@@ -144,6 +145,7 @@ See [Architecture Guide](./ARCHITECTURE.md) for detailed Rollup configuration an
 See [Architecture Guide](./ARCHITECTURE.md) for full explanation.
 
 **Critical rules:**
+
 1. Never add barrel exports (main `index.ts` must stay empty)
 2. Keep icons isolated from other categories
 3. All components depend on ThemeProvider

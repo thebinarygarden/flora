@@ -108,6 +108,7 @@ Even when tree-shaking works correctly, barrel exports can obscure bundle impact
 ### How It Works
 
 Subpath imports enforce separation at the module resolution level:
+
 - Each component category is a separate entry point
 - Unused categories are eliminated before tree-shaking runs
 - The main `index.ts` is empty, forcing subpath usage

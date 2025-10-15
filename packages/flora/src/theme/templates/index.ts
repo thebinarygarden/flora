@@ -1,6 +1,9 @@
 // Template components
 export { TemplateGallery } from './TemplateGallery';
 export { TemplateCard } from './TemplateCard';
+export { CreateTemplateCard } from './CreateTemplateCard';
+export { TemplateList } from './TemplateList';
+export { SelectedTemplateView } from './SelectedTemplateView';
 
 // Template utilities and constants
 export {

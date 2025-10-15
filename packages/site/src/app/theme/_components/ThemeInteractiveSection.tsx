@@ -5,7 +5,7 @@ import { HSBColorPicker } from '@binarygarden/flora/form';
 import { hexToHSB, hexToRgb } from '@binarygarden/flora/theme';
 
 export function ThemeInteractiveSection() {
-  const [color, setColor] = useState<string>("#299bba");
+  const [color, setColor] = useState<string>('#299bba');
   const [copied, setCopied] = useState(false);
   const [copiedValue, setCopiedValue] = useState<string | null>(null);
 
@@ -36,11 +36,11 @@ export function ThemeInteractiveSection() {
           style={{
             backgroundColor: color,
             border: `2px solid var(--on-background)`,
-            transition: copied ? 'box-shadow 200ms' : 'none'
+            transition: copied ? 'box-shadow 200ms' : 'none',
           }}
           onClick={copyHexToClipboard}
         />
-        
+
         {/* Color Info */}
         <div className="flex justify-between items-center mt-3">
           <div
@@ -51,24 +51,32 @@ export function ThemeInteractiveSection() {
           </div>
           <div
             className={`text-sm cursor-pointer transition-all duration-200 hover:bg-onSurface hover:bg-opacity-10 px-2 py-1 rounded ${copiedValue === 'HSB' ? 'text-green-500' : 'text-onSurface opacity-60'}`}
-            onClick={() => copyToClipboard(`hsb(${hsbColor.hue}, ${hsbColor.saturation}%, ${hsbColor.brightness}%)`, 'HSB')}
+            onClick={() =>
+              copyToClipboard(
+                `hsb(${hsbColor.hue}, ${hsbColor.saturation}%, ${hsbColor.brightness}%)`,
+                'HSB'
+              )
+            }
           >
             HSB: {hsbColor.hue}, {hsbColor.saturation}%, {hsbColor.brightness}%
           </div>
           <div
             className={`text-sm cursor-pointer transition-all duration-200 hover:bg-onSurface hover:bg-opacity-10 px-2 py-1 rounded ${copiedValue === 'RGB' ? 'text-green-500' : 'text-onSurface opacity-60'}`}
-            onClick={() => copyToClipboard(`rgb(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b})`, 'RGB')}
+            onClick={() =>
+              copyToClipboard(
+                `rgb(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b})`,
+                'RGB'
+              )
+            }
           >
             RGB: {rgbColor.r}, {rgbColor.g}, {rgbColor.b}
           </div>
         </div>
       </div>
-      
+
       {/* Color Picker */}
       <div className="max-w-md mx-auto">
-        <HSBColorPicker
-          onChangeHex={setColor}
-        />
+        <HSBColorPicker onChangeHex={setColor} />
       </div>
     </>
   );

@@ -11,6 +11,8 @@ export { IconGithub } from './IconGithub';
 export { IconHide } from './IconHide';
 export { IconInfo } from './IconInfo';
 export { IconLinkOut } from './IconLinkOut';
+export { IconLock } from './IconLock';
+export { IconUnlock } from './IconUnlock';
 export { IconMenu } from './IconMenu';
 export { IconMinus } from './IconMinus';
 export { IconNight } from './IconNight';

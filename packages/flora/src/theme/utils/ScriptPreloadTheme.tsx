@@ -8,10 +8,10 @@ interface ThemeScriptProps {
 
 /**
  * ThemeScript - Blocking script component that prevents theme flash
- * 
+ *
  * Add this to your <head> to ensure themes are applied before React hydrates.
  * This script runs immediately and sets CSS variables based on system preference.
- * 
+ *
  * Usage:
  * ```jsx
  * <head>
@@ -19,7 +19,10 @@ interface ThemeScriptProps {
  * </head>
  * ```
  */
-export const ScriptPreloadTheme: React.FC<ThemeScriptProps> = ({ lightTheme, darkTheme }) => {
+export const ScriptPreloadTheme: React.FC<ThemeScriptProps> = ({
+  lightTheme,
+  darkTheme,
+}) => {
   const script = `
     (function() {
       try {
@@ -44,17 +47,27 @@ export const ScriptPreloadTheme: React.FC<ThemeScriptProps> = ({ lightTheme, dar
           onBackground: '--on-background',
           surface: '--surface',
           onSurface: '--on-surface',
+          surfaceVariant: '--surface-variant',
+          onSurfaceVariant: '--on-surface-variant',
           border: '--border',
           hover: '--hover',
           focus: '--focus',
           disabled: '--disabled',
           onDisabled: '--on-disabled',
+          link: '--link',
+          onLink: '--on-link',
           error: '--error',
           onError: '--on-error',
           success: '--success',
           onSuccess: '--on-success',
           warning: '--warning',
-          onWarning: '--on-warning'
+          onWarning: '--on-warning',
+          info: '--info',
+          onInfo: '--on-info',
+          neutral: '--neutral',
+          onNeutral: '--on-neutral',
+          highlight: '--highlight',
+          onHighlight: '--on-highlight'
         };
         
         // Set CSS variables

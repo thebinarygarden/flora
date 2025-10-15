@@ -12,7 +12,12 @@ interface ColorPickerProps {
   onAddCustomColor: (color: string) => void;
 }
 
-export function IconColorPicker({ selectedColor, onColorSelect, customColors, onAddCustomColor }: ColorPickerProps) {
+export function IconColorPicker({
+  selectedColor,
+  onColorSelect,
+  customColors,
+  onAddCustomColor,
+}: ColorPickerProps) {
   const [showCustomColorPicker, setShowCustomColorPicker] = useState(false);
   const [pickerColor, setPickerColor] = useState('');
 
@@ -32,8 +37,16 @@ export function IconColorPicker({ selectedColor, onColorSelect, customColors, on
   };
 
   return (
-    <div className="p-6 rounded-lg border" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
-      <h3 className="font-semibold mb-4" style={{ color: 'var(--on-surface)' }}>Color</h3>
+    <div
+      className="p-6 rounded-lg border"
+      style={{
+        backgroundColor: 'var(--surface)',
+        borderColor: 'var(--border)',
+      }}
+    >
+      <h3 className="font-semibold mb-4" style={{ color: 'var(--on-surface)' }}>
+        Color
+      </h3>
       <div className="space-y-4">
         <div className="flex flex-wrap gap-2">
           {customColors.map((color) => (
@@ -44,10 +57,12 @@ export function IconColorPicker({ selectedColor, onColorSelect, customColors, on
                 setShowCustomColorPicker(false);
               }}
               className={`w-8 h-8 rounded border-2 transition-all ${
-                selectedColor === color && !showCustomColorPicker ? 'border-gray-800 scale-110' : 'border-gray-300'
+                selectedColor === color && !showCustomColorPicker
+                  ? 'border-gray-800 scale-110'
+                  : 'border-gray-300'
               }`}
               style={{
-                backgroundColor: color
+                backgroundColor: color,
               }}
             />
           ))}
@@ -56,11 +71,13 @@ export function IconColorPicker({ selectedColor, onColorSelect, customColors, on
             onClick={() => setShowCustomColorPicker(!showCustomColorPicker)}
             className={`w-8 h-8 rounded border-2 flex items-center justify-center text-xs font-bold border-gray-300`}
             style={{
-              backgroundColor: showCustomColorPicker ? pickerColor : 'var(--surface)',
-              color: 'var(--on-background)'
+              backgroundColor: showCustomColorPicker
+                ? pickerColor
+                : 'var(--surface)',
+              color: 'var(--on-background)',
             }}
           >
-            {!showCustomColorPicker && (<IconPlus size={16} />)}
+            {!showCustomColorPicker && <IconPlus size={16} />}
           </button>
         </div>
 

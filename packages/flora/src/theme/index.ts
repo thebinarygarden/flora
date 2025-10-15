@@ -30,6 +30,9 @@ export {
 export {
   TemplateGallery,
   TemplateCard,
+  TemplateList,
+  SelectedTemplateView,
+  CreateTemplateCard,
   calculateColorRelationship,
   hydrateColorFromRelationship,
   themeToTemplate,

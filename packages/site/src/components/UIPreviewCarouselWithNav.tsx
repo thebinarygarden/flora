@@ -7,6 +7,7 @@ import {
   previews,
 } from '../app/theme/creator/_components/previews/UIPreviewCarousel';
 import { IconArrow } from '@binarygarden/flora/icons';
+import { useHover } from '../utils/useHover';
 
 interface UIPreviewCarouselWithNavProps {
   theme: Theme;
@@ -15,6 +16,7 @@ interface UIPreviewCarouselWithNavProps {
   actions?: ReactNode;
   stickyNav?: boolean;
   compactLayout?: boolean;
+  stickyTop?: string;
 }
 
 export function UIPreviewCarouselWithNav({
@@ -24,10 +26,11 @@ export function UIPreviewCarouselWithNav({
   actions,
   stickyNav = false,
   compactLayout = false,
+  stickyTop = 'top-20',
 }: UIPreviewCarouselWithNavProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isLeftHovered, setIsLeftHovered] = useState(false);
-  const [isRightHovered, setIsRightHovered] = useState(false);
+  const leftHover = useHover();
+  const rightHover = useHover();
 
   const goToPrevious = () => {
     setCurrentIndex((prevIndex) =>
@@ -104,15 +107,17 @@ export function UIPreviewCarouselWithNav({
     <div className="flex gap-2">
       <button
         onClick={goToPrevious}
-        onMouseEnter={() => setIsLeftHovered(true)}
-        onMouseLeave={() => setIsLeftHovered(false)}
+        onMouseEnter={leftHover.handleMouseEnter}
+        onMouseLeave={leftHover.handleMouseLeave}
         className="cursor-pointer p-2 rounded-lg transition-all duration-200"
         style={{
-          color: isLeftHovered ? 'var(--on-secondary)' : 'var(--secondary)',
-          backgroundColor: isLeftHovered
+          color: leftHover.isHovered
+            ? 'var(--on-secondary)'
+            : 'var(--secondary)',
+          backgroundColor: leftHover.isHovered
             ? 'var(--secondary)'
             : 'var(--surface)',
-          border: isLeftHovered ? 'none' : '1px solid var(--border)',
+          border: leftHover.isHovered ? 'none' : '1px solid var(--border)',
         }}
         aria-label="Previous preview"
       >
@@ -120,15 +125,17 @@ export function UIPreviewCarouselWithNav({
       </button>
       <button
         onClick={goToNext}
-        onMouseEnter={() => setIsRightHovered(true)}
-        onMouseLeave={() => setIsRightHovered(false)}
+        onMouseEnter={rightHover.handleMouseEnter}
+        onMouseLeave={rightHover.handleMouseLeave}
         className="cursor-pointer p-2 rounded-lg transition-all duration-200"
         style={{
-          color: isRightHovered ? 'var(--on-secondary)' : 'var(--secondary)',
-          backgroundColor: isRightHovered
+          color: rightHover.isHovered
+            ? 'var(--on-secondary)'
+            : 'var(--secondary)',
+          backgroundColor: rightHover.isHovered
             ? 'var(--secondary)'
             : 'var(--surface)',
-          border: isRightHovered ? 'none' : '1px solid var(--border)',
+          border: rightHover.isHovered ? 'none' : '1px solid var(--border)',
         }}
         aria-label="Next preview"
       >
@@ -211,7 +218,7 @@ export function UIPreviewCarouselWithNav({
           {compactLayout ? (
             /* Compact Layout: Everything in one bar */
             <div
-              className={`flex items-center gap-3 py-3 px-4 rounded-2xl ${stickyNav ? 'sticky top-20 z-50 backdrop-blur-md shadow-lg' : ''}`}
+              className={`flex items-center gap-3 py-3 px-4 rounded-2xl ${stickyNav ? `sticky ${stickyTop} z-10 backdrop-blur-md shadow-lg` : ''}`}
               style={{ backgroundColor: 'var(--surface)' }}
             >
               {compactNavControls}
@@ -219,7 +226,7 @@ export function UIPreviewCarouselWithNav({
           ) : (
             /* Regular Layout: Split navigation and actions */
             <div
-              className={`flex items-center gap-3 ${stickyNav ? 'sticky top-20 z-50' : ''}`}
+              className={`flex items-center gap-3 ${stickyNav ? `sticky ${stickyTop} z-10` : ''}`}
             >
               {actions ? (
                 <>

@@ -19,57 +19,38 @@ export const Button: React.FC<ButtonProps> = ({
   const isDashed = variant === 'dashed';
 
   const getVariantStyles = () => {
-    const baseStyles = props.disabled
-      ? {
-          backgroundColor: 'var(--disabled)',
-          color: 'var(--on-disabled)',
-          cursor: 'not-allowed',
-          opacity: 1,
-        }
-      : {};
-
-    if (props.disabled) return baseStyles;
-
-    switch (variant) {
-      case 'primary':
-        return {
-          backgroundColor: 'var(--primary)',
-          color: 'var(--on-primary)',
-          borderColor: 'var(--primary)',
-        };
-      case 'secondary':
-        return {
-          backgroundColor: 'var(--secondary)',
-          color: 'var(--on-secondary)',
-          borderColor: 'var(--secondary)',
-        };
-      case 'tertiary':
-        return {
-          backgroundColor: 'var(--tertiary)',
-          color: 'var(--on-tertiary)',
-          borderColor: 'var(--tertiary)',
-        };
-      case 'outline':
-        return {
-          backgroundColor: 'transparent',
-          color: 'var(--primary)',
-          borderColor: 'var(--border)',
-          border: `1px solid var(--border)`,
-        };
-      case 'dashed':
-        return {
-          backgroundColor: 'var(--surface-variant)',
-          color: 'var(--on-surface-variant)',
-          borderColor: 'var(--border)',
-          border: `2px dashed var(--border)`,
-        };
-      default:
-        return {
-          backgroundColor: 'var(--primary)',
-          color: 'var(--on-primary)',
-          borderColor: 'var(--primary)',
-        };
+    if (props.disabled) {
+      return {
+        backgroundColor: 'var(--disabled)',
+        color: 'var(--on-disabled)',
+        cursor: 'not-allowed',
+        opacity: 1,
+      };
     }
+
+    if (variant === 'outline') {
+      return {
+        backgroundColor: 'transparent',
+        color: 'var(--primary)',
+        borderColor: 'var(--border)',
+        border: `1px solid var(--border)`,
+      };
+    }
+
+    if (variant === 'dashed') {
+      return {
+        backgroundColor: 'var(--surface-variant)',
+        color: 'var(--on-surface-variant)',
+        borderColor: 'var(--border)',
+        border: `2px dashed var(--border)`,
+      };
+    }
+
+    return {
+      backgroundColor: `var(--${variant})`,
+      color: `var(--on-${variant})`,
+      borderColor: `var(--${variant})`,
+    };
   };
 
   const variantStyles = getVariantStyles();
@@ -85,7 +66,7 @@ export const Button: React.FC<ButtonProps> = ({
         {
           ...variantStyles,
           '--tw-ring-color': 'var(--focus)',
-        } as React.CSSProperties & Record<string, string>
+        } as any
       }
       disabled={props.disabled}
       onMouseEnter={(e) => {

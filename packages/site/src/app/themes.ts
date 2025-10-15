@@ -14,7 +14,7 @@ export const lightTheme: Theme = {
   onBackground: '#111827', // gray-900
   surface: '#f9fafb', // gray-50
   onSurface: '#374151', // gray-700
-  surfaceVariant: '#f9fafb', // gray-800 (alternative surface for emphasis)
+  surfaceVariant: '#ecf3fa', // gray-800 (alternative surface for emphasis)
   onSurfaceVariant: '#435879', // gray-50 (light on variant)
 
   // Interactive states

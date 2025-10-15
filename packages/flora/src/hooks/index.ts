@@ -1,2 +1,3 @@
 export { useClientCheck } from './useClientCheck';
-export { useViewportHeight } from './useViewportHeight';
+export { useViewport } from './useViewport';
+export type { ViewportInfo } from './useViewport';

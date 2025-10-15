@@ -22,6 +22,26 @@ export interface BadgeProps {
   style?: React.CSSProperties;
 }
 
+const getVariantStyles = (variant: string): React.CSSProperties => {
+  if (variant === 'outline') {
+    return {
+      backgroundColor: 'transparent',
+      color: 'var(--on-surface)',
+      border: '1px solid var(--border)',
+    };
+  }
+
+  const varName = variant === 'surfaceVariant' ? 'surface-variant' : variant;
+  const onVarName =
+    variant === 'surfaceVariant' ? 'on-surface-variant' : `on-${variant}`;
+
+  return {
+    backgroundColor: `var(--${varName})`,
+    color: `var(--${onVarName})`,
+    border: 'none',
+  };
+};
+
 export function Badge({
   children,
   variant = 'outline',
@@ -34,74 +54,11 @@ export function Badge({
     medium: 'px-3 py-1 text-sm',
   };
 
-  const variantStyles: Record<string, React.CSSProperties> = {
-    primary: {
-      backgroundColor: 'var(--primary)',
-      color: 'var(--on-primary)',
-      border: 'none',
-    },
-    secondary: {
-      backgroundColor: 'var(--secondary)',
-      color: 'var(--on-secondary)',
-      border: 'none',
-    },
-    tertiary: {
-      backgroundColor: 'var(--tertiary)',
-      color: 'var(--on-tertiary)',
-      border: 'none',
-    },
-    success: {
-      backgroundColor: 'var(--success)',
-      color: 'var(--on-success)',
-      border: 'none',
-    },
-    error: {
-      backgroundColor: 'var(--error)',
-      color: 'var(--on-error)',
-      border: 'none',
-    },
-    warning: {
-      backgroundColor: 'var(--warning)',
-      color: 'var(--on-warning)',
-      border: 'none',
-    },
-    info: {
-      backgroundColor: 'var(--info)',
-      color: 'var(--on-info)',
-      border: 'none',
-    },
-    neutral: {
-      backgroundColor: 'var(--neutral)',
-      color: 'var(--on-neutral)',
-      border: 'none',
-    },
-    highlight: {
-      backgroundColor: 'var(--highlight)',
-      color: 'var(--on-highlight)',
-      border: 'none',
-    },
-    link: {
-      backgroundColor: 'var(--link)',
-      color: 'var(--on-link)',
-      border: 'none',
-    },
-    surfaceVariant: {
-      backgroundColor: 'var(--surface-variant)',
-      color: 'var(--on-surface-variant)',
-      border: 'none',
-    },
-    outline: {
-      backgroundColor: 'transparent',
-      color: 'var(--on-surface)',
-      border: '1px solid var(--border)',
-    },
-  };
-
   return (
     <span
       className={`inline-flex items-center justify-center rounded-full font-medium ${sizeClasses[size]} ${className}`}
       style={{
-        ...variantStyles[variant],
+        ...getVariantStyles(variant),
         ...style,
       }}
     >

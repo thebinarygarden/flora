@@ -23,7 +23,6 @@ import { BrandColorsSection } from './_components/sections/BrandColorsSection';
 import { InteractiveStatesSection } from './_components/sections/InteractiveStatesSection';
 import { SemanticStatesSection } from './_components/sections/SemanticStatesSection';
 import { ThemeReviewControls } from './_components/ThemeReviewControls';
-import { ThemeReviewControlsSm } from './_components/ThemeReviewControlsSm';
 
 function useWindowSize() {
   const [windowSize, setWindowSize] = useState({ width: 0 });
@@ -255,19 +254,12 @@ function ThemeCreatorContent() {
           />
 
           {/* Section 5: Theme Review */}
-          {isLargeScreen ? (
-            <ThemeReviewControls
-              theme={theme}
-              setIsOverlayOpen={setIsOverlayOpen}
-              templateName={templateName}
-            />
-          ) : (
-            <ThemeReviewControlsSm
-              theme={theme}
-              setIsOverlayOpen={setIsOverlayOpen}
-              templateName={templateName}
-            />
-          )}
+          <ThemeReviewControls
+            theme={theme}
+            setIsOverlayOpen={setIsOverlayOpen}
+            templateName={templateName}
+            compact={!isLargeScreen}
+          />
         </div>
       </div>
 

@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { DragType, UseColorPickerProps } from './types';
 
+const MAX_HUE = 359;
+const MAX_PERCENTAGE = 100;
+
 export const useColorPicker = ({
   internalHsb,
   handleHsbChange,
@@ -15,14 +18,19 @@ export const useColorPicker = ({
     (type: DragType, clientX: number, clientY: number) => {
       let element: HTMLDivElement | null = null;
 
-      if (type === 'sb-grid') {
-        element = sbGridRef.current;
-      } else if (type === 'hue') {
-        element = hueRef.current;
-      } else if (type === 'saturation') {
-        element = saturationRef?.current ?? null;
-      } else if (type === 'brightness') {
-        element = brightnessRef?.current ?? null;
+      switch (type) {
+        case 'sb-grid':
+          element = sbGridRef?.current ?? null;
+          break;
+        case 'hue':
+          element = hueRef?.current ?? null;
+          break;
+        case 'saturation':
+          element = saturationRef?.current ?? null;
+          break;
+        case 'brightness':
+          element = brightnessRef?.current ?? null;
+          break;
       }
 
       if (!element) return;
@@ -35,15 +43,15 @@ export const useColorPicker = ({
 
         const newHsb = {
           h: internalHsb.h,
-          s: Math.round(x * 100),
-          b: Math.round((1 - y) * 100),
+          s: Math.round(x * MAX_PERCENTAGE),
+          b: Math.round((1 - y) * MAX_PERCENTAGE),
         };
         handleHsbChange(newHsb);
       } else if (type === 'hue') {
         const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
 
         const newHsb = {
-          h: Math.round(x * 359),
+          h: Math.round(x * MAX_HUE),
           s: internalHsb.s,
           b: internalHsb.b,
         };
@@ -53,7 +61,7 @@ export const useColorPicker = ({
 
         const newHsb = {
           h: internalHsb.h,
-          s: Math.round(x * 100),
+          s: Math.round(x * MAX_PERCENTAGE),
           b: internalHsb.b,
         };
         handleHsbChange(newHsb);
@@ -63,7 +71,7 @@ export const useColorPicker = ({
         const newHsb = {
           h: internalHsb.h,
           s: internalHsb.s,
-          b: Math.round(x * 100),
+          b: Math.round(x * MAX_PERCENTAGE),
         };
         handleHsbChange(newHsb);
       }

@@ -6,13 +6,51 @@ interface CreateTemplateCardProps {
   onCreateNew: () => void;
   expanded: boolean;
   onClick?: () => void;
+  iconOnly?: boolean;
 }
 
 export function CreateTemplateCard({
   onCreateNew,
   expanded,
   onClick,
+  iconOnly = false,
 }: CreateTemplateCardProps) {
+  // Icon-only view (compact button with just the plus icon)
+  if (iconOnly) {
+    return (
+      <button
+        onClick={onClick}
+        className="rounded-lg p-2 border transition-all hover:scale-105 flex items-center justify-center relative overflow-hidden"
+        style={{
+          backgroundColor: 'var(--surface)',
+          borderColor: 'var(--border)',
+        }}
+        onMouseEnter={(e) => {
+          const overlay = e.currentTarget.querySelector(
+            '.hover-overlay'
+          ) as HTMLElement;
+          if (overlay) overlay.style.opacity = '1';
+        }}
+        onMouseLeave={(e) => {
+          const overlay = e.currentTarget.querySelector(
+            '.hover-overlay'
+          ) as HTMLElement;
+          if (overlay) overlay.style.opacity = '0';
+        }}
+        aria-label="Create new template"
+      >
+        <span
+          className="hover-overlay absolute inset-0 transition-opacity pointer-events-none"
+          style={{
+            backgroundColor: 'var(--hover)',
+            opacity: 0,
+          }}
+        />
+        <IconPlus size={24} color="var(--primary)" className="relative z-10" />
+      </button>
+    );
+  }
+
   // Expanded view (selected)
   if (expanded) {
     return (

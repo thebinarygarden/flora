@@ -1,207 +1,293 @@
 'use client';
 
 import { useState } from 'react';
-import { Theme } from '../types';
-import { ColorTile } from './ColorTile';
+import { Theme, HSBColor } from '../types';
+import { hsbToHex } from '../utils/colorUtils';
+import { IconArrow } from '../../icons';
 
 interface TemplateColorGridProps {
   theme: Theme;
+  seed?: HSBColor;
   onCopyColor?: (hex: string, colorName: string) => void;
+  onColorFieldSelect?: (field: keyof Theme, hex: string) => void;
+  tileHeight?: string;
+  tileGap?: string;
+  tileBorderWidth?: string;
 }
 
 export function TemplateColorGrid({
   theme,
+  seed,
   onCopyColor: _onCopyColor,
+  onColorFieldSelect,
+  tileHeight = 'h-3',
+  tileGap = 'gap-0',
+  tileBorderWidth = 'border-2',
 }: TemplateColorGridProps) {
-  const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const [expandedSection, setExpandedSection] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
 
-  const handleCopy = (key: string, hex: string) => {
-    navigator.clipboard.writeText(hex).then(() => {
-      setCopiedKey(key);
-      setTimeout(() => setCopiedKey(null), 2000);
-    });
-  };
-
-  // Helper function to chunk pairs into groups of N
-  const chunkPairs = <T,>(array: T[], size: number): T[][] => {
-    const chunks: T[][] = [];
-    for (let i = 0; i < array.length; i += size) {
-      chunks.push(array.slice(i, i + size));
-    }
-    return chunks;
-  };
-
-  // Group colors into pairs (base + on color) and singles
-  const colorGroups = [
+  // Organize colors into sections with names and field keys
+  const colorSections = [
+    ...(seed
+      ? [
+          {
+            title: 'Seed',
+            colors: [{ hex: hsbToHex(seed), name: 'Seed', field: null }],
+            cols: 1,
+          },
+        ]
+      : []),
     {
       title: 'Brand Colors',
-      pairs: [
+      colors: [
         {
-          base: { key: 'primary', hex: theme.primary },
-          on: { key: 'onPrimary', hex: theme.onPrimary },
+          hex: theme.primary,
+          name: 'Primary',
+          field: 'primary' as keyof Theme,
         },
         {
-          base: { key: 'secondary', hex: theme.secondary },
-          on: { key: 'onSecondary', hex: theme.onSecondary },
+          hex: theme.onPrimary,
+          name: 'On Primary',
+          field: 'onPrimary' as keyof Theme,
         },
         {
-          base: { key: 'tertiary', hex: theme.tertiary },
-          on: { key: 'onTertiary', hex: theme.onTertiary },
+          hex: theme.secondary,
+          name: 'Secondary',
+          field: 'secondary' as keyof Theme,
+        },
+        {
+          hex: theme.onSecondary,
+          name: 'On Secondary',
+          field: 'onSecondary' as keyof Theme,
+        },
+        {
+          hex: theme.tertiary,
+          name: 'Tertiary',
+          field: 'tertiary' as keyof Theme,
+        },
+        {
+          hex: theme.onTertiary,
+          name: 'On Tertiary',
+          field: 'onTertiary' as keyof Theme,
         },
       ],
+      cols: 6,
     },
     {
       title: 'Surface Hierarchy',
-      pairs: [
+      colors: [
         {
-          base: { key: 'background', hex: theme.background },
-          on: { key: 'onBackground', hex: theme.onBackground },
+          hex: theme.background,
+          name: 'Background',
+          field: 'background' as keyof Theme,
         },
         {
-          base: { key: 'surface', hex: theme.surface },
-          on: { key: 'onSurface', hex: theme.onSurface },
+          hex: theme.onBackground,
+          name: 'On Background',
+          field: 'onBackground' as keyof Theme,
         },
         {
-          base: { key: 'surfaceVariant', hex: theme.surfaceVariant },
-          on: { key: 'onSurfaceVariant', hex: theme.onSurfaceVariant },
+          hex: theme.surface,
+          name: 'Surface',
+          field: 'surface' as keyof Theme,
+        },
+        {
+          hex: theme.onSurface,
+          name: 'On Surface',
+          field: 'onSurface' as keyof Theme,
+        },
+        {
+          hex: theme.surfaceVariant,
+          name: 'Surface Variant',
+          field: 'surfaceVariant' as keyof Theme,
+        },
+        {
+          hex: theme.onSurfaceVariant,
+          name: 'On Surface Variant',
+          field: 'onSurfaceVariant' as keyof Theme,
         },
       ],
+      cols: 6,
     },
     {
       title: 'Interactive States',
-      pairs: [
+      colors: [
         {
-          base: { key: 'disabled', hex: theme.disabled },
-          on: { key: 'onDisabled', hex: theme.onDisabled },
+          hex: theme.disabled,
+          name: 'Disabled',
+          field: 'disabled' as keyof Theme,
         },
         {
-          base: { key: 'link', hex: theme.link },
-          on: { key: 'onLink', hex: theme.onLink },
+          hex: theme.onDisabled,
+          name: 'On Disabled',
+          field: 'onDisabled' as keyof Theme,
         },
+        { hex: theme.link, name: 'Link', field: 'link' as keyof Theme },
+        { hex: theme.onLink, name: 'On Link', field: 'onLink' as keyof Theme },
+        { hex: theme.border, name: 'Border', field: 'border' as keyof Theme },
+        { hex: theme.hover, name: 'Hover', field: 'hover' as keyof Theme },
+        { hex: theme.focus, name: 'Focus', field: 'focus' as keyof Theme },
       ],
-      singles: [
-        { key: 'border', hex: theme.border },
-        { key: 'hover', hex: theme.hover },
-        { key: 'focus', hex: theme.focus },
-      ],
+      cols: 7,
     },
     {
       title: 'Semantic States',
-      pairs: [
+      colors: [
+        { hex: theme.error, name: 'Error', field: 'error' as keyof Theme },
         {
-          base: { key: 'error', hex: theme.error },
-          on: { key: 'onError', hex: theme.onError },
+          hex: theme.onError,
+          name: 'On Error',
+          field: 'onError' as keyof Theme,
         },
         {
-          base: { key: 'success', hex: theme.success },
-          on: { key: 'onSuccess', hex: theme.onSuccess },
+          hex: theme.success,
+          name: 'Success',
+          field: 'success' as keyof Theme,
         },
         {
-          base: { key: 'warning', hex: theme.warning },
-          on: { key: 'onWarning', hex: theme.onWarning },
+          hex: theme.onSuccess,
+          name: 'On Success',
+          field: 'onSuccess' as keyof Theme,
         },
         {
-          base: { key: 'info', hex: theme.info },
-          on: { key: 'onInfo', hex: theme.onInfo },
+          hex: theme.warning,
+          name: 'Warning',
+          field: 'warning' as keyof Theme,
         },
         {
-          base: { key: 'neutral', hex: theme.neutral },
-          on: { key: 'onNeutral', hex: theme.onNeutral },
+          hex: theme.onWarning,
+          name: 'On Warning',
+          field: 'onWarning' as keyof Theme,
+        },
+        { hex: theme.info, name: 'Info', field: 'info' as keyof Theme },
+        { hex: theme.onInfo, name: 'On Info', field: 'onInfo' as keyof Theme },
+        {
+          hex: theme.neutral,
+          name: 'Neutral',
+          field: 'neutral' as keyof Theme,
         },
         {
-          base: { key: 'highlight', hex: theme.highlight },
-          on: { key: 'onHighlight', hex: theme.onHighlight },
+          hex: theme.onNeutral,
+          name: 'On Neutral',
+          field: 'onNeutral' as keyof Theme,
+        },
+        {
+          hex: theme.highlight,
+          name: 'Highlight',
+          field: 'highlight' as keyof Theme,
+        },
+        {
+          hex: theme.onHighlight,
+          name: 'On Highlight',
+          field: 'onHighlight' as keyof Theme,
         },
       ],
+      cols: 12,
     },
   ];
 
+  const handleSectionClick = (sectionTitle: string) => {
+    if (expandedSection === sectionTitle) {
+      setExpandedSection(null);
+      setSelectedColor(null);
+    } else {
+      setExpandedSection(sectionTitle);
+      setSelectedColor(null);
+    }
+  };
+
   return (
     <div className="space-y-4">
-      {colorGroups.map((group) => {
-        // Chunk pairs into groups of 3 (6 colors per row)
-        const pairChunks = group.pairs ? chunkPairs(group.pairs, 3) : [];
+      {colorSections.map((section) => {
+        const isExpanded = expandedSection === section.title;
 
         return (
-          <div key={group.title}>
-            {/* Group Title */}
-            <h4
-              className="text-sm font-semibold mb-2 opacity-80"
-              style={{ color: 'var(--on-surface)' }}
+          <div key={section.title}>
+            {/* Section Header - Clickable */}
+            <button
+              onClick={() => handleSectionClick(section.title)}
+              className="w-full flex items-center justify-between mb-2 px-2 py-1 rounded-lg transition-all hover:bg-opacity-50"
+              style={{
+                color: 'var(--on-surface)',
+                backgroundColor: isExpanded
+                  ? 'var(--surface-variant)'
+                  : 'transparent',
+              }}
             >
-              {group.title}
-            </h4>
+              <h4 className="text-sm font-semibold opacity-80">
+                {section.title}
+              </h4>
+              <div
+                className="transition-transform duration-200"
+                style={{
+                  transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                }}
+              >
+                <IconArrow orientation="down" size={16} color="currentColor" />
+              </div>
+            </button>
 
-            {/* Color Pairs - 3 pairs per row (6 colors) */}
-            <div className="space-y-1.5">
-              {pairChunks.map((chunk, chunkIndex) => (
-                <div key={chunkIndex} className="flex gap-1.5">
-                  {chunk.map((pair, pairIndex) => {
-                    const baseIsCopied = copiedKey === pair.base.key;
-                    const onIsCopied = copiedKey === pair.on.key;
+            {/* Collapsed View - Small color tiles in single row */}
+            {!isExpanded && (
+              <div
+                className={`grid ${tileGap}`}
+                style={{
+                  gridTemplateColumns: `repeat(${section.cols}, minmax(0, 1fr))`,
+                }}
+              >
+                {section.colors.map((colorObj, index) => (
+                  <div
+                    key={index}
+                    className={`w-full ${tileHeight} rounded-lg ${tileBorderWidth}`}
+                    style={{
+                      backgroundColor: colorObj.hex,
+                      borderColor: 'var(--border)',
+                    }}
+                  />
+                ))}
+              </div>
+            )}
 
-                    return (
-                      <div key={pairIndex} className="flex flex-1 gap-1.5">
-                        {/* Base Color */}
-                        <div className="flex-1">
-                          <ColorTile
-                            hex={pair.base.hex}
-                            label={pair.base.key}
-                            showLabel={true}
-                            showHex={true}
-                            showCopyIcon={true}
-                            onClick={() =>
-                              handleCopy(pair.base.key, pair.base.hex)
-                            }
-                            reactOnClick={baseIsCopied}
-                            previewClassName="w-full h-8"
-                            variant="card"
-                          />
-                        </div>
+            {/* Expanded View - Compact 2-column layout */}
+            {isExpanded && (
+              <div className="space-y-0">
+                {section.colors.map((colorObj, index) => {
+                  const isSelected = selectedColor === colorObj.hex;
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        setSelectedColor(colorObj.hex);
+                        if (onColorFieldSelect && colorObj.field) {
+                          onColorFieldSelect(colorObj.field, colorObj.hex);
+                        }
+                      }}
+                      className={`w-full grid grid-cols-2 items-center gap-1 px-2 py-1 ${isSelected ? 'border-2' : ''} transition-all hover:bg-opacity-50`}
+                      style={{
+                        ...(isSelected && { borderColor: 'var(--primary)' }),
+                      }}
+                    >
+                      {/* Column 1: Theme Field Name */}
+                      <span
+                        className="text-sm font-medium text-left"
+                        style={{ color: 'var(--on-surface)' }}
+                      >
+                        {colorObj.name}
+                      </span>
 
-                        {/* On Color */}
-                        <div className="flex-1">
-                          <ColorTile
-                            hex={pair.on.hex}
-                            label={pair.on.key}
-                            showLabel={true}
-                            showHex={true}
-                            showCopyIcon={true}
-                            onClick={() => handleCopy(pair.on.key, pair.on.hex)}
-                            reactOnClick={onIsCopied}
-                            previewClassName="w-full h-8"
-                            variant="card"
-                          />
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              ))}
-
-              {/* Single Colors (if any) */}
-              {group.singles && group.singles.length > 0 && (
-                <div className="grid grid-cols-3 gap-1.5 mt-1">
-                  {group.singles.map(({ key, hex }) => {
-                    const isCopied = copiedKey === key;
-                    return (
-                      <ColorTile
-                        key={key}
-                        hex={hex}
-                        label={key}
-                        showLabel={true}
-                        showHex={true}
-                        showCopyIcon={true}
-                        onClick={() => handleCopy(key, hex)}
-                        reactOnClick={isCopied}
-                        previewClassName="w-full h-8"
-                        variant="card"
+                      {/* Column 2: Color Swatch */}
+                      <div
+                        className="h-6 rounded"
+                        style={{
+                          backgroundColor: colorObj.hex,
+                        }}
                       />
-                    );
-                  })}
-                </div>
-              )}
-            </div>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </div>
         );
       })}

@@ -3,6 +3,11 @@
 import { Card, Badge } from '@binarygarden/flora/ui';
 import { Button } from '@binarygarden/flora/form';
 import { useState } from 'react';
+import {
+  getStatusBadgeVariant,
+  getLevelBadgeVariant,
+  getTabStyle,
+} from '../../../../../utils/colorMappingUtils';
 
 interface Skill {
   name: string;
@@ -503,54 +508,6 @@ export function ProfilePageShowcase() {
     },
   ] as TabData[];
 
-  const getStatusColor = (
-    status: string
-  ):
-    | 'primary'
-    | 'secondary'
-    | 'tertiary'
-    | 'success'
-    | 'error'
-    | 'warning'
-    | 'outline' => {
-    switch (status) {
-      case 'Complete':
-        return 'success';
-      case 'In Progress':
-        return 'primary';
-      case 'Review':
-        return 'warning';
-      case 'Planning':
-        return 'secondary';
-      default:
-        return 'outline';
-    }
-  };
-
-  const getLevelColor = (
-    level: Skill['level']
-  ):
-    | 'primary'
-    | 'secondary'
-    | 'tertiary'
-    | 'success'
-    | 'error'
-    | 'warning'
-    | 'outline' => {
-    switch (level) {
-      case 'Expert':
-        return 'success';
-      case 'Advanced':
-        return 'primary';
-      case 'Intermediate':
-        return 'warning';
-      case 'Beginner':
-        return 'error';
-      default:
-        return 'outline';
-    }
-  };
-
   const groupedSkills = skills.reduce(
     (acc, skill) => {
       if (!acc[skill.category]) {
@@ -589,46 +546,6 @@ export function ProfilePageShowcase() {
         return '🤝';
       default:
         return '📌';
-    }
-  };
-
-  const getTabStyle = (tab: TabData, isActive: boolean) => {
-    const baseStyle = {
-      transition: 'all 0.2s ease-in-out',
-      cursor: 'pointer',
-    };
-
-    if (isActive) {
-      switch (tab.color) {
-        case 'primary':
-          return {
-            ...baseStyle,
-            backgroundColor: 'var(--primary)',
-            color: 'var(--on-primary)',
-            borderColor: 'var(--primary)',
-          };
-        case 'secondary':
-          return {
-            ...baseStyle,
-            backgroundColor: 'var(--secondary)',
-            color: 'var(--on-secondary)',
-            borderColor: 'var(--secondary)',
-          };
-        case 'tertiary':
-          return {
-            ...baseStyle,
-            backgroundColor: 'var(--tertiary)',
-            color: 'var(--on-tertiary)',
-            borderColor: 'var(--tertiary)',
-          };
-      }
-    } else {
-      return {
-        ...baseStyle,
-        backgroundColor: 'transparent',
-        color: 'var(--on-surface)',
-        borderColor: 'var(--border)',
-      };
     }
   };
 
@@ -784,7 +701,10 @@ export function ProfilePageShowcase() {
                       {project.role}
                     </p>
                   </div>
-                  <Badge variant={getStatusColor(project.status)} size="small">
+                  <Badge
+                    variant={getStatusBadgeVariant(project.status)}
+                    size="small"
+                  >
                     {project.status}
                   </Badge>
                 </div>
@@ -932,7 +852,7 @@ export function ProfilePageShowcase() {
                           </Badge>
                         </div>
                         <Badge
-                          variant={getLevelColor(skill.level)}
+                          variant={getLevelBadgeVariant(skill.level)}
                           size="small"
                         >
                           {skill.level}
@@ -1241,7 +1161,7 @@ export function ProfilePageShowcase() {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className="px-4 py-2 border-b-2 font-medium relative flex items-center gap-2"
-                style={getTabStyle(tab, activeTab === tab.id)}
+                style={getTabStyle(tab.color, activeTab === tab.id)}
               >
                 {tab.label}
                 {tab.badge && (

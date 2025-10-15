@@ -22,5 +22,6 @@ export {
   deleteTemplate,
   hydrateTemplate,
   updateTemplateName,
+  updateTemplate,
   getTemplateById,
 } from './templateStorage';

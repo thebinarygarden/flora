@@ -1,5 +1,10 @@
 import { Theme, HSBColor, ColorRelationship, ThemeTemplate } from '../types';
-import { hexToHSB, hsbToHex, shortestHuePath, applyHueDelta } from '../utils/colorUtils';
+import {
+  hexToHSB,
+  hsbToHex,
+  shortestHuePath,
+  applyHueDelta,
+} from '../utils/colorUtils';
 
 // ============================================================================
 // Constants
@@ -57,27 +62,6 @@ export function calculateColorRelationship(
     brightnessRatio,
   };
 
-  // Add floor values for special cases
-
-  // Lock saturation floor for very desaturated colors (grays)
-  // This preserves colors that are intentionally gray/neutral
-  if (color.saturation < 15) {
-    relationship.minSaturation = color.saturation;
-  }
-
-  // Lock brightness floor for very dark colors
-  // This preserves near-black colors (like dark text)
-  if (color.brightness < 20) {
-    relationship.minBrightness = color.brightness;
-  }
-
-  // Lock brightness ceiling for very bright colors
-  // This preserves near-white colors (like light backgrounds)
-  if (color.brightness > 95 && color.saturation < 10) {
-    relationship.minBrightness = color.brightness;
-    relationship.minSaturation = color.saturation;
-  }
-
   return relationship;
 }
 
@@ -104,14 +88,6 @@ export function hydrateColorFromRelationship(
   // Apply ratios
   let saturation = seed.saturation * relationship.saturationRatio;
   let brightness = seed.brightness * relationship.brightnessRatio;
-
-  // Apply floor constraints
-  if (relationship.minSaturation !== undefined) {
-    saturation = Math.max(relationship.minSaturation, saturation);
-  }
-  if (relationship.minBrightness !== undefined) {
-    brightness = Math.max(relationship.minBrightness, brightness);
-  }
 
   // Clamp to valid ranges
   saturation = Math.max(0, Math.min(100, saturation));

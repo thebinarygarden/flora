@@ -1,13 +1,13 @@
-"use client";
+'use client';
 import * as React from 'react';
 import { Theme } from './types';
 
 // Helper function to apply theme CSS variables
 const applyCSSVariables = (theme: Theme) => {
   if (typeof document === 'undefined') return;
-  
+
   const root = document.documentElement;
-  
+
   root.style.setProperty('--primary', theme.primary);
   root.style.setProperty('--on-primary', theme.onPrimary);
   root.style.setProperty('--secondary', theme.secondary);
@@ -47,12 +47,16 @@ interface ThemeContextType {
   toggleTheme: () => void;
 }
 
-const ThemeContext = React.createContext<ThemeContextType | undefined>(undefined);
+const ThemeContext = React.createContext<ThemeContextType | undefined>(
+  undefined
+);
 
 export const useTheme = () => {
   const context = React.useContext(ThemeContext);
   if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider from @flora/ui');
+    throw new Error(
+      'useTheme must be used within a ThemeProvider from @flora/ui'
+    );
   }
   return context;
 };
@@ -64,18 +68,18 @@ interface ThemeProviderProps {
   defaultDark?: boolean;
 }
 
-export const ThemeProvider: React.FC<ThemeProviderProps> = ({ 
-  children, 
-  lightTheme, 
-  darkTheme, 
-  defaultDark = false 
+export const ThemeProvider: React.FC<ThemeProviderProps> = ({
+  children,
+  lightTheme,
+  darkTheme,
+  defaultDark = false,
 }) => {
   const [isDark, setIsDark] = React.useState(defaultDark);
 
   const toggleTheme = () => {
     const newIsDark = !isDark;
     setIsDark(newIsDark);
-    
+
     // Apply theme manually by updating CSS variables
     // This handles manual toggle after initial theme is set by ThemeScript
     const theme = newIsDark ? darkTheme : lightTheme;
@@ -85,23 +89,23 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
   // Initialize from system preference on mount and listen for changes
   React.useEffect(() => {
     if (typeof window === 'undefined') return;
-    
+
     // Always use media query to detect theme preference
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     setIsDark(mediaQuery.matches);
-    
+
     // Listen for system theme changes
     const handleChange = (e: MediaQueryListEvent) => {
       const newIsDark = e.matches;
       setIsDark(newIsDark);
-      
+
       // Update CSS variables when system theme changes
       const theme = newIsDark ? darkTheme : lightTheme;
       applyCSSVariables(theme);
     };
-    
+
     mediaQuery.addEventListener('change', handleChange);
-    
+
     // Cleanup listener on unmount
     return () => {
       mediaQuery.removeEventListener('change', handleChange);

@@ -2,37 +2,46 @@ import * as React from 'react';
 import { UseHuePickerProps } from './types';
 
 export const useHuePicker = ({
-  internalHue,
+  internalHue: _internalHue,
   handleHueChange,
-  hueRef
+  hueRef,
 }: UseHuePickerProps) => {
   const [isDragging, setIsDragging] = React.useState<boolean>(false);
 
-  const updateHue = React.useCallback((clientX: number) => {
-    const element = hueRef.current;
-    if (!element) return;
+  const updateHue = React.useCallback(
+    (clientX: number) => {
+      const element = hueRef.current;
+      if (!element) return;
 
-    const rect = element.getBoundingClientRect();
-    const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+      const rect = element.getBoundingClientRect();
+      const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
 
-    const newHue = Math.round(x * 359);
-    handleHueChange(newHue);
-  }, [handleHueChange, hueRef]);
+      const newHue = Math.round(x * 359);
+      handleHueChange(newHue);
+    },
+    [handleHueChange, hueRef]
+  );
 
-  const handleMouseDown = React.useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsDragging(true);
+  const handleMouseDown = React.useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      setIsDragging(true);
 
-    updateHue(e.clientX);
-  }, [updateHue]);
+      updateHue(e.clientX);
+    },
+    [updateHue]
+  );
 
-  const handleTouchStart = React.useCallback((e: React.TouchEvent) => {
-    setIsDragging(true);
+  const handleTouchStart = React.useCallback(
+    (e: React.TouchEvent) => {
+      setIsDragging(true);
 
-    if (e.touches[0]) {
-      updateHue(e.touches[0].clientX);
-    }
-  }, [updateHue]);
+      if (e.touches[0]) {
+        updateHue(e.touches[0].clientX);
+      }
+    },
+    [updateHue]
+  );
 
   React.useEffect(() => {
     const handleGlobalMouseMove = (e: MouseEvent) => {
@@ -61,7 +70,9 @@ export const useHuePicker = ({
     if (isDragging) {
       document.addEventListener('mousemove', handleGlobalMouseMove);
       document.addEventListener('mouseup', handleGlobalMouseUp);
-      document.addEventListener('touchmove', handleGlobalTouchMove, { passive: false });
+      document.addEventListener('touchmove', handleGlobalTouchMove, {
+        passive: false,
+      });
       document.addEventListener('touchend', handleGlobalTouchEnd);
     }
 
@@ -75,6 +86,6 @@ export const useHuePicker = ({
 
   return {
     handleMouseDown,
-    handleTouchStart
+    handleTouchStart,
   };
 };

@@ -71,11 +71,11 @@ const hsbToNormalizedRgb = (
  * hsbToHex({ hue: 217, saturation: 91, brightness: 92 }) // "#2563eb"
  */
 export function hsbToHex(hsb: HSBColor): string {
-  const { r, g, b: blue } = hsbToNormalizedRgb(
-    hsb.hue,
-    hsb.saturation,
-    hsb.brightness
-  );
+  const {
+    r,
+    g,
+    b: blue,
+  } = hsbToNormalizedRgb(hsb.hue, hsb.saturation, hsb.brightness);
 
   const rHex = Math.round(r * 255)
     .toString(16)

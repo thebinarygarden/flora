@@ -32,12 +32,14 @@ import { Button } from '@binarygarden/flora';
 ```
 
 **How it works:**
+
 1. Main `index.ts` is empty
 2. Each category is a separate entry point
 3. `package.json` exports only defined subpaths
 4. Unused categories eliminated at module resolution (before tree-shaking)
 
 **Benefits:**
+
 - Bundle size controlled by structure, not tooling
 - Explicit dependencies (conscious choice of categories)
 - Physical isolation (icons separated from inputs)
@@ -59,21 +61,21 @@ export default {
     'src/navigation/index.ts',
     'src/theme/index.ts',
     'src/core/index.ts',
-    'src/styles.css'
+    'src/styles.css',
   ],
   output: {
     dir: 'dist',
     format: 'esm',
-    preserveModules: true,      // Critical for tree-shaking
+    preserveModules: true, // Critical for tree-shaking
     preserveModulesRoot: 'src',
-    sourcemap: true
+    sourcemap: true,
   },
   external: ['react', 'react-dom', 'framer-motion', 'tailwindcss'],
   plugins: [
-    svgr(),           // SVG → React components
-    typescript(),     // TypeScript + declarations
-    postcss()         // Tailwind CSS compilation
-  ]
+    svgr(), // SVG → React components
+    typescript(), // TypeScript + declarations
+    postcss(), // Tailwind CSS compilation
+  ],
 };
 ```
 
@@ -123,6 +125,7 @@ Subpaths enforced via `package.json`:
 ```
 
 **Why explicit exports?**
+
 1. Public API control (only intended subpaths exposed)
 2. Future-proof (internal reorganization won't break consumers)
 3. Better TypeScript resolution
@@ -145,6 +148,7 @@ packages/flora/
 ```
 
 **Rules:**
+
 - One category per directory
 - Each directory has `index.ts` (single export point)
 - `util/` not exported (internal only)
@@ -155,6 +159,7 @@ packages/flora/
 Icon collections grow to 100+ components. This is the primary motivation for Flora's architecture.
 
 **Traditional library:**
+
 ```javascript
 // All exports in one barrel
 import { Button } from '@library';
@@ -162,6 +167,7 @@ import { Button } from '@library';
 ```
 
 **Flora:**
+
 ```javascript
 import { Button } from '@binarygarden/flora/input';
 // Icons directory never touched unless explicitly imported

@@ -1,20 +1,15 @@
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
-import { FlatCompat } from '@eslint/eslintrc';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+import tseslint from '@typescript-eslint/eslint-plugin';
+import tsparser from '@typescript-eslint/parser';
+import react from 'eslint-plugin-react';
 
 const eslintConfig = [
-  ...compat.extends('eslint:recommended'),
+  {
+    ignores: ['dist/', 'node_modules/', '*.config.mjs', 'rollup.config.mjs'],
+  },
   {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
-      parser: await import('@typescript-eslint/parser').then((m) => m.default),
+      parser: tsparser,
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
@@ -24,10 +19,8 @@ const eslintConfig = [
       },
     },
     plugins: {
-      '@typescript-eslint': await import('@typescript-eslint/eslint-plugin').then(
-        (m) => m.default
-      ),
-      react: await import('eslint-plugin-react').then((m) => m.default),
+      '@typescript-eslint': tseslint,
+      react: react,
     },
     rules: {
       '@typescript-eslint/no-unused-vars': [
@@ -39,15 +32,13 @@ const eslintConfig = [
       ],
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
+      'no-unused-vars': 'off', // Disable base rule as we use @typescript-eslint version
     },
     settings: {
       react: {
         version: 'detect',
       },
     },
-  },
-  {
-    ignores: ['dist/', 'node_modules/', '*.config.mjs', 'rollup.config.mjs'],
   },
 ];
 

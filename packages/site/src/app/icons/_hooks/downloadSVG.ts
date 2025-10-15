@@ -16,7 +16,7 @@ export const downloadSVG = async (
     Object.assign(container.style, {
       position: 'absolute',
       left: '-9999px',
-      visibility: 'hidden'
+      visibility: 'hidden',
     });
     document.body.appendChild(container);
 
@@ -27,7 +27,7 @@ export const downloadSVG = async (
         React.createElement(IconComponent, {
           size: selectedSize,
           color: selectedColor,
-          strokeWidth: selectedStrokeWidth
+          strokeWidth: selectedStrokeWidth,
         })
       );
       setTimeout(resolve, 100);
@@ -53,7 +53,7 @@ export const downloadSVG = async (
 
     Object.assign(link, {
       href: url,
-      download: `${iconName.toLowerCase()}-${selectedSize}px-${selectedStrokeWidth}.svg`
+      download: `${iconName.toLowerCase()}-${selectedSize}px-${selectedStrokeWidth}.svg`,
     });
 
     document.body.appendChild(link);

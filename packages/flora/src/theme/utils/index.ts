@@ -9,4 +9,3 @@ export {
 
 // Script to preload theme
 export { ScriptPreloadTheme } from './ScriptPreloadTheme';
-

@@ -5,51 +5,44 @@ import postcss from 'rollup-plugin-postcss';
 import tailwindcss from '@tailwindcss/postcss';
 
 export default {
-    input: [
-        'src/form/index.ts',
-        'src/ui/index.ts',
-        'src/overlay/index.ts',
-        'src/bg/index.ts',
-        'src/hooks/index.ts',
-        'src/icons/index.ts',
-        'src/navigation/index.ts',
-        'src/theme/index.ts',
-        'src/styles.css',
-    ],
-    output: {
-        dir: 'dist',
-        format: 'esm',
-        preserveModules: true,
-        preserveModulesRoot: 'src',
-        sourcemap: true
-    },
-    plugins: [
-        svgr(),
-        preserveDirectives(),
-        postcss({
-            extract: 'styles.css',
-            minimize: true,
-            plugins: [
-                tailwindcss()
-            ]
-        }),
-        typescript({
-            tsconfig: './tsconfig.json',
-            declaration: true,
-            declarationMap: true,
-            declarationDir: 'dist'
-        })
-    ],
-    external: [
-        'react',
-        'react-dom',
-        'react/jsx-runtime',
-        'framer-motion'
-    ],
-    onwarn(warning, warn) {
-        if (warning.code === "MODULE_LEVEL_DIRECTIVE") {
-            return;
-        }
-        warn(warning);
+  input: [
+    'src/form/index.ts',
+    'src/ui/index.ts',
+    'src/overlay/index.ts',
+    'src/bg/index.ts',
+    'src/hooks/index.ts',
+    'src/icons/index.ts',
+    'src/navigation/index.ts',
+    'src/theme/index.ts',
+    'src/styles.css',
+  ],
+  output: {
+    dir: 'dist',
+    format: 'esm',
+    preserveModules: true,
+    preserveModulesRoot: 'src',
+    sourcemap: true,
+  },
+  plugins: [
+    svgr(),
+    preserveDirectives(),
+    postcss({
+      extract: 'styles.css',
+      minimize: true,
+      plugins: [tailwindcss()],
+    }),
+    typescript({
+      tsconfig: './tsconfig.json',
+      declaration: true,
+      declarationMap: true,
+      declarationDir: 'dist',
+    }),
+  ],
+  external: ['react', 'react-dom', 'react/jsx-runtime', 'framer-motion'],
+  onwarn(warning, warn) {
+    if (warning.code === 'MODULE_LEVEL_DIRECTIVE') {
+      return;
     }
+    warn(warning);
+  },
 };

@@ -4,17 +4,17 @@
   "description": "the plants of a particular region",
   "private": true,
   "scripts": {
-    "build:ui": "pnpm --filter @binarygarden/flora build",
     "build:site": "pnpm --filter bgflora-site build",
+    "build:ui": "pnpm --filter @binarygarden/flora build",
     "clean": "find . -name 'node_modules' -type d -prune -exec rm -rf {} + && find . -name 'dist' -type d -prune -exec rm -rf {} + && find . -name '.next' -type d -prune -exec rm -rf {} +",
-    "run:site": "pnpm --filter bgflora-site dev",
-    "quick": "pnpm clean && pnpm install && pnpm build:ui && pnpm run:site",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "lint": "pnpm lint:flora && pnpm lint:site",
     "lint:flora": "pnpm --filter @binarygarden/flora lint",
     "lint:site": "pnpm --filter bgflora-site lint",
-    "lint": "pnpm lint:flora && pnpm lint:site",
-    "precommit": "pnpm clean && pnpm install && pnpm build:ui && pnpm build:site && pnpm lint && pnpm format:check"
+    "precommit": "pnpm clean && pnpm install && pnpm build:ui && pnpm build:site && pnpm lint && pnpm format:check",
+    "quick": "pnpm clean && pnpm install && pnpm build:ui && pnpm run:site",
+    "run:site": "pnpm --filter bgflora-site dev"
   },
   "devDependencies": {
     "prettier": "^3.4.2"

@@ -17,11 +17,13 @@ Published to npm as `@binarygarden/flora` (currently v0.0.2).
 ## Essential Commands
 
 ### Quick Start
+
 ```bash
 pnpm quick  # Clean, install, build UI, start dev server at localhost:3000
 ```
 
 ### Build Commands
+
 ```bash
 pnpm build:ui       # Build @binarygarden/flora (required after library changes)
 pnpm build:site     # Build Next.js demo site
@@ -30,6 +32,7 @@ pnpm clean          # Remove node_modules, dist, .next from all packages
 ```
 
 ### Development Workflow
+
 **Important:** Library changes require rebuild - no HMR for the library itself.
 
 ```bash
@@ -43,14 +46,15 @@ pnpm build:ui
 
 Demo site changes have hot module reload.
 
-### Publishing (from packages/flora/)
-```bash
-# 1. Update version in packages/flora/package.json
-# 2. Build the library
-pnpm build:ui
-# 3. Publish from library directory
-cd packages/flora && npm publish
-```
+### Publishing
+
+Publishing is automated via GitHub Actions (`.github/workflows/publish-ui.yaml`):
+
+1. Update version in `packages/flora/package.json`
+2. Push to `main` branch
+3. GitHub Action automatically builds and publishes to npm if version is new
+
+The workflow requires `NPM_TOKEN` secret configured in GitHub repository settings.
 
 ## Architecture Principles
 
@@ -72,12 +76,14 @@ import { Button } from '@binarygarden/flora';
 ```
 
 **Why this matters:**
+
 - Icons directory isolated from form/navigation/etc
 - Unused categories eliminated at module resolution (before bundler optimizations)
 - Bundle size controlled by structure, not tooling
 - No risk of accidentally importing 100+ icons when you only need a button
 
 ### Available Subpaths
+
 - `@binarygarden/flora/form` - Form controls (Button, HSBColorPicker, etc)
 - `@binarygarden/flora/ui` - General UI components (Badge, Card, CopyableText)
 - `@binarygarden/flora/overlay` - Overlay/modal system (Dialog, DialogProvider, FullScreenOverlay)
@@ -102,19 +108,20 @@ Uses Rollup with `preserveModules: true` to maintain source structure in output:
 ```javascript
 // rollup.config.mjs inputs (packages/flora/rollup.config.mjs:8-18)
 input: [
-    'src/form/index.ts',
-    'src/ui/index.ts',
-    'src/overlay/index.ts',
-    'src/bg/index.ts',
-    'src/hooks/index.ts',
-    'src/icons/index.ts',
-    'src/navigation/index.ts',
-    'src/theme/index.ts',
-    'src/styles.css',
-]
+  'src/form/index.ts',
+  'src/ui/index.ts',
+  'src/overlay/index.ts',
+  'src/bg/index.ts',
+  'src/hooks/index.ts',
+  'src/icons/index.ts',
+  'src/navigation/index.ts',
+  'src/theme/index.ts',
+  'src/styles.css',
+];
 ```
 
 **Key settings:**
+
 - ESM only (`format: 'esm'`)
 - `preserveModules: true` - Each component becomes separate file for optimal tree-shaking
 - External: react, react-dom, framer-motion (peer dependencies)
@@ -151,10 +158,11 @@ import { ThemeProvider } from '@binarygarden/flora/theme';
 
 <ThemeProvider theme={myTheme}>
   <App />
-</ThemeProvider>
+</ThemeProvider>;
 ```
 
 **Theme Template System:**
+
 - Saves color themes as **ratios** (relationships between colors)
 - Hydrate templates with different seed colors to create variations
 - Preserves relative color properties (hue shifts, saturation/brightness ratios)

@@ -1,10 +1,9 @@
+import { Theme, ThemeTemplate, ThemeTemplateStorage, HSBColor } from '../types';
 import {
-  Theme,
-  ThemeTemplate,
-  ThemeTemplateStorage,
-  HSBColor,
-} from '../types';
-import { themeToTemplate, templateToTheme, DEFAULT_SEED_HUE } from './templateUtils';
+  themeToTemplate,
+  templateToTheme,
+  DEFAULT_SEED_HUE,
+} from './templateUtils';
 
 const STORAGE_KEY = 'flora-theme-templates';
 
@@ -107,7 +106,7 @@ export function hydrateTemplate(
     const hydrationSeed: HSBColor = {
       hue: seedHue,
       saturation: seedSaturation,
-      brightness: seedBrightness
+      brightness: seedBrightness,
     };
 
     return templateToTheme(template, hydrationSeed);

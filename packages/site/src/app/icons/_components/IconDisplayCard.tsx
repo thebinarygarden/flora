@@ -16,16 +16,22 @@ interface IconDisplayCardProps {
   selectedStrokeWidth: StrokeWidth;
 }
 
-export function IconDisplayCard({ 
-  name, 
-  component: IconComponent, 
-  description, 
-  selectedSize, 
-  selectedColor, 
-  selectedStrokeWidth 
+export function IconDisplayCard({
+  name,
+  component: IconComponent,
+  description,
+  selectedSize,
+  selectedColor,
+  selectedStrokeWidth,
 }: IconDisplayCardProps) {
   return (
-    <div className="pt-6 p-4 rounded-lg border transition-all" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
+    <div
+      className="pt-6 p-4 rounded-lg border transition-all"
+      style={{
+        backgroundColor: 'var(--surface)',
+        borderColor: 'var(--border)',
+      }}
+    >
       <div className="flex items-center justify-center mb-4 h-20">
         <IconComponent
           size={selectedSize}
@@ -34,8 +40,18 @@ export function IconDisplayCard({
         />
       </div>
 
-      <h3 className="font-semibold text-lg mb-2 text-center" style={{ color: 'var(--on-surface)' }}>{name}</h3>
-      <p className="text-sm mb-4" style={{ color: 'var(--on-surface)', opacity: 0.7 }}>{description}</p>
+      <h3
+        className="font-semibold text-lg mb-2 text-center"
+        style={{ color: 'var(--on-surface)' }}
+      >
+        {name}
+      </h3>
+      <p
+        className="text-sm mb-4"
+        style={{ color: 'var(--on-surface)', opacity: 0.7 }}
+      >
+        {description}
+      </p>
 
       <div className="space-y-2">
         <CopyableText
@@ -44,7 +60,15 @@ export function IconDisplayCard({
 
         <Button
           variant="outline"
-          onClick={() => downloadSVG(name, IconComponent, selectedSize, selectedColor, selectedStrokeWidth)}
+          onClick={() =>
+            downloadSVG(
+              name,
+              IconComponent,
+              selectedSize,
+              selectedColor,
+              selectedStrokeWidth
+            )
+          }
           className="w-full text-sm flex items-center justify-center gap-2"
         >
           Download SVG

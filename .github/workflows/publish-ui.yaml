@@ -19,13 +19,6 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'pnpm'
-          registry-url: 'https://registry.npmjs.org'
-
       - name: Get local package version
         id: local-version
         working-directory: packages/flora
@@ -51,6 +44,14 @@ jobs:
             echo "publish=true" >> $GITHUB_OUTPUT
             echo "New version detected: ${{ steps.local-version.outputs.version }} (current: ${{ steps.npm-version.outputs.version }})"
           fi
+
+      - name: Setup Node.js with cache
+        if: steps.should-publish.outputs.publish == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
         if: steps.should-publish.outputs.publish == 'true'

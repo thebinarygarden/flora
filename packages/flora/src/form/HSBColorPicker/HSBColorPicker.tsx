@@ -3,16 +3,25 @@ import * as React from 'react';
 import { HSBColor, HSBColorPickerProps } from './types';
 import { hsbToHex, hexToHsb } from './colorUtils';
 import { useColorPicker } from './useColorPicker';
+import { IconBGDocs } from '../../icons';
+import { Slider } from '../Slider/Slider';
 
 // Constants moved outside component to prevent re-instantiation
 const DEFAULT_COLOR = '#299bba';
 const HUE_GRADIENT =
   'linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000)';
+const MAX_HUE = 359;
+const MAX_PERCENTAGE = 100;
+const INDICATOR_BORDER = '4px solid white';
 
 export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
   onChangeHex,
   className = '',
   initialHex,
+  label,
+  copyable = false,
+  showColorIndicator = false,
+  showGrid = true,
   sb = false,
 }) => {
   const initialColor = initialHex || DEFAULT_COLOR;
@@ -22,35 +31,23 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
     hexToHsb(initialColor)
   );
 
+  // Copy state for copyable functionality
+  const [copied, setCopied] = React.useState(false);
+
   // Refs
-  const sbGridRef = React.useRef<HTMLDivElement | null>(null);
-  const hueRef = React.useRef<HTMLDivElement | null>(null);
-  const saturationRef = React.useRef<HTMLDivElement | null>(null);
-  const brightnessRef = React.useRef<HTMLDivElement | null>(null);
-
-  // Track current internal hex to detect external changes
-  const internalHexRef = React.useRef(
-    hsbToHex(internalHsb.h, internalHsb.s, internalHsb.b)
-  );
-
-  // Update internal hex ref whenever internal HSB changes
-  React.useEffect(() => {
-    internalHexRef.current = hsbToHex(
-      internalHsb.h,
-      internalHsb.s,
-      internalHsb.b
-    );
-  }, [internalHsb.h, internalHsb.s, internalHsb.b]);
+  const sbGridRef = showGrid
+    ? React.useRef<HTMLDivElement | null>(null)
+    : undefined;
 
   // Sync external initialHex changes to internal state
   React.useEffect(() => {
-    if (
-      initialHex &&
-      initialHex.toLowerCase() !== internalHexRef.current.toLowerCase()
-    ) {
-      setInternalHsb(hexToHsb(initialHex));
+    if (initialHex) {
+      const currentHex = hsbToHex(internalHsb.h, internalHsb.s, internalHsb.b);
+      if (initialHex.toLowerCase() !== currentHex.toLowerCase()) {
+        setInternalHsb(hexToHsb(initialHex));
+      }
     }
-  }, [initialHex]);
+  }, [initialHex, internalHsb.h, internalHsb.s, internalHsb.b]);
 
   const handleHsbChange = React.useCallback(
     (newHsb: HSBColor) => {
@@ -61,14 +58,14 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
     [onChangeHex]
   );
 
-  // Custom hook for color picker logic
+  // Custom hook for color picker logic (only for sb-grid)
   const { handleMouseDown, handleTouchStart } = useColorPicker({
     internalHsb,
     handleHsbChange,
     sbGridRef,
-    hueRef,
-    saturationRef,
-    brightnessRef,
+    hueRef: undefined,
+    saturationRef: undefined,
+    brightnessRef: undefined,
   });
 
   const hueColor = React.useMemo(
@@ -80,28 +77,18 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
     [internalHsb.h, internalHsb.s, internalHsb.b]
   );
 
-  const huePosition = React.useMemo(
-    () => (internalHsb.h / 359) * 100,
-    [internalHsb.h]
-  );
-  const saturationPosition = React.useMemo(
-    () => internalHsb.s,
-    [internalHsb.s]
-  );
-  const brightnessPosition = React.useMemo(
-    () => 100 - internalHsb.b,
-    [internalHsb.b]
-  );
-
-  const hueIndicatorStyle = React.useMemo(
-    () => ({
-      left: `${huePosition}%`,
-      top: '50%',
-      backgroundColor: hueColor,
-      border: `4px solid white`,
-    }),
-    [huePosition, hueColor]
-  );
+  // Copy handler for copyable functionality
+  const handleCopy = React.useCallback(async () => {
+    if (!copyable) return;
+    try {
+      await navigator.clipboard.writeText(hexColor);
+      setCopied(true);
+      // Reset after 500ms
+      setTimeout(() => setCopied(false), 500);
+    } catch {
+      // Silently fail - user will notice copy didn't work
+    }
+  }, [copyable, hexColor]);
 
   const sbGridAreaStyle = React.useMemo(
     () => ({
@@ -114,12 +101,12 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
 
   const sbGridIndicatorStyle = React.useMemo(
     () => ({
-      left: `${saturationPosition}%`,
-      top: `${brightnessPosition}%`,
+      left: `${internalHsb.s}%`,
+      top: `${MAX_PERCENTAGE - internalHsb.b}%`,
       backgroundColor: hexColor,
-      border: `4px solid white`,
+      border: INDICATOR_BORDER,
     }),
-    [saturationPosition, brightnessPosition, hexColor]
+    [internalHsb.s, internalHsb.b, hexColor]
   );
 
   // Saturation slider gradient: white to pure hue
@@ -134,108 +121,112 @@ export const HSBColorPicker: React.FC<HSBColorPickerProps> = ({
     [hueColor]
   );
 
-  const saturationIndicatorStyle = React.useMemo(
-    () => ({
-      left: `${saturationPosition}%`,
-      top: '50%',
-      backgroundColor: hsbToHex(internalHsb.h, internalHsb.s, 100),
-      border: `4px solid white`,
-    }),
-    [saturationPosition, internalHsb.h, internalHsb.s]
-  );
-
-  const brightnessIndicatorStyle = React.useMemo(
-    () => ({
-      left: `${internalHsb.b}%`,
-      top: '50%',
-      backgroundColor: hsbToHex(internalHsb.h, 100, internalHsb.b),
-      border: `4px solid white`,
-    }),
-    [internalHsb.b, internalHsb.h]
-  );
-
   return (
     <div className={className}>
-      {/* Hue Slider Container with padding for overhang */}
-      <div className="py-2 mb-2">
-        <div
-          ref={hueRef}
-          className="relative w-full h-3 cursor-pointer rounded-full"
-          style={{
-            background: HUE_GRADIENT,
-            border: `1px solid var(--on-background)`,
-            touchAction: 'none',
-          }}
-          onMouseDown={handleMouseDown('hue')}
-          onTouchStart={handleTouchStart('hue')}
-        >
-          {/* Hue Indicator */}
-          <div
-            className="absolute w-4 h-7 shadow-sm transform -translate-x-1/2 -translate-y-1/2 pointer-events-none rounded-lg"
-            style={hueIndicatorStyle}
-          />
+      {/* Color Indicator with optional label */}
+      {showColorIndicator && (
+        <div className={label ? 'flex items-center gap-3 mb-3' : 'mb-3'}>
+          {label && (
+            <span
+              className="text-sm font-medium"
+              style={{ color: 'var(--on-background)' }}
+            >
+              {label}
+            </span>
+          )}
+          {copyable ? (
+            <button
+              onClick={handleCopy}
+              className="h-8 rounded flex items-center gap-2 px-3 group"
+              style={{
+                backgroundColor: copied ? 'var(--success)' : hexColor,
+                border: `1px solid ${copied ? 'var(--success)' : 'var(--on-background)'}`,
+                flex: label ? '1' : undefined,
+                width: label ? undefined : '100%',
+                cursor: 'pointer',
+              }}
+            >
+              <div className="flex-1" />
+              <div
+                className="flex-shrink-0 transition-transform group-hover:scale-110"
+                style={{
+                  color: copied ? 'var(--on-success)' : 'var(--on-background)',
+                }}
+              >
+                <IconBGDocs size={16} />
+              </div>
+            </button>
+          ) : (
+            <div
+              className="h-8 rounded"
+              style={{
+                backgroundColor: hexColor,
+                border: `1px solid var(--on-background)`,
+                flex: label ? '1' : undefined,
+                width: label ? undefined : '100%',
+              }}
+            />
+          )}
         </div>
-      </div>
+      )}
+
+      {/* Hue Slider */}
+      <Slider
+        value={internalHsb.h}
+        min={0}
+        max={MAX_HUE}
+        onChange={(h) =>
+          handleHsbChange({ h, s: internalHsb.s, b: internalHsb.b })
+        }
+        gradient={HUE_GRADIENT}
+        indicatorColor={hueColor}
+        className="mb-2"
+      />
 
       {/* Saturation/Brightness 2D Grid */}
-      <div
-        ref={sbGridRef}
-        className="relative w-full aspect-square cursor-crosshair rounded overflow-hidden"
-        style={sbGridAreaStyle}
-        onMouseDown={handleMouseDown('sb-grid')}
-        onTouchStart={handleTouchStart('sb-grid')}
-      >
-        {/* Saturation/Brightness Indicator */}
+      {showGrid && (
         <div
-          className="absolute w-4 h-4 rounded-full shadow-lg transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-          style={sbGridIndicatorStyle}
-        />
-      </div>
+          ref={sbGridRef}
+          className="relative w-full aspect-square cursor-crosshair rounded overflow-hidden"
+          style={sbGridAreaStyle}
+          onMouseDown={handleMouseDown('sb-grid')}
+          onTouchStart={handleTouchStart('sb-grid')}
+        >
+          {/* Saturation/Brightness Indicator */}
+          <div
+            className="absolute w-4 h-4 rounded-full shadow-lg transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+            style={sbGridIndicatorStyle}
+          />
+        </div>
+      )}
 
       {/* Conditional Saturation and Brightness Sliders */}
       {sb && (
         <>
           {/* Saturation Slider */}
-          <div className="py-2 mt-2">
-            <div
-              ref={saturationRef}
-              className="relative w-full h-3 cursor-pointer rounded-full"
-              style={{
-                background: saturationGradient,
-                border: `1px solid var(--on-background)`,
-                touchAction: 'none',
-              }}
-              onMouseDown={handleMouseDown('saturation')}
-              onTouchStart={handleTouchStart('saturation')}
-            >
-              {/* Saturation Indicator */}
-              <div
-                className="absolute w-4 h-7 shadow-sm transform -translate-x-1/2 -translate-y-1/2 pointer-events-none rounded-lg"
-                style={saturationIndicatorStyle}
-              />
-            </div>
-          </div>
+          <Slider
+            value={internalHsb.s}
+            min={0}
+            max={MAX_PERCENTAGE}
+            onChange={(s) =>
+              handleHsbChange({ h: internalHsb.h, s, b: internalHsb.b })
+            }
+            gradient={saturationGradient}
+            indicatorColor={(s) => hsbToHex(internalHsb.h, s, MAX_PERCENTAGE)}
+            className="mt-2"
+          />
 
           {/* Brightness Slider */}
-          <div className="py-2">
-            <div
-              ref={brightnessRef}
-              className="relative w-full h-3 cursor-pointer rounded-full"
-              style={{
-                background: brightnessGradient,
-                border: `1px solid var(--on-background)`,
-                touchAction: 'none',
-              }}
-              onMouseDown={handleMouseDown('brightness')}
-              onTouchStart={handleTouchStart('brightness')}
-            >
-              {/* Brightness Indicator */}
-              <div
-                className="absolute w-4 h-7 shadow-sm transform -translate-x-1/2 -translate-y-1/2 pointer-events-none rounded-lg"
-                style={brightnessIndicatorStyle}
-              />
-            </div>
-          </div>
+          <Slider
+            value={internalHsb.b}
+            min={0}
+            max={MAX_PERCENTAGE}
+            onChange={(b) =>
+              handleHsbChange({ h: internalHsb.h, s: internalHsb.s, b })
+            }
+            gradient={brightnessGradient}
+            indicatorColor={(b) => hsbToHex(internalHsb.h, MAX_PERCENTAGE, b)}
+          />
         </>
       )}
     </div>

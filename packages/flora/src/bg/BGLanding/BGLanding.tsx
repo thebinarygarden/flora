@@ -11,7 +11,7 @@ import {
   IconHide,
 } from '../../icons';
 import { motion } from 'framer-motion';
-import { useViewportHeight } from '../../hooks/useViewportHeight';
+import { useViewport } from '../../hooks/useViewport';
 import { useBGLandingScroll } from './useBGLandingScroll';
 
 export const BGLanding = ({
@@ -26,13 +26,14 @@ export const BGLanding = ({
   navigationItems = [],
   onBrandClick,
 }: BGLandingProps) => {
-  const { unit, viewportHeight } = useViewportHeight();
+  const { height, isPortrait } = useViewport();
+  const unit = isPortrait ? 'vw' : 'vh';
   const { videoRef, isLooping, handleToggle } = useVideoLooper();
   const { heroContentOpacity, navOpacity, leftOverlay, bottomOverlay } =
-    useAnimatedFields({ viewportHeight });
+    useAnimatedFields({ viewportHeight: height });
 
   // Auto-scroll behavior to prevent getting stuck between sections
-  useBGLandingScroll({ viewportHeight });
+  useBGLandingScroll({ viewportHeight: height });
 
   // BGLanding icon styling utility - use CSS variables to avoid flash
   const bgLandingIconClass = `icon-hover transition-colors p-2 rounded-md`;

@@ -1,49 +1,35 @@
 'use client';
 
 import { HSBColorPicker } from '@binarygarden/flora/form';
-import { CopyableText } from '@binarygarden/flora/ui';
 
 interface ColorPickerPanelProps {
   selectedHex: string;
   onChangeHex: (hex: string) => void;
+  isMobile?: boolean;
 }
 
 export function ColorPickerPanel({
   selectedHex,
   onChangeHex,
+  isMobile = false,
 }: ColorPickerPanelProps) {
   return (
     <div
-      className="flex-1 p-6 rounded-xl border-2"
+      className="w-full p-4 rounded-xl border-2"
       style={{
         backgroundColor: 'var(--surface)',
         borderColor: 'var(--border)',
-        minWidth: '300px',
       }}
     >
-      <div className="flex items-center gap-2 mb-4">
-        <h4
-          className="text-sm font-semibold opacity-70"
-          style={{ color: 'var(--on-surface)' }}
-        >
-          Seed
-        </h4>
-        <div
-          className="flex-1 h-6 rounded border-2"
-          style={{
-            backgroundColor: selectedHex,
-            borderColor: 'var(--border)',
-          }}
-        />
-      </div>
-
-      <div className="mt-4">
-        <CopyableText value={selectedHex} />
-      </div>
       <HSBColorPicker
+        key={isMobile ? 'mobile' : 'desktop'}
+        label="Seed"
+        copyable={true}
+        showColorIndicator={false}
+        showGrid={!isMobile}
         initialHex={selectedHex}
         onChangeHex={onChangeHex}
-        sb={true}
+        sb={isMobile}
       />
     </div>
   );

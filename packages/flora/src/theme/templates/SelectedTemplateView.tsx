@@ -1,6 +1,6 @@
 'use client';
 
-import { ThemeTemplate, HSBColor } from '../types';
+import { ThemeTemplate, HSBColor, Theme } from '../types';
 import { TemplateCard } from './TemplateCard';
 import { CreateTemplateCard } from './CreateTemplateCard';
 
@@ -14,6 +14,10 @@ interface SelectedTemplateViewProps {
   showTitle?: boolean;
   isLocked?: boolean;
   onToggleLock?: (id: string) => void;
+  onColorFieldSelect?: (field: keyof Theme, hex: string) => void;
+  hasUnsavedChanges?: boolean;
+  onSave?: () => void;
+  onCancel?: () => void;
 }
 
 export function SelectedTemplateView({
@@ -26,9 +30,13 @@ export function SelectedTemplateView({
   showTitle = true,
   isLocked = false,
   onToggleLock,
+  onColorFieldSelect,
+  hasUnsavedChanges = false,
+  onSave,
+  onCancel,
 }: SelectedTemplateViewProps) {
   return (
-    <div>
+    <div className="h-full">
       {showTitle && (
         <h2
           className="text-xl font-semibold mb-4"
@@ -42,7 +50,7 @@ export function SelectedTemplateView({
         </h2>
       )}
 
-      <div className="grid grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 gap-4 h-full">
         {/* Create Template Card (Expanded) */}
         {isCreateSelected && (
           <CreateTemplateCard onCreateNew={onCreateNew} expanded={true} />
@@ -58,6 +66,10 @@ export function SelectedTemplateView({
             hydrationSeed={hydrationSeed}
             isLocked={isLocked}
             onToggleLock={onToggleLock}
+            onColorFieldSelect={onColorFieldSelect}
+            hasUnsavedChanges={hasUnsavedChanges}
+            onSave={onSave}
+            onCancel={onCancel}
           />
         )}
 

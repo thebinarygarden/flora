@@ -33,27 +33,41 @@ export function TemplateList({
 }: TemplateListProps) {
   return (
     <div>
+      {/* Title and Create Button on same line */}
       {showTitle && (
-        <h2
-          className="text-xl font-semibold mb-4"
-          style={{ color: 'var(--on-background)' }}
-        >
-          All Templates
-        </h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2
+            className="text-xl font-semibold"
+            style={{ color: 'var(--on-background)' }}
+          >
+            All Templates
+          </h2>
+          {showCreateButton && (
+            <CreateTemplateCard
+              onCreateNew={onCreateNew}
+              expanded={false}
+              onClick={onCreateNew}
+              iconOnly={true}
+            />
+          )}
+        </div>
       )}
-      <div
-        className="flex flex-col gap-1 max-h-[440px] overflow-y-auto p-4 rounded-xl"
-        style={{ backgroundColor: 'var(--surface-variant)' }}
-      >
-        {/* Create Template Card (Collapsed) */}
-        {showCreateButton && (
+
+      {/* If no title but create button is shown, render it separately */}
+      {!showTitle && showCreateButton && (
+        <div className="flex justify-center mb-4">
           <CreateTemplateCard
             onCreateNew={onCreateNew}
             expanded={false}
             onClick={onCreateNew}
           />
-        )}
+        </div>
+      )}
 
+      <div
+        className="flex flex-col gap-1 max-h-[440px] overflow-y-auto p-4 rounded-xl"
+        style={{ backgroundColor: 'var(--surface-variant)' }}
+      >
         {/* All Template Cards */}
         {templates.map((template) => (
           <TemplateCard

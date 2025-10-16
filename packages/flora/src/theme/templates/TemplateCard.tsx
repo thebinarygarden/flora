@@ -1,11 +1,13 @@
 'use client';
 
-import { ThemeTemplate, HSBColor } from '../types';
+import { ThemeTemplate, HSBColor, Theme } from '../types';
 import {
   IconLock,
   IconUnlock,
   IconPaintBrush,
   IconTrashcan,
+  IconX,
+  IconCheck,
 } from '../../icons';
 import { templateToTheme, DEFAULT_SEED } from './templateUtils';
 import { TemplateColorGrid } from '../components/TemplateColorGrid';
@@ -20,6 +22,10 @@ interface TemplateCardProps {
   isSelected?: boolean;
   isLocked?: boolean;
   onToggleLock?: (id: string) => void;
+  onColorFieldSelect?: (field: keyof Theme, hex: string) => void;
+  hasUnsavedChanges?: boolean;
+  onSave?: () => void;
+  onCancel?: () => void;
 }
 
 export function TemplateCard({
@@ -32,6 +38,10 @@ export function TemplateCard({
   isSelected = false,
   isLocked = false,
   onToggleLock,
+  onColorFieldSelect,
+  hasUnsavedChanges = false,
+  onSave,
+  onCancel,
 }: TemplateCardProps) {
   // Determine which seed to use: original if locked, hydration seed if unlocked
   const effectiveSeed =
@@ -58,102 +68,78 @@ export function TemplateCard({
 
     return (
       <div
-        className="rounded-xl p-6 border-2"
+        className="rounded-xl px-6 pb-6 pt-3 h-full"
         style={{
           backgroundColor: 'var(--surface)',
-          borderColor: 'var(--primary)',
         }}
       >
         {/* Template Header */}
-        <div className="flex justify-between items-start mb-4">
-          <div>
-            <h3
-              className="text-2xl font-bold mb-1"
-              style={{ color: 'var(--on-surface)' }}
-            >
-              {template.name}
-            </h3>
+        <div className="flex justify-between items-center mb-2">
+          <h3
+            className="text-2xl font-bold"
+            style={{ color: 'var(--on-surface)' }}
+          >
+            {template.name}
+          </h3>
+
+          {/* Conditionally render Save/Cancel buttons or Date */}
+          {hasUnsavedChanges ? (
+            <div className="flex gap-2">
+              <button
+                onClick={onCancel}
+                className="p-2 rounded-lg border-2 transition-all flex items-center justify-center"
+                style={{
+                  backgroundColor: 'var(--surface)',
+                  borderColor: 'var(--error)',
+                  color: 'var(--error)',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--error)';
+                  e.currentTarget.style.color = 'var(--on-error)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--surface)';
+                  e.currentTarget.style.color = 'var(--error)';
+                }}
+              >
+                <IconX size={20} color="currentColor" />
+              </button>
+              <button
+                onClick={onSave}
+                className="p-2 rounded-lg border-2 transition-all flex items-center justify-center"
+                style={{
+                  backgroundColor: 'var(--surface)',
+                  borderColor: 'var(--success)',
+                  color: 'var(--success)',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--success)';
+                  e.currentTarget.style.color = 'var(--on-success)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--surface)';
+                  e.currentTarget.style.color = 'var(--success)';
+                }}
+              >
+                <IconCheck size={20} color="currentColor" />
+              </button>
+            </div>
+          ) : (
             <p
               className="text-sm opacity-70"
               style={{ color: 'var(--on-surface)' }}
             >
-              Created {new Date(template.createdAt).toLocaleDateString()}
+              {new Date(template.createdAt).toLocaleDateString()}
             </p>
-          </div>
-          <div className="flex gap-2">
-            {onEdit && (
-              <button
-                onClick={() => onEdit(template.id)}
-                className="p-2 rounded-lg transition-all"
-                style={{
-                  backgroundColor: 'transparent',
-                  color: 'var(--primary)',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'var(--primary)';
-                  e.currentTarget.style.color = 'var(--on-primary)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = 'var(--primary)';
-                }}
-              >
-                <IconPaintBrush size={20} color="currentColor" />
-              </button>
-            )}
-            {onToggleLock && (
-              <button
-                onClick={() => onToggleLock(template.id)}
-                className="p-2 rounded-lg transition-all"
-                style={{
-                  backgroundColor: 'transparent',
-                  color: isLocked ? 'var(--on-surface)' : 'var(--primary)',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = isLocked
-                    ? 'var(--surface-variant)'
-                    : 'var(--primary)';
-                  e.currentTarget.style.color = isLocked
-                    ? 'var(--on-surface)'
-                    : 'var(--on-primary)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = isLocked
-                    ? 'var(--on-surface)'
-                    : 'var(--primary)';
-                }}
-              >
-                {isLocked ? (
-                  <IconLock size={20} color="currentColor" />
-                ) : (
-                  <IconUnlock size={20} color="currentColor" />
-                )}
-              </button>
-            )}
-            <button
-              onClick={() => onDelete(template.id, template.name)}
-              className="p-2 rounded-lg transition-all"
-              style={{
-                backgroundColor: 'transparent',
-                color: 'var(--error)',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'var(--error)';
-                e.currentTarget.style.color = 'var(--on-error)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.color = 'var(--error)';
-              }}
-            >
-              <IconTrashcan size={20} color="currentColor" />
-            </button>
-          </div>
+          )}
         </div>
 
         {/* All Template Colors */}
-        <TemplateColorGrid theme={theme} />
+        <TemplateColorGrid
+          theme={theme}
+          seed={effectiveSeed}
+          onColorFieldSelect={onColorFieldSelect}
+        />
       </div>
     );
   }
@@ -162,11 +148,10 @@ export function TemplateCard({
   return (
     <div
       onClick={onClick}
-      className="rounded-xl p-3 border-2 transition-all hover:scale-[1.01] cursor-pointer flex flex-row items-center gap-3 min-h-[66px]"
+      className="rounded-xl p-3 border-2 transition-all cursor-pointer flex flex-row items-center gap-3 min-h-[66px]"
       style={{
         backgroundColor: 'var(--surface)',
         borderColor: isSelected ? 'var(--primary)' : 'var(--border)',
-        transform: isSelected ? 'scale(1.02)' : 'scale(1)',
       }}
     >
       {/* Content (Title and Date) - Left */}
@@ -258,6 +243,27 @@ export function TemplateCard({
             )}
           </button>
         )}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete(template.id, template.name);
+          }}
+          className="p-1.5 rounded-lg transition-all"
+          style={{
+            backgroundColor: 'transparent',
+            color: 'var(--error)',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = 'var(--error)';
+            e.currentTarget.style.color = 'var(--on-error)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'transparent';
+            e.currentTarget.style.color = 'var(--error)';
+          }}
+        >
+          <IconTrashcan size={20} color="currentColor" />
+        </button>
       </div>
     </div>
   );

@@ -26,7 +26,8 @@ export function loadTemplates(): ThemeTemplate[] {
 }
 
 /**
- * Save a new theme template to localStorage
+ * Save a theme template to localStorage
+ * If a template with the same name exists, it will be overwritten
  *
  * @param theme - The theme to save
  * @param name - User-provided name for the template
@@ -38,11 +39,26 @@ export function saveTemplate(
   name: string,
   seedHue: number = DEFAULT_SEED_HUE
 ): ThemeTemplate {
-  const template = themeToTemplate(theme, name, seedHue);
-
   try {
     const templates = loadTemplates();
-    templates.push(template);
+
+    // Check if a template with this name already exists
+    const existingIndex = templates.findIndex((t) => t.name === name);
+
+    let template: ThemeTemplate;
+
+    if (existingIndex !== -1) {
+      // Overwrite existing template, preserving ID and creation date
+      const existingTemplate = templates[existingIndex];
+      template = themeToTemplate(theme, name, seedHue);
+      template.id = existingTemplate.id;
+      template.createdAt = existingTemplate.createdAt;
+      templates[existingIndex] = template;
+    } else {
+      // Create new template
+      template = themeToTemplate(theme, name, seedHue);
+      templates.push(template);
+    }
 
     const storage: ThemeTemplateStorage = { templates };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(storage));
@@ -153,4 +169,37 @@ export function updateTemplateName(id: string, newName: string): boolean {
 export function getTemplateById(id: string): ThemeTemplate | null {
   const templates = loadTemplates();
   return templates.find((t) => t.id === id) || null;
+}
+
+/**
+ * Update an existing template with new data
+ *
+ * @param id - Template ID to update
+ * @param updatedTemplate - The updated template data
+ * @returns true if updated, false if not found
+ */
+export function updateTemplate(
+  id: string,
+  updatedTemplate: ThemeTemplate
+): boolean {
+  try {
+    const templates = loadTemplates();
+    const index = templates.findIndex((t) => t.id === id);
+
+    if (index === -1) {
+      return false;
+    }
+
+    // Ensure the ID matches
+    updatedTemplate.id = id;
+    templates[index] = updatedTemplate;
+
+    const storage: ThemeTemplateStorage = { templates };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(storage));
+
+    return true;
+  } catch (error) {
+    console.error('Error updating template:', error);
+    return false;
+  }
 }

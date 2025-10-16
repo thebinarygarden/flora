@@ -2,6 +2,12 @@
 
 import { Card, Badge } from '@binarygarden/flora/ui';
 import { Button } from '@binarygarden/flora/form';
+import {
+  getColorStyle,
+  getChangeColor,
+  getStatusDotColor,
+  getStatusBadgeVariant,
+} from '../../../../../utils/colorMappingUtils';
 
 interface StatData {
   title: string;
@@ -163,90 +169,6 @@ export function DashboardShowcase() {
   const maxValue = Math.max(
     ...chartData.flatMap((d) => [d.primary, d.secondary, d.tertiary])
   );
-
-  const getColorStyle = (color: StatData['color']) => {
-    switch (color) {
-      case 'primary':
-        return {
-          backgroundColor: 'var(--primary)',
-          color: 'var(--on-primary)',
-        };
-      case 'secondary':
-        return {
-          backgroundColor: 'var(--secondary)',
-          color: 'var(--on-secondary)',
-        };
-      case 'tertiary':
-        return {
-          backgroundColor: 'var(--tertiary)',
-          color: 'var(--on-tertiary)',
-        };
-      case 'success':
-        return {
-          backgroundColor: 'var(--success)',
-          color: 'var(--on-success)',
-        };
-      case 'error':
-        return { backgroundColor: 'var(--error)', color: 'var(--on-error)' };
-      case 'warning':
-        return {
-          backgroundColor: 'var(--warning)',
-          color: 'var(--on-warning)',
-        };
-    }
-  };
-
-  const getChangeColor = (changeType: StatData['changeType']) => {
-    switch (changeType) {
-      case 'positive':
-        return 'var(--success)';
-      case 'negative':
-        return 'var(--error)';
-      case 'neutral':
-        return 'var(--warning)';
-    }
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'online':
-        return 'var(--success)';
-      case 'busy':
-        return 'var(--error)';
-      case 'away':
-        return 'var(--warning)';
-      case 'offline':
-        return 'var(--disabled)';
-      default:
-        return 'var(--border)';
-    }
-  };
-
-  const getStatusBadgeVariant = (
-    status: string
-  ):
-    | 'primary'
-    | 'secondary'
-    | 'tertiary'
-    | 'success'
-    | 'error'
-    | 'warning'
-    | 'outline' => {
-    switch (status) {
-      case 'success':
-        return 'success';
-      case 'primary':
-        return 'primary';
-      case 'error':
-        return 'error';
-      case 'secondary':
-        return 'secondary';
-      case 'tertiary':
-        return 'tertiary';
-      default:
-        return 'outline';
-    }
-  };
 
   return (
     <Card variant="flat" padding="large">
@@ -764,7 +686,7 @@ export function DashboardShowcase() {
                   <div
                     className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2"
                     style={{
-                      backgroundColor: getStatusColor(member.status),
+                      backgroundColor: getStatusDotColor(member.status),
                       borderColor: 'var(--background)',
                     }}
                   />

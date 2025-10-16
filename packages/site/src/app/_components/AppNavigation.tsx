@@ -82,7 +82,7 @@ export function AppNavigation({ children }: AppNavigationProps) {
         items={navigationItems}
         onBrandClick={onBrandClick}
       />
-      <main className="h-screen">{children}</main>
+      <main>{children}</main>
     </>
   );
 }

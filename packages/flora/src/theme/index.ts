@@ -44,5 +44,6 @@ export {
   deleteTemplate,
   hydrateTemplate,
   updateTemplateName,
+  updateTemplate,
   getTemplateById,
 } from './templates';

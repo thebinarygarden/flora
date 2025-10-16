@@ -5,5 +5,5 @@ export type { IconButtonProps } from './IconButton';
 export { HSBColorPicker } from './HSBColorPicker/HSBColorPicker';
 export type { HSBColor, HSBColorPickerProps } from './HSBColorPicker/types';
 export { hsbToHex, hexToHsb, hexToRgb } from './HSBColorPicker/colorUtils';
-export { HuePicker } from './HuePicker/HuePicker';
-export type { HuePickerProps } from './HuePicker/types';
+export { Slider } from './Slider/Slider';
+export type { SliderProps } from './Slider/types';

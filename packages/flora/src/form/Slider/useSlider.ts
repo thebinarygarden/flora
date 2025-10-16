@@ -1,25 +1,27 @@
 import * as React from 'react';
-import { UseHuePickerProps } from './types';
+import { UseSliderProps } from './types';
 
-export const useHuePicker = ({
-  internalHue: _internalHue,
-  handleHueChange,
-  hueRef,
-}: UseHuePickerProps) => {
+export const useSlider = ({
+  value: _value,
+  min,
+  max,
+  handleChange,
+  sliderRef,
+}: UseSliderProps) => {
   const [isDragging, setIsDragging] = React.useState<boolean>(false);
 
-  const updateHue = React.useCallback(
+  const updateValue = React.useCallback(
     (clientX: number) => {
-      const element = hueRef.current;
+      const element = sliderRef.current;
       if (!element) return;
 
       const rect = element.getBoundingClientRect();
       const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
 
-      const newHue = Math.round(x * 359);
-      handleHueChange(newHue);
+      const newValue = Math.round(min + x * (max - min));
+      handleChange(newValue);
     },
-    [handleHueChange, hueRef]
+    [handleChange, sliderRef, min, max]
   );
 
   const handleMouseDown = React.useCallback(
@@ -27,9 +29,9 @@ export const useHuePicker = ({
       e.preventDefault();
       setIsDragging(true);
 
-      updateHue(e.clientX);
+      updateValue(e.clientX);
     },
-    [updateHue]
+    [updateValue]
   );
 
   const handleTouchStart = React.useCallback(
@@ -37,16 +39,16 @@ export const useHuePicker = ({
       setIsDragging(true);
 
       if (e.touches[0]) {
-        updateHue(e.touches[0].clientX);
+        updateValue(e.touches[0].clientX);
       }
     },
-    [updateHue]
+    [updateValue]
   );
 
   React.useEffect(() => {
     const handleGlobalMouseMove = (e: MouseEvent) => {
       if (isDragging) {
-        updateHue(e.clientX);
+        updateValue(e.clientX);
       }
     };
 
@@ -54,7 +56,7 @@ export const useHuePicker = ({
       if (isDragging) {
         e.preventDefault(); // Prevent scrolling during drag
         if (e.touches[0]) {
-          updateHue(e.touches[0].clientX);
+          updateValue(e.touches[0].clientX);
         }
       }
     };
@@ -82,7 +84,7 @@ export const useHuePicker = ({
       document.removeEventListener('touchmove', handleGlobalTouchMove);
       document.removeEventListener('touchend', handleGlobalTouchEnd);
     };
-  }, [isDragging, updateHue]);
+  }, [isDragging, updateValue]);
 
   return {
     handleMouseDown,

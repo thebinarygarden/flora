@@ -25,16 +25,16 @@ jobs:
       - name: Setup Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
         with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          project_id: binarygarden
 
       - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v1
         with:
-          credentials_json: ${{ secrets.GCP_CICD_KEY }}
+          credentials_json: ${{ secrets.CICD_KEY }}
 
       - name: Authenticate Docker to Google Cloud Artifact Registry
         run: |
-          gcloud auth configure-docker ${{ secrets.GCP_PROJECT_REGION }}-docker.pkg.dev
+          gcloud auth configure-docker us-central1-docker.pkg.dev
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
@@ -42,14 +42,14 @@ jobs:
           context: .
           file: ./packages/site/Dockerfile
           push: true
-          tags: ${{ secrets.GCP_PROJECT_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/bg-images/${{ env.IMAGE }}:${{ github.sha }}
+          tags: us-central1-docker.pkg.dev/binarygarden/bg-images/${{ env.IMAGE }}:${{ github.sha }}
           no-cache: true
 
       - name: Deploy to Google Cloud Run
         run: |
           gcloud run deploy flora \
-          --image ${{ secrets.GCP_PROJECT_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/bg-images/${{ env.IMAGE }}:${{ github.sha }} \
+          --image us-central1-docker.pkg.dev/binarygarden/bg-images/${{ env.IMAGE }}:${{ github.sha }} \
           --port=8080 \
-          --region ${{ secrets.GCP_PROJECT_REGION }} \
+          --region us-central1 \
           --allow-unauthenticated \
-          --service-account ${{ secrets.GCP_CICD_SERVICE_ACCOUNT }}
+          --service-account bg-cicd@binarygarden.iam.gserviceaccount.com

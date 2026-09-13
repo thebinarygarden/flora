@@ -11,6 +11,9 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # npm trusted publishing (OIDC)
 
     steps:
       - name: Checkout code
@@ -61,9 +64,10 @@ jobs:
         if: steps.should-publish.outputs.publish == 'true'
         run: pnpm build:ui
 
+      # Auth via npm trusted publishing (configured on npmjs.com for this
+      # workflow). pnpm hands the tarball to the npm CLI, which does the OIDC
+      # exchange; needs npm >= 11.5.1, which ships with Node 24
       - name: Publish to npm
         if: steps.should-publish.outputs.publish == 'true'
         working-directory: packages/flora
         run: pnpm publish --access public --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

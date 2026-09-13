@@ -1,6 +1,6 @@
 # bgflora-site
 
-Next.js 15 demo site for developing and testing Flora components.
+Next.js 16 demo site for developing and testing Flora components.
 
 ## Quick Start
 

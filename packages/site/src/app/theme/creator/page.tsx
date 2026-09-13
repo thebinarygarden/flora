@@ -2,7 +2,6 @@
 
 import {
   useState,
-  useRef,
   createRef,
   useEffect,
   CSSProperties,
@@ -38,6 +37,48 @@ function useWindowSize() {
 
   return windowSize;
 }
+
+const colorCategories = {
+  'Surface Hierarchy': [
+    'background',
+    'onBackground',
+    'surface',
+    'onSurface',
+    'surfaceVariant',
+    'onSurfaceVariant',
+  ],
+  'Brand Colors': [
+    'primary',
+    'onPrimary',
+    'secondary',
+    'onSecondary',
+    'tertiary',
+    'onTertiary',
+  ],
+  'Interactive States': [
+    'border',
+    'hover',
+    'focus',
+    'disabled',
+    'onDisabled',
+    'link',
+    'onLink',
+  ],
+  'Semantic States': [
+    'error',
+    'onError',
+    'success',
+    'onSuccess',
+    'warning',
+    'onWarning',
+    'info',
+    'onInfo',
+    'neutral',
+    'onNeutral',
+    'highlight',
+    'onHighlight',
+  ],
+};
 
 function ThemeCreatorContent() {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
@@ -93,7 +134,14 @@ function ThemeCreatorContent() {
     }));
   };
 
-  const colorRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  // One stable ref per color key, attached to each ColorPickerDropdown
+  const [colorRefs] = useState(() =>
+    Object.fromEntries(
+      Object.values(colorCategories)
+        .flat()
+        .map((key) => [key, createRef<HTMLDivElement>()])
+    )
+  );
 
   const handleColorSelect = (colorKey: keyof Theme) => {
     if (selectedColorKey === colorKey) {
@@ -103,7 +151,7 @@ function ThemeCreatorContent() {
 
       // Scroll the selected color to the top of the screen with navbar offset (overlay only)
       setTimeout(() => {
-        const colorElement = colorRefs.current[colorKey];
+        const colorElement = colorRefs[colorKey]?.current;
         if (colorElement) {
           const elementPosition =
             colorElement.getBoundingClientRect().top + window.pageYOffset;
@@ -116,48 +164,6 @@ function ThemeCreatorContent() {
         }
       }, 100);
     }
-  };
-
-  const colorCategories = {
-    'Surface Hierarchy': [
-      'background',
-      'onBackground',
-      'surface',
-      'onSurface',
-      'surfaceVariant',
-      'onSurfaceVariant',
-    ],
-    'Brand Colors': [
-      'primary',
-      'onPrimary',
-      'secondary',
-      'onSecondary',
-      'tertiary',
-      'onTertiary',
-    ],
-    'Interactive States': [
-      'border',
-      'hover',
-      'focus',
-      'disabled',
-      'onDisabled',
-      'link',
-      'onLink',
-    ],
-    'Semantic States': [
-      'error',
-      'onError',
-      'success',
-      'onSuccess',
-      'warning',
-      'onWarning',
-      'info',
-      'onInfo',
-      'neutral',
-      'onNeutral',
-      'highlight',
-      'onHighlight',
-    ],
   };
 
   // Generate CSS custom properties for the page based on current selections
@@ -290,23 +296,20 @@ function ThemeCreatorContent() {
                     {category}
                   </h3>
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-                    {colors.map((colorKey) => {
-                      const colorRef = createRef<HTMLDivElement>();
-                      colorRefs.current[colorKey] = colorRef.current;
-
-                      return (
-                        <ColorPickerDropdown
-                          key={colorKey}
-                          colorKey={colorKey as keyof Theme}
-                          colorValue={theme[colorKey as keyof Theme] as string}
-                          isSelected={selectedColorKey === colorKey}
-                          onSelect={handleColorSelect}
-                          onColorChange={handleColorChange}
-                          colorRef={colorRef as RefObject<HTMLDivElement>}
-                          showExtraControls={true}
-                        />
-                      );
-                    })}
+                    {colors.map((colorKey) => (
+                      <ColorPickerDropdown
+                        key={colorKey}
+                        colorKey={colorKey as keyof Theme}
+                        colorValue={theme[colorKey as keyof Theme] as string}
+                        isSelected={selectedColorKey === colorKey}
+                        onSelect={handleColorSelect}
+                        onColorChange={handleColorChange}
+                        colorRef={
+                          colorRefs[colorKey] as RefObject<HTMLDivElement>
+                        }
+                        showExtraControls={true}
+                      />
+                    ))}
                   </div>
                 </div>
               ))}

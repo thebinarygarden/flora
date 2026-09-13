@@ -6,12 +6,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Flora is a React component library for Binary Garden projects built as a pnpm monorepo. It uses a **defensive architecture** with subpath-only imports to guarantee optimal bundle sizes without relying on tree-shaking.
 
-Published to npm as `@binarygarden/flora` (currently v0.0.2).
+Published to npm as `@binarygarden/flora` (currently v0.0.3).
 
 ## Monorepo Structure
 
 - `packages/flora/` - Main component library (published package)
-- `packages/site/` - Next.js 15 demo site for testing components
+- `packages/site/` - Next.js 16 demo site for testing components
 - `docs/` - Architecture, development, and theme system documentation
 
 ## Essential Commands
@@ -184,7 +184,7 @@ Icons remain architecturally isolated - never imported unless explicitly needed.
 
 ## Demo Site (packages/site/)
 
-Next.js 15 app for testing components during development:
+Next.js 16 app for testing components during development:
 
 ```bash
 pnpm run:site  # Starts dev server at localhost:3000
@@ -206,7 +206,7 @@ Uses workspace dependency: `"@binarygarden/flora": "workspace:*"`
 - **Styling:** Tailwind CSS v4, CSS variables
 - **Animation:** Framer Motion (peer dependency)
 - **Icons:** SVGR (SVG → React components)
-- **Demo Site:** Next.js 15, React 19
+- **Demo Site:** Next.js 16, React 19
 
 ## Important Files
 

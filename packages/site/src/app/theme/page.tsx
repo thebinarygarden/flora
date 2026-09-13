@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   TemplateList,
   SelectedTemplateView,
@@ -20,15 +20,38 @@ import { useRouter } from 'next/navigation';
 import { ColorPickerPanel } from '../../components/ColorPickerPanel';
 import { useDialog } from '@binarygarden/flora/overlay';
 import { UIPreviewCarouselWithNav } from '../../components/UIPreviewCarouselWithNav';
-import { useViewport } from '@binarygarden/flora/hooks';
+import { useClientCheck, useViewport } from '@binarygarden/flora/hooks';
+
+const DEFAULT_HEX = '#ff0000';
+
+// Seed hex for a template, or null if it has none (or is the create card)
+const getTemplateSeedHex = (
+  id: string | null,
+  list: ThemeTemplate[]
+): string | null => {
+  if (!id || id === 'create-new') return null;
+  const template = list.find((t) => t.id === id);
+  return template?.seed ? hsbToHex(template.seed) : null;
+};
 
 export default function ThemePage() {
+  // Templates live in localStorage, so only render once on the client
+  const { isClient } = useClientCheck();
+  return isClient ? <ThemePageContent /> : null;
+}
+
+function ThemePageContent() {
   const router = useRouter();
   const { isMobile } = useViewport();
-  const [selectedHex, setSelectedHex] = useState('#ff0000');
-  const [colorPickerHex, setColorPickerHex] = useState('#ff0000'); // Separate state for color picker display
-  const [templates, setTemplates] = useState<ThemeTemplate[]>([]);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [templates, setTemplates] = useState<ThemeTemplate[]>(loadTemplates);
+  // Auto-select first template if available
+  const [selectedId, setSelectedId] = useState<string | null>(
+    () => templates[0]?.id ?? null
+  );
+  const [selectedHex, setSelectedHex] = useState(
+    () => getTemplateSeedHex(selectedId, templates) ?? DEFAULT_HEX
+  );
+  const [colorPickerHex, setColorPickerHex] = useState(selectedHex); // Separate state for color picker display
   const [lockedTemplates, setLockedTemplates] = useState<Set<string>>(
     new Set()
   );
@@ -42,28 +65,19 @@ export default function ThemePage() {
   );
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
-  // Load templates on mount
-  useEffect(() => {
-    const loadedTemplates = loadTemplates();
-    setTemplates(loadedTemplates);
-    // Auto-select first template if available
-    if (loadedTemplates.length > 0 && !selectedId) {
-      setSelectedId(loadedTemplates[0].id);
+  // Update hydration seed and color picker when template selection or templates change
+  const syncHexToTemplate = (id: string | null, list: ThemeTemplate[]) => {
+    const seedHex = getTemplateSeedHex(id, list);
+    if (seedHex) {
+      setSelectedHex(seedHex);
+      setColorPickerHex(seedHex); // Sync color picker to seed
     }
-  }, [selectedId]);
+  };
 
-  // Update color picker when template selection changes
-  useEffect(() => {
-    if (selectedId && selectedId !== 'create-new') {
-      const template = templates.find((t) => t.id === selectedId);
-      if (template && template.seed) {
-        // Convert template seed (HSB) to hex and update both hydration seed and color picker
-        const seedHex = hsbToHex(template.seed);
-        setSelectedHex(seedHex);
-        setColorPickerHex(seedHex); // Sync color picker to seed
-      }
-    }
-  }, [selectedId, templates]);
+  const handleSelect = (id: string) => {
+    setSelectedId(id);
+    syncHexToTemplate(id, templates);
+  };
 
   // Extract full HSB values from selected hex for template hydration
   const selectedHSB: HSBColor = hexToHSB(selectedHex);
@@ -83,11 +97,10 @@ export default function ThemePage() {
           const updatedTemplates = loadTemplates();
           setTemplates(updatedTemplates);
           // If deleted template was selected, select first available or null
-          if (selectedId === id) {
-            setSelectedId(
-              updatedTemplates.length > 0 ? updatedTemplates[0].id : null
-            );
-          }
+          const nextId =
+            selectedId === id ? (updatedTemplates[0]?.id ?? null) : selectedId;
+          setSelectedId(nextId);
+          syncHexToTemplate(nextId, updatedTemplates);
         } else {
           showAlert('Failed to delete template.');
         }
@@ -160,6 +173,7 @@ export default function ThemePage() {
     if (success) {
       const updatedTemplates = loadTemplates();
       setTemplates(updatedTemplates);
+      syncHexToTemplate(selectedId, updatedTemplates);
       setPendingTemplate(null);
       setEditingField(null);
       setHasUnsavedChanges(false);
@@ -257,7 +271,7 @@ export default function ThemePage() {
             <TemplateList
               templates={templates}
               selectedId={selectedId}
-              onSelect={setSelectedId}
+              onSelect={handleSelect}
               onDelete={handleDelete}
               onEdit={handleEdit}
               onCreateNew={() => router.push('/theme/creator')}

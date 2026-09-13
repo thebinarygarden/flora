@@ -23,7 +23,7 @@ The main component library published to npm as `@binarygarden/flora`. Uses subpa
 
 ### `packages/site`
 
-Next.js 15 demo site for developing and testing components during development.
+Next.js 16 demo site for developing and testing components during development.
 
 ## Navigation
 

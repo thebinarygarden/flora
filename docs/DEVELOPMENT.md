@@ -54,7 +54,7 @@ pnpm build:ui
 
 ### 1. Create Component
 
-Create your component file in the appropriate category directory (input, display, navigation, etc.):
+Create your component file in the appropriate category directory (form, ui, overlay, navigation, marketing, etc.):
 
 ```tsx
 'use client';
@@ -160,5 +160,5 @@ See [Architecture Guide](./ARCHITECTURE.md) for full explanation.
 ## Resources
 
 - [Architecture Guide](./ARCHITECTURE.md) - Design philosophy and build system
-- [Theme System](./THEME_SYSTEM.md) - Advanced theming
+- [DESIGN.md](DESIGN.md) - The design language itself
 - [Package README](../packages/flora/README.md) - API documentation

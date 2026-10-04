@@ -18,6 +18,7 @@ import {
   IconLock,
   IconUnlock,
   IconSearch,
+  IconSystem,
   IconCopy,
   IconMenu,
   IconMinus,
@@ -84,6 +85,11 @@ const icons = [
     description: 'Search functionality',
   },
   {
+    name: 'System',
+    component: IconSystem,
+    description: 'Follow the system theme',
+  },
+  {
     name: 'Trashcan',
     component: IconTrashcan,
     description: 'Delete/trash icon',
@@ -98,65 +104,35 @@ const icons = [
   { name: 'Youtube', component: IconYoutube, description: 'YouTube logo' },
 ];
 
-const defaultColorOptions = [
-  'currentColor',
-  '#3B82F6',
-  '#EF4444',
-  '#10B981',
-  '#F59E0B',
-  '#8B5CF6',
-  '#EC4899',
-];
-
 export function IconsInteractiveSection() {
   const [selectedStrokeWidth, setSelectedStrokeWidth] =
     useState<StrokeWidth>('base');
-  const [selectedSize, setSelectedSize] = useState(35);
+  const [selectedSize, setSelectedSize] = useState(24);
   const [selectedColor, setSelectedColor] = useState('currentColor');
-  const [customColors, setCustomColors] = useState(defaultColorOptions);
-
-  const handleAddCustomColor = (color: string) => {
-    if (!customColors.includes(color)) {
-      setCustomColors([...customColors, color]);
-    }
-  };
 
   return (
     <>
-      {/* Icon Properties */}
-      <section className="mb-8 mt-8">
-        <h2 className="text-2xl font-semibold mb-6">Icon Properties</h2>
-
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
+      <section className="section">
+        <h2>properties</h2>
+        <div className="icon-props">
           <IconSizeSelector
             selectedSize={selectedSize}
             onSizeChange={setSelectedSize}
           />
-
           <IconStrokeWidthSelector
             selectedStrokeWidth={selectedStrokeWidth}
             onStrokeWidthChange={setSelectedStrokeWidth}
           />
-
           <IconColorPicker
             selectedColor={selectedColor}
             onColorSelect={setSelectedColor}
-            customColors={customColors}
-            onAddCustomColor={handleAddCustomColor}
           />
         </div>
       </section>
 
-      {/* Icons Grid */}
-      <section>
-        <h2
-          className="text-2xl font-semibold mb-6"
-          style={{ color: 'var(--on-background)' }}
-        >
-          Available Icons
-        </h2>
-
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+      <section className="section">
+        <h2>the set</h2>
+        <div className="grid-auto">
           {icons.map(({ name, component, description }) => (
             <IconDisplayCard
               key={name}

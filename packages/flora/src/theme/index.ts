@@ -1,49 +1,9 @@
-// Types
-export type {
-  Theme,
-  HSBColor,
-  ColorRelationship,
-  ThemeTemplate,
-  ThemeTemplateStorage,
-} from './types';
-
-// Components
+export { ProductScope } from './ProductScope';
+export type { ProductScopeProps } from './ProductScope';
+export { ThemeToggleButton } from './components/ThemeToggleButton';
+export type { ThemeToggleButtonProps } from './components/ThemeToggleButton';
 export {
-  ThemeProvider,
-  useTheme,
-  ThemeToggleButton,
-  ColorPickerDropdown,
-  TemplateColorGrid,
-} from './components';
-
-// Utilities (color utils and scripts)
-export {
-  hsbToHex,
-  hexToHSB,
-  hexToRgb,
-  shortestHuePath,
-  applyHueDelta,
   ScriptPreloadTheme,
-} from './utils';
-
-// Templates (components, utilities, constants, and storage)
-export {
-  TemplateGallery,
-  TemplateCard,
-  TemplateList,
-  SelectedTemplateView,
-  CreateTemplateCard,
-  calculateColorRelationship,
-  hydrateColorFromRelationship,
-  themeToTemplate,
-  templateToTheme,
-  DEFAULT_SEED_HUE,
-  DEFAULT_SEED,
-  loadTemplates,
-  saveTemplate,
-  deleteTemplate,
-  hydrateTemplate,
-  updateTemplateName,
-  updateTemplate,
-  getTemplateById,
-} from './templates';
+  THEME_STORAGE_KEY,
+} from './utils/ScriptPreloadTheme';
+export type { ScriptPreloadThemeProps } from './utils/ScriptPreloadTheme';

@@ -20,6 +20,7 @@ export { IconPaintBrush } from './IconPaintBrush';
 export { IconPlus } from './IconPlus';
 export { IconSave } from './IconSave';
 export { IconSearch } from './IconSearch';
+export { IconSystem } from './IconSystem';
 export { IconTrashcan } from './IconTrashcan';
 export { IconView } from './IconView';
 export { IconX } from './IconX';

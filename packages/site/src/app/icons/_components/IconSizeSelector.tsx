@@ -1,8 +1,8 @@
 'use client';
 
-import { Button } from '@binarygarden/flora/form';
+import { Tag } from '@binarygarden/flora/ui';
 
-const sizeOptions = [12, 18, 24, 30, 36, 42, 48, 60, 72, 84, 96];
+const SIZES = [12, 16, 18, 24, 32, 48, 64, 96];
 
 interface SizeSelectorProps {
   selectedSize: number;
@@ -14,26 +14,17 @@ export function IconSizeSelector({
   onSizeChange,
 }: SizeSelectorProps) {
   return (
-    <div
-      className="p-6 rounded-lg border"
-      style={{
-        backgroundColor: 'var(--surface)',
-        borderColor: 'var(--border)',
-      }}
-    >
-      <h3 className="font-semibold mb-4" style={{ color: 'var(--on-surface)' }}>
-        Size
-      </h3>
-      <div className="flex flex-wrap gap-2">
-        {sizeOptions.map((size) => (
-          <Button
+    <div className="col" style={{ gap: 'var(--space-3)' }}>
+      <span className="label-sm">size</span>
+      <div className="row">
+        {SIZES.map((size) => (
+          <Tag
             key={size}
-            variant={selectedSize === size ? 'primary' : 'outline'}
+            selected={selectedSize === size}
             onClick={() => onSizeChange(size)}
-            className="text-sm px-3 py-1"
           >
-            {size}px
-          </Button>
+            {size}
+          </Tag>
         ))}
       </div>
     </div>

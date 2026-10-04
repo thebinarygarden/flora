@@ -1,66 +1,50 @@
-'use client';
+import * as React from 'react';
 
-import React from 'react';
-
-export interface CardProps {
-  children: React.ReactNode;
-  variant?: 'flat' | 'outlined' | 'elevated' | 'surfaceVariant';
-  padding?: 'small' | 'medium' | 'large';
-  className?: string;
-  style?: React.CSSProperties;
+// Anchor attributes rather than plain HTML ones so `as="a"` can take href,
+// target and rel. A whole card is often the link.
+export interface CardProps extends React.AnchorHTMLAttributes<HTMLElement> {
+  title?: string;
+  description?: string;
+  padding?: 'none' | 'sm' | 'md' | 'lg';
+  /** raised = border on the page; sunken = tinted, no border; accent = product-tinted */
+  variant?: 'raised' | 'sunken' | 'accent';
+  /** lifts on hover and becomes focusable */
+  interactive?: boolean;
+  as?: React.ElementType;
 }
 
+/**
+ * Bordered content surface. Resting cards never have shadows — they have
+ * borders. Interactive ones lift on hover.
+ *
+ * ```tsx
+ * <Card title="flora" description="react components for the garden" />
+ * <Card variant="sunken" padding="sm">…</Card>
+ * ```
+ */
 export function Card({
+  title,
+  description,
+  padding = 'md',
+  variant = 'raised',
+  interactive = false,
+  as: Tag = 'div',
   children,
-  variant = 'outlined',
-  padding = 'medium',
   className = '',
-  style = {},
+  ...rest
 }: CardProps) {
-  const paddingClasses = {
-    small: 'p-2',
-    medium: 'p-4',
-    large: 'p-6',
-  };
-
-  const variantStyles: Record<string, React.CSSProperties> = {
-    flat: {
-      backgroundColor: 'transparent',
-      border: 'none',
-      boxShadow: 'none',
-    },
-    outlined: {
-      backgroundColor: 'var(--surface)',
-      border: '1px solid var(--border)',
-      boxShadow: 'none',
-    },
-    elevated: {
-      backgroundColor: 'var(--surface)',
-      border: 'none',
-      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-    },
-    surfaceVariant: {
-      backgroundColor: 'var(--surface-variant)',
-      border: '1px solid var(--border)',
-      boxShadow: 'none',
-    },
-  };
-
-  const textColor =
-    variant === 'surfaceVariant'
-      ? 'var(--on-surface-variant)'
-      : 'var(--on-surface)';
-
   return (
-    <div
-      className={`rounded-lg ${paddingClasses[padding]} ${className}`}
-      style={{
-        color: textColor,
-        ...variantStyles[variant],
-        ...style,
-      }}
+    <Tag
+      className={('fl-card ' + className).trim()}
+      data-padding={padding}
+      data-variant={variant}
+      data-interactive={interactive}
+      tabIndex={interactive ? 0 : undefined}
+      {...rest}
     >
+      {title && <h3 className="fl-card-title">{title}</h3>}
+      {description && <p className="fl-card-desc">{description}</p>}
       {children}
-    </div>
+    </Tag>
   );
 }

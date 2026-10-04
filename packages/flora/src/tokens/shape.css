@@ -1,0 +1,25 @@
+/* Soft, not round. Radius grows with the box: controls 6, cards 8, tiles & dialogs 12. */
+:root {
+  --radius-xs: 0.25rem; /* 4 */
+  --radius-sm: 0.375rem; /* 6 */
+  --radius-md: 0.5rem; /* 8 */
+  --radius-lg: 0.75rem; /* 12 */
+  --radius-full: 999px;
+
+  --border-width: 1px;
+
+  /* Shadows are faint and only on things that float (dialog, palette, toast, menus).
+     Resting cards use a border, not a shadow. */
+  --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.06);
+  --shadow-md:
+    0 1px 2px oklch(0 0 0 / 0.06), 0 8px 24px -12px oklch(0 0 0 / 0.18);
+  --shadow-lg:
+    0 2px 4px oklch(0 0 0 / 0.06), 0 24px 48px -16px oklch(0 0 0 / 0.28);
+
+  --blur-overlay: 12px;
+}
+[data-theme='dark'] {
+  --shadow-sm: 0 0 0 1px var(--line-1);
+  --shadow-md: 0 0 0 1px var(--line-1), 0 12px 32px -12px oklch(0 0 0 / 0.6);
+  --shadow-lg: 0 0 0 1px var(--line-2), 0 32px 64px -16px oklch(0 0 0 / 0.8);
+}

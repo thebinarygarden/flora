@@ -1,88 +1,31 @@
 import * as React from 'react';
-import { Theme } from '../types';
 
-interface ThemeScriptProps {
-  lightTheme: Theme;
-  darkTheme: Theme;
+export const THEME_STORAGE_KEY = 'flora-theme';
+
+export interface ScriptPreloadThemeProps {
+  /** Used when the visitor has no stored choice and no OS preference for dark. */
+  defaultTheme?: 'light' | 'dark';
 }
 
 /**
- * ThemeScript - Blocking script component that prevents theme flash
+ * Sets `data-theme` on `<html>` before first paint, so a dark-mode visitor
+ * never sees a flash of the light palette. Render it in `<head>`.
  *
- * Add this to your <head> to ensure themes are applied before React hydrates.
- * This script runs immediately and sets CSS variables based on system preference.
- *
- * Usage:
- * ```jsx
- * <head>
- *   <ThemeScript lightTheme={lightTheme} darkTheme={darkTheme} />
- * </head>
+ * ```tsx
+ * <head><ScriptPreloadTheme /></head>
  * ```
  */
-export const ScriptPreloadTheme: React.FC<ThemeScriptProps> = ({
-  lightTheme,
-  darkTheme,
-}) => {
-  const script = `
-    (function() {
-      try {
-        // Detect system preference
-        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        
-        // Select appropriate theme
-        const theme = prefersDark ? ${JSON.stringify(darkTheme)} : ${JSON.stringify(lightTheme)};
-        
-        // Apply theme as CSS variables
-        const root = document.documentElement;
-        
-        // Map theme properties to CSS variables
-        const cssVarMap = {
-          primary: '--primary',
-          onPrimary: '--on-primary',
-          secondary: '--secondary',
-          onSecondary: '--on-secondary',
-          tertiary: '--tertiary',
-          onTertiary: '--on-tertiary',
-          background: '--background',
-          onBackground: '--on-background',
-          surface: '--surface',
-          onSurface: '--on-surface',
-          surfaceVariant: '--surface-variant',
-          onSurfaceVariant: '--on-surface-variant',
-          border: '--border',
-          hover: '--hover',
-          focus: '--focus',
-          disabled: '--disabled',
-          onDisabled: '--on-disabled',
-          link: '--link',
-          onLink: '--on-link',
-          error: '--error',
-          onError: '--on-error',
-          success: '--success',
-          onSuccess: '--on-success',
-          warning: '--warning',
-          onWarning: '--on-warning',
-          info: '--info',
-          onInfo: '--on-info',
-          neutral: '--neutral',
-          onNeutral: '--on-neutral',
-          highlight: '--highlight',
-          onHighlight: '--on-highlight'
-        };
-        
-        // Set CSS variables
-        Object.entries(cssVarMap).forEach(([themeKey, cssVar]) => {
-          if (theme[themeKey]) {
-            root.style.setProperty(cssVar, theme[themeKey]);
-          }
-        });
-        
-      } catch (error) {
-        // Fail silently - React will handle theme as fallback
-        console.warn('Flora ThemeScript failed:', error);
-      }
-    })();
-  `;
+export function ScriptPreloadTheme({
+  defaultTheme = 'light',
+}: ScriptPreloadThemeProps) {
+  const js =
+    `(function(){try{` +
+    `var t=localStorage.getItem('${THEME_STORAGE_KEY}');` +
+    `if(t!=='light'&&t!=='dark'){` +
+    `t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'${defaultTheme}';` +
+    `}` +
+    `document.documentElement.setAttribute('data-theme',t);` +
+    `}catch(e){}})();`;
 
-  return <script dangerouslySetInnerHTML={{ __html: script }} />;
-};
+  return <script dangerouslySetInnerHTML={{ __html: js }} />;
+}

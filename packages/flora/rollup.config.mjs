@@ -2,7 +2,7 @@ import svgr from '@svgr/rollup';
 import preserveDirectives from 'rollup-plugin-preserve-directives';
 import typescript from '@rollup/plugin-typescript';
 import postcss from 'rollup-plugin-postcss';
-import tailwindcss from '@tailwindcss/postcss';
+import atImport from 'postcss-import';
 
 export default {
   input: [
@@ -12,6 +12,7 @@ export default {
     'src/bg/index.ts',
     'src/hooks/index.ts',
     'src/icons/index.ts',
+    'src/marketing/index.ts',
     'src/navigation/index.ts',
     'src/theme/index.ts',
     'src/styles.css',
@@ -29,7 +30,8 @@ export default {
     postcss({
       extract: 'styles.css',
       minimize: true,
-      plugins: [tailwindcss()],
+      // Inlines the ./tokens/*.css imports so dist/styles.css is self-contained.
+      plugins: [atImport()],
     }),
     typescript({
       tsconfig: './tsconfig.json',

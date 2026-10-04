@@ -1,6 +1,6 @@
 {
   "name": "@binarygarden/flora",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Performance-first React component library with tree-shakable subpath imports",
   "author": "Binary Garden",
   "license": "MIT",
@@ -37,6 +37,10 @@
       "import": "./dist/icons/index.js",
       "types": "./dist/icons/index.d.ts"
     },
+    "./marketing": {
+      "import": "./dist/marketing/index.js",
+      "types": "./dist/marketing/index.d.ts"
+    },
     "./navigation": {
       "import": "./dist/navigation/index.js",
       "types": "./dist/navigation/index.d.ts"
@@ -52,7 +56,7 @@
     "README.md"
   ],
   "scripts": {
-    "build": "rollup -c",
+    "build": "rm -rf dist && rollup -c",
     "lint": "eslint src/"
   },
   "dependencies": {
@@ -61,24 +65,22 @@
   "peerDependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "framer-motion": "^13.0.0",
-    "tailwindcss": "^4"
+    "framer-motion": "^13.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@rollup/plugin-typescript": "^11.1.2",
     "@svgr/rollup": "^8.1.0",
-    "@tailwindcss/postcss": "^4",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
     "eslint": "^9",
     "eslint-plugin-react": "^7",
+    "postcss-import": "^16.1.1",
     "rollup": "^4.6.0",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-preserve-directives": "^0.4.0",
-    "tailwindcss": "^4",
     "typescript": "^5.3.3"
   }
 }

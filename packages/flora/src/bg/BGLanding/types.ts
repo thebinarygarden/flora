@@ -1,19 +1,7 @@
-import { ReactNode, ComponentType } from 'react';
-import { NavigationComponentProps, NavItem } from '../../navigation';
+import { ReactNode } from 'react';
+import type { HeroProps } from '../../marketing/Hero';
 
-export type BGLandingProps = {
-  children: ReactNode;
-  title: string;
-  description: string;
-  mp4Path: string;
-  youtube: string;
-  github: string;
-  bgdocs: string;
-  navigationComponent?: ComponentType<NavigationComponentProps>;
-  navigationItems?: NavItem[];
-  onBrandClick?: () => void;
-};
-
-export type AnimatedFieldsProps = {
-  viewportHeight: number;
+export type BGLandingProps = HeroProps & {
+  /** fills the hero behind everything: a <video>, an <img>, a gradient… */
+  background?: ReactNode;
 };

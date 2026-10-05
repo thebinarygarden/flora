@@ -24,7 +24,7 @@ Even when tree-shaking works, barrel exports obscure bundle impact. You might wr
 
 ```javascript
 // ✅ Required
-import { Button } from '@binarygarden/flora/input';
+import { Button } from '@binarygarden/flora/form';
 import { IconGithub } from '@binarygarden/flora/icons';
 
 // ❌ Not supported (main index.ts is empty)
@@ -42,7 +42,7 @@ import { Button } from '@binarygarden/flora';
 
 - Bundle size controlled by structure, not tooling
 - Explicit dependencies (conscious choice of categories)
-- Physical isolation (icons separated from inputs)
+- Physical isolation (icons separated from form controls)
 - Clear bundle analysis
 
 **Trade-off:** Sacrifices import convenience for guaranteed optimization.
@@ -55,12 +55,15 @@ import { Button } from '@binarygarden/flora';
 // rollup.config.mjs
 export default {
   input: [
-    'src/input/index.ts',
+    'src/form/index.ts',
+    'src/ui/index.ts',
+    'src/overlay/index.ts',
+    'src/bg/index.ts',
+    'src/hooks/index.ts',
     'src/icons/index.ts',
-    'src/display/index.ts',
+    'src/marketing/index.ts',
     'src/navigation/index.ts',
     'src/theme/index.ts',
-    'src/core/index.ts',
     'src/styles.css',
   ],
   output: {
@@ -70,11 +73,12 @@ export default {
     preserveModulesRoot: 'src',
     sourcemap: true,
   },
-  external: ['react', 'react-dom', 'framer-motion', 'tailwindcss'],
+  external: ['react', 'react-dom', 'react/jsx-runtime', 'framer-motion'],
   plugins: [
     svgr(), // SVG → React components
+    preserveDirectives(), // keeps 'use client' banners
+    postcss({ extract: 'styles.css', plugins: [atImport()] }), // inlines tokens/*.css
     typescript(), // TypeScript + declarations
-    postcss(), // Tailwind CSS compilation
   ],
 };
 ```
@@ -94,17 +98,21 @@ Subpaths enforced via `package.json`:
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    "./input": {
-      "import": "./dist/input/index.js",
-      "types": "./dist/input/index.d.ts"
+    "./form": {
+      "import": "./dist/form/index.js",
+      "types": "./dist/form/index.d.ts"
     },
     "./icons": {
       "import": "./dist/icons/index.js",
       "types": "./dist/icons/index.d.ts"
     },
-    "./display": {
-      "import": "./dist/display/index.js",
-      "types": "./dist/display/index.d.ts"
+    "./ui": {
+      "import": "./dist/ui/index.js",
+      "types": "./dist/ui/index.d.ts"
+    },
+    "./marketing": {
+      "import": "./dist/marketing/index.js",
+      "types": "./dist/marketing/index.d.ts"
     },
     "./navigation": {
       "import": "./dist/navigation/index.js",
@@ -114,9 +122,9 @@ Subpaths enforced via `package.json`:
       "import": "./dist/theme/index.js",
       "types": "./dist/theme/index.d.ts"
     },
-    "./core": {
-      "import": "./dist/core/index.js",
-      "types": "./dist/core/index.d.ts"
+    "./overlay": {
+      "import": "./dist/overlay/index.js",
+      "types": "./dist/overlay/index.d.ts"
     },
     "./styles.css": "./dist/styles.css"
   },
@@ -135,13 +143,16 @@ Subpaths enforced via `package.json`:
 ```
 packages/flora/
 ├── src/
-│   ├── input/           → @binarygarden/flora/input
-│   ├── icons/           → @binarygarden/flora/icons
-│   ├── display/         → @binarygarden/flora/display
+│   ├── form/            → @binarygarden/flora/form
+│   ├── ui/              → @binarygarden/flora/ui
+│   ├── overlay/         → @binarygarden/flora/overlay
 │   ├── navigation/      → @binarygarden/flora/navigation
+│   ├── marketing/       → @binarygarden/flora/marketing
 │   ├── theme/           → @binarygarden/flora/theme
-│   ├── core/            → @binarygarden/flora/core
-│   ├── util/            → Internal (NOT exported)
+│   ├── icons/           → @binarygarden/flora/icons
+│   ├── hooks/           → @binarygarden/flora/hooks
+│   ├── bg/              → @binarygarden/flora/bg
+│   ├── tokens/          → design tokens, inlined into styles.css
 │   ├── index.ts         → Empty (forces subpath imports)
 │   └── styles.css       → @binarygarden/flora/styles.css
 └── dist/                → Build output (mirrors src/)
@@ -169,7 +180,7 @@ import { Button } from '@library';
 **Flora:**
 
 ```javascript
-import { Button } from '@binarygarden/flora/input';
+import { Button } from '@binarygarden/flora/form';
 // Icons directory never touched unless explicitly imported
 ```
 
@@ -198,6 +209,6 @@ Consumer bundlers can tree-shake at the file level.
 
 - [Package README](../packages/flora/README.md) - API documentation
 - [Development Guide](./DEVELOPMENT.md) - Contributing
-- [Theme System](./THEME_SYSTEM.md) - Advanced theming
+- [DESIGN.md](DESIGN.md) - The design language itself
 - [Rollup preserveModules](https://rollupjs.org/configuration-options/#output-preservemodules)
 - [Node.js Package Exports](https://nodejs.org/api/packages.html#exports)

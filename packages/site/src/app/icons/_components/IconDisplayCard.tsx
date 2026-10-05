@@ -2,7 +2,7 @@
 
 import { ComponentType } from 'react';
 import { Button } from '@binarygarden/flora/form';
-import { CopyableText } from '@binarygarden/flora/ui';
+import { Card, CopyableText } from '@binarygarden/flora/ui';
 import { type StrokeWidth } from '@binarygarden/flora/icons';
 import { downloadSVG } from '@/app/icons/_hooks/downloadSVG';
 
@@ -25,41 +25,34 @@ export function IconDisplayCard({
   selectedStrokeWidth,
 }: IconDisplayCardProps) {
   return (
-    <div
-      className="pt-6 p-4 rounded-lg border transition-all"
-      style={{
-        backgroundColor: 'var(--surface)',
-        borderColor: 'var(--border)',
-      }}
-    >
-      <div className="flex items-center justify-center mb-4 h-20">
-        <IconComponent
-          size={selectedSize}
-          color={selectedColor}
-          strokeWidth={selectedStrokeWidth}
-        />
-      </div>
-
-      <h3
-        className="font-semibold text-lg mb-2 text-center"
-        style={{ color: 'var(--on-surface)' }}
-      >
-        {name}
-      </h3>
-      <p
-        className="text-sm mb-4"
-        style={{ color: 'var(--on-surface)', opacity: 0.7 }}
-      >
-        {description}
-      </p>
-
-      <div className="space-y-2">
-        <CopyableText
-          value={`<Icon${name} size={${selectedSize}} color="${selectedColor}" strokeWidth="${selectedStrokeWidth}" />`}
-        />
-
+    <Card padding="sm">
+      <div className="col" style={{ gap: 'var(--space-3)' }}>
+        <div className="icon-stage">
+          <IconComponent
+            size={selectedSize}
+            color={selectedColor}
+            strokeWidth={selectedStrokeWidth}
+          />
+        </div>
+        <div>
+          <div
+            style={{
+              font: 'var(--type-body)',
+              fontWeight: 'var(--weight-medium)',
+            }}
+          >
+            Icon{name}
+          </div>
+          <div
+            style={{ font: 'var(--type-small)', color: 'var(--text-muted)' }}
+          >
+            {description}
+          </div>
+        </div>
+        <CopyableText value={`<Icon${name} size={${selectedSize}} />`} />
         <Button
-          variant="outline"
+          variant="secondary"
+          size="sm"
           onClick={() =>
             downloadSVG(
               name,
@@ -69,11 +62,10 @@ export function IconDisplayCard({
               selectedStrokeWidth
             )
           }
-          className="w-full text-sm flex items-center justify-center gap-2"
         >
-          Download SVG
+          download svg
         </Button>
       </div>
-    </div>
+    </Card>
   );
 }

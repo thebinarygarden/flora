@@ -1,48 +1,24 @@
+import { RefObject } from 'react';
 import { useScroll, useTransform, useMotionTemplate } from 'framer-motion';
-import { useMemo } from 'react';
-import { AnimatedFieldsProps } from './types';
 
-export const useAnimatedFields = ({ viewportHeight }: AnimatedFieldsProps) => {
-  const { scrollY } = useScroll();
-
-  // Re-implement phases with updated thresholds
-  const phase = useMemo(
-    () => [0, 0.2, 0.5, 0.8, 1].map((n) => n * viewportHeight),
-    [viewportHeight]
-  );
+/** Scroll-linked fades, measured over the hero's own height. */
+export const useAnimatedFields = (ref: RefObject<HTMLElement | null>) => {
+  // 0 with the hero's top at the viewport top, 1 once its bottom gets there
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start start', 'end start'],
+  });
 
   // Consolidated single opacity for all hero content
-  const heroContentOpacity = useTransform(
-    scrollY,
-    [phase[0], phase[2]],
-    [1, 0]
-  );
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
-  // Overlay expands gradually through first half of viewport
-  const leftOverlayWidth = useTransform(
-    scrollY,
-    [phase[0], phase[2]],
-    ['10', '100']
-  );
-  // Create animated gradient template
-  const leftOverlay = useMotionTemplate`linear-gradient(to right, var(--background) 0%, var(--background) ${leftOverlayWidth}%, transparent 100%)`;
+  // Scrim expands gradually through first half of the hero
+  const sideScrimWidth = useTransform(scrollYProgress, [0, 0.5], [10, 100]);
+  const sideScrim = useMotionTemplate`linear-gradient(to right, var(--surface-page) 0%, var(--surface-page) ${sideScrimWidth}%, transparent 100%)`;
 
-  // Bottom blur effect height - goes from 0% to 20% during first 20% of scroll
-  const bottomOverlayHeight = useTransform(
-    scrollY,
-    [phase[0], phase[4]],
-    ['0', '40']
-  );
-  // Create animated blur gradient template
-  const bottomOverlay = useMotionTemplate`linear-gradient(to top, var(--background) 0%, transparent ${bottomOverlayHeight}%)`;
+  // Bottom scrim rises from 0% to 40% over the whole hero
+  const bottomScrimHeight = useTransform(scrollYProgress, [0, 1], [0, 40]);
+  const bottomScrim = useMotionTemplate`linear-gradient(to top, var(--surface-page) 0%, transparent ${bottomScrimHeight}%)`;
 
-  // Nav animations happen at 80% of viewport height
-  const navOpacity = useTransform(scrollY, [phase[3], phase[4]], [0, 1]);
-
-  return {
-    heroContentOpacity,
-    navOpacity,
-    leftOverlay,
-    bottomOverlay,
-  };
+  return { contentOpacity, sideScrim, bottomScrim };
 };

@@ -5,11 +5,32 @@
 
 > **The plants of a particular region** - Performance-first React component library for Binary Garden
 
-Flora is a React component library built for Binary Garden projects. It leverages **Tailwind CSS** for styling and **Framer Motion** for animations. Flora's CSS system is **theme-driven**, consuming color themes from your application through the `ThemeProvider` - allowing complete control over your design system while maintaining consistent component behavior. Flora enforces subpath-only imports (`@binarygarden/flora/input`) instead of barrel exports to guarantee optimal production bundles regardless of bundler configuration.
+Flora is the React component library for Binary Garden projects, and the
+reference implementation of **[the Binary Garden design language](../../docs/DESIGN.md)** —
+read that first. Its one rule: the trunk is black and white, and color comes from
+the products. A single `--product-hue` is the entire theme.
+
+Styling is plain token-driven CSS shipped as one stylesheet — no Tailwind, no
+CSS-in-JS, no runtime style injection. Framer Motion powers the few animated
+components. Flora enforces subpath-only imports (`@binarygarden/flora/form`)
+instead of barrel exports to guarantee optimal production bundles regardless of
+bundler configuration.
 
 ## Overview
 
-Flora uses subpath-only imports. The main export `import { Button } from '@binarygarden/flora'` is intentionally disabled - components must be imported from explicit subpaths like `import { Button } from '@binarygarden/flora/input'`.
+Flora uses subpath-only imports. The main export `import { Button } from '@binarygarden/flora'` is intentionally disabled - components must be imported from explicit subpaths like `import { Button } from '@binarygarden/flora/form'`.
+
+| Subpath       | Components                                                               |
+| ------------- | ------------------------------------------------------------------------ |
+| `/form`       | Button, IconButton, Input, Select, Checkbox, Radio, Switch               |
+| `/ui`         | Card, Badge, Tag, Tooltip, AvatarGroup, CodeBlock, CopyableText          |
+| `/overlay`    | Dialog, Toast, ToastStack, DialogProvider / useDialog, FullScreenOverlay |
+| `/navigation` | SiteHeader, Tabs, Carousel, SidebarNav, CommandPalette, MobileNav        |
+| `/marketing`  | Hero, ProductTile                                                        |
+| `/theme`      | ProductScope, ThemeToggleButton, ScriptPreloadTheme                      |
+| `/icons`      | 26 icon components                                                       |
+| `/hooks`      | useClientCheck, useViewport                                              |
+| `/bg`         | BGLanding (a Hero over a full-bleed background), BGFooter                |
 
 ## Installation
 
@@ -29,8 +50,7 @@ Required in your project:
 {
   "react": "^19.0.0",
   "react-dom": "^19.0.0",
-  "framer-motion": "^13.0.0",
-  "tailwindcss": "^4"
+  "framer-motion": "^13.0.0"
 }
 ```
 
@@ -42,10 +62,10 @@ Flora **requires** explicit subpath imports:
 
 ```javascript
 // ✅ Required pattern - explicit subpath imports
-import { Button } from '@binarygarden/flora/input';
+import { Button } from '@binarygarden/flora/form';
 import { IconGithub, IconInfo } from '@binarygarden/flora/icons';
-import { ThemeProvider, useTheme } from '@binarygarden/flora/theme';
-import { Badge, Card } from '@binarygarden/flora/display';
+import { ProductScope } from '@binarygarden/flora/theme';
+import { Badge, Card } from '@binarygarden/flora/ui';
 
 // Import compiled styles
 import '@binarygarden/flora/styles.css';
@@ -59,22 +79,49 @@ import { Button, IconGithub } from '@binarygarden/flora';
 ### Basic Setup
 
 ```tsx
-import { ThemeProvider } from '@binarygarden/flora/theme';
-import { Button } from '@binarygarden/flora/input';
+import { ScriptPreloadTheme, ProductScope } from '@binarygarden/flora/theme';
+import { Button } from '@binarygarden/flora/form';
 import '@binarygarden/flora/styles.css';
 
-function App() {
+export default function Layout({ children }) {
   return (
-    <ThemeProvider lightTheme={lightTheme} darkTheme={darkTheme}>
-      <Button variant="primary">Click me</Button>
-    </ThemeProvider>
+    <html lang="en">
+      {/* sets data-theme before first paint, so dark mode never flashes */}
+      <head>
+        <ScriptPreloadTheme />
+      </head>
+      <body>
+        {/* one hue is the whole theme. omit it to stay monochrome. */}
+        <ProductScope hue={330}>{children}</ProductScope>
+      </body>
+    </html>
   );
 }
 ```
 
+### Fonts
+
+Flora names Hanken Grotesk in `--font-sans` but does not fetch it — a component
+library shouldn't force a network request on its consumers. Load it yourself:
+
+```tsx
+import { Hanken_Grotesk } from 'next/font/google';
+const hanken = Hanken_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-hanken',
+});
+// :root { --font-sans: var(--font-hanken), Helvetica, sans-serif; }
+```
+
 ## Available Components
 
-View all components with live demos and API documentation at **[bgflora.app/components](https://bgflora.app/components)**
+Live demos and API documentation:
+
+- **[bgflora.app](https://bgflora.app)** — color, type, spacing, shape, motion, brand
+- **[bgflora.app/components](https://bgflora.app/components)** — every component across its variants and states
+- **[bgflora.app/icons](https://bgflora.app/icons)** — the icon set
+
+The design language itself is written down in **[DESIGN.md](../../docs/DESIGN.md)**.
 
 ## Design Philosophy
 
@@ -86,7 +133,7 @@ The main `index.ts` is intentionally empty to force developers to import from sp
 
 ```javascript
 // ✅ Required - explicit subpath imports
-import { Button } from '@binarygarden/flora/input';
+import { Button } from '@binarygarden/flora/form';
 import { IconGithub } from '@binarygarden/flora/icons';
 
 // ❌ Not supported - main export is empty
@@ -123,7 +170,7 @@ import { Button } from '@library';
 // Bundler must parse and analyze 100+ icon exports even if unused
 
 // Flora - physically separated
-import { Button } from '@binarygarden/flora/input';
+import { Button } from '@binarygarden/flora/form';
 import { IconGithub } from '@binarygarden/flora/icons';
 // Icons directory never loaded unless explicitly imported
 ```
@@ -144,8 +191,8 @@ Full TypeScript support with:
 Your IDE will have full autocomplete and type information:
 
 ```tsx
-import { Button } from '@binarygarden/flora/input';
-import type { ButtonProps, Theme } from '@binarygarden/flora/input';
+import { Button } from '@binarygarden/flora/form';
+import type { ButtonProps } from '@binarygarden/flora/form';
 //            ^-- Full type information available
 ```
 
@@ -156,8 +203,11 @@ Flora supports all modern browsers that support:
 - ES2020+ JavaScript features
 - CSS Grid and Flexbox
 - CSS Custom Properties (CSS variables)
+- `oklch()` colors and `@layer` cascade layers
 
-Effectively: Chrome 88+, Firefox 78+, Safari 14+, Edge 88+
+Effectively: Chrome 111+, Firefox 113+, Safari 16.4+, Edge 111+ — the design
+language is built on oklch and cascade layers, which raises the floor above the
+previous ES2020 baseline.
 
 ## License
 

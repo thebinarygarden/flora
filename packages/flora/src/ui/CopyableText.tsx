@@ -1,67 +1,57 @@
 'use client';
+
 import * as React from 'react';
-import { IconBGDocs } from '../icons';
+import { IconCopy } from '../icons/IconCopy';
 
 export interface CopyableTextProps {
   value: string;
-  className?: string;
   label?: string;
+  className?: string;
 }
 
-export const CopyableText: React.FC<CopyableTextProps> = ({
+/**
+ * A single value in mono type that copies on click — an id, a token, a secret.
+ * For multi-line code use CodeBlock.
+ *
+ * ```tsx
+ * <CopyableText label="client id" value={clientId} />
+ * ```
+ */
+export function CopyableText({
   value,
-  className = '',
   label,
-}) => {
+  className = '',
+}: CopyableTextProps) {
   const [copied, setCopied] = React.useState(false);
 
-  const handleCopy = async () => {
+  React.useEffect(() => {
+    if (!copied) return;
+    const t = setTimeout(() => setCopied(false), 1200);
+    return () => clearTimeout(t);
+  }, [copied]);
+
+  const onCopy = () => {
     try {
-      await navigator.clipboard.writeText(value);
-      setCopied(true);
-      // Reset after 2 seconds
-      setTimeout(() => setCopied(false), 500);
+      navigator.clipboard.writeText(value);
     } catch {
-      // Silently fail - user will notice copy didn't work
+      // clipboard blocked; the flash is still a useful acknowledgement
     }
+    setCopied(true);
   };
 
   return (
-    <div className={className}>
-      {label && (
-        <label
-          className="block text-sm font-medium mb-2"
-          style={{ color: 'var(--on-surface)' }}
-        >
-          {label}
-        </label>
-      )}
+    <div className={('fl-copy ' + className).trim()}>
+      {label && <span className="fl-label">{label}</span>}
       <button
-        onClick={handleCopy}
-        className="w-full flex items-center gap-3 p-3 rounded border transition-all cursor-pointer group"
-        style={{
-          backgroundColor: copied ? 'var(--success)' : 'var(--surface-variant)',
-          borderColor: copied ? 'var(--success)' : 'var(--border)',
-          color: copied ? 'var(--on-success)' : 'var(--on-surface-variant)',
-        }}
+        type="button"
+        className="fl-copy-btn"
+        data-done={copied}
+        onClick={onCopy}
+        aria-label={copied ? 'copied' : 'copy ' + (label || 'value')}
       >
-        <code
-          className="flex-1 text-left text-xs font-mono overflow-x-auto no-scrollbar select-all"
-          style={{
-            whiteSpace: 'nowrap',
-          }}
-        >
-          {value}
-        </code>
-        <div
-          className="flex-shrink-0 transition-transform group-hover:scale-110"
-          style={{
-            color: copied ? 'var(--on-success)' : 'var(--on-surface)',
-          }}
-        >
-          <IconBGDocs size={16} />
-        </div>
+        <code>{value}</code>
+        <IconCopy size={16} />
       </button>
     </div>
   );
-};
+}

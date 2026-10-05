@@ -1,6 +1,14 @@
-export { Badge } from './Badge';
-export type { BadgeProps } from './Badge';
 export { Card } from './Card';
 export type { CardProps } from './Card';
+export { Badge } from './Badge';
+export type { BadgeProps } from './Badge';
+export { Tag } from './Tag';
+export type { TagProps } from './Tag';
+export { Tooltip } from './Tooltip';
+export type { TooltipProps } from './Tooltip';
+export { AvatarGroup } from './AvatarGroup';
+export type { AvatarGroupProps, Person } from './AvatarGroup';
+export { CodeBlock } from './CodeBlock';
+export type { CodeBlockProps } from './CodeBlock';
 export { CopyableText } from './CopyableText';
 export type { CopyableTextProps } from './CopyableText';

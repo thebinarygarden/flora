@@ -1,67 +1,35 @@
-'use client';
+import * as React from 'react';
 
-import React from 'react';
-
-export interface BadgeProps {
+export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
+  tone?: 'neutral' | 'accent' | 'solid' | 'ok' | 'warn' | 'danger';
+  /** leading status dot */
+  dot?: boolean;
   children: React.ReactNode;
-  variant?:
-    | 'primary'
-    | 'secondary'
-    | 'tertiary'
-    | 'success'
-    | 'error'
-    | 'warning'
-    | 'info'
-    | 'neutral'
-    | 'highlight'
-    | 'link'
-    | 'surfaceVariant'
-    | 'outline';
-  size?: 'small' | 'medium';
-  className?: string;
-  style?: React.CSSProperties;
 }
 
-const getVariantStyles = (variant: string): React.CSSProperties => {
-  if (variant === 'outline') {
-    return {
-      backgroundColor: 'transparent',
-      color: 'var(--on-surface)',
-      border: '1px solid var(--border)',
-    };
-  }
-
-  const varName = variant === 'surfaceVariant' ? 'surface-variant' : variant;
-  const onVarName =
-    variant === 'surfaceVariant' ? 'on-surface-variant' : `on-${variant}`;
-
-  return {
-    backgroundColor: `var(--${varName})`,
-    color: `var(--${onVarName})`,
-    border: 'none',
-  };
-};
-
+/**
+ * Small status label: a version, a state, a count. Not clickable — use Tag for
+ * that.
+ *
+ * ```tsx
+ * <Badge>v0.4.1</Badge>
+ * <Badge tone="ok" dot>stable</Badge>
+ * ```
+ */
 export function Badge({
+  tone = 'neutral',
+  dot = false,
   children,
-  variant = 'outline',
-  size = 'medium',
   className = '',
-  style = {},
+  ...rest
 }: BadgeProps) {
-  const sizeClasses = {
-    small: 'px-2 py-0.5 text-xs',
-    medium: 'px-3 py-1 text-sm',
-  };
-
   return (
     <span
-      className={`inline-flex items-center justify-center rounded-full font-medium ${sizeClasses[size]} ${className}`}
-      style={{
-        ...getVariantStyles(variant),
-        ...style,
-      }}
+      className={('fl-badge ' + className).trim()}
+      data-tone={tone}
+      {...rest}
     >
+      {dot && <span className="fl-dot" aria-hidden="true" />}
       {children}
     </span>
   );

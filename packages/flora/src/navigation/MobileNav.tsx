@@ -34,14 +34,14 @@ export const MobileNav: React.FC<NavigationComponentProps> = ({
       <nav
         className={`fixed top-0 left-0 right-0 z-20`}
         style={{
-          color: 'var(--on-surface)',
+          color: 'var(--text-muted)',
         }}
       >
         {/* Animated Background */}
         <motion.div
           className="absolute inset-0 transition-opacity duration-300 ease-in-out"
           style={{
-            backgroundColor: 'var(--background)',
+            backgroundColor: 'var(--surface-page)',
             opacity: finalOpacity,
           }}
         />
@@ -65,7 +65,7 @@ export const MobileNav: React.FC<NavigationComponentProps> = ({
                 onClick={() => setIsOpen(!isOpen)}
                 className="p-2 transition-colors rounded-md cursor-pointer icon-hover"
                 style={{
-                  color: 'var(--on-surface)',
+                  color: 'var(--text-muted)',
                 }}
               >
                 {!isOpen && <IconMenu size={32} />}
@@ -82,7 +82,7 @@ export const MobileNav: React.FC<NavigationComponentProps> = ({
                 onClick={() => handleItemClick(item)}
                 className="text-4xl md:text-5xl tracking-wide bg-transparent border-none outline-none focus:outline-none transition-colors rounded-md px-4 py-2"
                 style={{
-                  color: 'var(--on-background)',
+                  color: 'var(--text-body)',
                 }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -94,10 +94,10 @@ export const MobileNav: React.FC<NavigationComponentProps> = ({
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.color = 'var(--primary)';
+                  e.currentTarget.style.color = 'var(--accent)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.color = 'var(--on-background)';
+                  e.currentTarget.style.color = 'var(--text-body)';
                 }}
               >
                 {item.label}

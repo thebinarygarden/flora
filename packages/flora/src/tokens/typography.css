@@ -1,0 +1,51 @@
+/* One family. Hierarchy comes from size, weight and tracking, never from a second face.
+   Mono is the system stack — code is content, not brand. */
+:root {
+  --font-sans: 'Hanken Grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  --text-2xs: 0.6875rem; /* 11 */
+  --text-xs: 0.75rem; /* 12 */
+  --text-sm: 0.8125rem; /* 13 */
+  --text-md: 0.9375rem; /* 15 */
+  --text-lg: 1.125rem; /* 18 */
+  --text-xl: 1.375rem; /* 22 */
+  --text-2xl: 1.75rem; /* 28 */
+  --text-3xl: 2.25rem; /* 36 */
+  --text-4xl: 3rem; /* 48 */
+  --text-5xl: 4rem; /* 64 */
+  --text-6xl: 5.5rem; /* 88 */
+
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --leading-tight: 1.05;
+  --leading-snug: 1.2;
+  --leading-normal: 1.5;
+  --leading-loose: 1.7;
+
+  --tracking-display: -0.03em;
+  --tracking-heading: -0.02em;
+  --tracking-body: 0;
+  --tracking-label: 0.02em;
+
+  /* semantic styles (use as shorthand: font: var(--type-body)) */
+  --type-display: var(--weight-medium) var(--text-5xl) / var(--leading-tight)
+    var(--font-sans);
+  --type-h1: var(--weight-medium) var(--text-3xl) / var(--leading-snug)
+    var(--font-sans);
+  --type-h2: var(--weight-medium) var(--text-xl) / var(--leading-snug)
+    var(--font-sans);
+  --type-body: var(--weight-regular) var(--text-md) / var(--leading-normal)
+    var(--font-sans);
+  --type-lg: var(--weight-regular) var(--text-lg) / var(--leading-normal)
+    var(--font-sans);
+  --type-small: var(--weight-regular) var(--text-sm) / var(--leading-normal)
+    var(--font-sans);
+  --type-label: var(--weight-medium) var(--text-xs) / 1 var(--font-sans);
+  --type-code: var(--weight-regular) var(--text-sm) / var(--leading-loose)
+    var(--font-mono);
+}

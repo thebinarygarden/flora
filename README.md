@@ -1,6 +1,10 @@
 # Flora Monorepo
 
-Development repository for Flora - a React component library for Binary Garden projects.
+Development repository for Flora - the React component library for Binary Garden
+projects, and the reference implementation of the Binary Garden design language.
+
+**Start with [DESIGN.md](docs/DESIGN.md)** — it documents the design language itself:
+how color works, the voice, type, spacing, shape, motion and iconography.
 
 ## Quick Start
 
@@ -29,6 +33,8 @@ Next.js 16 demo site for developing and testing components during development.
 
 **For Library Users:**
 
+- **[DESIGN.md](docs/DESIGN.md)** - The design language: color, voice, type, spacing, motion
+- **[Foundations](https://bgflora.app)** - Live specimens of every token
 - **[Component Documentation](https://bgflora.app/components)** - Live demos and API reference
 - **[Package README](packages/flora/README.md)** - Installation and usage guide
 
@@ -36,7 +42,6 @@ Next.js 16 demo site for developing and testing components during development.
 
 - **[Development Guide](docs/DEVELOPMENT.md)** - How to contribute, add components, workflows
 - **[Architecture Guide](docs/ARCHITECTURE.md)** - Technical design and build system
-- **[Theme System Guide](docs/THEME_SYSTEM.md)** - Theme templates and color utilities
 
 ## Development Workflow
 

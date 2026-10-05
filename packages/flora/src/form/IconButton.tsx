@@ -1,120 +1,41 @@
-'use client';
 import * as React from 'react';
 
 export interface IconButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  icon?: React.ReactNode;
-  label?: string;
-  variant?:
-    | 'primary'
-    | 'secondary'
-    | 'tertiary'
-    | 'error'
-    | 'success'
-    | 'outline';
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
+  /** Accessible name, also used as the native tooltip. Required. */
+  label: string;
   size?: 'sm' | 'md' | 'lg';
-  showLabel?: boolean;
+  variant?: 'ghost' | 'outline' | 'filled';
+  /** the icon — 18px, 1.5px stroke */
+  children: React.ReactNode;
 }
 
-export const IconButton: React.FC<IconButtonProps> = ({
-  icon,
+/**
+ * Square icon-only button for toolbars, headers and card corners. Ghost by
+ * default; `outline` in empty areas; `filled` for the one accent action.
+ *
+ * ```tsx
+ * <IconButton label="search"><IconSearch size={18} /></IconButton>
+ * ```
+ */
+export function IconButton({
   label,
-  variant = 'primary',
   size = 'md',
-  showLabel = true,
+  variant = 'ghost',
+  children,
   className = '',
-  ...props
-}) => {
-  const [isHovered, setIsHovered] = React.useState(false);
-
-  const getSizeStyles = () => {
-    switch (size) {
-      case 'sm':
-        return 'px-2 py-1 text-sm';
-      case 'lg':
-        return 'px-6 py-3 text-lg';
-      case 'md':
-      default:
-        return 'px-4 py-2';
-    }
-  };
-
-  const getVariantStyles = () => {
-    if (props.disabled) {
-      return {
-        backgroundColor: 'var(--disabled)',
-        color: 'var(--on-disabled)',
-        cursor: 'not-allowed',
-        border: 'none',
-      };
-    }
-
-    const baseStyles = {
-      border: isHovered ? 'none' : '1px solid var(--border)',
-    };
-
-    switch (variant) {
-      case 'primary':
-        return {
-          ...baseStyles,
-          backgroundColor: isHovered ? 'var(--primary)' : 'var(--surface)',
-          color: isHovered ? 'var(--on-primary)' : 'var(--primary)',
-        };
-      case 'secondary':
-        return {
-          ...baseStyles,
-          backgroundColor: isHovered ? 'var(--secondary)' : 'var(--surface)',
-          color: isHovered ? 'var(--on-secondary)' : 'var(--secondary)',
-        };
-      case 'tertiary':
-        return {
-          ...baseStyles,
-          backgroundColor: isHovered ? 'var(--tertiary)' : 'var(--surface)',
-          color: isHovered ? 'var(--on-tertiary)' : 'var(--tertiary)',
-        };
-      case 'error':
-        return {
-          ...baseStyles,
-          backgroundColor: isHovered ? 'var(--error)' : 'var(--surface)',
-          color: isHovered ? 'var(--on-error)' : 'var(--error)',
-        };
-      case 'success':
-        return {
-          ...baseStyles,
-          backgroundColor: isHovered ? 'var(--success)' : 'var(--surface)',
-          color: isHovered ? 'var(--on-success)' : 'var(--success)',
-        };
-      case 'outline':
-        return {
-          backgroundColor: 'transparent',
-          color: 'var(--primary)',
-          border: `1px solid var(--border)`,
-        };
-      default:
-        return {
-          ...baseStyles,
-          backgroundColor: isHovered ? 'var(--primary)' : 'var(--surface)',
-          color: isHovered ? 'var(--on-primary)' : 'var(--primary)',
-        };
-    }
-  };
-
-  const variantStyles = getVariantStyles();
-  const sizeStyles = getSizeStyles();
-
+  ...rest
+}: IconButtonProps) {
   return (
     <button
-      className={`cursor-pointer flex items-center gap-2 rounded-lg transition-all duration-200 font-medium ${sizeStyles} ${className}`}
-      style={variantStyles}
-      onMouseEnter={() => !props.disabled && setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      disabled={props.disabled}
-      {...props}
+      className={('fl-ibtn ' + className).trim()}
+      data-size={size}
+      data-variant={variant}
+      aria-label={label}
+      title={label}
+      {...rest}
     >
-      {icon && <span className="flex items-center">{icon}</span>}
-      {showLabel && label && <span>{label}</span>}
+      {children}
     </button>
   );
-};
-
-export default IconButton;
+}

@@ -4,15 +4,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Flora is a React component library for Binary Garden projects built as a pnpm monorepo. It uses a **defensive architecture** with subpath-only imports to guarantee optimal bundle sizes without relying on tree-shaking.
+Flora is the React component library for Binary Garden projects, built as a pnpm monorepo. It uses a **defensive architecture** with subpath-only imports to guarantee optimal bundle sizes without relying on tree-shaking.
 
-Published to npm as `@binarygarden/flora` (currently v0.0.3).
+Published to npm as `@binarygarden/flora` (currently v0.1.0).
+
+**Flora is the reference implementation of the Binary Garden design language. Read `docs/DESIGN.md` before changing anything visual.** Its one rule: the trunk is black and white; color comes from the products. A single `--product-hue` is the entire theme.
 
 ## Monorepo Structure
 
 - `packages/flora/` - Main component library (published package)
 - `packages/site/` - Next.js 16 demo site for testing components
-- `docs/` - Architecture, development, and theme system documentation
+- `docs/` - Architecture and development documentation
+- `docs/DESIGN.md` - The design language (color, voice, type, spacing, shape, motion)
 
 ## Essential Commands
 
@@ -67,8 +70,9 @@ Flora enforces subpath imports at the package level to guarantee optimal bundle 
 import { Button } from '@binarygarden/flora/form';
 import { Badge, Card } from '@binarygarden/flora/ui';
 import { Dialog, DialogProvider } from '@binarygarden/flora/overlay';
+import { Hero, ProductTile } from '@binarygarden/flora/marketing';
 import { IconGithub } from '@binarygarden/flora/icons';
-import { ThemeProvider } from '@binarygarden/flora/theme';
+import { ProductScope } from '@binarygarden/flora/theme';
 import { BGLanding } from '@binarygarden/flora/bg';
 
 // ❌ Not supported (main index.ts is empty)
@@ -84,22 +88,29 @@ import { Button } from '@binarygarden/flora';
 
 ### Available Subpaths
 
-- `@binarygarden/flora/form` - Form controls (Button, HSBColorPicker, etc)
-- `@binarygarden/flora/ui` - General UI components (Badge, Card, CopyableText)
-- `@binarygarden/flora/overlay` - Overlay/modal system (Dialog, DialogProvider, FullScreenOverlay)
-- `@binarygarden/flora/bg` - Binary Garden specific components (BGLanding)
-- `@binarygarden/flora/hooks` - React hooks (useClientCheck, useViewportHeight)
-- `@binarygarden/flora/icons` - Icon components (20+ SVG icons)
-- `@binarygarden/flora/navigation` - Navigation components (MobileNav)
-- `@binarygarden/flora/theme` - ThemeProvider and theme utilities
-- `@binarygarden/flora/styles.css` - Global styles
+- `@binarygarden/flora/form` - Button, IconButton, Input, Select, Checkbox, Radio, Switch
+- `@binarygarden/flora/ui` - Card, Badge, Tag, Tooltip, AvatarGroup, CodeBlock, CopyableText
+- `@binarygarden/flora/overlay` - Dialog, Toast, ToastStack, DialogProvider/useDialog, FullScreenOverlay
+- `@binarygarden/flora/navigation` - SiteHeader, Tabs, Carousel, SidebarNav, CommandPalette, MobileNav
+- `@binarygarden/flora/marketing` - Hero, ProductTile
+- `@binarygarden/flora/theme` - ProductScope, ThemeToggleButton, ScriptPreloadTheme
+- `@binarygarden/flora/icons` - 26 SVG icon components
+- `@binarygarden/flora/hooks` - useClientCheck, useViewport
+- `@binarygarden/flora/bg` - BGLanding (a Hero over a full-bleed `background`, with scroll-snap), BGFooter (the garden footer with the fixed motto)
+- `@binarygarden/flora/styles.css` - Tokens, resets and all component CSS
 
 ### Critical Rules
 
 1. **Never add barrel exports** - `packages/flora/src/index.ts` must stay empty
 2. **Keep icons isolated** - Icon category never imported unless explicitly needed
-3. **All components depend on ThemeProvider** - Use CSS variables like `var(--primary)`, never hardcoded colors
-4. **One category = one directory** - Each with its own `index.ts` export file
+3. **Never hardcode a color** - always a token: `var(--accent)`, `var(--text-body)`, `var(--line-1)`. See `docs/DESIGN.md` for the full set
+4. **One category = one directory** - Each with its own `index.ts`
+5. **No Tailwind, no CSS-in-JS, no runtime style injection** - a component is a thin wrapper over a `.fl-*` class in `src/styles.css`, with variants as data attributes:
+   ```tsx
+   <button className="fl-btn" data-variant={variant} data-size={size} />
+   ```
+6. **Only attach an event handler when the consumer passed one.** A component that unconditionally wires `onChange`/`onClick` can never render from a server component. Guard with `onSelect ? handler : undefined`
+7. **`'use client'` only where there is state or an effect** - keep the rest server-renderable
 
 ## Build System
 
@@ -114,6 +125,7 @@ input: [
   'src/bg/index.ts',
   'src/hooks/index.ts',
   'src/icons/index.ts',
+  'src/marketing/index.ts',
   'src/navigation/index.ts',
   'src/theme/index.ts',
   'src/styles.css',
@@ -125,7 +137,7 @@ input: [
 - ESM only (`format: 'esm'`)
 - `preserveModules: true` - Each component becomes separate file for optimal tree-shaking
 - External: react, react-dom, framer-motion (peer dependencies)
-- Plugins: svgr (SVG → React components), TypeScript, PostCSS (Tailwind)
+- Plugins: svgr (SVG → React components), preserveDirectives ('use client'), PostCSS (`postcss-import`), TypeScript
 
 ### Adding New Components
 
@@ -151,24 +163,23 @@ input: [
 
 ## Theme System
 
-All components use CSS variables provided by `ThemeProvider`:
+One hue is the whole theme. There is no `ThemeProvider` and no theme object.
 
 ```tsx
-import { ThemeProvider } from '@binarygarden/flora/theme';
+import { ProductScope, ScriptPreloadTheme } from '@binarygarden/flora/theme';
 
-<ThemeProvider theme={myTheme}>
-  <App />
-</ThemeProvider>;
+// in <head>: sets data-theme on <html> before first paint
+<ScriptPreloadTheme />
+
+// anywhere: every flora component inside takes this hue
+<ProductScope hue={330}>{children}</ProductScope>
 ```
 
-**Theme Template System:**
+- Light/dark is `data-theme="light" | "dark"`, scoped to the element (not `:root`) so a dark region can nest inside a light page.
+- A product scope is `data-product` + `--product-hue`, which redefines `--accent`, `--accent-fg`, `--accent-soft`, `--accent-line`.
+- Tokens live in `src/tokens/*.css` and are inlined into `dist/styles.css` by `postcss-import` at build time.
 
-- Saves color themes as **ratios** (relationships between colors)
-- Hydrate templates with different seed colors to create variations
-- Preserves relative color properties (hue shifts, saturation/brightness ratios)
-- Handles edge cases: pure grays, near-black, near-white colors
-
-See `docs/THEME_SYSTEM.md` for detailed API.
+See `docs/DESIGN.md` for the full rationale.
 
 ## Icon Handling
 
@@ -197,13 +208,13 @@ Uses workspace dependency: `"@binarygarden/flora": "workspace:*"`
 
 - `docs/ARCHITECTURE.md` - Defensive architecture philosophy, build system details
 - `docs/DEVELOPMENT.md` - Contribution workflow, adding components
-- `docs/THEME_SYSTEM.md` - Theme templates, color relationships, hydration API
+- `docs/DESIGN.md` - The design language: color, voice, type, spacing, motion
 - `packages/flora/README.md` - Public API documentation
 
 ## Technologies
 
-- **Build:** Rollup, TypeScript, PostCSS
-- **Styling:** Tailwind CSS v4, CSS variables
+- **Build:** Rollup, TypeScript, PostCSS (`postcss-import` only)
+- **Styling:** token-driven CSS in `src/styles.css`, native `@layer` cascade layers. **No Tailwind.**
 - **Animation:** Framer Motion (peer dependency)
 - **Icons:** SVGR (SVG → React components)
 - **Demo Site:** Next.js 16, React 19
@@ -213,4 +224,7 @@ Uses workspace dependency: `"@binarygarden/flora": "workspace:*"`
 - `packages/flora/rollup.config.mjs` - Build configuration, entry points
 - `packages/flora/package.json` - Subpath exports, version, peer dependencies
 - `packages/flora/src/index.ts` - Must remain empty (enforces subpath imports)
+- `packages/flora/src/styles.css` - Every component's CSS, in `@layer components`
+- `packages/flora/src/tokens/*.css` - The design tokens
+- `DESIGN.md` - The design language
 - `pnpm-workspace.yaml` - Monorepo workspace configuration

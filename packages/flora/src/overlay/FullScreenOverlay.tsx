@@ -37,8 +37,8 @@ export const FullScreenOverlay = ({
     <motion.div
       className="fixed inset-0 z-50 flex flex-col"
       style={{
-        backgroundColor: 'var(--background)',
-        color: 'var(--on-background)',
+        backgroundColor: 'var(--surface-page)',
+        color: 'var(--text-body)',
       }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -53,7 +53,7 @@ export const FullScreenOverlay = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0, duration: 0.2 }}
-          style={{ color: 'var(--on-background)' }}
+          style={{ color: 'var(--text-body)' }}
         >
           <IconX size={32} />
         </motion.button>

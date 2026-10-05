@@ -1,111 +1,38 @@
 'use client';
 
-import { useState } from 'react';
-import { HSBColorPicker } from '@binarygarden/flora/form';
-import { Button } from '@binarygarden/flora/form';
-import { IconPlus } from '@binarygarden/flora/icons';
+import { CSSProperties } from 'react';
 
 interface ColorPickerProps {
   selectedColor: string;
   onColorSelect: (color: string) => void;
-  customColors: string[];
-  onAddCustomColor: (color: string) => void;
 }
 
+/**
+ * Icon colour control: one large native colour input. The block paints
+ * itself with the colour, so before anything is picked it shows
+ * currentColor in either theme.
+ */
 export function IconColorPicker({
   selectedColor,
   onColorSelect,
-  customColors,
-  onAddCustomColor,
 }: ColorPickerProps) {
-  const [showCustomColorPicker, setShowCustomColorPicker] = useState(false);
-  const [pickerColor, setPickerColor] = useState('');
-
-  const handlePickerColorChange = (hex: string) => {
-    setPickerColor(hex);
-  };
-
-  const saveCustomColor = () => {
-    onAddCustomColor(pickerColor);
-    onColorSelect(pickerColor);
-    setShowCustomColorPicker(false);
-  };
-
-  const cancelColorPicker = () => {
-    setPickerColor('');
-    setShowCustomColorPicker(false);
-  };
+  const isHex = selectedColor.startsWith('#');
 
   return (
-    <div
-      className="p-6 rounded-lg border"
-      style={{
-        backgroundColor: 'var(--surface)',
-        borderColor: 'var(--border)',
-      }}
-    >
-      <h3 className="font-semibold mb-4" style={{ color: 'var(--on-surface)' }}>
-        Color
-      </h3>
-      <div className="space-y-4">
-        <div className="flex flex-wrap gap-2">
-          {customColors.map((color) => (
-            <button
-              key={color}
-              onClick={() => {
-                onColorSelect(color);
-                setShowCustomColorPicker(false);
-              }}
-              className={`w-8 h-8 rounded border-2 transition-all ${
-                selectedColor === color && !showCustomColorPicker
-                  ? 'border-gray-800 scale-110'
-                  : 'border-gray-300'
-              }`}
-              style={{
-                backgroundColor: color,
-              }}
-            />
-          ))}
-
-          <button
-            onClick={() => setShowCustomColorPicker(!showCustomColorPicker)}
-            className={`w-8 h-8 rounded border-2 flex items-center justify-center text-xs font-bold border-gray-300`}
-            style={{
-              backgroundColor: showCustomColorPicker
-                ? pickerColor
-                : 'var(--surface)',
-              color: 'var(--on-background)',
-            }}
-          >
-            {!showCustomColorPicker && <IconPlus size={16} />}
-          </button>
-        </div>
-
-        {showCustomColorPicker && (
-          <div className="mt-4 space-y-4">
-            <HSBColorPicker
-              onChangeHex={handlePickerColorChange}
-              className="w-full"
-            />
-            <div className="flex gap-2">
-              <Button
-                variant="primary"
-                onClick={saveCustomColor}
-                className="flex-1"
-              >
-                Save Color
-              </Button>
-              <Button
-                variant="outline"
-                onClick={cancelColorPicker}
-                className="flex-1"
-              >
-                Cancel
-              </Button>
-            </div>
-          </div>
-        )}
+    <div className="col">
+      <span className="label-sm">color</span>
+      <div
+        className="color-block"
+        style={{ '--pick': selectedColor } as CSSProperties}
+      >
+        <input
+          type="color"
+          aria-label="icon color"
+          value={isHex ? selectedColor : '#000000'}
+          onChange={(e) => onColorSelect(e.target.value)}
+        />
       </div>
+      <span className="color-val">{selectedColor}</span>
     </div>
   );
 }

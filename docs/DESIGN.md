@@ -234,16 +234,16 @@ use a 3px soft-accent halo instead.
 
 Imported from subpaths, always:
 
-| Subpath       | Components                                                               |
-| ------------- | ------------------------------------------------------------------------ |
-| `/form`       | Button, IconButton, Input, Select, Checkbox, Radio, Switch               |
-| `/ui`         | Card, Badge, Tag, Tooltip, AvatarGroup, CodeBlock, CopyableText          |
-| `/overlay`    | Dialog, Toast, ToastStack, DialogProvider / useDialog                    |
-| `/navigation` | SiteHeader, Tabs, Carousel, SidebarNav, CommandPalette                   |
-| `/marketing`  | Hero, ProductTile                                                        |
-| `/theme`      | ProductScope, ThemeToggleButton, ScriptPreloadTheme                      |
-| `/icons`      | 26 icon components                                                       |
-| `/hooks`      | useClientCheck, useViewport                                              |
+| Subpath       | Components                                                      |
+| ------------- | --------------------------------------------------------------- |
+| `/form`       | Button, IconButton, Input, Select, Checkbox, Radio, Switch      |
+| `/ui`         | Card, Badge, Tag, Tooltip, AvatarGroup, CodeBlock, CopyableText |
+| `/overlay`    | Dialog, Toast, ToastStack, DialogProvider / useDialog           |
+| `/navigation` | SiteHeader, Tabs, Carousel, SidebarNav, CommandPalette          |
+| `/marketing`  | Hero, ProductTile                                               |
+| `/theme`      | ProductScope, ThemeToggleButton, ScriptPreloadTheme             |
+| `/icons`      | 26 icon components                                              |
+| `/hooks`      | useClientCheck, useViewport                                     |
 
 ### How components are styled
 

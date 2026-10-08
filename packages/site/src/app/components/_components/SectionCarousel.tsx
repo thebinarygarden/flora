@@ -58,7 +58,12 @@ export function SectionCarousel() {
           for the whole page */}
       <nav className="section-nav" ref={navRef}>
         <div className="section-nav-in">
-          <Carousel items={ITEMS} value={value} arrows={false} linkAs={GroupLink} />
+          <Carousel
+            items={ITEMS}
+            value={value}
+            arrows={false}
+            linkAs={GroupLink}
+          />
         </div>
       </nav>
     </>

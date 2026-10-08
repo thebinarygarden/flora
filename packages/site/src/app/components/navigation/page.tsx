@@ -172,8 +172,8 @@ export default function NavigationPage() {
         <Specimen label="the page chrome" block>
           <p className="note" style={{ margin: 0 }}>
             both are live on this page: the sticky header at the top and the
-            footer at the bottom. on narrow screens the header&apos;s links
-            fold into a menu button.
+            footer at the bottom. on narrow screens the header&apos;s links fold
+            into a menu button.
           </p>
         </Specimen>
       </Section>

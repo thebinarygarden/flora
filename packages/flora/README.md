@@ -24,8 +24,8 @@ Flora uses subpath-only imports. The main export `import { Button } from '@binar
 | ------------- | ------------------------------------------------------------------------ |
 | `/form`       | Button, IconButton, Input, Select, Checkbox, Radio, Switch               |
 | `/ui`         | Card, Badge, Tag, Tooltip, AvatarGroup, CodeBlock, CopyableText          |
-| `/overlay`    | Dialog, Toast, ToastStack, DialogProvider / useDialog, FullScreenOverlay |
-| `/navigation` | SiteHeader, Tabs, Carousel, SidebarNav, CommandPalette, MobileNav        |
+| `/overlay`    | Dialog, Toast, ToastStack, DialogProvider / useDialog                    |
+| `/navigation` | SiteHeader, Tabs, Carousel, SidebarNav, CommandPalette                   |
 | `/marketing`  | Hero, ProductTile                                                        |
 | `/theme`      | ProductScope, ThemeToggleButton, ScriptPreloadTheme                      |
 | `/icons`      | 26 icon components                                                       |

@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Flora is the React component library for Binary Garden projects, built as a pnpm monorepo. It uses a **defensive architecture** with subpath-only imports to guarantee optimal bundle sizes without relying on tree-shaking.
 
-Published to npm as `@binarygarden/flora` (currently v0.1.0).
+Published to npm as `@binarygarden/flora` (currently v0.1.1).
 
 **Flora is the reference implementation of the Binary Garden design language. Read `docs/DESIGN.md` before changing anything visual.** Its one rule: the trunk is black and white; color comes from the products. A single `--product-hue` is the entire theme.
 
@@ -90,8 +90,8 @@ import { Button } from '@binarygarden/flora';
 
 - `@binarygarden/flora/form` - Button, IconButton, Input, Select, Checkbox, Radio, Switch
 - `@binarygarden/flora/ui` - Card, Badge, Tag, Tooltip, AvatarGroup, CodeBlock, CopyableText
-- `@binarygarden/flora/overlay` - Dialog, Toast, ToastStack, DialogProvider/useDialog, FullScreenOverlay
-- `@binarygarden/flora/navigation` - SiteHeader, Tabs, Carousel, SidebarNav, CommandPalette, MobileNav
+- `@binarygarden/flora/overlay` - Dialog, Toast, ToastStack, DialogProvider/useDialog
+- `@binarygarden/flora/navigation` - SiteHeader, Tabs, Carousel, SidebarNav, CommandPalette
 - `@binarygarden/flora/marketing` - Hero, ProductTile
 - `@binarygarden/flora/theme` - ProductScope, ThemeToggleButton, ScriptPreloadTheme
 - `@binarygarden/flora/icons` - 26 SVG icon components

@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Flora is the React component library for Binary Garden projects, built as a pnpm monorepo. It uses a **defensive architecture** with subpath-only imports to guarantee optimal bundle sizes without relying on tree-shaking.
 
-Published to npm as `@binarygarden/flora` (currently v0.1.1).
+Published to npm as `@binarygarden/flora` (currently v0.1.2).
 
 **Flora is the reference implementation of the Binary Garden design language. Read `docs/DESIGN.md` before changing anything visual.** Its one rule: the trunk is black and white; color comes from the products. A single `--product-hue` is the entire theme.
 
@@ -91,10 +91,10 @@ import { Button } from '@binarygarden/flora';
 - `@binarygarden/flora/form` - Button, IconButton, Input, Select, Checkbox, Radio, Switch
 - `@binarygarden/flora/ui` - Card, Badge, Tag, Tooltip, AvatarGroup, CodeBlock, CopyableText
 - `@binarygarden/flora/overlay` - Dialog, Toast, ToastStack, DialogProvider/useDialog
-- `@binarygarden/flora/navigation` - SiteHeader, Tabs, Carousel, SidebarNav, CommandPalette
+- `@binarygarden/flora/navigation` - SiteHeader (`revealAfter` hides it over a landing hero until the selector scrolls away), Tabs, Carousel, SidebarNav, CommandPalette
 - `@binarygarden/flora/marketing` - Hero, ProductTile
 - `@binarygarden/flora/theme` - ProductScope, ThemeToggleButton, ScriptPreloadTheme
-- `@binarygarden/flora/icons` - 26 SVG icon components
+- `@binarygarden/flora/icons` - 27 SVG icon components
 - `@binarygarden/flora/hooks` - useClientCheck, useViewport
 - `@binarygarden/flora/bg` - BGLanding (a Hero over a full-bleed `background`, with scroll-snap), BGFooter (the garden footer with the fixed motto)
 - `@binarygarden/flora/styles.css` - Tokens, resets and all component CSS

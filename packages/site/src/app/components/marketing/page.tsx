@@ -63,7 +63,7 @@ export default function MarketingPage() {
                   size="lg"
                   iconRight={<IconArrow orientation="right" size={16} />}
                 >
-                  explore the garden
+                  explore
                 </Button>
                 <Button size="lg" variant="ghost">
                   contribute

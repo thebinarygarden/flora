@@ -18,6 +18,12 @@ export interface SiteHeaderProps {
   links?: SiteHeaderLink[];
   /** right-hand controls: a theme toggle, a search button, a call to action */
   actions?: React.ReactNode;
+  /**
+   * a CSS selector. The bar overlays the page and stays hidden until the
+   * matching element scrolls off the top, then slides in — for a landing hero
+   * that carries the nav itself, e.g. `'.fl-hero-actions'`.
+   */
+  revealAfter?: string;
   className?: string;
 }
 
@@ -33,16 +39,32 @@ export interface SiteHeaderProps {
  *   actions={<ThemeToggleButton />}
  * />
  * ```
+ *
+ * Pass `revealAfter` to keep the bar hidden over a hero until its buttons have
+ * scrolled away.
  */
 export function SiteHeader({
   brand,
   brandHref = '/',
   links = [],
   actions,
+  revealAfter,
   className = '',
 }: SiteHeaderProps) {
   const [open, setOpen] = React.useState(false);
+  const [past, setPast] = React.useState(false);
   const menuId = React.useId();
+
+  React.useEffect(() => {
+    if (!revealAfter) return;
+    const target = document.querySelector(revealAfter);
+    if (!target) return;
+    const observer = new IntersectionObserver(([entry]) =>
+      setPast(!entry.isIntersecting && entry.boundingClientRect.top < 0)
+    );
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [revealAfter]);
 
   React.useEffect(() => {
     if (!open) return;
@@ -60,7 +82,11 @@ export function SiteHeader({
   const hasMenu = links.length > 0 || Boolean(actions);
 
   return (
-    <header className={('fl-header ' + className).trim()}>
+    <header
+      className={('fl-header ' + className).trim()}
+      data-reveal={revealAfter ? '' : undefined}
+      data-hidden={revealAfter ? !past : undefined}
+    >
       <div className="fl-header-in">
         <a className="fl-header-brand" href={brandHref}>
           {brand}

@@ -86,7 +86,7 @@ The writing is as much a part of this system as the type.
 - **Person:** "we" for the community, "you" for the reader, sparingly. Prefer no
   pronoun: "published", not "we published your changes".
 - **Length:** headlines ≤ 8 words, one idea. Body ≤ 2 sentences. Buttons 1–3
-  words, verbs: "publish", "view source", "explore the garden".
+  words, verbs: "publish", "view source", "explore".
 - **Punctuation:** periods end headlines ("open source, for humans."). No
   exclamation marks. Middle dots separate metadata: "v1.2 · 14 contributors".
 - **No emoji. No marketing adjectives** (powerful, seamless, beautiful). No "get
@@ -218,7 +218,7 @@ use a 3px soft-accent halo instead.
 
 ## 6. Iconography and the mark
 
-- **Icons** are flora's own 25-mark set (`@binarygarden/flora/icons`): 1.5px
+- **Icons** are flora's own 26-mark set (`@binarygarden/flora/icons`): 1.5px
   stroke, `currentColor`, 16px inline and 18px in icon buttons. No icon font, no
   emoji. A few Unicode glyphs do real work: `×` (remove/dismiss), `·` (metadata
   separator), `⌘` (shortcut hints).
@@ -242,7 +242,7 @@ Imported from subpaths, always:
 | `/navigation` | SiteHeader, Tabs, Carousel, SidebarNav, CommandPalette          |
 | `/marketing`  | Hero, ProductTile                                               |
 | `/theme`      | ProductScope, ThemeToggleButton, ScriptPreloadTheme             |
-| `/icons`      | 26 icon components                                              |
+| `/icons`      | 27 icon components                                              |
 | `/hooks`      | useClientCheck, useViewport                                     |
 
 ### How components are styled

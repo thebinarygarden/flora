@@ -25,7 +25,7 @@ export interface HeroProps {
  *   eyebrow="binary garden"
  *   title={<>open source, <em>for humans.</em></>}
  *   subtitle="…"
- *   actions={<Button size="lg">explore the garden</Button>}
+ *   actions={<Button size="lg">explore</Button>}
  * />
  * ```
  */

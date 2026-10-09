@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import {
+  IconAccount,
   IconInfo,
   IconGithub,
   IconYoutube,
@@ -36,6 +37,7 @@ import { IconColorPicker } from './IconColorPicker';
 import { IconDisplayCard } from './IconDisplayCard';
 
 const icons = [
+  { name: 'Account', component: IconAccount, description: 'User account' },
   { name: 'Arrow', component: IconArrow, description: 'Directional arrow' },
   {
     name: 'BGDocs',

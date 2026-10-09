@@ -3,7 +3,8 @@
    (oklch hue 150, chroma 0.004) so black and white feel like paper and soil, not RGB.
    The ONLY variable between products is --product-hue. The trunk (binarygarden.com)
    sets no product; its accent collapses to the foreground. */
-:root {
+:root,
+[data-theme='light'] {
   --n-h: 150;
   --n-c: 0.004;
 
@@ -22,28 +23,12 @@
   --product-hue: none;
   --accent-l: 0.58;
   --accent-c: 0.19;
-  --accent: var(--fg-1);
-  --accent-fg: var(--bg-1);
-  --accent-soft: var(--bg-3);
-  --accent-line: var(--line-2);
 
   /* semantic (status only; never decorative) */
   --ok: oklch(0.62 0.15 150);
   --warn: oklch(0.72 0.15 75);
   --danger: oklch(0.58 0.19 25);
   --info: oklch(0.6 0.13 240);
-
-  /* aliases */
-  --surface-page: var(--bg-1);
-  --surface-raised: var(--bg-1);
-  --surface-sunken: var(--bg-2);
-  --surface-overlay: var(--bg-1);
-  --text-body: var(--fg-1);
-  --text-muted: var(--fg-2);
-  --text-faint: var(--fg-3);
-  --border-default: var(--line-1);
-  --border-strong: var(--line-2);
-  --focus-ring: 0 0 0 2px var(--bg-1), 0 0 0 4px var(--accent);
 
   color-scheme: light;
 }
@@ -66,15 +51,39 @@
   color-scheme: dark;
 }
 
+/* Tokens built from the neutrals. A var() resolves where it is declared, so
+   these are redeclared on every theme scope; declared on :root alone, a nested
+   theme would inherit the page's resolved colors instead of its own. */
+:root,
+[data-theme] {
+  --accent: var(--fg-1);
+  --accent-fg: var(--bg-1);
+  --accent-soft: var(--bg-3);
+  --accent-line: var(--line-2);
+
+  --surface-page: var(--bg-1);
+  --surface-raised: var(--bg-1);
+  --surface-sunken: var(--bg-2);
+  --surface-overlay: var(--bg-1);
+  --text-body: var(--fg-1);
+  --text-muted: var(--fg-2);
+  --text-faint: var(--fg-3);
+  --border-default: var(--line-1);
+  --border-strong: var(--line-2);
+  --focus-ring: 0 0 0 2px var(--bg-1), 0 0 0 4px var(--accent);
+}
+
 /* A product scope. Set data-product and --product-hue on any ancestor;
    every flora component inside turns that hue. */
-[data-product] {
+[data-product],
+[data-product] [data-theme] {
   --accent: oklch(var(--accent-l) var(--accent-c) var(--product-hue));
   --accent-fg: oklch(0.99 0.01 var(--product-hue));
   --accent-soft: oklch(0.95 0.035 var(--product-hue));
   --accent-line: oklch(0.85 0.08 var(--product-hue));
 }
-[data-theme='dark'] [data-product] {
+[data-theme='dark'] [data-product],
+[data-product] [data-theme='dark'] {
   --accent-fg: oklch(0.15 0.03 var(--product-hue));
   --accent-soft: oklch(0.24 0.05 var(--product-hue));
   --accent-line: oklch(0.38 0.1 var(--product-hue));

@@ -279,16 +279,6 @@
   color: var(--text-muted);
 }
 
-/* Shows the dark palette inside a light page. The tokens come from flora's
-   own [data-theme='dark'] block, so this specimen can never drift from it. */
-.invert-preview {
-  border-radius: var(--radius-md);
-  padding: var(--space-6);
-  width: 100%;
-  background: var(--surface-page);
-  color: var(--text-body);
-}
-
 /* the heading and group nav above every gallery page; see SectionCarousel */
 .sections {
   padding-bottom: var(--space-8);

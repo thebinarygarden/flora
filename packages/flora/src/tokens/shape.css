@@ -8,15 +8,17 @@
 
   --border-width: 1px;
 
-  /* Shadows are faint and only on things that float (dialog, palette, toast, menus).
-     Resting cards use a border, not a shadow. */
+  --blur-overlay: 12px;
+}
+/* Shadows are faint and only on things that float (dialog, palette, toast, menus).
+   Resting cards use a border, not a shadow. */
+:root,
+[data-theme='light'] {
   --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.06);
   --shadow-md:
     0 1px 2px oklch(0 0 0 / 0.06), 0 8px 24px -12px oklch(0 0 0 / 0.18);
   --shadow-lg:
     0 2px 4px oklch(0 0 0 / 0.06), 0 24px 48px -16px oklch(0 0 0 / 0.28);
-
-  --blur-overlay: 12px;
 }
 [data-theme='dark'] {
   --shadow-sm: 0 0 0 1px var(--line-1);

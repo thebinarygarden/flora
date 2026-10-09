@@ -12,5 +12,3 @@ export type {
 } from './SidebarNav';
 export { CommandPalette } from './CommandPalette';
 export type { CommandPaletteProps, CommandPaletteItem } from './CommandPalette';
-export { MobileNav } from './MobileNav';
-export { type NavItem, type NavigationComponentProps } from './types';

@@ -20,17 +20,17 @@ bundler configuration.
 
 Flora uses subpath-only imports. The main export `import { Button } from '@binarygarden/flora'` is intentionally disabled - components must be imported from explicit subpaths like `import { Button } from '@binarygarden/flora/form'`.
 
-| Subpath       | Components                                                               |
-| ------------- | ------------------------------------------------------------------------ |
-| `/form`       | Button, IconButton, Input, Select, Checkbox, Radio, Switch               |
-| `/ui`         | Card, Badge, Tag, Tooltip, AvatarGroup, CodeBlock, CopyableText          |
-| `/overlay`    | Dialog, Toast, ToastStack, DialogProvider / useDialog, FullScreenOverlay |
-| `/navigation` | SiteHeader, Tabs, Carousel, SidebarNav, CommandPalette, MobileNav        |
-| `/marketing`  | Hero, ProductTile                                                        |
-| `/theme`      | ProductScope, ThemeToggleButton, ScriptPreloadTheme                      |
-| `/icons`      | 26 icon components                                                       |
-| `/hooks`      | useClientCheck, useViewport                                              |
-| `/bg`         | BGLanding (a Hero over a full-bleed background), BGFooter                |
+| Subpath       | Components                                                      |
+| ------------- | --------------------------------------------------------------- |
+| `/form`       | Button, IconButton, Input, Select, Checkbox, Radio, Switch      |
+| `/ui`         | Card, Badge, Tag, Tooltip, AvatarGroup, CodeBlock, CopyableText |
+| `/overlay`    | Dialog, Toast, ToastStack, DialogProvider / useDialog           |
+| `/navigation` | SiteHeader, Tabs, Carousel, SidebarNav, CommandPalette          |
+| `/marketing`  | Hero, ProductTile                                               |
+| `/theme`      | ProductScope, ThemeToggleButton, ScriptPreloadTheme             |
+| `/icons`      | 26 icon components                                              |
+| `/hooks`      | useClientCheck, useViewport                                     |
+| `/bg`         | BGLanding (a Hero over a full-bleed background), BGFooter       |
 
 ## Installation
 

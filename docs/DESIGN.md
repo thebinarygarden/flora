@@ -126,6 +126,24 @@ scale itself runs `--text-2xs` (11) through `--text-6xl` (88) in 11 steps.
 `text-wrap: balance` on headings, `text-wrap: pretty` on paragraphs. Body text
 must clear 4.5:1; labels use `--fg-2`, never `--fg-3`, on the page background.
 
+### Line length
+
+Text never runs the full width of a wide screen. Lines of roughly 45–75
+characters are the easiest to read, so every heading and paragraph caps its
+width in `ch` (one character of the current font), and the bigger the text, the
+shorter the line:
+
+| Text                      | max-width |
+| ------------------------- | --------- |
+| display (hero headline)   | 16ch      |
+| h1                        | 24ch      |
+| hero subtitle             | 48ch      |
+| lead paragraph (lg)       | 60ch      |
+| body and small paragraphs | 68ch      |
+
+Below the cap the text wraps with the container as usual. Code, tables, labels
+and one-line UI text (buttons, nav) are not capped.
+
 ### Loading the font
 
 flora names the family in `--font-sans` but deliberately does not fetch it — a
@@ -216,16 +234,16 @@ use a 3px soft-accent halo instead.
 
 Imported from subpaths, always:
 
-| Subpath       | Components                                                               |
-| ------------- | ------------------------------------------------------------------------ |
-| `/form`       | Button, IconButton, Input, Select, Checkbox, Radio, Switch               |
-| `/ui`         | Card, Badge, Tag, Tooltip, AvatarGroup, CodeBlock, CopyableText          |
-| `/overlay`    | Dialog, Toast, ToastStack, DialogProvider / useDialog, FullScreenOverlay |
-| `/navigation` | SiteHeader, Tabs, Carousel, SidebarNav, CommandPalette, MobileNav        |
-| `/marketing`  | Hero, ProductTile                                                        |
-| `/theme`      | ProductScope, ThemeToggleButton, ScriptPreloadTheme                      |
-| `/icons`      | 26 icon components                                                       |
-| `/hooks`      | useClientCheck, useViewport                                              |
+| Subpath       | Components                                                      |
+| ------------- | --------------------------------------------------------------- |
+| `/form`       | Button, IconButton, Input, Select, Checkbox, Radio, Switch      |
+| `/ui`         | Card, Badge, Tag, Tooltip, AvatarGroup, CodeBlock, CopyableText |
+| `/overlay`    | Dialog, Toast, ToastStack, DialogProvider / useDialog           |
+| `/navigation` | SiteHeader, Tabs, Carousel, SidebarNav, CommandPalette          |
+| `/marketing`  | Hero, ProductTile                                               |
+| `/theme`      | ProductScope, ThemeToggleButton, ScriptPreloadTheme             |
+| `/icons`      | 26 icon components                                              |
+| `/hooks`      | useClientCheck, useViewport                                     |
 
 ### How components are styled
 
@@ -241,16 +259,6 @@ motion, so a utility layer would be a second vocabulary for the same things.
 Variants are data attributes, not class permutations. The stylesheet uses native
 cascade layers (`@layer base, components`) so an app's own unlayered CSS always
 wins without specificity games.
-
-### Deprecated
-
-`MobileNav` predates this system. It still builds and is retokenized, but
-it contradicts the layout rules above. Prefer `SiteHeader`. Retiring it is a
-pending decision.
-
-`BGLanding` (`/bg`) is not deprecated: it is a `Hero` over a full-bleed
-`background` (a video, image or gradient), and scrolling snaps to either the
-hero or the page below it.
 
 ---
 

@@ -1,6 +1,6 @@
 {
   "name": "@binarygarden/flora",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Performance-first React component library with tree-shakable subpath imports",
   "author": "Binary Garden",
   "license": "MIT",

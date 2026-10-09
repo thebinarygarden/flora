@@ -47,6 +47,14 @@ const TYPE_SCALE = [
   ['--text-6xl', '88'],
 ];
 
+const MEASURE = [
+  ['display (hero headline)', '16ch'],
+  ['h1', '24ch'],
+  ['hero subtitle', '48ch'],
+  ['lead paragraph (lg)', '60ch'],
+  ['body and small paragraphs', '68ch'],
+];
+
 const SPACE = [1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24, 32];
 
 const RADIUS = [
@@ -67,10 +75,23 @@ const EASING = [
   ],
 ];
 
-function Swatch({ token, note }: { token: string; note?: string }) {
+function Swatch({
+  token,
+  note,
+  theme,
+}: {
+  token: string;
+  note?: string;
+  /** pin the chip's colour to one theme, whatever the page's */
+  theme?: 'light' | 'dark';
+}) {
   return (
     <div className="swatch">
-      <div className="chip" style={{ background: `var(${token})` }} />
+      <div
+        className="chip"
+        data-theme={theme}
+        style={{ background: `var(${token})` }}
+      />
       <div className="name">{token}</div>
       {note && <div className="val">{note}</div>}
     </div>
@@ -130,7 +151,7 @@ export default function Home() {
           every binary garden site and product is built from the same
           components, type, spacing and motion. our own sites, like{' '}
           <a href="https://binarygarden.com">the trunk</a> and this one, are
-          black and white. each product we make for others adds one colour. the
+          black and white. each product we make for others adds one color. the
           rules below make that work.
         </PageHead>
 
@@ -143,7 +164,7 @@ export default function Home() {
           >
             <div className="swatches">
               {NEUTRALS.map(([t, n]) => (
-                <Swatch key={t} token={t} note={n} />
+                <Swatch key={t} token={t} note={n} theme="light" />
               ))}
             </div>
           </Specimen>
@@ -153,12 +174,10 @@ export default function Home() {
             note="data-theme='dark' on <html>. the same hue with inverted lightness; borders replace shadows."
             block
           >
-            <div className="invert-preview" data-theme="dark">
-              <div className="swatches">
-                {NEUTRALS.map(([t, n]) => (
-                  <Swatch key={t} token={t} note={n} />
-                ))}
-              </div>
+            <div className="swatches">
+              {NEUTRALS.map(([t, n]) => (
+                <Swatch key={t} token={t} note={n} theme="dark" />
+              ))}
             </div>
           </Specimen>
 
@@ -280,6 +299,44 @@ export default function Home() {
                 ))}
               </tbody>
             </table>
+          </Specimen>
+
+          <Specimen
+            label="line length"
+            note="lines of 45–75 characters read best, so headings and paragraphs cap their width in ch. the bigger the text, the shorter the line."
+            block
+          >
+            <table className="specs">
+              <thead>
+                <tr>
+                  <th>text</th>
+                  <th>max-width</th>
+                </tr>
+              </thead>
+              <tbody>
+                {MEASURE.map(([text, cap]) => (
+                  <tr key={text}>
+                    <td>{text}</td>
+                    <td>
+                      <code>{cap}</code>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p
+              style={{
+                font: 'var(--type-body)',
+                maxWidth: '68ch',
+                textWrap: 'pretty',
+                margin: 0,
+              }}
+            >
+              this paragraph stops at 68ch however wide the window gets. below
+              that it wraps with its container like any other text. code,
+              tables, labels and one-line ui text like buttons and nav are not
+              capped.
+            </p>
           </Specimen>
 
           <Specimen

@@ -1560,9 +1560,21 @@
     position: sticky;
     top: 0;
     z-index: 20;
+    border-bottom: 1px solid var(--line-1);
+  }
+  /* the glass sits on a layer behind the bar rather than on the header, so the
+     open menu panel can blur the page behind it too (a backdrop-filter on the
+     header would cut its children off from the page) */
+  .fl-header::before,
+  .fl-header-menu[data-open='true'] {
     background: oklch(from var(--surface-page) l c h / 0.8);
     backdrop-filter: blur(var(--blur-overlay));
-    border-bottom: 1px solid var(--line-1);
+  }
+  .fl-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
   }
   .fl-header-in {
     max-width: var(--container-lg);
@@ -1622,9 +1634,80 @@
     gap: 6px;
     flex: none;
   }
+  /* below 720px the links and actions fold into a menu button and a panel
+     under the bar; above it the panel wrapper drops out of the layout */
+  .fl-header-menu {
+    display: contents;
+  }
+  .fl-header-menu-btn {
+    display: none;
+  }
   @media (max-width: 720px) {
-    .fl-header-nav {
+    .fl-header-menu {
       display: none;
+    }
+    .fl-header-menu-btn {
+      display: inline-flex;
+      flex: none;
+      margin-left: auto;
+    }
+    .fl-header-menu[data-open='true'] {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--gutter) var(--space-4);
+      border-bottom: 1px solid var(--line-1);
+    }
+    /* open, the bar and the panel read as one sheet: no line between them */
+    .fl-header:has(.fl-header-menu[data-open='true']) {
+      border-bottom-color: transparent;
+    }
+    .fl-header-menu .fl-header-nav {
+      flex-direction: column;
+      align-items: center;
+      margin-left: 0;
+    }
+    .fl-header-menu .fl-header-link {
+      font: var(--type-body);
+      padding: 10px;
+    }
+    .fl-header-menu .fl-header-actions {
+      justify-content: center;
+      margin-left: 0;
+      padding: var(--space-3) 10px 0;
+      border-top: 1px solid var(--line-1);
+    }
+    /* the panel drops in, then each item rises in turn; together they take 0.5s */
+    .fl-header-menu[data-open='true'] {
+      animation: fl-header-drop var(--dur-2) var(--ease-out);
+    }
+    .fl-header-menu[data-open='true'] .fl-header-link,
+    .fl-header-menu[data-open='true'] .fl-header-actions {
+      animation: fl-header-rise calc(0.5s / var(--items)) var(--ease-out)
+        calc(var(--i) * 0.5s / var(--items)) backwards;
+    }
+  }
+  @keyframes fl-header-drop {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+  }
+  @keyframes fl-header-rise {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fl-header-menu[data-open='true'],
+    .fl-header-menu[data-open='true'] .fl-header-link,
+    .fl-header-menu[data-open='true'] .fl-header-actions {
+      animation: none;
     }
   }
 

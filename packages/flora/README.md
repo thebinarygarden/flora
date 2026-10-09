@@ -28,9 +28,12 @@ Flora uses subpath-only imports. The main export `import { Button } from '@binar
 | `/navigation` | SiteHeader, Tabs, Carousel, SidebarNav, CommandPalette          |
 | `/marketing`  | Hero, ProductTile                                               |
 | `/theme`      | ProductScope, ThemeToggleButton, ScriptPreloadTheme             |
-| `/icons`      | 26 icon components                                              |
+| `/icons`      | 27 icon components                                              |
 | `/hooks`      | useClientCheck, useViewport                                     |
 | `/bg`         | BGLanding (a Hero over a full-bleed background), BGFooter       |
+
+Over a `BGLanding`, give `SiteHeader` `revealAfter=".fl-hero-actions"`: the bar
+stays hidden while the hero's own buttons are on screen, then slides in.
 
 ## Installation
 

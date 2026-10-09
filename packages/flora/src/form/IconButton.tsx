@@ -6,6 +6,8 @@ export interface IconButtonProps
   label: string;
   size?: 'sm' | 'md' | 'lg';
   variant?: 'ghost' | 'outline' | 'filled';
+  /** renders an `<a>` instead of a `<button>`, styled identically */
+  href?: string;
   /** the icon — 18px, 1.5px stroke */
   children: React.ReactNode;
 }
@@ -16,25 +18,40 @@ export interface IconButtonProps
  *
  * ```tsx
  * <IconButton label="search"><IconSearch size={18} /></IconButton>
+ * <IconButton label="account" href="/account"><IconAccount size={18} /></IconButton>
  * ```
  */
 export function IconButton({
   label,
   size = 'md',
   variant = 'ghost',
+  href,
   children,
   className = '',
   ...rest
 }: IconButtonProps) {
+  const shared = {
+    className: ('fl-ibtn ' + className).trim(),
+    'data-size': size,
+    'data-variant': variant,
+    'aria-label': label,
+    title: label,
+  };
+
+  if (href) {
+    return (
+      <a
+        {...shared}
+        href={href}
+        {...(rest as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+      >
+        {children}
+      </a>
+    );
+  }
+
   return (
-    <button
-      className={('fl-ibtn ' + className).trim()}
-      data-size={size}
-      data-variant={variant}
-      aria-label={label}
-      title={label}
-      {...rest}
-    >
+    <button {...shared} {...rest}>
       {children}
     </button>
   );

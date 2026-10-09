@@ -1,4 +1,5 @@
 export type { IconProps, StrokeWidth } from './IconProps';
+export { IconAccount } from './IconAccount';
 export { IconArrow, type Orientation } from './IconArrow';
 export { IconBGDocs } from './IconBGDocs';
 export { IconBGLogo } from './IconBGLogo';

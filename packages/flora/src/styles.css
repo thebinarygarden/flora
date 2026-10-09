@@ -124,6 +124,7 @@
     background: transparent;
     color: var(--text-muted);
     cursor: pointer;
+    text-decoration: none;
     transition:
       transform var(--dur-1) var(--ease-out),
       background var(--dur-1) var(--ease-out),
@@ -133,6 +134,7 @@
     background: var(--surface-sunken);
     color: var(--text-body);
     transform: var(--lift);
+    text-decoration: none;
   }
   .fl-ibtn:active {
     transform: var(--press);
@@ -1561,6 +1563,20 @@
     top: 0;
     z-index: 20;
     border-bottom: 1px solid var(--line-1);
+  }
+  /* revealAfter: the bar overlays the hero instead of pushing it down, and
+     slides in once the hero's buttons have scrolled away */
+  .fl-header[data-reveal] {
+    margin-bottom: -60px;
+    transition:
+      transform var(--dur-3) var(--ease-out),
+      opacity var(--dur-3) var(--ease-out),
+      visibility var(--dur-3);
+  }
+  .fl-header[data-hidden='true'] {
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
   }
   /* the glass sits on a layer behind the bar rather than on the header, so the
      open menu panel can blur the page behind it too (a backdrop-filter on the

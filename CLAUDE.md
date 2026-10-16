@@ -1,230 +1,54 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Flora is Binary Garden's React component library (`@binarygarden/flora`, `packages/flora`)
+plus its demo site (`packages/site`, bgflora.app), in one pnpm workspace.
 
-## Project Overview
+**Flora is the reference implementation of the Binary Garden design language. Read
+`docs/DESIGN.md` before changing anything visual.** Its one rule: the trunk is black and
+white; color comes from the products. A single `--product-hue` is the entire theme.
 
-Flora is the React component library for Binary Garden projects, built as a pnpm monorepo. It uses a **defensive architecture** with subpath-only imports to guarantee optimal bundle sizes without relying on tree-shaking.
-
-Published to npm as `@binarygarden/flora` (currently v0.1.2).
-
-**Flora is the reference implementation of the Binary Garden design language. Read `docs/DESIGN.md` before changing anything visual.** Its one rule: the trunk is black and white; color comes from the products. A single `--product-hue` is the entire theme.
-
-## Monorepo Structure
-
-- `packages/flora/` - Main component library (published package)
-- `packages/site/` - Next.js 16 demo site for testing components
-- `docs/` - Architecture and development documentation
-- `docs/DESIGN.md` - The design language (color, voice, type, spacing, shape, motion)
-
-## Essential Commands
-
-### Quick Start
+## Commands
 
 ```bash
-pnpm quick  # Clean, install, build UI, start dev server at localhost:3000
+pnpm quick       # clean, install, build the library, start the site at localhost:3000
+pnpm build:ui    # rebuild the library; the site does NOT hot-reload library changes
+pnpm build:site  # production build of the site
+pnpm lint
+pnpm format      # prettier; CI runs format:check
+pnpm precommit   # full check before pushing: clean build, lint, format check
 ```
 
-### Build Commands
+## Rules
 
-```bash
-pnpm build:ui       # Build @binarygarden/flora (required after library changes)
-pnpm build:site     # Build Next.js demo site
-pnpm run:site       # Start dev server at localhost:3000
-pnpm clean          # Remove node_modules, dist, .next from all packages
-```
+1. **Subpath imports only, no barrel.** Each category (`src/<category>/index.ts`) is its own
+   entry point, so importing a button never pulls in the icon set. Never add a root index.
+2. **Never hardcode a color.** Always a token (`var(--accent)`, `var(--text-body)`,
+   `var(--line-1)`); the set is in `docs/DESIGN.md` and `src/tokens/`.
+3. **A component is a thin wrapper over a `.fl-*` class** in `src/styles.css`, with variants
+   as data attributes (`<button className="fl-btn" data-variant={variant} />`). No Tailwind,
+   no CSS-in-JS, no runtime style injection.
+4. **Attach an event handler only when the consumer passed one**
+   (`onSelect ? handler : undefined`). An unconditional handler stops the component
+   rendering from a server component.
+5. **`'use client'` only where there is state or an effect**; keep the rest server-renderable.
+6. Theming is `data-theme` on an element plus `ProductScope` (`data-product` + `--product-hue`).
+   There is no ThemeProvider and no theme object.
 
-### Development Workflow
+## Adding things
 
-**Important:** Library changes require rebuild - no HMR for the library itself.
+- **Component:** add it to the category directory, export it from that category's
+  `index.ts`, `pnpm build:ui`, then demo it in the site and add it to the table in
+  `packages/flora/README.md`.
+- **Category (subpath):** new `src/<category>/index.ts`, add it to `input` in
+  `rollup.config.mjs` and to `exports` in `packages/flora/package.json`.
+- **Icon:** add the SVG to `src/icons/svg/` (strokes in `currentColor` at
+  `var(--stroke-width)`, with a `viewBox`), wrap it in an `Icon<Name>.tsx` following the
+  existing ones, and export it from `src/icons/index.ts`. `@svgr/rollup` turns the SVG into a
+  component at build time.
 
-```bash
-# Terminal 1 - Keep dev server running
-pnpm run:site
+## Publishing
 
-# Terminal 2 - Rebuild after each component change
-pnpm build:ui
-# Then refresh browser
-```
-
-Demo site changes have hot module reload.
-
-### Publishing
-
-Publishing is automated via GitHub Actions (`.github/workflows/publish-ui.yaml`):
-
-1. Update version in `packages/flora/package.json`
-2. Push to `main` branch
-3. GitHub Action automatically builds and publishes to npm if version is new
-
-The workflow requires `NPM_TOKEN` secret configured in GitHub repository settings.
-
-## Architecture Principles
-
-### Defensive Architecture: Subpath-Only Imports
-
-Flora enforces subpath imports at the package level to guarantee optimal bundle sizes:
-
-```javascript
-// ✅ Required (explicit category imports)
-import { Button } from '@binarygarden/flora/form';
-import { Badge, Card } from '@binarygarden/flora/ui';
-import { Dialog, DialogProvider } from '@binarygarden/flora/overlay';
-import { Hero, ProductTile } from '@binarygarden/flora/marketing';
-import { IconGithub } from '@binarygarden/flora/icons';
-import { ProductScope } from '@binarygarden/flora/theme';
-import { BGLanding } from '@binarygarden/flora/bg';
-
-// ❌ Not supported (main index.ts is empty)
-import { Button } from '@binarygarden/flora';
-```
-
-**Why this matters:**
-
-- Icons directory isolated from form/navigation/etc
-- Unused categories eliminated at module resolution (before bundler optimizations)
-- Bundle size controlled by structure, not tooling
-- No risk of accidentally importing 100+ icons when you only need a button
-
-### Available Subpaths
-
-- `@binarygarden/flora/form` - Button, IconButton, Input, Select, Checkbox, Radio, Switch
-- `@binarygarden/flora/ui` - Card, Badge, Tag, Tooltip, AvatarGroup, CodeBlock, CopyableText
-- `@binarygarden/flora/overlay` - Dialog, Toast, ToastStack, DialogProvider/useDialog
-- `@binarygarden/flora/navigation` - SiteHeader (`revealAfter` hides it over a landing hero until the selector scrolls away), Tabs, Carousel, SidebarNav, CommandPalette
-- `@binarygarden/flora/marketing` - Hero, ProductTile
-- `@binarygarden/flora/theme` - ProductScope, ThemeToggleButton, ScriptPreloadTheme
-- `@binarygarden/flora/icons` - 27 SVG icon components
-- `@binarygarden/flora/hooks` - useClientCheck, useViewport
-- `@binarygarden/flora/bg` - BGLanding (a Hero over a full-bleed `background`, with scroll-snap), BGFooter (the garden footer with the fixed motto)
-- `@binarygarden/flora/styles.css` - Tokens, resets and all component CSS
-
-### Critical Rules
-
-1. **Never add barrel exports** - `packages/flora/src/index.ts` must stay empty
-2. **Keep icons isolated** - Icon category never imported unless explicitly needed
-3. **Never hardcode a color** - always a token: `var(--accent)`, `var(--text-body)`, `var(--line-1)`. See `docs/DESIGN.md` for the full set
-4. **One category = one directory** - Each with its own `index.ts`
-5. **No Tailwind, no CSS-in-JS, no runtime style injection** - a component is a thin wrapper over a `.fl-*` class in `src/styles.css`, with variants as data attributes:
-   ```tsx
-   <button className="fl-btn" data-variant={variant} data-size={size} />
-   ```
-6. **Only attach an event handler when the consumer passed one.** A component that unconditionally wires `onChange`/`onClick` can never render from a server component. Guard with `onSelect ? handler : undefined`
-7. **`'use client'` only where there is state or an effect** - keep the rest server-renderable
-
-## Build System
-
-Uses Rollup with `preserveModules: true` to maintain source structure in output:
-
-```javascript
-// rollup.config.mjs inputs (packages/flora/rollup.config.mjs:8-18)
-input: [
-  'src/form/index.ts',
-  'src/ui/index.ts',
-  'src/overlay/index.ts',
-  'src/bg/index.ts',
-  'src/hooks/index.ts',
-  'src/icons/index.ts',
-  'src/marketing/index.ts',
-  'src/navigation/index.ts',
-  'src/theme/index.ts',
-  'src/styles.css',
-];
-```
-
-**Key settings:**
-
-- ESM only (`format: 'esm'`)
-- `preserveModules: true` - Each component becomes separate file for optimal tree-shaking
-- External: react, react-dom, framer-motion (peer dependencies)
-- Plugins: svgr (SVG → React components), preserveDirectives ('use client'), PostCSS (`postcss-import`), TypeScript
-
-### Adding New Components
-
-1. Create component in appropriate category directory (form, ui, overlay, bg, hooks, navigation, theme, icons)
-2. Export from category's `index.ts`
-3. Build: `pnpm build:ui`
-4. Test in demo site: `pnpm run:site`
-
-### Creating New Subpaths
-
-1. Create category directory in `packages/flora/src/`
-2. Add entry point to `rollup.config.mjs` inputs
-3. Add subpath to `packages/flora/package.json` exports:
-   ```json
-   {
-     "./category-name": {
-       "import": "./dist/category-name/index.js",
-       "types": "./dist/category-name/index.d.ts"
-     }
-   }
-   ```
-4. Build: `pnpm build:ui`
-
-## Theme System
-
-One hue is the whole theme. There is no `ThemeProvider` and no theme object.
-
-```tsx
-import { ProductScope, ScriptPreloadTheme } from '@binarygarden/flora/theme';
-
-// in <head>: sets data-theme on <html> before first paint
-<ScriptPreloadTheme />
-
-// anywhere: every flora component inside takes this hue
-<ProductScope hue={330}>{children}</ProductScope>
-```
-
-- Light/dark is `data-theme="light" | "dark"`, scoped to the element (not `:root`) so a dark region can nest inside a light page.
-- A product scope is `data-product` + `--product-hue`, which redefines `--accent`, `--accent-fg`, `--accent-soft`, `--accent-line`.
-- Tokens live in `src/tokens/*.css` and are inlined into `dist/styles.css` by `postcss-import` at build time.
-
-See `docs/DESIGN.md` for the full rationale.
-
-## Icon Handling
-
-Icons are SVGs converted to React components via `@svgr/rollup`:
-
-1. Add SVG to `packages/flora/src/icons/`
-2. Use `currentColor` for fills/strokes
-3. Include `viewBox` attribute
-4. Export from `packages/flora/src/icons/index.ts`
-5. Build: `pnpm build:ui`
-
-Icons remain architecturally isolated - never imported unless explicitly needed.
-
-## Demo Site (packages/site/)
-
-Next.js 16 app for testing components during development:
-
-```bash
-pnpm run:site  # Starts dev server at localhost:3000
-pnpm build:site  # Production build
-```
-
-Uses workspace dependency: `"@binarygarden/flora": "workspace:*"`
-
-## Documentation
-
-- `docs/ARCHITECTURE.md` - Defensive architecture philosophy, build system details
-- `docs/DEVELOPMENT.md` - Contribution workflow, adding components
-- `docs/DESIGN.md` - The design language: color, voice, type, spacing, motion
-- `packages/flora/README.md` - Public API documentation
-
-## Technologies
-
-- **Build:** Rollup, TypeScript, PostCSS (`postcss-import` only)
-- **Styling:** token-driven CSS in `src/styles.css`, native `@layer` cascade layers. **No Tailwind.**
-- **Animation:** Framer Motion (peer dependency)
-- **Icons:** SVGR (SVG → React components)
-- **Demo Site:** Next.js 16, React 19
-
-## Important Files
-
-- `packages/flora/rollup.config.mjs` - Build configuration, entry points
-- `packages/flora/package.json` - Subpath exports, version, peer dependencies
-- `packages/flora/src/index.ts` - Must remain empty (enforces subpath imports)
-- `packages/flora/src/styles.css` - Every component's CSS, in `@layer components`
-- `packages/flora/src/tokens/*.css` - The design tokens
-- `DESIGN.md` - The design language
-- `pnpm-workspace.yaml` - Monorepo workspace configuration
+Bump `version` in `packages/flora/package.json` and push to `main`; `publish-ui.yaml`
+publishes when the version is new, via npm trusted publishing (OIDC, no token). Versions
+bump the last digit for normal releases. The site deploys to Cloud Run on pushes that touch
+either package.

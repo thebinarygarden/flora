@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { SiteHeader } from '@binarygarden/flora/navigation';
 import { ThemeToggleButton } from '@binarygarden/flora/theme';
@@ -18,26 +17,10 @@ const LINKS = [
  */
 export function SiteNav() {
   const onHome = usePathname() === '/';
-  const [pastHero, setPastHero] = useState(false);
-
-  useEffect(() => {
-    if (!onHome) return;
-    const actions = document.querySelector('.fl-hero-actions');
-    if (!actions) return;
-    const observer = new IntersectionObserver(([entry]) =>
-      setPastHero(!entry.isIntersecting && entry.boundingClientRect.top < 0)
-    );
-    observer.observe(actions);
-    return () => observer.disconnect();
-  }, [onHome]);
-
-  let className = 'site-nav';
-  if (onHome) className += ' is-overlay';
-  if (onHome && !pastHero) className += ' is-hidden';
 
   return (
     <SiteHeader
-      className={className}
+      revealAfter={onHome ? '.fl-hero-actions' : undefined}
       brand={
         <>
           <IconBGLogo size={24} />

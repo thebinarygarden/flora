@@ -17,6 +17,21 @@ and [`/components`](https://bgflora.app/components) on the flora site.
 
 ---
 
+## What this covers
+
+This document governs **what people see in a product's interface**: components,
+color, type, spacing, motion, icons, the mark, and the words on screen — labels,
+buttons, headings, empty states, toasts and error messages.
+
+It does **not** govern anything written for the people who build and maintain the
+code: source code, code comments, READMEs, CLAUDE.md files, docs in a repository,
+commit messages and pull request descriptions. Write those in plain English, in
+sentence case and full sentences, with as much detail as it takes to explain
+what something does and why. Lowercase or clipped prose in a codebase is a
+mistake, not consistency with the brand.
+
+---
+
 ## 1. How color works
 
 Read this first — it is the part of the system that is unusual.
@@ -55,17 +70,17 @@ import { ProductScope } from '@binarygarden/flora/theme';
 
 ### Color tokens
 
-| Token      | Light            | Role                     |
-| ---------- | ---------------- | ------------------------ |
-| `--bg-1`   | `oklch(0.985 …)` | page and raised surfaces |
-| `--bg-2`   | `oklch(0.965 …)` | sunken surfaces          |
-| `--bg-3`   | `oklch(0.935 …)` | tracks, disabled fills   |
-| `--fg-1`   | `oklch(0.17 …)`  | body text                |
-| `--fg-2`   | `oklch(0.45 …)`  | muted text, labels       |
-| `--fg-3`   | `oklch(0.62 …)`  | faint text               |
-| `--line-1` | `oklch(0.90 …)`  | resting borders          |
-| `--line-2` | `oklch(0.82 …)`  | strong borders           |
-| `--scrim`  | `--fg-1 / 0.4`   | overlay scrims           |
+| Token      | Role                     |
+| ---------- | ------------------------ |
+| `--bg-1`   | page and raised surfaces |
+| `--bg-2`   | sunken surfaces          |
+| `--bg-3`   | tracks, disabled fills   |
+| `--fg-1`   | body text                |
+| `--fg-2`   | muted text, labels       |
+| `--fg-3`   | faint text               |
+| `--line-1` | resting borders          |
+| `--line-2` | strong borders           |
+| `--scrim`  | overlay scrims           |
 
 Aliases read better in component CSS and are what you should reach for:
 `--surface-page`, `--surface-raised`, `--surface-sunken`, `--surface-overlay`,
@@ -74,9 +89,11 @@ Aliases read better in component CSS and are what you should reach for:
 
 ---
 
-## 2. Voice
+## 2. UI copy
 
-The writing is as much a part of this system as the type.
+The words on screen are as much a part of this system as the type. These rules
+apply only to text shown in the interface; documentation and code comments
+follow ordinary prose (see [What this covers](#what-this-covers)).
 
 - **Terse, technical, lowercase.** Say the thing. "install flora. pick a hue.
   ship."
@@ -147,20 +164,8 @@ and one-line UI text (buttons, nav) are not capped.
 ### Loading the font
 
 flora names the family in `--font-sans` but deliberately does not fetch it — a
-component library shouldn't force a network request on its consumers. Load it in
-the app:
-
-```tsx
-// next/font: self-hosted, no extra request, no flash of fallback
-import { Hanken_Grotesk } from 'next/font/google';
-const hanken = Hanken_Grotesk({
-  subsets: ['latin'],
-  variable: '--font-hanken',
-});
-// then in CSS:  :root { --font-sans: var(--font-hanken), Helvetica, sans-serif; }
-```
-
-Or, outside Next.js, add the Google Fonts `@import` yourself.
+component library shouldn't force a network request on its consumers. The app
+loads it; see the [package README](../packages/flora/README.md#fonts).
 
 ---
 
@@ -197,11 +202,11 @@ Or, outside Next.js, add the Google Fonts `@import` yourself.
 Expressive, but disciplined: **the spring is for entrances only, because it
 overshoots.**
 
-| Token           | Value                              | For                      |
-| --------------- | ---------------------------------- | ------------------------ |
-| `--ease-out`    | `cubic-bezier(0.2, 0.8, 0.2, 1)`   | state changes, 120–200ms |
-| `--ease-in-out` | `cubic-bezier(0.65, 0, 0.35, 1)`   | symmetric moves          |
-| `--ease-spring` | `cubic-bezier(0.34, 1.4, 0.64, 1)` | entrances only           |
+| Token           | For                      |
+| --------------- | ------------------------ |
+| `--ease-out`    | state changes, 120–200ms |
+| `--ease-in-out` | symmetric moves          |
+| `--ease-spring` | entrances only           |
 
 - **Entrances** rise 12px and fade (`bg-rise`) or grow from .96 (`bg-grow`) on
   the spring, staggered 60ms (`--stagger`).
@@ -218,7 +223,7 @@ use a 3px soft-accent halo instead.
 
 ## 6. Iconography and the mark
 
-- **Icons** are flora's own 26-mark set (`@binarygarden/flora/icons`): 1.5px
+- **Icons** are flora's own set (`@binarygarden/flora/icons`): 1.5px
   stroke, `currentColor`, 16px inline and 18px in icon buttons. No icon font, no
   emoji. A few Unicode glyphs do real work: `×` (remove/dismiss), `·` (metadata
   separator), `⌘` (shortcut hints).
@@ -232,18 +237,9 @@ use a 3px soft-accent halo instead.
 
 ## 7. Components
 
-Imported from subpaths, always:
-
-| Subpath       | Components                                                      |
-| ------------- | --------------------------------------------------------------- |
-| `/form`       | Button, IconButton, Input, Select, Checkbox, Radio, Switch      |
-| `/ui`         | Card, Badge, Tag, Tooltip, AvatarGroup, CodeBlock, CopyableText |
-| `/overlay`    | Dialog, Toast, ToastStack, DialogProvider / useDialog           |
-| `/navigation` | SiteHeader, Tabs, Carousel, SidebarNav, CommandPalette          |
-| `/marketing`  | Hero, ProductTile                                               |
-| `/theme`      | ProductScope, ThemeToggleButton, ScriptPreloadTheme             |
-| `/icons`      | 27 icon components                                              |
-| `/hooks`      | useClientCheck, useViewport                                     |
+Imported from subpaths, always. The full list lives in the
+[package README](../packages/flora/README.md); live specimens at
+[bgflora.app/components](https://bgflora.app/components).
 
 ### How components are styled
 

@@ -10,7 +10,6 @@ export default {
     'src/ui/index.ts',
     'src/overlay/index.ts',
     'src/bg/index.ts',
-    'src/hooks/index.ts',
     'src/icons/index.ts',
     'src/marketing/index.ts',
     'src/navigation/index.ts',

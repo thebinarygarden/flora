@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'packages/site/**'
+      - 'packages/flora/**'
       - '.github/workflows/deploy-site.yaml'
 
 env:
@@ -14,6 +15,9 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # keyless GCP login (Workload Identity Federation)
 
     steps:
       - name: Checkout code
@@ -23,14 +27,15 @@ jobs:
         uses: docker/setup-buildx-action@v4
 
       - name: Setup Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
+        uses: google-github-actions/setup-gcloud@v3
         with:
           project_id: binarygarden
 
       - name: Authenticate with Google Cloud
-        uses: google-github-actions/auth@v1
+        uses: google-github-actions/auth@v3
         with:
-          credentials_json: ${{ secrets.CICD_KEY }}
+          workload_identity_provider: projects/68521433417/locations/global/workloadIdentityPools/github/providers/github
+          service_account: bg-cicd@binarygarden.iam.gserviceaccount.com
 
       - name: Authenticate Docker to Google Cloud Artifact Registry
         run: |
@@ -53,4 +58,4 @@ jobs:
           --port=8080 \
           --region us-central1 \
           --allow-unauthenticated \
-          --service-account bg-cicd@binarygarden.iam.gserviceaccount.com
+          --service-account flora-runtime@binarygarden.iam.gserviceaccount.com

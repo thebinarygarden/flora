@@ -52,23 +52,6 @@
   padding-top: var(--space-24);
 }
 
-/* On the landing page the header floats over the hero instead of pushing it
-   down, so revealing it never shifts the page. */
-.site-nav {
-  transition:
-    transform var(--dur-3) var(--ease-out),
-    opacity var(--dur-3) var(--ease-out),
-    visibility var(--dur-3);
-}
-.site-nav.is-overlay {
-  margin-bottom: -60px;
-}
-.site-nav.is-hidden {
-  transform: translateY(-100%);
-  opacity: 0;
-  visibility: hidden;
-}
-
 .page-head {
   display: grid;
   gap: var(--space-3);

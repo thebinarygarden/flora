@@ -4,6 +4,9 @@ import { Card, Badge, CodeBlock } from '@binarygarden/flora/ui';
 import { ProductScope, ThemeToggleButton } from '@binarygarden/flora/theme';
 import { IconBGLogo, IconGithub } from '@binarygarden/flora/icons';
 import { PageHead, Section, Specimen } from '@/app/_components/Specimen';
+import { LocaleToggle } from '@/app/_components/LocaleToggle';
+import { format } from '@/lib/format';
+import { getI18n } from '@/lib/i18n';
 
 const INSTALL = `npm i @binarygarden/flora`;
 
@@ -15,16 +18,17 @@ export default function Layout({ children }) {
   return <ProductScope hue={330}>{children}</ProductScope>;
 }`;
 
+// notes for these come from the dictionary, keyed by token
 const NEUTRALS = [
-  ['--bg-1', 'page / raised surface'],
-  ['--bg-2', 'sunken surface'],
-  ['--bg-3', 'tracks, disabled'],
-  ['--fg-1', 'body text'],
-  ['--fg-2', 'muted text, labels'],
-  ['--fg-3', 'faint text'],
-  ['--line-1', 'resting borders'],
-  ['--line-2', 'strong borders'],
-];
+  '--bg-1',
+  '--bg-2',
+  '--bg-3',
+  '--fg-1',
+  '--fg-2',
+  '--fg-3',
+  '--line-1',
+  '--line-2',
+] as const;
 
 const SEMANTIC = [
   ['--ok', 'oklch(0.62 0.15 150)'],
@@ -48,32 +52,28 @@ const TYPE_SCALE = [
 ];
 
 const MEASURE = [
-  ['display (hero headline)', '16ch'],
+  ['display', '16ch'],
   ['h1', '24ch'],
-  ['hero subtitle', '48ch'],
-  ['lead paragraph (lg)', '60ch'],
-  ['body and small paragraphs', '68ch'],
-];
+  ['subtitle', '48ch'],
+  ['lead', '60ch'],
+  ['body', '68ch'],
+] as const;
 
 const SPACE = [1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24, 32];
 
 const RADIUS = [
-  ['--radius-xs', '4', 'badges, focus'],
-  ['--radius-sm', '6', 'controls'],
-  ['--radius-md', '8', 'cards, code'],
-  ['--radius-lg', '12', 'tiles, dialogs, palette'],
-  ['--radius-full', '999', 'tags, switches'],
-];
+  ['--radius-xs', '4'],
+  ['--radius-sm', '6'],
+  ['--radius-md', '8'],
+  ['--radius-lg', '12'],
+  ['--radius-full', '999'],
+] as const;
 
 const EASING = [
-  ['--ease-out', 'cubic-bezier(0.2, 0.8, 0.2, 1)', 'state changes, 120–200ms'],
-  ['--ease-in-out', 'cubic-bezier(0.65, 0, 0.35, 1)', 'symmetric moves'],
-  [
-    '--ease-spring',
-    'cubic-bezier(0.34, 1.4, 0.64, 1)',
-    'entrances only — it overshoots',
-  ],
-];
+  ['--ease-out', 'cubic-bezier(0.2, 0.8, 0.2, 1)'],
+  ['--ease-in-out', 'cubic-bezier(0.65, 0, 0.35, 1)'],
+  ['--ease-spring', 'cubic-bezier(0.34, 1.4, 0.64, 1)'],
+] as const;
 
 function Swatch({
   token,
@@ -98,7 +98,10 @@ function Swatch({
   );
 }
 
-export default function Home() {
+export default async function Home() {
+  const { t } = await getI18n();
+  const h = t.home;
+  const [introBefore, introAfter] = h.intro.split('{trunk}');
   return (
     <>
       <BGLanding
@@ -107,17 +110,17 @@ export default function Home() {
         eyebrow="flora"
         title={
           <>
-            plants of <em>a particular region or time</em>
+            {h.titleStart} <em>{h.titleEm}</em>
           </>
         }
-        subtitle="react components for binary garden"
+        subtitle={h.subtitle}
         actions={
           <>
             <Button size="lg" variant="ghost" href="/components">
-              components
+              {t.nav.components}
             </Button>
             <Button size="lg" variant="ghost" href="/icons">
-              icons
+              {t.nav.icons}
             </Button>
             <Button
               size="lg"
@@ -125,19 +128,26 @@ export default function Home() {
               href="https://github.com/thebinarygarden/flora"
               iconLeft={<IconGithub size={16} />}
             >
-              github
+              {t.nav.github}
             </Button>
-            <ThemeToggleButton />
+            <LocaleToggle />
+            <ThemeToggleButton labels={t.flora.theme} />
           </>
         }
         media={
           <div className="col">
-            <CodeBlock title="terminal" language="sh" code={INSTALL} />
+            <CodeBlock
+              title="terminal"
+              language="sh"
+              code={INSTALL}
+              labels={t.flora.code}
+            />
             <CodeBlock
               title="app/layout.tsx"
               language="tsx"
               lines
               code={USAGE}
+              labels={t.flora.code}
             />
           </div>
         }
@@ -147,60 +157,56 @@ export default function Home() {
       />
 
       <div className="page">
-        <PageHead eyebrow="the design" title="one hue is the whole theme.">
-          every binary garden site and product is built from the same
-          components, type, spacing and motion. our own sites, like{' '}
-          <a href="https://binarygarden.com">the trunk</a> and this one, are
-          black and white. each product we make for others adds one color. the
-          rules below make that work.
+        <PageHead eyebrow={h.eyebrow} title={h.title}>
+          {introBefore}
+          <a href="https://binarygarden.com">{h.trunk}</a>
+          {introAfter}
         </PageHead>
 
         {/* ---------------------------------------------------------- colors */}
-        <Section title="color">
-          <Specimen
-            label="neutrals · light"
-            note="oklch hue 150 at chroma 0.004 — a trace of chlorophyll, so black and white read as paper and soil rather than #000 and #fff."
-            block
-          >
+        <Section title={h.color}>
+          <Specimen label={h.neutralsLight} note={h.neutralsLightNote} block>
             <div className="swatches">
-              {NEUTRALS.map(([t, n]) => (
-                <Swatch key={t} token={t} note={n} theme="light" />
+              {NEUTRALS.map((token) => (
+                <Swatch
+                  key={token}
+                  token={token}
+                  note={h.neutrals[token]}
+                  theme="light"
+                />
               ))}
             </div>
           </Specimen>
 
-          <Specimen
-            label="neutrals · dark"
-            note="data-theme='dark' on <html>. the same hue with inverted lightness; borders replace shadows."
-            block
-          >
+          <Specimen label={h.neutralsDark} note={h.neutralsDarkNote} block>
             <div className="swatches">
-              {NEUTRALS.map(([t, n]) => (
-                <Swatch key={t} token={t} note={n} theme="dark" />
+              {NEUTRALS.map((token) => (
+                <Swatch
+                  key={token}
+                  token={token}
+                  note={h.neutrals[token]}
+                  theme="dark"
+                />
               ))}
             </div>
           </Specimen>
 
-          <Specimen
-            label="accent · one knob"
-            note="--product-hue is the only thing that changes between products. the trunk sets none, so the accent is just the text colour: black in light mode, white in dark."
-            block
-          >
+          <Specimen label={h.accent} note={h.accentNote} block>
             <div className="row">
               <div className="col" style={{ gap: 'var(--space-2)' }}>
-                <span className="val">no scope · the trunk</span>
+                <span className="val">{h.noScope}</span>
                 <div className="row">
-                  <Button>primary</Button>
-                  <Badge tone="accent">accent</Badge>
+                  <Button>{h.primary}</Button>
+                  <Badge tone="accent">{h.accentBadge}</Badge>
                 </div>
               </div>
               {[60, 150, 200, 330].map((hue) => (
                 <ProductScope key={hue} hue={hue}>
                   <div className="col" style={{ gap: 'var(--space-2)' }}>
-                    <span className="val">hue {hue}</span>
+                    <span className="val">{format(h.hue, { n: hue })}</span>
                     <div className="row">
-                      <Button>primary</Button>
-                      <Badge tone="accent">accent</Badge>
+                      <Button>{h.primary}</Button>
+                      <Badge tone="accent">{h.accentBadge}</Badge>
                     </div>
                   </div>
                 </ProductScope>
@@ -208,11 +214,7 @@ export default function Home() {
             </div>
           </Specimen>
 
-          <Specimen
-            label="semantic"
-            note="status only, never decorative. a semantic colour on a button that isn't reporting state is a bug."
-            block
-          >
+          <Specimen label={h.semantic} note={h.semanticNote} block>
             <div className="swatches">
               {SEMANTIC.map(([t, v]) => (
                 <Swatch key={t} token={t} note={v} />
@@ -222,12 +224,8 @@ export default function Home() {
         </Section>
 
         {/* ------------------------------------------------------------ type */}
-        <Section title="type">
-          <Specimen
-            label="display"
-            note="hanken grotesk, medium, tracking -0.03em, leading 1.05. text-wrap: balance on headings."
-            block
-          >
+        <Section title={h.type}>
+          <Specimen label={h.display} note={h.displayNote} block>
             <div
               style={{
                 font: 'var(--type-display)',
@@ -235,15 +233,11 @@ export default function Home() {
                 textWrap: 'balance',
               }}
             >
-              open source, for humans.
+              {h.displaySample}
             </div>
           </Specimen>
 
-          <Specimen
-            label="headings & body"
-            note="one family. hierarchy comes from size, weight and tracking — never from a second face."
-            block
-          >
+          <Specimen label={h.headings} note={h.headingsNote} block>
             <div className="col">
               <div
                 style={{
@@ -262,27 +256,25 @@ export default function Home() {
                 h2 · 22 / 1.2
               </div>
               <div style={{ font: 'var(--type-lg)' }}>lg · 18 / 1.5</div>
-              <div style={{ font: 'var(--type-body)' }}>
-                body · 15 / 1.5 — paragraphs get text-wrap: pretty.
-              </div>
+              <div style={{ font: 'var(--type-body)' }}>{h.bodySample}</div>
               <div
                 style={{
                   font: 'var(--type-small)',
                   color: 'var(--text-muted)',
                 }}
               >
-                small · 13 / 1.5
+                {h.smallSample}
               </div>
             </div>
           </Specimen>
 
-          <Specimen label="scale" note="11 → 88 in 11 steps." block>
+          <Specimen label={h.scale} note={h.typeScaleNote} block>
             <table className="specs">
               <thead>
                 <tr>
-                  <th>token</th>
+                  <th>{h.token}</th>
                   <th>px</th>
-                  <th>specimen</th>
+                  <th>{h.specimen}</th>
                 </tr>
               </thead>
               <tbody>
@@ -301,22 +293,18 @@ export default function Home() {
             </table>
           </Specimen>
 
-          <Specimen
-            label="line length"
-            note="lines of 45–75 characters read best, so headings and paragraphs cap their width in ch. the bigger the text, the shorter the line."
-            block
-          >
+          <Specimen label={h.lineLength} note={h.lineLengthNote} block>
             <table className="specs">
               <thead>
                 <tr>
-                  <th>text</th>
+                  <th>{h.text}</th>
                   <th>max-width</th>
                 </tr>
               </thead>
               <tbody>
                 {MEASURE.map(([text, cap]) => (
                   <tr key={text}>
-                    <td>{text}</td>
+                    <td>{h.measure[text]}</td>
                     <td>
                       <code>{cap}</code>
                     </td>
@@ -332,18 +320,11 @@ export default function Home() {
                 margin: 0,
               }}
             >
-              this paragraph stops at 68ch however wide the window gets. below
-              that it wraps with its container like any other text. code,
-              tables, labels and one-line ui text like buttons and nav are not
-              capped.
+              {h.measureSample}
             </p>
           </Specimen>
 
-          <Specimen
-            label="labels & code"
-            note="labels are lowercase at +0.02em tracking and use --fg-2, not --fg-3, on the page background. code uses the system mono stack."
-            block
-          >
+          <Specimen label={h.labels} note={h.labelsNote} block>
             <div className="col">
               <span
                 style={{
@@ -352,23 +333,20 @@ export default function Home() {
                   color: 'var(--text-muted)',
                 }}
               >
-                a label · 12 / 500 / +0.02em
+                {h.labelSample}
               </span>
               <CodeBlock
                 language="ts"
                 code={`const hue = 330; // the whole theme`}
+                labels={t.flora.code}
               />
             </div>
           </Specimen>
         </Section>
 
         {/* --------------------------------------------------------- spacing */}
-        <Section title="spacing & shape">
-          <Specimen
-            label="scale"
-            note="4px base. components use 1–6; sections use 20–24 of vertical space."
-            block
-          >
+        <Section title={h.spacing}>
+          <Specimen label={h.scale} note={h.spaceNote} block>
             <div className="col" style={{ gap: 'var(--space-2)' }}>
               {SPACE.map((n) => (
                 <div key={n} className="row" style={{ gap: 'var(--space-3)' }}>
@@ -395,43 +373,36 @@ export default function Home() {
             </div>
           </Specimen>
 
-          <Specimen
-            label="control heights"
-            note="32 / 40 / 48. every control in the system lands on one of these."
-          >
+          <Specimen label={h.controls} note={h.controlsNote}>
             <Button size="sm">sm · 32</Button>
             <Button size="md">md · 40</Button>
             <Button size="lg">lg · 48</Button>
           </Specimen>
 
-          <Specimen
-            label="radius & shadow"
-            note="soft, not round — the radius grows with the box. shadows appear only on things that float; resting cards use a border."
-            block
-          >
+          <Specimen label={h.radius} note={h.radiusNote} block>
             <table className="specs">
               <thead>
                 <tr>
-                  <th>token</th>
+                  <th>{h.token}</th>
                   <th>px</th>
-                  <th>used for</th>
-                  <th>specimen</th>
+                  <th>{h.usedFor}</th>
+                  <th>{h.specimen}</th>
                 </tr>
               </thead>
               <tbody>
-                {RADIUS.map(([t, px, use]) => (
-                  <tr key={t}>
+                {RADIUS.map(([token, px]) => (
+                  <tr key={token}>
                     <td>
-                      <code>{t}</code>
+                      <code>{token}</code>
                     </td>
                     <td>{px}</td>
-                    <td>{use}</td>
+                    <td>{h.radii[token]}</td>
                     <td>
                       <div
                         style={{
                           width: 64,
                           height: 28,
-                          borderRadius: `var(${t})`,
+                          borderRadius: `var(${token})`,
                           background: 'var(--surface-sunken)',
                           border: '1px solid var(--line-1)',
                         }}
@@ -462,72 +433,54 @@ export default function Home() {
         </Section>
 
         {/* ---------------------------------------------------------- motion */}
-        <Section title="motion">
-          <Specimen
-            label="easing"
-            note="ease-out for most things; the spring is for entrances only, because it overshoots. reduced motion zeroes every duration."
-            block
-          >
+        <Section title={h.motion}>
+          <Specimen label={h.easing} note={h.easingNote} block>
             <table className="specs">
               <thead>
                 <tr>
-                  <th>token</th>
-                  <th>curve</th>
-                  <th>used for</th>
+                  <th>{h.token}</th>
+                  <th>{h.curve}</th>
+                  <th>{h.usedFor}</th>
                 </tr>
               </thead>
               <tbody>
-                {EASING.map(([t, c, use]) => (
-                  <tr key={t}>
+                {EASING.map(([token, c]) => (
+                  <tr key={token}>
                     <td>
-                      <code>{t}</code>
+                      <code>{token}</code>
                     </td>
                     <td>
                       <code>{c}</code>
                     </td>
-                    <td>{use}</td>
+                    <td>{h.easings[token]}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </Specimen>
 
-          <Specimen
-            label="hover · press · reveal"
-            note="buttons lift 1px on hover, cards 2px with a shadow. press scales to .98. reveals rise 12px and fade, staggered 60ms."
-            block
-          >
+          <Specimen label={h.hover} note={h.hoverNote} block>
             <div className="grid-auto rise">
+              <Card interactive title={h.hoverMe} description={h.hoverMeNote} />
+              <Card interactive title={h.pressMe} description={h.pressMeNote} />
               <Card
                 interactive
-                title="hover me"
-                description="lift 1px + shadow"
-              />
-              <Card interactive title="press me" description="scale .98" />
-              <Card
-                interactive
-                title="revealed"
-                description="rise 12px + fade"
+                title={h.revealed}
+                description={h.revealedNote}
               />
             </div>
           </Specimen>
 
-          <Specimen
-            label="focus"
-            note="a 2px accent ring offset by the page colour. inputs get a 3px soft-accent halo instead. tab through these."
-          >
-            <Button variant="secondary">tab to me</Button>
-            <Input placeholder="then to me" />
-            <Switch label="and me" />
+          <Specimen label={h.focus} note={h.focusNote}>
+            <Button variant="secondary">{h.tabToMe}</Button>
+            <Input placeholder={h.thenToMe} />
+            <Switch label={h.andMe} />
           </Specimen>
         </Section>
 
         {/* ----------------------------------------------------------- brand */}
-        <Section title="brand">
-          <Specimen
-            label="mark"
-            note="the five-petal flower: black on light, white on dark, never recoloured or tinted with a product hue. minimum 20px. the name is set beside it in hanken grotesk 500 at -0.01em."
-          >
+        <Section title={h.brand}>
+          <Specimen label={h.mark} note={h.markNote}>
             <IconBGLogo size={48} />
             <IconBGLogo size={28} />
             <IconBGLogo size={20} />
@@ -546,39 +499,21 @@ export default function Home() {
             </span>
           </Specimen>
 
-          <Specimen
-            label="voice"
-            note="terse, technical, lowercase. say the thing."
-            block
-          >
+          <Specimen label={h.voice} note={h.voiceNote} block>
             <table className="specs">
               <thead>
                 <tr>
-                  <th>do</th>
-                  <th>not</th>
+                  <th>{h.do}</th>
+                  <th>{h.not}</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>open source, for humans.</td>
-                  <td>Powerful, Seamless Open Source!</td>
-                </tr>
-                <tr>
-                  <td>read the docs</td>
-                  <td>Learn More</td>
-                </tr>
-                <tr>
-                  <td>publish</td>
-                  <td>Get Started Now</td>
-                </tr>
-                <tr>
-                  <td>v1.2 · 14 contributors</td>
-                  <td>Version 1.2 (14 contributors!)</td>
-                </tr>
-                <tr>
-                  <td>published</td>
-                  <td>We published your changes 🎉</td>
-                </tr>
+                {h.voiceRows.map(([yes, no]) => (
+                  <tr key={yes}>
+                    <td>{yes}</td>
+                    <td>{no}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </Specimen>

@@ -5,14 +5,15 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Carousel } from '@binarygarden/flora/navigation';
 import { PageHead } from '@/app/_components/Specimen';
+import type { Dict } from '@/lib/i18n';
 
-const GROUPS = ['core', 'forms', 'navigation', 'feedback', 'marketing'];
-
-const ITEMS = GROUPS.map((g) => ({
-  value: g,
-  title: g,
-  href: '/components/' + g,
-}));
+const GROUPS = [
+  'core',
+  'forms',
+  'navigation',
+  'feedback',
+  'marketing',
+] as const;
 
 // Next scrolls to the top on every switch; SectionCarousel places it instead
 function GroupLink(props: ComponentProps<typeof Link>) {
@@ -23,7 +24,7 @@ function GroupLink(props: ComponentProps<typeof Link>) {
  * The gallery's heading and its section nav. It lives in the layout, so it
  * stays put while you move between groups.
  */
-export function SectionCarousel() {
+export function SectionCarousel({ t }: { t: Dict['gallery'] }) {
   const value = usePathname().split('/')[2];
   const headRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLElement>(null);
@@ -47,11 +48,8 @@ export function SectionCarousel() {
   return (
     <>
       <div className="page sections" ref={headRef}>
-        <PageHead eyebrow="flora" title="components.">
-          flora components have no colour of their own. on BG sites, like this
-          one, they&apos;re black and white. inside a product we build for
-          others, they take on that product&apos;s colour. drag the hue above to
-          try it.
+        <PageHead eyebrow="flora" title={t.title}>
+          {t.intro}
         </PageHead>
       </div>
       {/* a sibling of the gallery, not inside the heading, so it can stick
@@ -59,7 +57,11 @@ export function SectionCarousel() {
       <nav className="section-nav" ref={navRef}>
         <div className="section-nav-in">
           <Carousel
-            items={ITEMS}
+            items={GROUPS.map((g) => ({
+              value: g,
+              title: t.groups[g],
+              href: '/components/' + g,
+            }))}
             value={value}
             arrows={false}
             linkAs={GroupLink}

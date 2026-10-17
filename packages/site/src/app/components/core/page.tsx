@@ -15,138 +15,116 @@ import {
 } from '@binarygarden/flora/icons';
 import { PageHead, Section, Specimen } from '@/app/_components/Specimen';
 import { TagDemo } from './_components/TagDemo';
+import { getI18n } from '@/lib/i18n';
 
 const PEOPLE = ['ana', 'kit', 'rae', 'tomas', 'ivy', 'oz', 'lu', 'mina'].map(
   (name) => ({ name })
 );
 
-export default function CorePage() {
+export default async function CorePage() {
+  const { t } = await getI18n();
+  const c = t.core;
   return (
     <div className="page">
-      <PageHead eyebrow="components" title="core.">
-        button · icon button · badge · tag · card · tooltip · avatar group
+      <PageHead eyebrow={t.nav.components} title={`${t.gallery.groups.core}.`}>
+        {c.contents}
       </PageHead>
 
-      <Section title="button">
-        <Specimen
-          label="variants"
-          note="one primary per view, secondary for the rest, ghost inside dense ui, danger only for destructive confirms."
-        >
-          <Button>publish</Button>
-          <Button variant="secondary">view source</Button>
-          <Button variant="ghost">cancel</Button>
-          <Button variant="danger">delete</Button>
+      <Section title={c.button}>
+        <Specimen label={c.variants} note={c.buttonNote}>
+          <Button>{c.publish}</Button>
+          <Button variant="secondary">{c.viewSource}</Button>
+          <Button variant="ghost">{c.cancel}</Button>
+          <Button variant="danger">{c.delete}</Button>
         </Specimen>
 
-        <Specimen
-          label="sizes"
-          note="32 / 40 / 48 tall, matching the control scale."
-        >
-          <Button size="sm">small</Button>
-          <Button size="md">medium</Button>
-          <Button size="lg">large</Button>
+        <Specimen label={c.sizes} note={c.sizesNote}>
+          <Button size="sm">{c.small}</Button>
+          <Button size="md">{c.medium}</Button>
+          <Button size="lg">{c.large}</Button>
         </Specimen>
 
-        <Specimen
-          label="icons, loading, disabled, link"
-          note="loading swaps the left icon for a spinner. href renders an anchor with identical styling."
-        >
-          <Button iconLeft={<IconGithub size={14} />}>github</Button>
+        <Specimen label={c.states} note={c.statesNote}>
+          <Button iconLeft={<IconGithub size={14} />}>{t.nav.github}</Button>
           <Button iconRight={<IconPlus size={14} />} variant="secondary">
-            new project
+            {c.newProject}
           </Button>
-          <Button loading>publishing</Button>
-          <Button disabled>disabled</Button>
+          <Button loading>{c.publishing}</Button>
+          <Button disabled>{c.disabled}</Button>
           <Button href="#" variant="secondary">
-            an anchor
+            {c.anchor}
           </Button>
         </Specimen>
       </Section>
 
-      <Section title="icon button">
-        <Specimen
-          label="variants and sizes"
-          note="always pass a label — it is the accessible name and the native tooltip. ghost by default, outline in empty areas, filled for the one accent action."
-        >
-          <IconButton label="search">
+      <Section title={c.iconButton}>
+        <Specimen label={c.iconVariants} note={c.iconNote}>
+          <IconButton label={c.search}>
             <IconSearch size={18} />
           </IconButton>
-          <IconButton label="close" variant="outline">
+          <IconButton label={c.close} variant="outline">
             <IconX size={18} />
           </IconButton>
-          <IconButton label="new" variant="filled">
+          <IconButton label={c.new} variant="filled">
             <IconPlus size={18} />
           </IconButton>
-          <IconButton label="small" size="sm">
+          <IconButton label={c.small} size="sm">
             <IconSearch size={16} />
           </IconButton>
-          <IconButton label="large" size="lg">
+          <IconButton label={c.large} size="lg">
             <IconSearch size={20} />
           </IconButton>
-          <IconButton label="disabled" disabled>
+          <IconButton label={c.disabled} disabled>
             <IconSearch size={18} />
           </IconButton>
         </Specimen>
       </Section>
 
-      <Section title="badge">
-        <Specimen
-          label="tones"
-          note="a version, a state, a count. not clickable — use a tag for that. semantic tones are for status only, never decoration."
-        >
+      <Section title={c.badge}>
+        <Specimen label={c.tones} note={c.badgeNote}>
           <Badge>v0.1.0</Badge>
-          <Badge tone="accent">new</Badge>
+          <Badge tone="accent">{c.new}</Badge>
           <Badge tone="solid">12</Badge>
           <Badge tone="ok" dot>
-            stable
+            {c.stable}
           </Badge>
           <Badge tone="warn" dot>
-            deprecated
+            {c.deprecated}
           </Badge>
           <Badge tone="danger" dot>
-            offline
+            {c.offline}
           </Badge>
         </Specimen>
       </Section>
 
-      <Section title="tag">
-        <Specimen
-          label="toggle and removable"
-          note="a tag either toggles or removes, never both. try both rows."
-        >
-          <TagDemo />
+      <Section title={c.tag}>
+        <Specimen label={c.tagLabel} note={c.tagNote}>
+          <TagDemo topics={c.topics} reset={c.reset} labels={t.flora.tag} />
         </Specimen>
       </Section>
 
-      <Section title="card">
-        <Specimen
-          label="variants"
-          note="cards have borders, not shadows. only interactive ones lift."
-          block
-        >
+      <Section title={c.card}>
+        <Specimen label={c.variants} note={c.cardNote} block>
           <div className="grid-auto">
-            <Card
-              title="raised"
-              description="a bordered surface on the page."
-            />
+            <Card title={c.raised} description={c.raisedNote} />
             <Card
               variant="sunken"
-              title="sunken"
-              description="tinted, no border. for nested panels."
+              title={c.sunken}
+              description={c.sunkenNote}
             />
             <Card
               variant="accent"
-              title="accent"
-              description="tinted with the product's colour. use it sparingly."
+              title={c.accent}
+              description={c.accentNote}
             />
             <Card
               interactive
-              title="interactive"
-              description="lifts 2px and gains a shadow on hover."
+              title={c.interactive}
+              description={c.interactiveNote}
             />
           </div>
         </Specimen>
-        <Specimen label="padding" block>
+        <Specimen label={c.padding} block>
           <div className="grid-auto">
             <Card padding="sm" variant="sunken">
               sm · 16
@@ -161,44 +139,35 @@ export default function CorePage() {
         </Specimen>
       </Section>
 
-      <Section title="tooltip">
-        <Specimen
-          label="hover or focus"
-          note="dark on light (and the reverse), one short line, with an optional shortcut. the third one stays open so you can see it."
-        >
-          <Tooltip content="search" shortcut="⌘K">
-            <IconButton label="search">
+      <Section title={c.tooltip}>
+        <Specimen label={c.tooltipLabel} note={c.tooltipNote}>
+          <Tooltip content={c.search} shortcut="⌘K">
+            <IconButton label={c.search}>
               <IconSearch size={18} />
             </IconButton>
           </Tooltip>
-          <Tooltip content="below instead" side="bottom">
-            <Button variant="secondary">hover me</Button>
+          <Tooltip content={c.below} side="bottom">
+            <Button variant="secondary">{c.hoverMe}</Button>
           </Tooltip>
-          <Tooltip content="always visible" open>
-            <Button variant="ghost">forced open</Button>
+          <Tooltip content={c.alwaysVisible} open>
+            <Button variant="ghost">{c.forcedOpen}</Button>
           </Tooltip>
         </Specimen>
       </Section>
 
-      <Section title="avatar group">
-        <Specimen
-          label="overflow and label"
-          note="the stack fans out on hover."
-        >
-          <AvatarGroup people={PEOPLE} max={4} label="8 contributors" />
+      <Section title={c.avatars}>
+        <Specimen label={c.avatarsLabel} note={c.avatarsNote}>
+          <AvatarGroup people={PEOPLE} max={4} label={c.contributors} />
           <AvatarGroup people={PEOPLE} max={8} size={24} />
         </Specimen>
       </Section>
 
-      <Section title="copyable text">
-        <Specimen
-          label="one inline value"
-          note="an id, a token, a secret. for multi-line code use a code block instead."
-          block
-        >
+      <Section title={c.copyable}>
+        <Specimen label={c.copyableLabel} note={c.copyableNote} block>
           <CopyableText
-            label="client id"
+            label={c.clientId}
             value="bg_7f3a9c21e4b84d6fa0c5e81920734bde"
+            labels={t.flora.copy}
           />
           <span
             style={{
@@ -209,7 +178,7 @@ export default function CorePage() {
               alignItems: 'center',
             }}
           >
-            <IconCopy size={12} /> flashes the accent on copy
+            <IconCopy size={12} /> {c.flashes}
           </span>
         </Specimen>
       </Section>

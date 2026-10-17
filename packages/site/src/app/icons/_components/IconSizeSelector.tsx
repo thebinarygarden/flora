@@ -5,17 +5,19 @@ import { Tag } from '@binarygarden/flora/ui';
 const SIZES = [12, 16, 18, 24, 32, 48, 64, 96];
 
 interface SizeSelectorProps {
+  label: string;
   selectedSize: number;
   onSizeChange: (size: number) => void;
 }
 
 export function IconSizeSelector({
+  label,
   selectedSize,
   onSizeChange,
 }: SizeSelectorProps) {
   return (
     <div className="col" style={{ gap: 'var(--space-3)' }}>
-      <span className="label-sm">size</span>
+      <span className="label-sm">{label}</span>
       <div className="row">
         {SIZES.map((size) => (
           <Tag

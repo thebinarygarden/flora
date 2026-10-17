@@ -9,8 +9,16 @@ import {
 } from '@binarygarden/flora/overlay';
 import { Button } from '@binarygarden/flora/form';
 import { Input } from '@binarygarden/flora/form';
+import { format } from '@/lib/format';
+import type { Dict } from '@/lib/i18n';
 
-export function FeedbackDemos() {
+export function FeedbackDemos({
+  t,
+  labels,
+}: {
+  t: Dict['feedback'];
+  labels: { dismiss: string };
+}) {
   const [open, setOpen] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const { showConfirm, showPrompt, showAlert } = useDialog();
@@ -22,46 +30,50 @@ export function FeedbackDemos() {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)}>open a dialog</Button>
-      <Button variant="secondary" onClick={() => flash('published')}>
-        fire a toast
+      <Button onClick={() => setOpen(true)}>{t.openDialog}</Button>
+      <Button variant="secondary" onClick={() => flash(t.published)}>
+        {t.fireToast}
       </Button>
       <Button
         variant="secondary"
-        onClick={() => showConfirm('delete this repo?', () => flash('deleted'))}
+        onClick={() => showConfirm(t.confirmMessage, () => flash(t.deleted))}
       >
         showConfirm
       </Button>
       <Button
         variant="secondary"
         onClick={() =>
-          showPrompt('name the project', (v) => flash(`created ${v}`), 'mycel')
+          showPrompt(
+            t.promptMessage,
+            (v) => flash(format(t.created, { name: v })),
+            'mycel'
+          )
         }
       >
         showPrompt
       </Button>
-      <Button variant="ghost" onClick={() => showAlert('nothing to publish.')}>
+      <Button variant="ghost" onClick={() => showAlert(t.alertMessage)}>
         showAlert
       </Button>
 
       <Dialog
         open={open}
         onClose={() => setOpen(false)}
-        title="publish flora?"
-        description="this pushes 0.1.0 to npm and cannot be undone."
+        title={t.publishTitle}
+        description={t.publishNote}
         width={480}
         footer={
           <>
             <Button variant="ghost" onClick={() => setOpen(false)}>
-              cancel
+              {t.cancel}
             </Button>
             <Button
               onClick={() => {
                 setOpen(false);
-                flash('published');
+                flash(t.published);
               }}
             >
-              publish
+              {t.publish}
             </Button>
           </>
         }
@@ -71,7 +83,12 @@ export function FeedbackDemos() {
 
       {toast && (
         <ToastStack>
-          <Toast tone="ok" message={toast} onDismiss={() => setToast(null)} />
+          <Toast
+            tone="ok"
+            message={toast}
+            onDismiss={() => setToast(null)}
+            labels={labels}
+          />
         </ToastStack>
       )}
     </>

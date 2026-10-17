@@ -14,6 +14,8 @@ interface IconDisplayCardProps {
   selectedSize: number;
   selectedColor: string;
   selectedStrokeWidth: StrokeWidth;
+  download: string;
+  copy: { copy: string; copied: string; value: string };
 }
 
 export function IconDisplayCard({
@@ -23,6 +25,8 @@ export function IconDisplayCard({
   selectedSize,
   selectedColor,
   selectedStrokeWidth,
+  download,
+  copy,
 }: IconDisplayCardProps) {
   return (
     <Card padding="sm">
@@ -49,7 +53,10 @@ export function IconDisplayCard({
             {description}
           </div>
         </div>
-        <CopyableText value={`<Icon${name} size={${selectedSize}} />`} />
+        <CopyableText
+          value={`<Icon${name} size={${selectedSize}} />`}
+          labels={copy}
+        />
         <Button
           variant="secondary"
           size="sm"
@@ -63,7 +70,7 @@ export function IconDisplayCard({
             )
           }
         >
-          download svg
+          {download}
         </Button>
       </div>
     </Card>

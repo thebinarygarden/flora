@@ -3,46 +3,54 @@
 import { useState } from 'react';
 import { SidebarNav } from '@binarygarden/flora/navigation';
 import { IconInfo, IconSave } from '@binarygarden/flora/icons';
+import type { Dict } from '@/lib/i18n';
 
-const GROUPS = [
+const groups = (t: Dict['navigation']['sidebarItems']) => [
   {
-    title: 'foundations',
+    title: t.foundations,
     items: [
-      { id: 'color', label: 'color' },
-      { id: 'type', label: 'type' },
-      { id: 'spacing', label: 'spacing', badge: 3 },
+      { id: 'color', label: t.color },
+      { id: 'type', label: t.type },
+      { id: 'spacing', label: t.spacing, badge: 3 },
     ],
   },
   {
-    title: 'components',
+    title: t.components,
     items: [
       {
         id: 'core',
-        label: 'core',
+        label: t.core,
         icon: <IconInfo size={16} />,
         children: [
-          { id: 'buttons', label: 'buttons', badge: 4 },
-          { id: 'tags', label: 'tags', badge: 2 },
+          { id: 'buttons', label: t.buttons, badge: 4 },
+          { id: 'tags', label: t.tags, badge: 2 },
         ],
       },
       {
         id: 'forms',
-        label: 'forms',
+        label: t.forms,
         icon: <IconSave size={16} />,
         children: [
-          { id: 'inputs', label: 'inputs', badge: 6 },
-          { id: 'switches', label: 'switches' },
+          { id: 'inputs', label: t.inputs, badge: 6 },
+          { id: 'switches', label: t.switches },
         ],
       },
     ],
   },
 ];
 
-export function SidebarDemo() {
+export function SidebarDemo({
+  t,
+  labels,
+}: {
+  t: Dict['navigation']['sidebarItems'];
+  labels: Dict['flora']['sidebar'];
+}) {
   const [current, setCurrent] = useState('buttons');
   return (
     <SidebarNav
-      groups={GROUPS}
+      groups={groups(t)}
+      labels={labels}
       current={current}
       onSelect={setCurrent}
       collapsible

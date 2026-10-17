@@ -8,9 +8,14 @@ const LOCALES = [
   { value: 'es', label: 'español' },
 ];
 
-export function LocaleDemo() {
+export function LocaleDemo({ label }: { label: string }) {
   const [locale, setLocale] = useState('en');
   return (
-    <LocaleToggleButton locales={LOCALES} value={locale} onChange={setLocale} />
+    <LocaleToggleButton
+      locales={LOCALES}
+      value={locale}
+      onChange={setLocale}
+      label={label}
+    />
   );
 }

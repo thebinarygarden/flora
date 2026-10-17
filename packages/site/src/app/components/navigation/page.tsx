@@ -9,158 +9,132 @@ import {
 import { PageHead, Section, Specimen } from '@/app/_components/Specimen';
 import { SidebarDemo } from './_components/SidebarDemo';
 import { LocaleDemo } from './_components/LocaleDemo';
+import { getI18n, type Dict } from '@/lib/i18n';
 
-const COMMANDS = [
+const commands = (c: Dict['navigation']['commands']) => [
   {
     id: 'new',
-    label: 'new project',
-    group: 'actions',
+    label: c.new,
+    group: c.actions,
     hint: '⌘N',
     icon: <IconPlus size={16} />,
   },
   {
     id: 'save',
-    label: 'save changes',
-    group: 'actions',
+    label: c.save,
+    group: c.actions,
     hint: '⌘S',
     icon: <IconSave size={16} />,
   },
   {
     id: 'search',
-    label: 'search the docs',
-    group: 'go to',
+    label: c.search,
+    group: c.goTo,
     icon: <IconSearch size={16} />,
     keywords: 'find lookup',
   },
   {
     id: 'repo',
-    label: 'open the repo',
-    group: 'go to',
+    label: c.repo,
+    group: c.goTo,
     icon: <IconGithub size={16} />,
   },
 ];
 
-export default function NavigationPage() {
+export default async function NavigationPage() {
+  const { t } = await getI18n();
+  const n = t.navigation;
+  const stages = (['seed', 'sprout', 'bloom', 'fruit'] as const).map((v) => ({
+    value: v,
+    title: n.stages[v],
+  }));
   return (
     <div className="page">
-      <PageHead eyebrow="components" title="navigation.">
-        tabs · carousel · sidebar nav · command palette · language · site header
+      <PageHead
+        eyebrow={t.nav.components}
+        title={`${t.gallery.groups.navigation}.`}
+      >
+        {n.contents}
       </PageHead>
 
-      <Section title="tabs">
-        <Specimen
-          label="line — page sections"
-          note="the active indicator is a 2px accent underline that scales in."
-          block
-        >
+      <Section title={n.tabs}>
+        <Specimen label={n.line} note={n.lineNote} block>
           <Tabs
             items={[
               {
                 value: 'readme',
-                label: 'readme',
-                content: 'the readme panel.',
+                label: n.readme,
+                content: n.readmePanel,
               },
               {
                 value: 'issues',
-                label: 'issues',
+                label: n.issues,
                 count: 12,
-                content: '12 open issues.',
+                content: n.issuesPanel,
               },
               {
                 value: 'prs',
-                label: 'pull requests',
+                label: n.prs,
                 count: 3,
-                content: '3 open prs.',
+                content: n.prsPanel,
               },
             ]}
           />
         </Specimen>
-        <Specimen
-          label="pill — a view switch"
-          note="segmented, on a sunken track, with the active thumb raised on a shadow."
-        >
+        <Specimen label={n.pill} note={n.pillNote}>
           <Tabs
             variant="pill"
             items={[
-              { value: 'grid', label: 'grid' },
-              { value: 'list', label: 'list' },
-              { value: 'table', label: 'table' },
+              { value: 'grid', label: n.views.grid },
+              { value: 'list', label: n.views.list },
+              { value: 'table', label: n.views.table },
             ]}
           />
         </Specimen>
       </Section>
 
-      <Section title="carousel">
-        <Specimen
-          label="arrows"
-          note="one item at a time, its neighbours small and faded either side. the arrows wrap at the ends."
-          block
-        >
+      <Section title={n.carousel}>
+        <Specimen label={n.arrows} note={n.arrowsNote} block>
           <Carousel
             defaultValue="sprout"
-            items={[
-              { value: 'seed', title: 'seed' },
-              { value: 'sprout', title: 'sprout' },
-              { value: 'bloom', title: 'bloom' },
-              { value: 'fruit', title: 'fruit' },
-            ]}
+            items={stages}
+            labels={t.flora.carousel}
           />
         </Specimen>
-        <Specimen
-          label="arrows off — pills"
-          note="every item at once, the current one filled. use it when the items fit on one line."
-          block
-        >
-          <Carousel
-            arrows={false}
-            defaultValue="sprout"
-            items={[
-              { value: 'seed', title: 'seed' },
-              { value: 'sprout', title: 'sprout' },
-              { value: 'bloom', title: 'bloom' },
-              { value: 'fruit', title: 'fruit' },
-            ]}
-          />
+        <Specimen label={n.pills} note={n.pillsNote} block>
+          <Carousel arrows={false} defaultValue="sprout" items={stages} />
         </Specimen>
       </Section>
 
-      <Section title="sidebar nav">
-        <Specimen
-          label="grouped, nested, collapsible"
-          note="the current item gets a 2px accent bar. picking an item opens its sub-items. drag the right edge to resize; drag past the minimum or use the chevron to fold it to a rail, and click the rail to open it again."
-          block
-        >
+      <Section title={n.sidebar}>
+        <Specimen label={n.sidebarLabel} note={n.sidebarNote} block>
           <Card variant="sunken" padding="none">
-            <SidebarDemo />
+            <SidebarDemo t={n.sidebarItems} labels={t.flora.sidebar} />
           </Card>
         </Specimen>
       </Section>
 
-      <Section title="command palette">
-        <Specimen
-          label="inline, for docs"
-          note="opens with ⌘K over a blurred page. use the arrow keys and enter; typing filters the list."
-          block
-        >
-          <CommandPalette inline items={COMMANDS} />
+      <Section title={n.palette}>
+        <Specimen label={n.paletteLabel} note={n.paletteNote} block>
+          <CommandPalette
+            inline
+            items={commands(n.commands)}
+            placeholder={n.placeholder}
+            labels={t.flora.palette}
+          />
         </Specimen>
       </Section>
 
-      <Section title="language">
-        <Specimen
-          label="locale toggle"
-          note="moves like the theme toggle: click to open every language, pick one to close it. the app stores the choice and passes it back as value."
-        >
-          <LocaleDemo />
+      <Section title={n.language}>
+        <Specimen label={n.localeLabel} note={n.localeNote}>
+          <LocaleDemo label={t.language} />
         </Specimen>
       </Section>
 
-      <Section title="site header · footer">
-        <Specimen label="the page chrome" block>
+      <Section title={n.chrome}>
+        <Specimen label={n.chromeLabel} block>
           <p className="note" style={{ margin: 0 }}>
-            both are live on this page: the sticky header at the top and the
-            footer at the bottom. on narrow screens the header&apos;s links fold
-            into a menu button.
+            {n.chromeNote}
           </p>
         </Specimen>
       </Section>

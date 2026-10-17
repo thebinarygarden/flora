@@ -19,7 +19,7 @@ export interface BGFooterProps {
  * <BGFooter
  *   brand={<IconBGLogo size={28} />}
  *   links={[{ label: 'trunk', href: 'https://binarygarden.com' }]}
- *   legal="© 2026 binary garden · mit"
+ *   legal="© 2026 binary garden · agpl"
  * />
  * ```
  */

@@ -1,7 +1,7 @@
 # @binarygarden/flora
 
 [![npm version](https://img.shields.io/npm/v/@binarygarden/flora)](https://www.npmjs.com/package/@binarygarden/flora)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![License: AGPL-3.0-or-later](https://img.shields.io/badge/License-AGPL--3.0--or--later-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
 > **The plants of a particular region** - Performance-first React component library for Binary Garden
 
@@ -90,4 +90,19 @@ const hanken = Hanken_Grotesk({
 
 ## License
 
-MIT - Binary Garden | [GitHub](https://github.com/thebinarygarden/flora) | [npm](https://www.npmjs.com/package/@binarygarden/flora)
+flora is licensed under the GNU Affero General Public License, version 3 or any later
+version (`AGPL-3.0-or-later`). You can use, change and sell it. If you distribute a
+modified version, or run one that people use over a network, you must make its source
+code available to them under the same license. The full text is in [LICENSE](LICENSE).
+
+```
+Copyright (C) 2026 Binary Garden
+
+This program is free software: you can redistribute it and/or modify it under the terms
+of the GNU Affero General Public License as published by the Free Software Foundation,
+either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+```

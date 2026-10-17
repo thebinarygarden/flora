@@ -13,12 +13,21 @@ export interface CommandPaletteItem {
   keywords?: string;
 }
 
+const commandPaletteLabels = {
+  /** shown before the query when nothing matches: nothing for "query" */
+  empty: 'nothing for',
+  dialog: 'command palette',
+};
+
+export type CommandPaletteLabels = typeof commandPaletteLabels;
+
 export interface CommandPaletteProps {
   open?: boolean;
   /** render without a scrim, in flow, for docs and demos */
   inline?: boolean;
   items: CommandPaletteItem[];
   placeholder?: string;
+  labels?: Partial<CommandPaletteLabels>;
   onSelect?: (item: CommandPaletteItem) => void;
   onClose?: () => void;
 }
@@ -37,9 +46,11 @@ export function CommandPalette({
   inline = false,
   items = [],
   placeholder = 'type a command or search…',
+  labels,
   onSelect,
   onClose,
 }: CommandPaletteProps) {
+  const l = { ...commandPaletteLabels, ...labels };
   const [q, setQ] = React.useState('');
   const [idx, setIdx] = React.useState(0);
 
@@ -88,7 +99,7 @@ export function CommandPalette({
       className="fl-cmd"
       data-inline={inline}
       role="dialog"
-      aria-label="command palette"
+      aria-label={l.dialog}
       onKeyDown={onKey}
     >
       <div className="fl-cmd-in">
@@ -104,7 +115,9 @@ export function CommandPalette({
       </div>
       <div className="fl-cmd-list" role="listbox">
         {filtered.length === 0 && (
-          <div className="fl-cmd-empty">nothing for &quot;{q}&quot;</div>
+          <div className="fl-cmd-empty">
+            {l.empty} &quot;{q}&quot;
+          </div>
         )}
         {groups.map(([g, list]) => (
           <div key={g}>

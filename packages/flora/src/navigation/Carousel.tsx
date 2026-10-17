@@ -11,6 +11,10 @@ export interface CarouselItem {
   href?: string;
 }
 
+const carouselLabels = { previous: 'previous', next: 'next' };
+
+export type CarouselLabels = typeof carouselLabels;
+
 export interface CarouselProps {
   items: CarouselItem[];
   value?: string;
@@ -24,6 +28,7 @@ export interface CarouselProps {
   /** the link element for items with an href, e.g. next/link */
   linkAs?: React.ElementType;
   className?: string;
+  labels?: Partial<CarouselLabels>;
 }
 
 // Lets the browser slide and scale each word to its new place; browsers
@@ -59,7 +64,9 @@ export function Carousel({
   arrows = true,
   linkAs = 'a',
   className = '',
+  labels,
 }: CarouselProps) {
+  const l = { ...carouselLabels, ...labels };
   const [inner, setInner] = React.useState(defaultValue ?? items[0]?.value);
   const selected = value !== undefined ? value : inner;
   // What the arrows strip shows. It follows the selection inside a view
@@ -152,7 +159,7 @@ export function Carousel({
     item(it, 'fl-ibtn', {
       'data-size': 'sm',
       'data-variant': 'outline',
-      'aria-label': dir === 'left' ? 'previous' : 'next',
+      'aria-label': dir === 'left' ? l.previous : l.next,
       title: it.title,
       children: <IconArrow orientation={dir} size={14} />,
     });

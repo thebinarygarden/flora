@@ -3,10 +3,21 @@
 import * as React from 'react';
 import { IconCopy } from '../icons/IconCopy';
 
+const copyableTextLabels = {
+  /** read before the field label: copy client id */
+  copy: 'copy',
+  copied: 'copied',
+  /** stands in for the field label when there is none */
+  value: 'value',
+};
+
+export type CopyableTextLabels = typeof copyableTextLabels;
+
 export interface CopyableTextProps {
   value: string;
   label?: string;
   className?: string;
+  labels?: Partial<CopyableTextLabels>;
 }
 
 /**
@@ -21,7 +32,9 @@ export function CopyableText({
   value,
   label,
   className = '',
+  labels,
 }: CopyableTextProps) {
+  const l = { ...copyableTextLabels, ...labels };
   const [copied, setCopied] = React.useState(false);
 
   React.useEffect(() => {
@@ -47,7 +60,7 @@ export function CopyableText({
         className="fl-copy-btn"
         data-done={copied}
         onClick={onCopy}
-        aria-label={copied ? 'copied' : 'copy ' + (label || 'value')}
+        aria-label={copied ? l.copied : l.copy + ' ' + (label || l.value)}
       >
         <code>{value}</code>
         <IconCopy size={16} />

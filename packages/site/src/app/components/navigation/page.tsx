@@ -8,6 +8,7 @@ import {
 } from '@binarygarden/flora/icons';
 import { PageHead, Section, Specimen } from '@/app/_components/Specimen';
 import { SidebarDemo } from './_components/SidebarDemo';
+import { LocaleDemo } from './_components/LocaleDemo';
 
 const COMMANDS = [
   {
@@ -43,7 +44,7 @@ export default function NavigationPage() {
   return (
     <div className="page">
       <PageHead eyebrow="components" title="navigation.">
-        tabs · carousel · sidebar nav · command palette · site header
+        tabs · carousel · sidebar nav · command palette · language · site header
       </PageHead>
 
       <Section title="tabs">
@@ -142,6 +143,15 @@ export default function NavigationPage() {
           block
         >
           <CommandPalette inline items={COMMANDS} />
+        </Specimen>
+      </Section>
+
+      <Section title="language">
+        <Specimen
+          label="locale toggle"
+          note="moves like the theme toggle: click to open every language, pick one to close it. the app stores the choice and passes it back as value."
+        >
+          <LocaleDemo />
         </Specimen>
       </Section>
 

@@ -18,6 +18,14 @@ export interface SidebarNavGroup {
   items: SidebarNavItem[];
 }
 
+const sidebarNavLabels = {
+  expand: 'expand sidebar',
+  collapse: 'collapse sidebar',
+  resize: 'resize sidebar',
+};
+
+export type SidebarNavLabels = typeof sidebarNavLabels;
+
 export interface SidebarNavProps {
   groups: SidebarNavGroup[];
   current?: string;
@@ -35,6 +43,7 @@ export interface SidebarNavProps {
   header?: React.ReactNode;
   /** Shown below the groups; hidden when collapsed. */
   footer?: React.ReactNode;
+  labels?: Partial<SidebarNavLabels>;
 }
 
 const MIN_WIDTH = 180;
@@ -69,7 +78,9 @@ export function SidebarNav({
   onCollapsedChange,
   header,
   footer,
+  labels,
 }: SidebarNavProps) {
+  const l = { ...sidebarNavLabels, ...labels };
   const [ownWidth, setOwnWidth] = React.useState(defaultWidth);
   const [ownCollapsed, setOwnCollapsed] = React.useState(false);
   const drag = React.useRef<{ x: number; width: number; raw: number }>(null);
@@ -142,7 +153,7 @@ export function SidebarNav({
         <button
           type="button"
           className="fl-side-rail"
-          aria-label="expand sidebar"
+          aria-label={l.expand}
           onClick={() => setCollapsed(false)}
         >
           <IconArrow orientation="right" size={12} />
@@ -164,7 +175,7 @@ export function SidebarNav({
             <button
               type="button"
               className="fl-side-toggle"
-              aria-label="collapse sidebar"
+              aria-label={l.collapse}
               onClick={() => setCollapsed(true)}
             >
               <IconArrow orientation="left" size={12} />
@@ -184,7 +195,7 @@ export function SidebarNav({
           className="fl-side-handle"
           role="separator"
           aria-orientation="vertical"
-          aria-label="resize sidebar"
+          aria-label={l.resize}
           aria-valuenow={w}
           aria-valuemin={MIN_WIDTH}
           aria-valuemax={MAX_WIDTH}

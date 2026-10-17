@@ -1,5 +1,9 @@
 import * as React from 'react';
 
+const tagLabels = { remove: 'remove' };
+
+export type TagLabels = typeof tagLabels;
+
 export interface TagProps {
   /** filled with the accent when selected */
   selected?: boolean;
@@ -7,6 +11,7 @@ export interface TagProps {
   /** shows a remove affordance; mutually exclusive with the toggle form */
   onRemove?: () => void;
   className?: string;
+  labels?: Partial<TagLabels>;
   children: React.ReactNode;
 }
 
@@ -25,8 +30,10 @@ export function Tag({
   onClick,
   onRemove,
   className = '',
+  labels,
   children,
 }: TagProps) {
+  const l = { ...tagLabels, ...labels };
   if (onRemove) {
     return (
       <span className={('fl-tag ' + className).trim()} data-static="true">
@@ -34,7 +41,7 @@ export function Tag({
         <button
           type="button"
           className="fl-x"
-          aria-label="remove"
+          aria-label={l.remove}
           onClick={(e) => {
             e.stopPropagation();
             onRemove();

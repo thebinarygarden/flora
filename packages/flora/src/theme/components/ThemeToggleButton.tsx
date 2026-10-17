@@ -4,10 +4,21 @@ import * as React from 'react';
 import { IconDay } from '../../icons/IconDay';
 import { IconNight } from '../../icons/IconNight';
 import { IconSystem } from '../../icons/IconSystem';
+import { ExpandingPicker } from '../../navigation/ExpandingPicker';
 import { THEME_STORAGE_KEY } from '../utils/ScriptPreloadTheme';
+
+const themeLabels = {
+  theme: 'theme',
+  light: 'light',
+  dark: 'dark',
+  system: 'system',
+};
+
+export type ThemeToggleButtonLabels = typeof themeLabels;
 
 export interface ThemeToggleButtonProps {
   size?: 'sm' | 'md' | 'lg';
+  labels?: Partial<ThemeToggleButtonLabels>;
 }
 
 type Mode = 'light' | 'dark' | 'system';
@@ -36,15 +47,17 @@ function apply(mode: Mode) {
  * `system` clears the stored choice, so {@link ScriptPreloadTheme} falls back
  * to the OS preference on reload — pair the two to avoid a flash.
  */
-export function ThemeToggleButton({ size = 'md' }: ThemeToggleButtonProps) {
+export function ThemeToggleButton({
+  size = 'md',
+  labels,
+}: ThemeToggleButtonProps) {
+  const l = { ...themeLabels, ...labels };
   // Starts at system on both server and first client render; the effect below
   // reconciles with whatever was stored.
   const [mode, setMode] = React.useState<Mode>('system');
-  const [open, setOpen] = React.useState(false);
   // hidden until the stored mode is in, so a reload never shows system first
   // or animates from it
   const [ready, setReady] = React.useState(false);
-  const ref = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     try {
@@ -66,22 +79,6 @@ export function ThemeToggleButton({ size = 'md' }: ThemeToggleButtonProps) {
     return () => mq.removeEventListener('change', follow);
   }, [mode]);
 
-  React.useEffect(() => {
-    if (!open) return;
-    const away = (e: PointerEvent) => {
-      if (!ref.current?.contains(e.target as Node)) setOpen(false);
-    };
-    const esc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
-    };
-    document.addEventListener('pointerdown', away);
-    document.addEventListener('keydown', esc);
-    return () => {
-      document.removeEventListener('pointerdown', away);
-      document.removeEventListener('keydown', esc);
-    };
-  }, [open]);
-
   const pick = (next: Mode) => {
     apply(next);
     try {
@@ -91,41 +88,20 @@ export function ThemeToggleButton({ size = 'md' }: ThemeToggleButtonProps) {
       // private mode / blocked storage: the choice still holds for this visit
     }
     setMode(next);
-    setOpen(false);
   };
 
   return (
-    <div
-      ref={ref}
-      className="fl-theme"
-      data-size={size}
-      data-open={open}
-      data-ready={ready}
-      role={open ? 'radiogroup' : undefined}
-      aria-label={open ? 'theme' : undefined}
-    >
-      {MODES.map((m) => {
-        const current = m.mode === mode;
-        const hidden = !open && !current;
-        return (
-          <button
-            key={m.mode}
-            type="button"
-            className="fl-theme-opt"
-            role={open ? 'radio' : undefined}
-            aria-checked={open ? current : undefined}
-            aria-expanded={open ? undefined : false}
-            aria-label={open ? m.mode : `theme: ${m.mode}`}
-            title={open ? m.mode : `theme: ${m.mode}`}
-            aria-hidden={hidden || undefined}
-            tabIndex={hidden ? -1 : undefined}
-            data-current={current}
-            onClick={() => (open ? pick(m.mode) : setOpen(true))}
-          >
-            {m.icon}
-          </button>
-        );
-      })}
-    </div>
+    <ExpandingPicker
+      options={MODES.map((m) => ({
+        value: m.mode,
+        label: l[m.mode],
+        content: m.icon,
+      }))}
+      value={mode}
+      onPick={(v) => pick(v as Mode)}
+      label={l.theme}
+      size={size}
+      ready={ready}
+    />
   );
 }

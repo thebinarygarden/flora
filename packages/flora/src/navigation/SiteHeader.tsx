@@ -11,6 +11,10 @@ export interface SiteHeaderLink {
   current?: boolean;
 }
 
+const siteHeaderLabels = { open: 'open menu', close: 'close menu' };
+
+export type SiteHeaderLabels = typeof siteHeaderLabels;
+
 export interface SiteHeaderProps {
   /** the logo mark and wordmark */
   brand: React.ReactNode;
@@ -25,6 +29,7 @@ export interface SiteHeaderProps {
    */
   revealAfter?: string;
   className?: string;
+  labels?: Partial<SiteHeaderLabels>;
 }
 
 /**
@@ -50,7 +55,9 @@ export function SiteHeader({
   actions,
   revealAfter,
   className = '',
+  labels,
 }: SiteHeaderProps) {
+  const l = { ...siteHeaderLabels, ...labels };
   const [open, setOpen] = React.useState(false);
   const [past, setPast] = React.useState(false);
   const menuId = React.useId();
@@ -131,7 +138,7 @@ export function SiteHeader({
         {hasMenu && (
           <IconButton
             className="fl-header-menu-btn"
-            label={open ? 'close menu' : 'open menu'}
+            label={open ? l.close : l.open}
             aria-expanded={open}
             aria-controls={menuId}
             onClick={() => setOpen(!open)}

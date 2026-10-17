@@ -178,8 +178,8 @@
     pointer-events: none;
   }
 
-  /* ThemeToggleButton: collapses to the current mode, opens to all three */
-  .fl-theme {
+  /* ExpandingPicker (theme and locale toggles): collapses to the current option, opens to all */
+  .fl-picker {
     display: inline-flex;
     align-items: center;
     padding: 2px;
@@ -189,26 +189,26 @@
       background var(--dur-2) var(--ease-out),
       border-color var(--dur-2) var(--ease-out);
   }
-  .fl-theme[data-ready='false'] {
+  .fl-picker[data-ready='false'] {
     visibility: hidden;
   }
-  .fl-theme[data-ready='false'] .fl-theme-opt {
+  .fl-picker[data-ready='false'] .fl-picker-opt {
     transition: none;
   }
-  .fl-theme[data-size='sm'] {
+  .fl-picker[data-size='sm'] {
     --opt: calc(var(--control-sm) - 4px);
   }
-  .fl-theme[data-size='md'] {
+  .fl-picker[data-size='md'] {
     --opt: calc(var(--control-md) - 4px);
   }
-  .fl-theme[data-size='lg'] {
+  .fl-picker[data-size='lg'] {
     --opt: calc(var(--control-lg) - 4px);
   }
-  .fl-theme[data-open='true'] {
+  .fl-picker[data-open='true'] {
     background: var(--surface-sunken);
     border-color: var(--line-1);
   }
-  .fl-theme-opt {
+  .fl-picker-opt {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -220,6 +220,7 @@
     border-radius: var(--radius-full);
     background: transparent;
     color: var(--text-muted);
+    font: var(--type-label);
     cursor: pointer;
     transition:
       width var(--dur-2) var(--ease-out),
@@ -227,28 +228,28 @@
       background var(--dur-1) var(--ease-out),
       color var(--dur-1) var(--ease-out);
   }
-  .fl-theme-opt svg {
+  .fl-picker-opt svg {
     flex: none;
     width: 18px;
     height: 18px;
   }
-  .fl-theme-opt:hover {
+  .fl-picker-opt:hover {
     color: var(--text-body);
     background: var(--surface-sunken);
   }
-  .fl-theme[data-open='true'] .fl-theme-opt:hover {
+  .fl-picker[data-open='true'] .fl-picker-opt:hover {
     background: var(--bg-3);
   }
-  .fl-theme[data-open='true'] .fl-theme-opt[data-current='true'] {
+  .fl-picker[data-open='true'] .fl-picker-opt[data-current='true'] {
     background: var(--accent);
     color: var(--accent-fg);
   }
-  .fl-theme[data-open='false'] .fl-theme-opt[data-current='false'] {
+  .fl-picker[data-open='false'] .fl-picker-opt[data-current='false'] {
     width: 0;
     opacity: 0;
     pointer-events: none;
   }
-  .fl-theme-opt:focus-visible {
+  .fl-picker-opt:focus-visible {
     box-shadow: var(--focus-ring);
     outline: none;
   }

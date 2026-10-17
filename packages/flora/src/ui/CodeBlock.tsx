@@ -2,6 +2,10 @@
 
 import * as React from 'react';
 
+const codeBlockLabels = { copy: 'copy', copied: 'copied' };
+
+export type CodeBlockLabels = typeof codeBlockLabels;
+
 export interface CodeBlockProps {
   code: string;
   /** shown faint in the header */
@@ -11,6 +15,7 @@ export interface CodeBlockProps {
   lines?: boolean;
   copy?: boolean;
   className?: string;
+  labels?: Partial<CodeBlockLabels>;
 }
 
 /**
@@ -29,7 +34,9 @@ export function CodeBlock({
   lines = false,
   copy = true,
   className = '',
+  labels,
 }: CodeBlockProps) {
+  const l = { ...codeBlockLabels, ...labels };
   const [done, setDone] = React.useState(false);
 
   React.useEffect(() => {
@@ -51,7 +58,7 @@ export function CodeBlock({
   const rows = code.replace(/\n$/, '').split('\n');
   const copyButton = copy && (
     <button className="fl-code-copy" data-done={done} onClick={onCopy}>
-      {done ? 'copied' : 'copy'}
+      {done ? l.copied : l.copy}
     </button>
   );
 

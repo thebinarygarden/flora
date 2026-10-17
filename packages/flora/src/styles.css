@@ -1039,6 +1039,102 @@
     box-shadow: var(--focus-ring);
     outline: none;
   }
+  .fl-side-item[data-open] {
+    color: var(--text-body);
+  }
+  .fl-side-sub {
+    display: grid;
+    gap: 2px;
+    padding-left: var(--space-3);
+  }
+  .fl-side-sub .fl-side-item {
+    height: 30px;
+    font-weight: var(--weight-regular);
+  }
+  .fl-side-top {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .fl-side-top > :first-child {
+    flex: 1;
+    min-width: 0;
+  }
+  .fl-side-foot {
+    margin-top: auto;
+  }
+  .fl-side[data-collapsible] {
+    position: relative;
+    flex: none;
+  }
+  .fl-side[data-collapsed] {
+    width: 44px;
+    padding: 0;
+  }
+  .fl-side-toggle,
+  .fl-side-rail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    background: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition:
+      background var(--dur-1) var(--ease-out),
+      color var(--dur-1) var(--ease-out);
+  }
+  .fl-side-toggle {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    margin-left: auto;
+    border-radius: var(--radius-sm);
+  }
+  .fl-side-rail {
+    flex: 1;
+    align-items: flex-start;
+    width: 100%;
+    padding-top: var(--space-5);
+  }
+  .fl-side-toggle:hover,
+  .fl-side-rail:hover {
+    background: var(--surface-sunken);
+    color: var(--text-body);
+  }
+  .fl-side-toggle:focus-visible,
+  .fl-side-rail:focus-visible {
+    box-shadow: var(--focus-ring);
+    outline: none;
+  }
+  .fl-side-handle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 6px;
+    cursor: col-resize;
+    touch-action: none;
+  }
+  .fl-side-handle::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 2px;
+    transition: background var(--dur-1) var(--ease-out);
+  }
+  .fl-side-handle:hover::after,
+  .fl-side-handle[data-dragging]::after {
+    background: var(--border-strong);
+  }
+  .fl-side-handle:focus-visible::after {
+    background: var(--accent);
+  }
+  .fl-side-handle:focus-visible {
+    outline: none;
+  }
 
   /* CommandPalette */
   .fl-cmd-scrim {

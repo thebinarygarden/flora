@@ -1,36 +1,13 @@
-import {
-  Tabs,
-  Carousel,
-  SidebarNav,
-  CommandPalette,
-} from '@binarygarden/flora/navigation';
+import { Tabs, Carousel, CommandPalette } from '@binarygarden/flora/navigation';
 import { Card } from '@binarygarden/flora/ui';
 import {
   IconSearch,
   IconPlus,
   IconSave,
   IconGithub,
-  IconInfo,
 } from '@binarygarden/flora/icons';
 import { PageHead, Section, Specimen } from '@/app/_components/Specimen';
-
-const SIDEBAR = [
-  {
-    title: 'foundations',
-    items: [
-      { id: 'color', label: 'color' },
-      { id: 'type', label: 'type' },
-      { id: 'spacing', label: 'spacing', badge: 3 },
-    ],
-  },
-  {
-    title: 'components',
-    items: [
-      { id: 'core', label: 'core', icon: <IconInfo size={16} /> },
-      { id: 'forms', label: 'forms', icon: <IconSave size={16} /> },
-    ],
-  },
-];
+import { SidebarDemo } from './_components/SidebarDemo';
 
 const COMMANDS = [
   {
@@ -148,12 +125,12 @@ export default function NavigationPage() {
 
       <Section title="sidebar nav">
         <Specimen
-          label="grouped, with a current marker"
-          note="the current item gets a 2px accent bar on its left edge."
+          label="grouped, nested, collapsible"
+          note="the current item gets a 2px accent bar. picking an item opens its sub-items. drag the right edge to resize; drag past the minimum or use the chevron to fold it to a rail, and click the rail to open it again."
           block
         >
           <Card variant="sunken" padding="none">
-            <SidebarNav groups={SIDEBAR} current="type" />
+            <SidebarDemo />
           </Card>
         </Specimen>
       </Section>

@@ -1067,12 +1067,20 @@
   .fl-side[data-collapsible] {
     position: relative;
     flex: none;
+    overflow-x: clip;
+  }
+  .fl-side[data-collapsible] .fl-side-item {
+    white-space: nowrap;
+  }
+  /* Narrow enough that letting go folds it: the content fades out. */
+  .fl-side[data-closing] > :not(.fl-side-handle) {
+    opacity: 0.3;
+    transition: opacity var(--dur-1) var(--ease-out);
   }
   .fl-side[data-collapsed] {
     width: 44px;
     padding: 0;
   }
-  .fl-side-toggle,
   .fl-side-rail {
     display: flex;
     align-items: center;
@@ -1085,25 +1093,14 @@
       background var(--dur-1) var(--ease-out),
       color var(--dur-1) var(--ease-out);
   }
-  .fl-side-toggle {
-    flex: none;
-    width: 28px;
-    height: 28px;
-    margin-left: auto;
-    border-radius: var(--radius-sm);
-  }
   .fl-side-rail {
     flex: 1;
-    align-items: flex-start;
     width: 100%;
-    padding-top: var(--space-5);
   }
-  .fl-side-toggle:hover,
   .fl-side-rail:hover {
     background: var(--surface-sunken);
     color: var(--text-body);
   }
-  .fl-side-toggle:focus-visible,
   .fl-side-rail:focus-visible {
     box-shadow: var(--focus-ring);
     outline: none;
@@ -1130,7 +1127,8 @@
   .fl-side-handle[data-dragging]::after {
     background: var(--border-strong);
   }
-  .fl-side-handle:focus-visible::after {
+  .fl-side-handle:focus-visible::after,
+  .fl-side[data-closing] .fl-side-handle::after {
     background: var(--accent);
   }
   .fl-side-handle:focus-visible {

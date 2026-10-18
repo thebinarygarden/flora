@@ -20,7 +20,6 @@ export interface SidebarNavGroup {
 
 const sidebarNavLabels = {
   expand: 'expand sidebar',
-  collapse: 'collapse sidebar',
   resize: 'resize sidebar',
 };
 
@@ -33,7 +32,10 @@ export interface SidebarNavProps {
   /** Fixed width, or the controlled width when `collapsible`. */
   width?: number;
   className?: string;
-  /** Adds a drag handle to resize it and a chevron to collapse it to a rail. */
+  /**
+   * Adds a drag handle to resize it. Dragging it past the minimum folds it to
+   * a rail with a chevron that opens it again.
+   */
   collapsible?: boolean;
   defaultWidth?: number;
   onWidthChange?: (width: number) => void;
@@ -46,13 +48,16 @@ export interface SidebarNavProps {
   labels?: Partial<SidebarNavLabels>;
 }
 
-const MIN_WIDTH = 180;
+const MIN_WIDTH = 140;
 const MAX_WIDTH = 360;
+// The collapsed rail. A drag can follow the pointer down to it.
+const RAIL_WIDTH = 44;
 // Releasing a drag narrower than this collapses the sidebar.
-const SNAP_WIDTH = 120;
+const SNAP_WIDTH = 110;
 const KEY_STEP = 16;
 
-const clamp = (w: number) => Math.min(MAX_WIDTH, Math.max(MIN_WIDTH, w));
+const clamp = (w: number, min = MIN_WIDTH) =>
+  Math.min(MAX_WIDTH, Math.max(min, w));
 
 /**
  * Grouped vertical navigation for docs and app shells. The current item gets a
@@ -85,6 +90,8 @@ export function SidebarNav({
   const [ownCollapsed, setOwnCollapsed] = React.useState(false);
   const drag = React.useRef<{ x: number; width: number; raw: number }>(null);
   const [dragging, setDragging] = React.useState(false);
+  // True while a drag is narrow enough that letting go will collapse it.
+  const [closing, setClosing] = React.useState(false);
 
   const w = width ?? (collapsible ? ownWidth : undefined);
   const isCollapsed = collapsible && (collapsed ?? ownCollapsed);
@@ -98,19 +105,24 @@ export function SidebarNav({
     onCollapsedChange?.(next);
   };
   const endDrag = () => {
-    // Collapsing reopens at the width it had before the drag.
-    if (drag.current && drag.current.raw < SNAP_WIDTH) {
-      setWidth(drag.current.width);
+    const d = drag.current;
+    if (d && d.raw < SNAP_WIDTH) {
+      // Collapsing reopens at the width it had before the drag.
+      setWidth(d.width);
       setCollapsed(true);
+    } else if (d) {
+      setWidth(clamp(d.raw));
     }
     drag.current = null;
     setDragging(false);
+    setClosing(false);
   };
 
   const renderItem = (it: SidebarNavItem) => {
     const Tag = it.href ? 'a' : 'button';
+    // A boolean, not the length: `{0 && ...}` would render a stray "0".
     const open =
-      it.children?.length &&
+      !!it.children?.length &&
       (current === it.id || it.children.some((c) => c.id === current));
     return (
       <React.Fragment key={it.id}>
@@ -156,7 +168,7 @@ export function SidebarNav({
           aria-label={l.expand}
           onClick={() => setCollapsed(false)}
         >
-          <IconArrow orientation="right" size={12} />
+          <IconArrow orientation="right" size={28} />
         </button>
       </nav>
     );
@@ -166,23 +178,10 @@ export function SidebarNav({
     <nav
       className={('fl-side ' + className).trim()}
       data-collapsible={collapsible || undefined}
+      data-closing={closing || undefined}
       style={w ? ({ '--side-w': w + 'px' } as React.CSSProperties) : undefined}
     >
-      {(header || collapsible) && (
-        <div className="fl-side-top">
-          {header}
-          {collapsible && (
-            <button
-              type="button"
-              className="fl-side-toggle"
-              aria-label={l.collapse}
-              onClick={() => setCollapsed(true)}
-            >
-              <IconArrow orientation="left" size={12} />
-            </button>
-          )}
-        </div>
-      )}
+      {header && <div className="fl-side-top">{header}</div>}
       {groups.map((g, gi) => (
         <div key={g.title ?? gi} className="fl-side-group">
           {g.title && <div className="fl-side-head">{g.title}</div>}
@@ -211,7 +210,10 @@ export function SidebarNav({
           onPointerMove={(e) => {
             if (!drag.current) return;
             drag.current.raw = drag.current.width + e.clientX - drag.current.x;
-            setWidth(clamp(drag.current.raw));
+            // Follow the pointer below the minimum so the user sees it about
+            // to fold; endDrag settles on the minimum or collapses.
+            setWidth(clamp(drag.current.raw, RAIL_WIDTH));
+            setClosing(drag.current.raw < SNAP_WIDTH);
           }}
           onPointerUp={endDrag}
           onPointerCancel={endDrag}

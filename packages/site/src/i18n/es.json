@@ -20,7 +20,6 @@
     "code": { "copy": "copiar", "copied": "copiado" },
     "sidebar": {
       "expand": "abrir barra lateral",
-      "collapse": "cerrar barra lateral",
       "resize": "cambiar ancho de la barra lateral"
     },
     "palette": { "empty": "nada para", "dialog": "paleta de comandos" },
@@ -289,7 +288,7 @@
     "pillsNote": "todos los elementos a la vez, el actual relleno. úsalo cuando caben en una línea.",
     "sidebar": "barra lateral",
     "sidebarLabel": "agrupada, anidada, plegable",
-    "sidebarNote": "el elemento actual tiene una barra de acento de 2px. elegir un elemento abre sus subelementos. arrastra el borde derecho para cambiar el ancho; arrástralo más allá del mínimo o usa la flecha para plegarla a un riel, y pulsa el riel para abrirla otra vez.",
+    "sidebarNote": "el elemento actual tiene una barra de acento de 2px. elegir un elemento abre sus subelementos. arrastra el borde derecho para cambiar el ancho; sigue arrastrando más allá del mínimo y se atenúa para mostrar que se plegará a un riel; pulsa el riel para abrirla otra vez.",
     "sidebarItems": {
       "foundations": "fundamentos",
       "color": "color",

@@ -39,16 +39,18 @@ export function ExpandingPicker({
 
   React.useEffect(() => {
     if (!open) return;
-    const away = (e: PointerEvent) => {
+    // On click, not pointerdown: collapsing on press shifts the buttons
+    // beside it, so a click meant for a neighbouring picker would miss it.
+    const away = (e: MouseEvent) => {
       if (!ref.current?.contains(e.target as Node)) setOpen(false);
     };
     const esc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setOpen(false);
     };
-    document.addEventListener('pointerdown', away);
+    document.addEventListener('click', away);
     document.addEventListener('keydown', esc);
     return () => {
-      document.removeEventListener('pointerdown', away);
+      document.removeEventListener('click', away);
       document.removeEventListener('keydown', esc);
     };
   }, [open]);

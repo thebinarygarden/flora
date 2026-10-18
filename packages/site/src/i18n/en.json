@@ -20,7 +20,6 @@
     "code": { "copy": "copy", "copied": "copied" },
     "sidebar": {
       "expand": "expand sidebar",
-      "collapse": "collapse sidebar",
       "resize": "resize sidebar"
     },
     "palette": { "empty": "nothing for", "dialog": "command palette" },
@@ -289,7 +288,7 @@
     "pillsNote": "every item at once, the current one filled. use it when the items fit on one line.",
     "sidebar": "sidebar nav",
     "sidebarLabel": "grouped, nested, collapsible",
-    "sidebarNote": "the current item gets a 2px accent bar. picking an item opens its sub-items. drag the right edge to resize; drag past the minimum or use the chevron to fold it to a rail, and click the rail to open it again.",
+    "sidebarNote": "the current item gets a 2px accent bar. picking an item opens its sub-items. drag the right edge to resize; keep dragging past the minimum and it fades to show it will fold to a rail; click the rail to open it again.",
     "sidebarItems": {
       "foundations": "foundations",
       "color": "color",

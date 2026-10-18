@@ -1043,6 +1043,37 @@
   .fl-side-item[data-open] {
     color: var(--text-body);
   }
+  /* An item with sub-items carries a chevron that shows or hides them. */
+  .fl-side-row {
+    position: relative;
+  }
+  .fl-side-row > .fl-side-item {
+    padding-right: 34px;
+  }
+  .fl-side-expand {
+    position: absolute;
+    top: 50%;
+    right: 4px;
+    transform: translateY(-50%);
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-xs);
+    background: none;
+    color: var(--text-faint);
+    cursor: pointer;
+  }
+  .fl-side-expand:hover {
+    background: var(--surface-raised);
+    color: var(--text-body);
+  }
+  .fl-side-expand:focus-visible {
+    box-shadow: var(--focus-ring);
+    outline: none;
+  }
   .fl-side-sub {
     display: grid;
     gap: 2px;
@@ -1265,6 +1296,10 @@
     animation: bg-grow var(--dur-3) var(--ease-spring);
     display: grid;
     gap: var(--space-4);
+    /* A tall dialog scrolls inside the screen instead of running off it. */
+    max-height: 100%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
   .fl-dlg-scrim[data-inline='true'] .fl-dlg {
     animation: none;

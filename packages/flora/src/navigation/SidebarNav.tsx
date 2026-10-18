@@ -9,7 +9,10 @@ export interface SidebarNavItem {
   icon?: React.ReactNode;
   href?: string;
   badge?: string | number;
-  /** Sub-items, shown under this item while it or one of them is current. */
+  /**
+   * Sub-items, shown under this item while it or one of them is current. A
+   * chevron beside it shows or hides them either way.
+   */
   children?: SidebarNavItem[];
 }
 
@@ -92,6 +95,8 @@ export function SidebarNav({
   const [dragging, setDragging] = React.useState(false);
   // True while a drag is narrow enough that letting go will collapse it.
   const [closing, setClosing] = React.useState(false);
+  // Sub-item lists the user opened or closed with the chevron, by item id.
+  const [toggled, setToggled] = React.useState<Record<string, boolean>>({});
 
   const w = width ?? (collapsible ? ownWidth : undefined);
   const isCollapsed = collapsible && (collapsed ?? ownCollapsed);
@@ -121,33 +126,53 @@ export function SidebarNav({
   const renderItem = (it: SidebarNavItem) => {
     const Tag = it.href ? 'a' : 'button';
     // A boolean, not the length: `{0 && ...}` would render a stray "0".
+    const parent = !!it.children?.length;
     const open =
-      !!it.children?.length &&
-      (current === it.id || it.children.some((c) => c.id === current));
+      parent &&
+      (toggled[it.id] ??
+        (current === it.id || it.children!.some((c) => c.id === current)));
+    const item = (
+      <Tag
+        href={it.href}
+        className="fl-side-item"
+        aria-current={current === it.id ? 'page' : undefined}
+        data-open={open || undefined}
+        // Only attach a handler when one was given, so a plain
+        // href-based nav still renders from a server component.
+        onClick={
+          onSelect
+            ? (e: React.MouseEvent) => {
+                if (!it.href) e.preventDefault();
+                onSelect(it.id);
+              }
+            : undefined
+        }
+      >
+        {it.icon}
+        <span>{it.label}</span>
+        {it.badge !== undefined && (
+          <span className="fl-side-badge">{it.badge}</span>
+        )}
+      </Tag>
+    );
     return (
       <React.Fragment key={it.id}>
-        <Tag
-          href={it.href}
-          className="fl-side-item"
-          aria-current={current === it.id ? 'page' : undefined}
-          data-open={open || undefined}
-          // Only attach a handler when one was given, so a plain
-          // href-based nav still renders from a server component.
-          onClick={
-            onSelect
-              ? (e: React.MouseEvent) => {
-                  if (!it.href) e.preventDefault();
-                  onSelect(it.id);
-                }
-              : undefined
-          }
-        >
-          {it.icon}
-          <span>{it.label}</span>
-          {it.badge !== undefined && (
-            <span className="fl-side-badge">{it.badge}</span>
-          )}
-        </Tag>
+        {parent ? (
+          <div className="fl-side-row">
+            {item}
+            <button
+              type="button"
+              className="fl-side-expand"
+              aria-label={it.label}
+              aria-expanded={open}
+              onClick={() => setToggled((t) => ({ ...t, [it.id]: !open }))}
+            >
+              <IconArrow orientation={open ? 'down' : 'right'} size={14} />
+            </button>
+          </div>
+        ) : (
+          item
+        )}
         {open && (
           <div className="fl-side-sub">{it.children!.map(renderItem)}</div>
         )}

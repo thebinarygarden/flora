@@ -51,10 +51,40 @@ export function Dialog({
     };
   }, [open, inline, onClose]);
 
+  // An on-screen keyboard (iOS especially) covers the page without resizing
+  // it. Fit the scrim to the part still visible, so the dialog centers above
+  // the keyboard, and keep the field being typed in on screen.
+  const scrim = React.useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    const vv = window.visualViewport;
+    const el = scrim.current;
+    if (!open || inline || !vv || !el) return;
+    const fit = () => {
+      el.style.top = vv.offsetTop + 'px';
+      el.style.height = vv.height + 'px';
+      el.style.bottom = 'auto';
+    };
+    const onResize = () => {
+      fit();
+      const focused = document.activeElement;
+      if (focused instanceof HTMLElement && el.contains(focused)) {
+        focused.scrollIntoView({ block: 'nearest' });
+      }
+    };
+    fit();
+    vv.addEventListener('resize', onResize);
+    vv.addEventListener('scroll', fit);
+    return () => {
+      vv.removeEventListener('resize', onResize);
+      vv.removeEventListener('scroll', fit);
+    };
+  }, [open, inline]);
+
   if (!open) return null;
 
   return (
     <div
+      ref={scrim}
       className="fl-dlg-scrim"
       data-inline={inline}
       onClick={(e) => {

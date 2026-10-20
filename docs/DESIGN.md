@@ -47,7 +47,7 @@ Read this first — it is the part of the system that is unusual.
   `--accent-fg`, `--accent-soft` and `--accent-line` are derived from that hue.
   Nothing else changes.
 - **`ProductTile` sets its own scope.** It is the one place color appears on the
-  trunk.
+  trunk. Without a hue it stays monochrome, for Binary Garden's own products.
 - **Light and dark are equal citizens**, selected by `data-theme` on `<html>`.
   Dark raises accent lightness slightly for contrast. (The selector is scoped to
   the element, not `:root`, so a dark region can be nested inside a light page —
@@ -230,8 +230,8 @@ use a 3px soft-accent halo instead.
 - **The logo** is the five-petal flower mark: black on light, white on dark,
   **never recolored or tinted with a product hue.** Minimum 20px. The name is
   set beside it in Hanken Grotesk 500 at −0.01em.
-- **Product glyphs:** when a product has no image, its tile shows the first two
-  letters of its name on its hue.
+- **Product glyphs:** when a product has no video or image, its tile shows its
+  icon on its hue, or the first two letters of its name if it has no icon.
 
 ---
 

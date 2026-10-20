@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 512 512">
+  <defs>
+    <style>
+      .st0 {
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: var(--stroke-width, 35px);
+      }
+    </style>
+  </defs>
+  <path class="st0" d="M256,40 C198,40 176,90 176,148 C176,194 156,222 136,260 C112,306 100,350 114,388 C128,424 172,440 256,440 C340,440 384,424 398,388 C412,350 400,306 376,260 C356,222 336,194 336,148 C336,90 314,40 256,40 Z"/>
+  <path class="st0" d="M256,226 C218,226 194,270 194,324 C194,374 220,400 256,400 C292,400 318,374 318,324 C318,270 294,226 256,226 Z"/>
+  <path class="st0" d="M232,160 L256,174 L280,160"/>
+  <circle class="st0" cx="230" cy="112" r="8"/>
+  <circle class="st0" cx="282" cy="112" r="8"/>
+  <path class="st0" d="M116,448 C140,420 196,420 220,448 C196,472 140,472 116,448 Z"/>
+  <path class="st0" d="M292,448 C316,420 372,420 396,448 C372,472 316,472 292,448 Z"/>
+</svg>

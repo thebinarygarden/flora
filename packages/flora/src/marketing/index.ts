@@ -1,4 +1,4 @@
-export { Hero } from './Hero';
-export type { HeroProps } from './Hero';
-export { ProductTile } from './ProductTile';
-export type { ProductTileProps } from './ProductTile';
+export { Hero } from './hero';
+export type { HeroProps } from './hero';
+export { ProductTile } from './product-tile';
+export type { ProductTileProps } from './product-tile';

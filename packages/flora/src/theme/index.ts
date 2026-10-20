@@ -1,12 +1,12 @@
-export { ProductScope } from './ProductScope';
-export type { ProductScopeProps } from './ProductScope';
-export { ThemeToggleButton } from './components/ThemeToggleButton';
+export { ProductScope } from './product-scope';
+export type { ProductScopeProps } from './product-scope';
+export { ThemeToggleButton } from './components/theme-toggle-button';
 export type {
   ThemeToggleButtonProps,
   ThemeToggleButtonLabels,
-} from './components/ThemeToggleButton';
+} from './components/theme-toggle-button';
 export {
   ScriptPreloadTheme,
   THEME_STORAGE_KEY,
-} from './utils/ScriptPreloadTheme';
-export type { ScriptPreloadThemeProps } from './utils/ScriptPreloadTheme';
+} from './utils/script-preload-theme';
+export type { ScriptPreloadThemeProps } from './utils/script-preload-theme';

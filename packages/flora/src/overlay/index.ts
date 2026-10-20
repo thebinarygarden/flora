@@ -1,12 +1,12 @@
-export { Dialog } from './Dialog';
-export type { DialogProps } from './Dialog';
-export { Toast, ToastStack } from './Toast';
-export type { ToastProps, ToastStackProps, ToastLabels } from './Toast';
-export { DialogProvider, useDialog } from './DialogContext';
+export { Dialog } from './dialog';
+export type { DialogProps } from './dialog';
+export { Toast, ToastStack } from './toast';
+export type { ToastProps, ToastStackProps, ToastLabels } from './toast';
+export { DialogProvider, useDialog } from './dialog-context';
 export type {
   DialogOptions,
   DialogContextValue,
   DialogLabels,
-} from './DialogContext';
-export { ToastProvider, useToast } from './ToastContext';
-export type { ToastOptions, ToastContextValue } from './ToastContext';
+} from './dialog-context';
+export { ToastProvider, useToast } from './toast-context';
+export type { ToastOptions, ToastContextValue } from './toast-context';

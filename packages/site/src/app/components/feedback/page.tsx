@@ -1,7 +1,7 @@
 import { Dialog, Toast, ToastStack } from '@binarygarden/flora/overlay';
 import { Button } from '@binarygarden/flora/form';
-import { PageHead, Section, Specimen } from '@/app/_components/Specimen';
-import { FeedbackDemos } from './_components/FeedbackDemos';
+import { PageHead, Section, Specimen } from '@/components/specimen';
+import { FeedbackDemos } from './_components/feedback-demos';
 import { getI18n } from '@/lib/i18n';
 
 export default async function FeedbackPage() {

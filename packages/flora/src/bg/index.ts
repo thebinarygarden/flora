@@ -1,4 +1,4 @@
-export { BGLanding } from './BGLanding/BGLanding';
-export type { BGLandingProps } from './BGLanding/types';
-export { BGFooter } from './BGFooter';
-export type { BGFooterProps } from './BGFooter';
+export { BGLanding } from './bg-landing/bg-landing';
+export type { BGLandingProps } from './bg-landing/types';
+export { BGFooter } from './bg-footer';
+export type { BGFooterProps } from './bg-footer';

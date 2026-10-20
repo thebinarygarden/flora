@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 512 512">
+  <defs>
+    <style>
+      .st0 {
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: var(--stroke-width, 35px);
+      }
+    </style>
+  </defs>
+  <path class="st0" d="M256,158 C230,140 196,130 164,138 C106,152 76,212 84,276 C94,352 144,446 194,456 C218,461 234,448 256,448 C278,448 294,461 318,456 C364,446 406,376 424,332 C386,314 362,280 362,240 C362,204 382,178 410,162 C388,134 352,124 320,130 C298,134 276,146 256,158 Z"/>
+  <path class="st0" d="M262,120 C262,86 290,58 328,52 C330,88 302,118 262,120 Z"/>
+</svg>

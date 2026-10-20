@@ -8,6 +8,7 @@
       "dark": "dark",
       "system": "system"
     },
+    "splitButton": { "more": "more options" },
     "header": { "open": "open menu", "close": "close menu" },
     "dialog": {
       "ok": "ok",
@@ -30,6 +31,7 @@
     "components": "components",
     "icons": "icons",
     "github": "github",
+    "contribute": "contribute",
     "legal": "© 2026 binary garden · agpl"
   },
   "home": {
@@ -157,7 +159,7 @@
     }
   },
   "core": {
-    "contents": "button · icon button · badge · tag · card · stat · table · empty state · tooltip · avatar group",
+    "contents": "button · icon button · split button · badge · tag · card · stat · table · empty state · tooltip · avatar group",
     "button": "button",
     "variants": "variants",
     "buttonNote": "one primary per view, secondary for the rest, ghost inside dense ui, danger only for destructive confirms.",
@@ -182,6 +184,11 @@
     "search": "search",
     "close": "close",
     "new": "new",
+    "splitButton": "split button",
+    "splitLabel": "a likely choice and the rest",
+    "splitNote": "the main part acts straight away; the caret opens the alternatives. highlight the ones that fit, such as the visitor's platform.",
+    "export": "export png",
+    "formats": ["png", "svg", "pdf"],
     "badge": "badge",
     "tones": "tones",
     "badgeNote": "a version, a state, a count. not clickable — use a tag for that. semantic tones are for status only, never decoration.",
@@ -437,6 +444,7 @@
     "download": "download svg",
     "descriptions": {
       "Account": "User account",
+      "Apple": "Apple logo",
       "Arrow": "Directional arrow",
       "BGDocs": "Binary Garden Documentation icon",
       "BGLogo": "Binary Garden logo",
@@ -445,10 +453,12 @@
       "Copy": "Copy to clipboard",
       "Day": "Light mode indicator",
       "EyeDropper": "Color picker tool",
+      "Flora": "Flora logo",
       "Github": "GitHub logo",
       "Hide": "Hide/eye closed indicator",
       "Info": "Information indicator",
       "LinkOut": "External link indicator",
+      "Linux": "Linux logo",
       "Lock": "Security/locked state",
       "Menu": "Navigation menu",
       "Minus": "Remove/minus sign",
@@ -458,9 +468,11 @@
       "Save": "Save/disk icon",
       "Search": "Search functionality",
       "System": "Follow the system theme",
+      "Torta": "torta logo",
       "Trashcan": "Delete/trash icon",
       "Unlock": "Security/unlocked state",
       "View": "View/eye open indicator",
+      "Windows": "Windows logo",
       "X": "Close/dismiss",
       "Youtube": "YouTube logo"
     }

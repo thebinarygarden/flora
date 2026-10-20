@@ -6,9 +6,9 @@ import {
   IconSave,
   IconGithub,
 } from '@binarygarden/flora/icons';
-import { PageHead, Section, Specimen } from '@/app/_components/Specimen';
-import { SidebarDemo } from './_components/SidebarDemo';
-import { LocaleDemo } from './_components/LocaleDemo';
+import { PageHead, Section, Specimen } from '@/components/specimen';
+import { SidebarDemo } from './_components/sidebar-demo';
+import { LocaleDemo } from './_components/locale-demo';
 import { getI18n, type Dict } from '@/lib/i18n';
 
 const commands = (c: Dict['navigation']['commands']) => [

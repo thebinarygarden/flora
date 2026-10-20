@@ -20,7 +20,7 @@ Import from subpaths only; there is no root export.
 
 | Subpath       | Components                                                                               |
 | ------------- | ---------------------------------------------------------------------------------------- |
-| `/form`       | Button, IconButton, Input, Select, Checkbox, Radio, Switch                               |
+| `/form`       | Button, IconButton, SplitButton, Input, Select, Checkbox, Radio, Switch                  |
 | `/ui`         | Card, Badge, Tag, Tooltip, AvatarGroup, CodeBlock, CopyableText, Stat, Table, EmptyState |
 | `/overlay`    | Dialog, Toast, ToastStack, DialogProvider / useDialog, ToastProvider / useToast          |
 | `/navigation` | SiteHeader, Tabs, Carousel, SidebarNav, CommandPalette, LocaleToggleButton               |
@@ -34,8 +34,12 @@ Import from subpaths only; there is no root export.
 hold a button or a link. Mark cells with `data-num` to right-align numbers in even
 digits, or `data-action` to shrink a cell to the control inside it.
 
-Over a `BGLanding`, give `SiteHeader` `revealAfter=".fl-hero-actions"`: the bar
-stays hidden while the hero's own buttons are on screen, then slides in.
+On a page that opens with a `BGLanding`, give `SiteHeader` `overLanding`: the bar
+stays hidden over the landing, then slides in once it has scrolled away. Pass the
+same small controls (language, theme, account) to the landing's `corner` and the
+header's `actions`: they sit top right in the hero, scroll away with it, and come
+back in the bar, so the hero keeps only its calls to action. Render the header
+from the page (or segment layout) that knows whether it opens on a landing.
 
 Live demos: [bgflora.app/components](https://bgflora.app/components) and
 [bgflora.app/icons](https://bgflora.app/icons).

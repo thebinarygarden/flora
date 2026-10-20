@@ -46,12 +46,6 @@
   }
 }
 
-/* the header slides in once the hero snaps away; keep the first section
-   clear of it */
-.fl-bgl + .page {
-  padding-top: var(--space-24);
-}
-
 .page-head {
   display: grid;
   gap: var(--space-3);

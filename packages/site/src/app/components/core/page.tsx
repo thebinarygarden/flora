@@ -1,4 +1,4 @@
-import { Button, IconButton } from '@binarygarden/flora/form';
+import { Button, IconButton, SplitButton } from '@binarygarden/flora/form';
 import {
   Badge,
   Card,
@@ -16,8 +16,8 @@ import {
   IconX,
   IconCopy,
 } from '@binarygarden/flora/icons';
-import { PageHead, Section, Specimen } from '@/app/_components/Specimen';
-import { TagDemo } from './_components/TagDemo';
+import { PageHead, Section, Specimen } from '@/components/specimen';
+import { TagDemo } from './_components/tag-demo';
 import { getI18n } from '@/lib/i18n';
 
 const PEOPLE = ['ana', 'kit', 'rae', 'tomas', 'ivy', 'oz', 'lu', 'mina'].map(
@@ -83,6 +83,30 @@ export default async function CorePage() {
           <IconButton label={c.disabled} disabled>
             <IconSearch size={18} />
           </IconButton>
+        </Specimen>
+      </Section>
+
+      <Section title={c.splitButton}>
+        <Specimen label={c.splitLabel} note={c.splitNote}>
+          <SplitButton
+            href="#"
+            items={c.formats.map((f, i) => ({
+              label: f,
+              href: '#',
+              highlighted: i === 0,
+            }))}
+            labels={t.flora.splitButton}
+          >
+            {c.export}
+          </SplitButton>
+          <SplitButton
+            variant="secondary"
+            href="#"
+            items={c.formats.map((f) => ({ label: f, href: '#' }))}
+            labels={t.flora.splitButton}
+          >
+            {c.export}
+          </SplitButton>
         </Specimen>
       </Section>
 

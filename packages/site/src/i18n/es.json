@@ -444,6 +444,7 @@
     "download": "descargar svg",
     "descriptions": {
       "Account": "cuenta de usuario",
+      "Apple": "logotipo de apple",
       "Arrow": "flecha de dirección",
       "BGDocs": "documentación de binary garden",
       "BGLogo": "logotipo de binary garden",
@@ -452,10 +453,12 @@
       "Copy": "copiar al portapapeles",
       "Day": "modo claro",
       "EyeDropper": "cuentagotas de color",
+      "Flora": "logotipo de flora",
       "Github": "logotipo de github",
       "Hide": "ocultar, ojo cerrado",
       "Info": "información",
       "LinkOut": "enlace externo",
+      "Linux": "logotipo de linux",
       "Lock": "bloqueado",
       "Menu": "menú de navegación",
       "Minus": "quitar, menos",
@@ -465,9 +468,11 @@
       "Save": "guardar",
       "Search": "buscar",
       "System": "seguir el tema del sistema",
+      "Torta": "logotipo de torta",
       "Trashcan": "borrar",
       "Unlock": "desbloqueado",
       "View": "ver, ojo abierto",
+      "Windows": "logotipo de windows",
       "X": "cerrar o descartar",
       "Youtube": "logotipo de youtube"
     }

@@ -444,6 +444,7 @@
     "download": "download svg",
     "descriptions": {
       "Account": "User account",
+      "Apple": "Apple logo",
       "Arrow": "Directional arrow",
       "BGDocs": "Binary Garden Documentation icon",
       "BGLogo": "Binary Garden logo",
@@ -452,10 +453,12 @@
       "Copy": "Copy to clipboard",
       "Day": "Light mode indicator",
       "EyeDropper": "Color picker tool",
+      "Flora": "Flora logo",
       "Github": "GitHub logo",
       "Hide": "Hide/eye closed indicator",
       "Info": "Information indicator",
       "LinkOut": "External link indicator",
+      "Linux": "Linux logo",
       "Lock": "Security/locked state",
       "Menu": "Navigation menu",
       "Minus": "Remove/minus sign",
@@ -465,9 +468,11 @@
       "Save": "Save/disk icon",
       "Search": "Search functionality",
       "System": "Follow the system theme",
+      "Torta": "torta logo",
       "Trashcan": "Delete/trash icon",
       "Unlock": "Security/unlocked state",
       "View": "View/eye open indicator",
+      "Windows": "Windows logo",
       "X": "Close/dismiss",
       "Youtube": "YouTube logo"
     }

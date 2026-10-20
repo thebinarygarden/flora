@@ -47,7 +47,7 @@ Read this first — it is the part of the system that is unusual.
   `--accent-fg`, `--accent-soft` and `--accent-line` are derived from that hue.
   Nothing else changes.
 - **`ProductTile` sets its own scope.** It is the one place color appears on the
-  trunk.
+  trunk. Without a hue it stays monochrome, for Binary Garden's own products.
 - **Light and dark are equal citizens**, selected by `data-theme` on `<html>`.
   Dark raises accent lightness slightly for contrast. (The selector is scoped to
   the element, not `:root`, so a dark region can be nested inside a light page —

@@ -3,8 +3,8 @@ import * as React from 'react';
 export interface ProductTileProps {
   name: string;
   tagline?: string;
-  /** oklch hue 0–360 — the product's one color */
-  hue: number;
+  /** oklch hue 0–360 — the product's one color. Omit it to stay monochrome. */
+  hue?: number;
   /** shown in the splash when there is no video or image: short text or the product's icon */
   glyph?: React.ReactNode;
   /** a looping, muted clip; wins over `image` */
@@ -23,8 +23,9 @@ export interface ProductTileProps {
  * A card for one product. The splash is the product's hue, and on the trunk this
  * is the one place color appears.
  *
- * It sets `data-product` and `--product-hue` on itself, so any flora component
- * rendered inside it inherits that color.
+ * With a hue it sets `data-product` and `--product-hue` on itself, so any flora
+ * component rendered inside it inherits that color. Without one it stays black
+ * and white, like the trunk.
  *
  * ```tsx
  * <ProductTile name="pollen" tagline="a font manager for teams" hue={60}
@@ -46,14 +47,17 @@ export function ProductTile({
   children,
 }: ProductTileProps) {
   const Tag = href ? 'a' : 'div';
+  const scoped = hue !== undefined;
   return (
     <Tag
       href={href}
       onClick={onClick}
       className={('fl-tile ' + className).trim()}
       data-size={size}
-      data-product=""
-      style={{ '--product-hue': hue } as React.CSSProperties}
+      data-product={scoped ? '' : undefined}
+      style={
+        scoped ? ({ '--product-hue': hue } as React.CSSProperties) : undefined
+      }
     >
       <div className="fl-tile-splash">
         {video ? (

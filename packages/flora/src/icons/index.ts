@@ -9,6 +9,7 @@ export { IconContact } from './icon-contact';
 export { IconCopy } from './icon-copy';
 export { IconDay } from './icon-day';
 export { IconEyeDropper } from './icon-eye-dropper';
+export { IconFlora } from './icon-flora';
 export { IconGithub } from './icon-github';
 export { IconHide } from './icon-hide';
 export { IconInfo } from './icon-info';

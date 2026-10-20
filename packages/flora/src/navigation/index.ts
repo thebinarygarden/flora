@@ -1,25 +1,25 @@
-export { SiteHeader } from './SiteHeader';
+export { SiteHeader } from './site-header';
 export type {
   SiteHeaderProps,
   SiteHeaderLink,
   SiteHeaderLabels,
-} from './SiteHeader';
-export { Tabs } from './Tabs';
-export type { TabsProps, TabItem } from './Tabs';
-export { Carousel } from './Carousel';
-export type { CarouselProps, CarouselItem, CarouselLabels } from './Carousel';
-export { SidebarNav } from './SidebarNav';
+} from './site-header';
+export { Tabs } from './tabs';
+export type { TabsProps, TabItem } from './tabs';
+export { Carousel } from './carousel';
+export type { CarouselProps, CarouselItem, CarouselLabels } from './carousel';
+export { SidebarNav } from './sidebar-nav';
 export type {
   SidebarNavProps,
   SidebarNavGroup,
   SidebarNavItem,
   SidebarNavLabels,
-} from './SidebarNav';
-export { CommandPalette } from './CommandPalette';
+} from './sidebar-nav';
+export { CommandPalette } from './command-palette';
 export type {
   CommandPaletteProps,
   CommandPaletteItem,
   CommandPaletteLabels,
-} from './CommandPalette';
-export { LocaleToggleButton } from './LocaleToggleButton';
-export type { LocaleToggleButtonProps } from './LocaleToggleButton';
+} from './command-palette';
+export { LocaleToggleButton } from './locale-toggle-button';
+export type { LocaleToggleButtonProps } from './locale-toggle-button';

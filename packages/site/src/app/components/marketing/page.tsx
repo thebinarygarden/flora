@@ -2,7 +2,7 @@ import { Hero, ProductTile } from '@binarygarden/flora/marketing';
 import { CodeBlock } from '@binarygarden/flora/ui';
 import { Button } from '@binarygarden/flora/form';
 import { IconArrow } from '@binarygarden/flora/icons';
-import { PageHead, Section, Specimen } from '@/app/_components/Specimen';
+import { PageHead, Section, Specimen } from '@/components/specimen';
 import { getI18n } from '@/lib/i18n';
 
 // taglines and meta come from the dictionary, keyed by name

@@ -42,7 +42,7 @@ pnpm precommit   # full check before pushing: clean build, lint, format check
 - **Category (subpath):** new `src/<category>/index.ts`, add it to `input` in
   `rollup.config.mjs` and to `exports` in `packages/flora/package.json`.
 - **Icon:** add the SVG to `src/icons/svg/` (strokes in `currentColor` at
-  `var(--stroke-width)`, with a `viewBox`), wrap it in an `Icon<Name>.tsx` following the
+  `var(--stroke-width)`, with a `viewBox`), wrap it in an `icon-<name>.tsx` following the
   existing ones, and export it from `src/icons/index.ts`. `@svgr/rollup` turns the SVG into a
   component at build time.
 

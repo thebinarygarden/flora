@@ -8,6 +8,7 @@
       "dark": "oscuro",
       "system": "sistema"
     },
+    "splitButton": { "more": "más opciones" },
     "header": { "open": "abrir menú", "close": "cerrar menú" },
     "dialog": {
       "ok": "ok",
@@ -30,6 +31,7 @@
     "components": "componentes",
     "icons": "iconos",
     "github": "github",
+    "contribute": "contribuir",
     "legal": "© 2026 binary garden · agpl"
   },
   "home": {
@@ -157,7 +159,7 @@
     }
   },
   "core": {
-    "contents": "botón · botón de icono · insignia · etiqueta · tarjeta · cifra · tabla · estado vacío · tooltip · grupo de avatares",
+    "contents": "botón · botón de icono · botón dividido · insignia · etiqueta · tarjeta · cifra · tabla · estado vacío · tooltip · grupo de avatares",
     "button": "botón",
     "variants": "variantes",
     "buttonNote": "un principal por vista, secundario para el resto, ghost dentro de interfaces densas, danger solo para confirmar algo destructivo.",
@@ -182,6 +184,11 @@
     "search": "buscar",
     "close": "cerrar",
     "new": "nuevo",
+    "splitButton": "botón dividido",
+    "splitLabel": "una opción probable y el resto",
+    "splitNote": "la parte principal actúa de inmediato; el triángulo abre las alternativas. resalta las que encajan, como la plataforma del visitante.",
+    "export": "exportar png",
+    "formats": ["png", "svg", "pdf"],
     "badge": "insignia",
     "tones": "tonos",
     "badgeNote": "una versión, un estado, un conteo. no se puede pulsar — para eso usa una etiqueta. los tonos semánticos son solo para estados, nunca decoración.",

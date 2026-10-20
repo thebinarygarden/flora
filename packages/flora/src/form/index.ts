@@ -1,14 +1,20 @@
-export { Button } from './Button';
-export type { ButtonProps } from './Button';
-export { IconButton } from './IconButton';
-export type { IconButtonProps } from './IconButton';
-export { Input } from './Input';
-export type { InputProps } from './Input';
-export { Select } from './Select';
-export type { SelectProps, SelectOption } from './Select';
-export { Checkbox } from './Checkbox';
-export type { CheckboxProps } from './Checkbox';
-export { Radio } from './Radio';
-export type { RadioProps, RadioOption } from './Radio';
-export { Switch } from './Switch';
-export type { SwitchProps } from './Switch';
+export { Button } from './button';
+export type { ButtonProps } from './button';
+export { IconButton } from './icon-button';
+export type { IconButtonProps } from './icon-button';
+export { SplitButton } from './split-button';
+export type {
+  SplitButtonProps,
+  SplitButtonItem,
+  SplitButtonLabels,
+} from './split-button';
+export { Input } from './input';
+export type { InputProps } from './input';
+export { Select } from './select';
+export type { SelectProps, SelectOption } from './select';
+export { Checkbox } from './checkbox';
+export type { CheckboxProps } from './checkbox';
+export { Radio } from './radio';
+export type { RadioProps, RadioOption } from './radio';
+export { Switch } from './switch';
+export type { SwitchProps } from './switch';

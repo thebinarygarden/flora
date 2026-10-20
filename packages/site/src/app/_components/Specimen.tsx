@@ -6,6 +6,8 @@ interface SpecimenProps {
   note?: string;
   /** lay the stage out as a block rather than a wrapping row */
   block?: boolean;
+  /** extra room above and below, for things that pop out of their trigger */
+  roomy?: boolean;
   children: ReactNode;
 }
 
@@ -17,13 +19,14 @@ export function Specimen({
   label,
   note,
   block = false,
+  roomy = false,
   children,
 }: SpecimenProps) {
   return (
     <div className="specimen">
       <div className="label">{label}</div>
       {note && <p className="note">{note}</p>}
-      <div className="stage" data-block={block}>
+      <div className="stage" data-block={block} data-roomy={roomy}>
         {children}
       </div>
     </div>

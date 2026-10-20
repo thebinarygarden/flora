@@ -133,6 +133,11 @@
   display: grid;
   align-items: start;
 }
+/* The stage scrolls sideways, which also clips vertically, so a tooltip needs
+   room inside it. */
+.specimen > .stage[data-roomy='true'] {
+  padding-block: var(--space-12);
+}
 
 .row {
   display: flex;
@@ -320,4 +325,10 @@
   height: 100%;
   opacity: 0;
   cursor: pointer;
+}
+
+/* Safari in Low Power Mode won't autoplay and shows a play button instead; a
+   still first frame reads better behind the hero. */
+.fl-bgl-bg video::-webkit-media-controls-start-playback-button {
+  display: none;
 }

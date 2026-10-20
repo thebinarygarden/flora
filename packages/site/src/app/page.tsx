@@ -1,10 +1,9 @@
 import { BGLanding } from '@binarygarden/flora/bg';
 import { Button, Input, Switch } from '@binarygarden/flora/form';
 import { Card, Badge, CodeBlock } from '@binarygarden/flora/ui';
-import { ProductScope, ThemeToggleButton } from '@binarygarden/flora/theme';
+import { ProductScope } from '@binarygarden/flora/theme';
 import { IconBGLogo, IconGithub } from '@binarygarden/flora/icons';
 import { PageHead, Section, Specimen } from '@/app/_components/Specimen';
-import { LocaleToggle } from '@/app/_components/LocaleToggle';
 import { format } from '@/lib/format';
 import { getI18n } from '@/lib/i18n';
 
@@ -130,8 +129,6 @@ export default async function Home() {
             >
               {t.nav.github}
             </Button>
-            <LocaleToggle />
-            <ThemeToggleButton labels={t.flora.theme} />
           </>
         }
         media={

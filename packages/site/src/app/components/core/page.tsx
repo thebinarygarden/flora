@@ -207,7 +207,7 @@ export default async function CorePage() {
       </Section>
 
       <Section title={c.tooltip}>
-        <Specimen label={c.tooltipLabel} note={c.tooltipNote}>
+        <Specimen label={c.tooltipLabel} note={c.tooltipNote} roomy>
           <Tooltip content={c.search} shortcut="⌘K">
             <IconButton label={c.search}>
               <IconSearch size={18} />

@@ -1,6 +1,6 @@
 {
   "name": "@binarygarden/flora",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Performance-first React component library with tree-shakable subpath imports",
   "author": "Binary Garden",
   "license": "AGPL-3.0-or-later",

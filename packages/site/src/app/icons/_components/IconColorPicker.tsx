@@ -3,6 +3,8 @@
 import { CSSProperties } from 'react';
 
 interface ColorPickerProps {
+  label: string;
+  ariaLabel: string;
   selectedColor: string;
   onColorSelect: (color: string) => void;
 }
@@ -13,6 +15,8 @@ interface ColorPickerProps {
  * currentColor in either theme.
  */
 export function IconColorPicker({
+  label,
+  ariaLabel,
   selectedColor,
   onColorSelect,
 }: ColorPickerProps) {
@@ -20,14 +24,14 @@ export function IconColorPicker({
 
   return (
     <div className="col">
-      <span className="label-sm">color</span>
+      <span className="label-sm">{label}</span>
       <div
         className="color-block"
         style={{ '--pick': selectedColor } as CSSProperties}
       >
         <input
           type="color"
-          aria-label="icon color"
+          aria-label={ariaLabel}
           value={isHex ? selectedColor : '#000000'}
           onChange={(e) => onColorSelect(e.target.value)}
         />

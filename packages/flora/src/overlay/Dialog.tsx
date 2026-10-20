@@ -12,6 +12,11 @@ export interface DialogProps {
   footer?: React.ReactNode;
   width?: number;
   onClose?: () => void;
+  /**
+   * makes the dialog a form: Enter in a field or a `type="submit"` footer button
+   * calls this, with the default navigation already prevented
+   */
+  onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
   children?: React.ReactNode;
 }
 
@@ -34,6 +39,7 @@ export function Dialog({
   footer,
   width,
   onClose,
+  onSubmit,
   children,
 }: DialogProps) {
   // Escape to close, and don't let the page behind scroll while it's up.
@@ -51,17 +57,49 @@ export function Dialog({
     };
   }, [open, inline, onClose]);
 
+  // An on-screen keyboard (iOS especially) covers the page without resizing
+  // it. Fit the scrim to the part still visible, so the dialog centers above
+  // the keyboard, and keep the field being typed in on screen.
+  const scrim = React.useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    const vv = window.visualViewport;
+    const el = scrim.current;
+    if (!open || inline || !vv || !el) return;
+    const fit = () => {
+      el.style.top = vv.offsetTop + 'px';
+      el.style.height = vv.height + 'px';
+      el.style.bottom = 'auto';
+    };
+    const onResize = () => {
+      fit();
+      const focused = document.activeElement;
+      if (focused instanceof HTMLElement && el.contains(focused)) {
+        focused.scrollIntoView({ block: 'nearest' });
+      }
+    };
+    fit();
+    vv.addEventListener('resize', onResize);
+    vv.addEventListener('scroll', fit);
+    return () => {
+      vv.removeEventListener('resize', onResize);
+      vv.removeEventListener('scroll', fit);
+    };
+  }, [open, inline]);
+
   if (!open) return null;
+
+  const Box = onSubmit ? 'form' : 'div';
 
   return (
     <div
+      ref={scrim}
       className="fl-dlg-scrim"
       data-inline={inline}
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose?.();
       }}
     >
-      <div
+      <Box
         role="dialog"
         aria-modal={!inline}
         aria-label={title}
@@ -71,12 +109,20 @@ export function Dialog({
             ? ({ '--dlg-w': width + 'px' } as React.CSSProperties)
             : undefined
         }
+        onSubmit={
+          onSubmit
+            ? (e: React.FormEvent) => {
+                e.preventDefault();
+                onSubmit(e as React.FormEvent<HTMLFormElement>);
+              }
+            : undefined
+        }
       >
         {title && <h2>{title}</h2>}
         {description && <p>{description}</p>}
         {children}
         {footer && <div className="fl-dlg-foot">{footer}</div>}
-      </div>
+      </Box>
     </div>
   );
 }

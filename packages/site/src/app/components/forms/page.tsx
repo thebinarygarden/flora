@@ -8,93 +8,81 @@ import {
 import { Card } from '@binarygarden/flora/ui';
 import { IconSearch } from '@binarygarden/flora/icons';
 import { PageHead, Section, Specimen } from '@/app/_components/Specimen';
+import { getI18n } from '@/lib/i18n';
 
-export default function FormsPage() {
+export default async function FormsPage() {
+  const { t } = await getI18n();
+  const f = t.forms;
   return (
     <div className="page">
-      <PageHead eyebrow="components" title="forms.">
-        input · select · checkbox · radio · switch
+      <PageHead eyebrow={t.nav.components} title={`${t.gallery.groups.forms}.`}>
+        {f.contents}
       </PageHead>
 
-      <Section title="input">
-        <Specimen
-          label="label, hint, error"
-          note="the label sits above in lowercase, the hint or error below. focus draws a 3px soft-accent halo."
-          block
-        >
+      <Section title={f.input}>
+        <Specimen label={f.inputLabel} note={f.inputNote} block>
           <div className="grid-2">
             <Input
-              label="email"
+              label={f.email}
               placeholder="you@garden.dev"
-              hint="we never share it"
+              hint={f.emailHint}
             />
-            <Input label="handle" defaultValue="oz" error="already taken" />
+            <Input label={f.handle} defaultValue="oz" error={f.taken} />
             <Input
-              label="search"
-              placeholder="search components"
+              label={f.search}
+              placeholder={f.searchPlaceholder}
               icon={<IconSearch size={16} />}
             />
-            <Input label="disabled" placeholder="not editable" disabled />
+            <Input label={f.disabled} placeholder={f.notEditable} disabled />
           </div>
         </Specimen>
-        <Specimen label="sizes" block>
+        <Specimen label={f.sizes} block>
           <div className="grid-2">
-            <Input size="sm" placeholder="small · 32" />
-            <Input size="md" placeholder="medium · 40" />
-            <Input size="lg" placeholder="large · 48" />
+            <Input size="sm" placeholder={f.small} />
+            <Input size="md" placeholder={f.medium} />
+            <Input size="lg" placeholder={f.large} />
           </div>
         </Specimen>
       </Section>
 
-      <Section title="select">
-        <Specimen
-          label="native select, flora chrome"
-          note="use it for 4+ options; tabs or tags read better for fewer."
-          block
-        >
+      <Section title={f.select}>
+        <Specimen label={f.selectLabel} note={f.selectNote} block>
           <div className="grid-2">
             <Select
-              label="theme"
-              options={['system', 'light', 'dark']}
+              label={f.theme}
+              options={[
+                { value: 'system', label: f.themes.system },
+                { value: 'light', label: f.themes.light },
+                { value: 'dark', label: f.themes.dark },
+              ]}
               defaultValue="system"
             />
             <Select
-              label="framework"
+              label={f.framework}
               size="sm"
               options={[
                 { value: 'next', label: 'next.js' },
                 { value: 'astro', label: 'astro' },
-                { value: 'remix', label: 'remix (soon)', disabled: true },
+                { value: 'remix', label: f.soon, disabled: true },
               ]}
             />
           </div>
         </Specimen>
       </Section>
 
-      <Section title="checkbox">
-        <Specimen
-          label="checked, indeterminate, description"
-          note="the check springs in. indeterminate is for a parent row whose children are partly selected."
-          block
-        >
+      <Section title={f.checkbox}>
+        <Specimen label={f.checkboxLabel} note={f.checkboxNote} block>
           <div className="col">
-            <Checkbox label="all projects" indeterminate />
-            <Checkbox label="notify on release" defaultChecked />
-            <Checkbox
-              label="nightly builds"
-              description="unstable, rebuilt every night at 03:00 utc"
-            />
-            <Checkbox label="disabled" disabled />
+            <Checkbox label={f.allProjects} indeterminate />
+            <Checkbox label={f.notify} defaultChecked />
+            <Checkbox label={f.nightly} description={f.nightlyNote} />
+            <Checkbox label={f.disabled} disabled />
           </div>
         </Specimen>
       </Section>
 
-      <Section title="radio">
-        <Specimen
-          label="column and row"
-          note="2–5 mutually exclusive options. more than that wants a select."
-          block
-        >
+      <Section title={f.radio}>
+        <Specimen label={f.radioLabel} note={f.radioNote} block>
           <div className="grid-2">
             <Radio
               name="license"
@@ -104,25 +92,24 @@ export default function FormsPage() {
             <Radio
               name="appearance"
               row
-              options={['light', 'dark']}
+              options={[
+                { value: 'light', label: f.themes.light },
+                { value: 'dark', label: f.themes.dark },
+              ]}
               defaultValue="light"
             />
           </div>
         </Specimen>
       </Section>
 
-      <Section title="switch">
-        <Specimen
-          label="immediate settings"
-          note="for settings that apply at once — no save button. the thumb springs and widens on press."
-          block
-        >
+      <Section title={f.switch}>
+        <Specimen label={f.switchLabel} note={f.switchNote} block>
           <Card variant="sunken" padding="md">
             <div className="col">
-              <Switch label="release notes" defaultChecked />
-              <Switch label="nightly builds" />
-              <Switch label="small" size="sm" defaultChecked />
-              <Switch label="disabled" disabled />
+              <Switch label={f.releaseNotes} defaultChecked />
+              <Switch label={f.nightly} />
+              <Switch label={f.smallSwitch} size="sm" defaultChecked />
+              <Switch label={f.disabled} disabled />
             </div>
           </Card>
         </Specimen>

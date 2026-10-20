@@ -29,6 +29,16 @@ export interface DialogContextValue {
   closeDialog: () => void;
 }
 
+/** Button text in English; pass `labels` to the provider to translate it. */
+const dialogLabels = {
+  ok: 'ok',
+  cancel: 'cancel',
+  confirm: 'confirm',
+  submit: 'submit',
+};
+
+export type DialogLabels = typeof dialogLabels;
+
 const DialogContext = React.createContext<DialogContextValue | undefined>(
   undefined
 );
@@ -44,6 +54,7 @@ export const useDialog = () => {
 interface Current {
   content: React.ReactNode;
   footer?: React.ReactNode;
+  onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
   options: DialogOptions;
 }
 
@@ -51,7 +62,14 @@ interface Current {
  * App-wide imperative dialog. Mount once near the root, then call
  * `useDialog().showConfirm(…)` from anywhere.
  */
-export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
+export const DialogProvider = ({
+  children,
+  labels,
+}: {
+  children: React.ReactNode;
+  labels?: Partial<DialogLabels>;
+}) => {
+  const l = { ...dialogLabels, ...labels };
   const [current, setCurrent] = React.useState<Current | null>(null);
 
   const closeDialog = React.useCallback(() => setCurrent(null), []);
@@ -67,9 +85,9 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
       setCurrent({
         content: null,
         options: { description: message, ...options },
-        footer: <Button onClick={closeDialog}>ok</Button>,
+        footer: <Button onClick={closeDialog}>{l.ok}</Button>,
       }),
-    [closeDialog]
+    [closeDialog, l.ok]
   );
 
   const showConfirm = React.useCallback(
@@ -91,7 +109,7 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
                 closeDialog();
               }}
             >
-              cancel
+              {l.cancel}
             </Button>
             <Button
               onClick={() => {
@@ -99,12 +117,12 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
                 closeDialog();
               }}
             >
-              confirm
+              {l.confirm}
             </Button>
           </>
         ),
       }),
-    [closeDialog]
+    [closeDialog, l.cancel, l.confirm]
   );
 
   const showPrompt = React.useCallback(
@@ -115,7 +133,6 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
       options: DialogOptions = {}
     ) => {
       const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
         const value = new FormData(e.currentTarget).get('promptInput');
         if (typeof value === 'string' && value.trim()) {
           onSubmit(value.trim());
@@ -124,24 +141,21 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
       };
       setCurrent({
         options: { description: message, ...options },
+        onSubmit: handleSubmit,
         content: (
-          <form id="fl-prompt" onSubmit={handleSubmit}>
-            <Input name="promptInput" defaultValue={defaultValue} autoFocus />
-          </form>
+          <Input name="promptInput" defaultValue={defaultValue} autoFocus />
         ),
         footer: (
           <>
             <Button type="button" variant="ghost" onClick={closeDialog}>
-              cancel
+              {l.cancel}
             </Button>
-            <Button type="submit" form="fl-prompt">
-              submit
-            </Button>
+            <Button type="submit">{l.submit}</Button>
           </>
         ),
       });
     },
-    [closeDialog]
+    [closeDialog, l.cancel, l.submit]
   );
 
   const contextValue: DialogContextValue = {
@@ -163,6 +177,7 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
           description={current.options.description}
           width={current.options.width}
           footer={current.footer}
+          onSubmit={current.onSubmit}
         >
           {current.content}
         </Dialog>

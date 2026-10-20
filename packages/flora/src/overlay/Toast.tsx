@@ -1,6 +1,8 @@
-'use client';
-
 import * as React from 'react';
+
+const toastLabels = { dismiss: 'dismiss' };
+
+export type ToastLabels = typeof toastLabels;
 
 export interface ToastProps {
   message: string;
@@ -10,6 +12,7 @@ export interface ToastProps {
   action?: string;
   onAction?: () => void;
   onDismiss?: () => void;
+  labels?: Partial<ToastLabels>;
 }
 
 /**
@@ -29,7 +32,9 @@ export function Toast({
   action,
   onAction,
   onDismiss,
+  labels,
 }: ToastProps) {
+  const l = { ...toastLabels, ...labels };
   return (
     <div role="status" className="fl-toast" data-tone={tone}>
       <span className="fl-toast-dot" aria-hidden="true" />
@@ -39,7 +44,7 @@ export function Toast({
       </span>
       {action && <button onClick={onAction}>{action}</button>}
       {onDismiss && (
-        <button aria-label="dismiss" onClick={onDismiss}>
+        <button aria-label={l.dismiss} onClick={onDismiss}>
           ×
         </button>
       )}

@@ -2,59 +2,50 @@ import { Dialog, Toast, ToastStack } from '@binarygarden/flora/overlay';
 import { Button } from '@binarygarden/flora/form';
 import { PageHead, Section, Specimen } from '@/app/_components/Specimen';
 import { FeedbackDemos } from './_components/FeedbackDemos';
+import { getI18n } from '@/lib/i18n';
 
-export default function FeedbackPage() {
+export default async function FeedbackPage() {
+  const { t } = await getI18n();
+  const f = t.feedback;
   return (
     <div className="page">
-      <PageHead eyebrow="components" title="feedback.">
-        dialog · toast
+      <PageHead
+        eyebrow={t.nav.components}
+        title={`${t.gallery.groups.feedback}.`}
+      >
+        {f.contents}
       </PageHead>
 
-      <Section title="dialog">
-        <Specimen
-          label="inline, for docs"
-          note="one decision per dialog. it scales up slightly as it opens, over a blurred page."
-          block
-        >
+      <Section title={f.dialog}>
+        <Specimen label={f.inline} note={f.dialogNote} block>
           <Dialog
             inline
-            title="delete repo?"
-            description="this can't be undone."
+            title={f.deleteRepo}
+            description={f.undone}
             footer={
               <>
-                <Button variant="ghost">cancel</Button>
-                <Button variant="danger">delete</Button>
+                <Button variant="ghost">{f.cancel}</Button>
+                <Button variant="danger">{f.delete}</Button>
               </>
             }
           />
         </Specimen>
       </Section>
 
-      <Section title="toast">
-        <Specimen
-          label="tones"
-          note="appears bottom-right and rises in. the dot shows the status; the accent toast takes on the product's colour."
-          block
-        >
+      <Section title={f.toast}>
+        <Specimen label={f.tones} note={f.toastNote} block>
           <ToastStack inline>
-            <Toast message="published" description="2s ago" />
-            <Toast tone="ok" message="build passed" action="view" />
-            <Toast tone="danger" message="deploy failed" action="retry" />
-            <Toast
-              tone="accent"
-              message="new version available"
-              action="reload"
-            />
+            <Toast message={f.published} description={f.ago} />
+            <Toast tone="ok" message={f.passed} action={f.view} />
+            <Toast tone="danger" message={f.failed} action={f.retry} />
+            <Toast tone="accent" message={f.newVersion} action={f.reload} />
           </ToastStack>
         </Specimen>
       </Section>
 
-      <Section title="in practice">
-        <Specimen
-          label="the real thing"
-          note="a real modal, a toast that disappears on its own, and confirm/prompt/alert dialogs you can open from code."
-        >
-          <FeedbackDemos />
+      <Section title={f.practice}>
+        <Specimen label={f.practiceLabel} note={f.practiceNote}>
+          <FeedbackDemos t={f} />
         </Specimen>
       </Section>
     </div>

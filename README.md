@@ -1,62 +1,41 @@
-# Flora Monorepo
+# Flora
 
-Development repository for Flora - the React component library for Binary Garden
-projects, and the reference implementation of the Binary Garden design language.
+The React component library for Binary Garden projects, and the reference
+implementation of the Binary Garden design language.
 
-**Start with [DESIGN.md](docs/DESIGN.md)** — it documents the design language itself:
-how color works, the voice, type, spacing, shape, motion and iconography.
+- **[DESIGN.md](docs/DESIGN.md)** — the design language: color, UI copy, type, spacing, motion
+- **[Package README](packages/flora/README.md)** — components, installation, usage
+- **[bgflora.app](https://bgflora.app)** — live specimens of every token and component
 
-## Quick Start
+## Repository
 
-```bash
-pnpm quick  # Clean, install, build, and start dev server at localhost:3000
-```
+- `packages/flora` — the library, published to npm as `@binarygarden/flora`
+- `packages/site` — the demo site at bgflora.app, built against the local library
 
-This command:
-
-1. Cleans all build artifacts and dependencies
-2. Installs all workspace dependencies
-3. Builds the Flora component library
-4. Starts the Next.js demo site for testing
-
-## What's in this Monorepo
-
-### `packages/flora`
-
-The main component library published to npm as `@binarygarden/flora`. Uses subpath-only imports for optimal bundle sizes.
-
-### `packages/site`
-
-Next.js 16 demo site for developing and testing components during development.
-
-## Navigation
-
-**For Library Users:**
-
-- **[DESIGN.md](docs/DESIGN.md)** - The design language: color, voice, type, spacing, motion
-- **[Foundations](https://bgflora.app)** - Live specimens of every token
-- **[Component Documentation](https://bgflora.app/components)** - Live demos and API reference
-- **[Package README](packages/flora/README.md)** - Installation and usage guide
-
-**For Contributors:**
-
-- **[Development Guide](docs/DEVELOPMENT.md)** - How to contribute, add components, workflows
-- **[Architecture Guide](docs/ARCHITECTURE.md)** - Technical design and build system
-
-## Development Workflow
+## Development
 
 ```bash
-# Available commands
-pnpm build:ui       # Build the Flora component library
-pnpm build:site     # Build the Next.js demo site
-pnpm run:site       # Start dev server at localhost:3000
-pnpm clean          # Remove all build artifacts
+pnpm quick       # clean, install, build the library, start the site at localhost:3000
+pnpm build:ui    # rebuild the library (the site has no HMR for library changes)
+pnpm build:site  # production build of the site
+pnpm precommit   # full clean build + lint + format check
 ```
-
-**Important:** Library changes require rebuild - there's no HMR for the library itself. Run `pnpm build:ui` after making changes to components.
-
-See [Development Guide](docs/DEVELOPMENT.md) for detailed contribution instructions.
 
 ## License
 
-MIT - Binary Garden | [GitHub](https://github.com/thebinarygarden/flora)
+flora is licensed under the GNU Affero General Public License, version 3 or any later
+version (`AGPL-3.0-or-later`). You can use, change and sell it. If you distribute a
+modified version, or run one that people use over a network, you must make its source
+code available to them under the same license. The full text is in [LICENSE](LICENSE).
+
+```
+Copyright (C) 2026 Binary Garden
+
+This program is free software: you can redistribute it and/or modify it under the terms
+of the GNU Affero General Public License as published by the Free Software Foundation,
+either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+```

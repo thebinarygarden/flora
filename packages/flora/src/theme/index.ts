@@ -1,7 +1,10 @@
 export { ProductScope } from './ProductScope';
 export type { ProductScopeProps } from './ProductScope';
 export { ThemeToggleButton } from './components/ThemeToggleButton';
-export type { ThemeToggleButtonProps } from './components/ThemeToggleButton';
+export type {
+  ThemeToggleButtonProps,
+  ThemeToggleButtonLabels,
+} from './components/ThemeToggleButton';
 export {
   ScriptPreloadTheme,
   THEME_STORAGE_KEY,

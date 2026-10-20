@@ -4,11 +4,18 @@ import { useState } from 'react';
 import { Tag } from '@binarygarden/flora/ui';
 import { Button } from '@binarygarden/flora/form';
 
-const TOPICS = ['design', 'motion', 'writing', 'dev'];
 const REMOVABLE = ['typescript', 'react', 'tailwind'];
 
-export function TagDemo() {
-  const [picked, setPicked] = useState<string[]>(['design']);
+export function TagDemo({
+  topics,
+  reset,
+  labels,
+}: {
+  topics: string[];
+  reset: string;
+  labels: { remove: string };
+}) {
+  const [picked, setPicked] = useState<string[]>([topics[0]]);
   const [chips, setChips] = useState(REMOVABLE);
 
   const toggle = (t: string) =>
@@ -16,20 +23,24 @@ export function TagDemo() {
 
   return (
     <>
-      {TOPICS.map((t) => (
+      {topics.map((t) => (
         <Tag key={t} selected={picked.includes(t)} onClick={() => toggle(t)}>
           {t}
         </Tag>
       ))}
       <span style={{ width: '100%' }} />
       {chips.map((t) => (
-        <Tag key={t} onRemove={() => setChips((c) => c.filter((x) => x !== t))}>
+        <Tag
+          key={t}
+          onRemove={() => setChips((c) => c.filter((x) => x !== t))}
+          labels={labels}
+        >
           {t}
         </Tag>
       ))}
       {chips.length < REMOVABLE.length && (
         <Button size="sm" variant="ghost" onClick={() => setChips(REMOVABLE)}>
-          reset
+          {reset}
         </Button>
       )}
     </>

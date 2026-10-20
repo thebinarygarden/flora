@@ -35,78 +35,45 @@ import { IconSizeSelector } from './IconSizeSelector';
 import { IconStrokeWidthSelector } from './IconStrokeWidthSelector';
 import { IconColorPicker } from './IconColorPicker';
 import { IconDisplayCard } from './IconDisplayCard';
+import type { Dict } from '@/lib/i18n';
 
 const icons = [
-  { name: 'Account', component: IconAccount, description: 'User account' },
-  { name: 'Arrow', component: IconArrow, description: 'Directional arrow' },
-  {
-    name: 'BGDocs',
-    component: IconBGDocs,
-    description: 'Binary Garden Documentation icon',
-  },
-  { name: 'BGLogo', component: IconBGLogo, description: 'Binary Garden logo' },
-  { name: 'Check', component: IconCheck, description: 'Check/confirm mark' },
-  {
-    name: 'Contact',
-    component: IconContact,
-    description: 'Contact/communication',
-  },
-  { name: 'Copy', component: IconCopy, description: 'Copy to clipboard' },
-  { name: 'Day', component: IconDay, description: 'Light mode indicator' },
-  {
-    name: 'EyeDropper',
-    component: IconEyeDropper,
-    description: 'Color picker tool',
-  },
-  { name: 'Github', component: IconGithub, description: 'GitHub logo' },
-  {
-    name: 'Hide',
-    component: IconHide,
-    description: 'Hide/eye closed indicator',
-  },
-  { name: 'Info', component: IconInfo, description: 'Information indicator' },
-  {
-    name: 'LinkOut',
-    component: IconLinkOut,
-    description: 'External link indicator',
-  },
-  { name: 'Lock', component: IconLock, description: 'Security/locked state' },
-  { name: 'Menu', component: IconMenu, description: 'Navigation menu' },
-  { name: 'Minus', component: IconMinus, description: 'Remove/minus sign' },
-  { name: 'Night', component: IconNight, description: 'Dark mode indicator' },
-  {
-    name: 'PaintBrush',
-    component: IconPaintBrush,
-    description: 'Paint/drawing tool',
-  },
-  { name: 'Plus', component: IconPlus, description: 'Add/plus sign' },
-  { name: 'Save', component: IconSave, description: 'Save/disk icon' },
-  {
-    name: 'Search',
-    component: IconSearch,
-    description: 'Search functionality',
-  },
-  {
-    name: 'System',
-    component: IconSystem,
-    description: 'Follow the system theme',
-  },
-  {
-    name: 'Trashcan',
-    component: IconTrashcan,
-    description: 'Delete/trash icon',
-  },
-  {
-    name: 'Unlock',
-    component: IconUnlock,
-    description: 'Security/unlocked state',
-  },
-  { name: 'View', component: IconView, description: 'View/eye open indicator' },
-  { name: 'X', component: IconX, description: 'Close/dismiss' },
-  { name: 'Youtube', component: IconYoutube, description: 'YouTube logo' },
-];
+  { name: 'Account', component: IconAccount },
+  { name: 'Arrow', component: IconArrow },
+  { name: 'BGDocs', component: IconBGDocs },
+  { name: 'BGLogo', component: IconBGLogo },
+  { name: 'Check', component: IconCheck },
+  { name: 'Contact', component: IconContact },
+  { name: 'Copy', component: IconCopy },
+  { name: 'Day', component: IconDay },
+  { name: 'EyeDropper', component: IconEyeDropper },
+  { name: 'Github', component: IconGithub },
+  { name: 'Hide', component: IconHide },
+  { name: 'Info', component: IconInfo },
+  { name: 'LinkOut', component: IconLinkOut },
+  { name: 'Lock', component: IconLock },
+  { name: 'Menu', component: IconMenu },
+  { name: 'Minus', component: IconMinus },
+  { name: 'Night', component: IconNight },
+  { name: 'PaintBrush', component: IconPaintBrush },
+  { name: 'Plus', component: IconPlus },
+  { name: 'Save', component: IconSave },
+  { name: 'Search', component: IconSearch },
+  { name: 'System', component: IconSystem },
+  { name: 'Trashcan', component: IconTrashcan },
+  { name: 'Unlock', component: IconUnlock },
+  { name: 'View', component: IconView },
+  { name: 'X', component: IconX },
+  { name: 'Youtube', component: IconYoutube },
+] as const;
 
-export function IconsInteractiveSection() {
+export function IconsInteractiveSection({
+  t,
+  copy,
+}: {
+  t: Dict['icons'];
+  copy: Dict['flora']['copy'];
+}) {
   const [selectedStrokeWidth, setSelectedStrokeWidth] =
     useState<StrokeWidth>('base');
   const [selectedSize, setSelectedSize] = useState(24);
@@ -115,17 +82,21 @@ export function IconsInteractiveSection() {
   return (
     <>
       <section className="section">
-        <h2>properties</h2>
+        <h2>{t.properties}</h2>
         <div className="icon-props">
           <IconSizeSelector
+            label={t.size}
             selectedSize={selectedSize}
             onSizeChange={setSelectedSize}
           />
           <IconStrokeWidthSelector
+            t={t}
             selectedStrokeWidth={selectedStrokeWidth}
             onStrokeWidthChange={setSelectedStrokeWidth}
           />
           <IconColorPicker
+            label={t.color}
+            ariaLabel={t.iconColor}
             selectedColor={selectedColor}
             onColorSelect={setSelectedColor}
           />
@@ -133,14 +104,16 @@ export function IconsInteractiveSection() {
       </section>
 
       <section className="section">
-        <h2>the set</h2>
+        <h2>{t.set}</h2>
         <div className="grid-auto">
-          {icons.map(({ name, component, description }) => (
+          {icons.map(({ name, component }) => (
             <IconDisplayCard
               key={name}
               name={name}
               component={component}
-              description={description}
+              description={t.descriptions[name]}
+              download={t.download}
+              copy={copy}
               selectedSize={selectedSize}
               selectedColor={selectedColor}
               selectedStrokeWidth={selectedStrokeWidth}

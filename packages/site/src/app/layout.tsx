@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Hanken_Grotesk } from 'next/font/google';
 import './globals.css';
 import { ScriptPreloadTheme } from '@binarygarden/flora/theme';
-import { DialogProvider } from '@binarygarden/flora/overlay';
+import { DialogProvider, ToastProvider } from '@binarygarden/flora/overlay';
 import { BGFooter } from '@binarygarden/flora/bg';
 import { IconBGLogo } from '@binarygarden/flora/icons';
 import { SiteNav } from '@/app/_components/SiteNav';
@@ -44,16 +44,18 @@ export default async function RootLayout({
       </head>
       <body>
         <DialogProvider labels={t.flora.dialog}>
-          <SiteNav
-            t={{ nav: t.nav, flora: t.flora }}
-            localeToggle={<LocaleToggle />}
-          />
-          <main>{children}</main>
-          <BGFooter
-            brand={<IconBGLogo size={28} />}
-            links={FOOTER_LINKS}
-            legal={t.nav.legal}
-          />
+          <ToastProvider labels={t.flora.toast}>
+            <SiteNav
+              t={{ nav: t.nav, flora: t.flora }}
+              localeToggle={<LocaleToggle />}
+            />
+            <main>{children}</main>
+            <BGFooter
+              brand={<IconBGLogo size={28} />}
+              links={FOOTER_LINKS}
+              legal={t.nav.legal}
+            />
+          </ToastProvider>
         </DialogProvider>
       </body>
     </html>

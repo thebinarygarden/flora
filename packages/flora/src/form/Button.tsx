@@ -1,7 +1,11 @@
 import * as React from 'react';
 
 export interface ButtonProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'>,
+    Pick<
+      React.AnchorHTMLAttributes<HTMLAnchorElement>,
+      'download' | 'target' | 'rel'
+    > {
   /** primary = accent fill (black on the trunk, the product hue inside a product) */
   variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
   size?: 'sm' | 'md' | 'lg';
@@ -9,7 +13,7 @@ export interface ButtonProps
   loading?: boolean;
   iconLeft?: React.ReactNode;
   iconRight?: React.ReactNode;
-  /** renders an `<a>` instead of a `<button>`, styled identically */
+  /** renders an `<a>` instead of a `<button>`, styled identically; `download`, `target` and `rel` apply to it */
   href?: string;
   children?: React.ReactNode;
 }

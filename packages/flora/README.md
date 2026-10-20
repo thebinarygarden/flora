@@ -18,17 +18,21 @@ components.
 
 Import from subpaths only; there is no root export.
 
-| Subpath       | Components                                                                 |
-| ------------- | -------------------------------------------------------------------------- |
-| `/form`       | Button, IconButton, Input, Select, Checkbox, Radio, Switch                 |
-| `/ui`         | Card, Badge, Tag, Tooltip, AvatarGroup, CodeBlock, CopyableText            |
-| `/overlay`    | Dialog, Toast, ToastStack, DialogProvider / useDialog                      |
-| `/navigation` | SiteHeader, Tabs, Carousel, SidebarNav, CommandPalette, LocaleToggleButton |
-| `/marketing`  | Hero, ProductTile                                                          |
-| `/theme`      | ProductScope, ThemeToggleButton, ScriptPreloadTheme                        |
-| `/icons`      | the icon set                                                               |
-| `/bg`         | BGLanding (a Hero over a full-bleed background), BGFooter                  |
-| `/styles.css` | tokens, resets and every component's CSS                                   |
+| Subpath       | Components                                                                               |
+| ------------- | ---------------------------------------------------------------------------------------- |
+| `/form`       | Button, IconButton, Input, Select, Checkbox, Radio, Switch                               |
+| `/ui`         | Card, Badge, Tag, Tooltip, AvatarGroup, CodeBlock, CopyableText, Stat, Table, EmptyState |
+| `/overlay`    | Dialog, Toast, ToastStack, DialogProvider / useDialog, ToastProvider / useToast          |
+| `/navigation` | SiteHeader, Tabs, Carousel, SidebarNav, CommandPalette, LocaleToggleButton               |
+| `/marketing`  | Hero, ProductTile                                                                        |
+| `/theme`      | ProductScope, ThemeToggleButton, ScriptPreloadTheme                                      |
+| `/icons`      | the icon set                                                                             |
+| `/bg`         | BGLanding (a Hero over a full-bleed background), BGFooter                                |
+| `/styles.css` | tokens, resets and every component's CSS                                                 |
+
+`Table` is a styled `<table>`: write `thead` and `tbody` yourself, so any cell can
+hold a button or a link. Mark cells with `data-num` to right-align numbers in even
+digits, or `data-action` to shrink a cell to the control inside it.
 
 Over a `BGLanding`, give `SiteHeader` `revealAfter=".fl-hero-actions"`: the bar
 stays hidden while the hero's own buttons are on screen, then slides in.

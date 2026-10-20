@@ -12,6 +12,11 @@ export interface DialogProps {
   footer?: React.ReactNode;
   width?: number;
   onClose?: () => void;
+  /**
+   * makes the dialog a form: Enter in a field or a `type="submit"` footer button
+   * calls this, with the default navigation already prevented
+   */
+  onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
   children?: React.ReactNode;
 }
 
@@ -34,6 +39,7 @@ export function Dialog({
   footer,
   width,
   onClose,
+  onSubmit,
   children,
 }: DialogProps) {
   // Escape to close, and don't let the page behind scroll while it's up.
@@ -82,6 +88,8 @@ export function Dialog({
 
   if (!open) return null;
 
+  const Box = onSubmit ? 'form' : 'div';
+
   return (
     <div
       ref={scrim}
@@ -91,7 +99,7 @@ export function Dialog({
         if (e.target === e.currentTarget) onClose?.();
       }}
     >
-      <div
+      <Box
         role="dialog"
         aria-modal={!inline}
         aria-label={title}
@@ -101,12 +109,20 @@ export function Dialog({
             ? ({ '--dlg-w': width + 'px' } as React.CSSProperties)
             : undefined
         }
+        onSubmit={
+          onSubmit
+            ? (e: React.FormEvent) => {
+                e.preventDefault();
+                onSubmit(e as React.FormEvent<HTMLFormElement>);
+              }
+            : undefined
+        }
       >
         {title && <h2>{title}</h2>}
         {description && <p>{description}</p>}
         {children}
         {footer && <div className="fl-dlg-foot">{footer}</div>}
-      </div>
+      </Box>
     </div>
   );
 }

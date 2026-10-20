@@ -45,7 +45,7 @@ export default async function FeedbackPage() {
 
       <Section title={f.practice}>
         <Specimen label={f.practiceLabel} note={f.practiceNote}>
-          <FeedbackDemos t={f} labels={t.flora.toast} />
+          <FeedbackDemos t={f} />
         </Specimen>
       </Section>
     </div>

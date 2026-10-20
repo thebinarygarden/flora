@@ -54,6 +54,7 @@ export const useDialog = () => {
 interface Current {
   content: React.ReactNode;
   footer?: React.ReactNode;
+  onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
   options: DialogOptions;
 }
 
@@ -132,7 +133,6 @@ export const DialogProvider = ({
       options: DialogOptions = {}
     ) => {
       const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
         const value = new FormData(e.currentTarget).get('promptInput');
         if (typeof value === 'string' && value.trim()) {
           onSubmit(value.trim());
@@ -141,19 +141,16 @@ export const DialogProvider = ({
       };
       setCurrent({
         options: { description: message, ...options },
+        onSubmit: handleSubmit,
         content: (
-          <form id="fl-prompt" onSubmit={handleSubmit}>
-            <Input name="promptInput" defaultValue={defaultValue} autoFocus />
-          </form>
+          <Input name="promptInput" defaultValue={defaultValue} autoFocus />
         ),
         footer: (
           <>
             <Button type="button" variant="ghost" onClick={closeDialog}>
               {l.cancel}
             </Button>
-            <Button type="submit" form="fl-prompt">
-              {l.submit}
-            </Button>
+            <Button type="submit">{l.submit}</Button>
           </>
         ),
       });
@@ -180,6 +177,7 @@ export const DialogProvider = ({
           description={current.options.description}
           width={current.options.width}
           footer={current.footer}
+          onSubmit={current.onSubmit}
         >
           {current.content}
         </Dialog>

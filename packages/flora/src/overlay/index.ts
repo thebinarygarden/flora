@@ -8,3 +8,5 @@ export type {
   DialogContextValue,
   DialogLabels,
 } from './DialogContext';
+export { ToastProvider, useToast } from './ToastContext';
+export type { ToastOptions, ToastContextValue } from './ToastContext';

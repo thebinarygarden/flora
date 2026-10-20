@@ -5,6 +5,9 @@ import {
   Tooltip,
   AvatarGroup,
   CopyableText,
+  Stat,
+  Table,
+  EmptyState,
 } from '@binarygarden/flora/ui';
 import {
   IconSearch,
@@ -53,6 +56,9 @@ export default async function CorePage() {
           <Button disabled>{c.disabled}</Button>
           <Button href="#" variant="secondary">
             {c.anchor}
+          </Button>
+          <Button variant="secondary" aria-pressed>
+            {c.pressed}
           </Button>
         </Specimen>
       </Section>
@@ -122,6 +128,15 @@ export default async function CorePage() {
               title={c.interactive}
               description={c.interactiveNote}
             />
+            <Card
+              title={c.withAction}
+              description={c.withActionNote}
+              action={
+                <Button size="sm" variant="secondary">
+                  {c.edit}
+                </Button>
+              }
+            />
           </div>
         </Specimen>
         <Specimen label={c.padding} block>
@@ -136,6 +151,58 @@ export default async function CorePage() {
               lg · 32
             </Card>
           </div>
+        </Specimen>
+      </Section>
+
+      <Section title={c.stat}>
+        <Specimen label={c.statLabel} note={c.statNote} block>
+          <div className="grid-auto">
+            <Stat label={c.orders} value="128" hint={c.moreThanLastWeek} />
+            <Stat label={c.revenue} value="$4,210.50" />
+          </div>
+        </Specimen>
+      </Section>
+
+      <Section title={c.table}>
+        <Specimen label={c.tableLabel} note={c.tableNote} block>
+          <Table>
+            <thead>
+              <tr>
+                <th>{c.item}</th>
+                <th data-num>{c.sold}</th>
+                <th data-num>{c.total}</th>
+                <th data-action aria-label={c.delete} />
+              </tr>
+            </thead>
+            <tbody>
+              {(
+                [
+                  ['flora', 42, '$210.00'],
+                  ['mycel', 17, '$85.00'],
+                  ['pollen', 3, '$15.00'],
+                ] as const
+              ).map(([name, sold, total]) => (
+                <tr key={name}>
+                  <td>{name}</td>
+                  <td data-num>{sold}</td>
+                  <td data-num>{total}</td>
+                  <td data-action>
+                    <IconButton label={c.delete} size="sm">
+                      <IconX size={16} />
+                    </IconButton>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </Specimen>
+      </Section>
+
+      <Section title={c.emptyState}>
+        <Specimen label={c.emptyLabel} note={c.emptyNote} block>
+          <Card padding="none">
+            <EmptyState>{c.emptyText}</EmptyState>
+          </Card>
         </Specimen>
       </Section>
 

@@ -18,6 +18,21 @@
    component library should not force a network request on its consumers. Load
    it in the app (next/font/google) or add the Google Fonts @import yourself. */
 
+/* BGLanding's scrims animate gradient stops, which need typed properties;
+   registered globally, outside any layer */
+@property --fl-bgl-side {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 10%;
+}
+/* <length-percentage>, not <percentage>: the minifier writes 0% as 0, and a
+   bare 0 isn't a valid <percentage>, which would drop the registration */
+@property --fl-bgl-bottom {
+  syntax: '<length-percentage>';
+  inherits: false;
+  initial-value: 0%;
+}
+
 @layer components {
   /* ====================================================================
      core
@@ -1702,13 +1717,23 @@
     }
   }
 
-  /* BGLanding: a Hero over a full-bleed background */
+  /* BGLanding: a Hero over a full-bleed background. Snapping and fades are
+     plain CSS, so the browser handles momentum, resizes and every input.
+     iOS Safari can skip a snap while its toolbar resizes; the page then
+     just rests where it is, which the crossfade below makes look intended.
+     The fades use animation longhands: the minifier sorts declarations, and
+     an `animation` shorthand after animation-timeline would reset it */
+  html:has(.fl-bgl) {
+    scroll-snap-type: y mandatory;
+  }
   .fl-bgl {
     position: relative;
     isolation: isolate;
     min-height: 100svh;
     display: grid;
     align-items: center;
+    scroll-snap-align: start;
+    view-timeline: --fl-bgl block;
   }
   .fl-bgl-bg {
     position: absolute;
@@ -1722,14 +1747,61 @@
     object-fit: cover;
     display: block;
   }
+  /* the page colour covers the video as the landing leaves */
+  .fl-bgl-veil,
   .fl-bgl-scrim {
     position: absolute;
     inset: 0;
     z-index: -1;
     pointer-events: none;
   }
+  .fl-bgl-veil {
+    background: var(--surface-page);
+    opacity: 0;
+    animation-name: fl-bgl-veil;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: --fl-bgl;
+    animation-range: exit 40% exit 100%;
+  }
+  /* left to right, widening across the whole exit */
+  .fl-bgl-scrim[data-side] {
+    background: linear-gradient(
+      to right,
+      var(--surface-page) 0%,
+      var(--surface-page) var(--fl-bgl-side),
+      transparent 100%
+    );
+    animation-name: fl-bgl-side;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: --fl-bgl;
+    animation-range: exit 0% exit 100%;
+  }
+  /* bottom up, rising from nothing to 40% across the whole exit */
+  .fl-bgl-scrim[data-bottom] {
+    background: linear-gradient(
+      to top,
+      var(--surface-page) 0%,
+      transparent var(--fl-bgl-bottom)
+    );
+    animation-name: fl-bgl-bottom;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: --fl-bgl;
+    animation-range: exit 0% exit 100%;
+  }
   .fl-bgl-content {
     width: 100%;
+    animation-name: fl-bgl-out;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: --fl-bgl;
+    animation-range: exit 0% exit 70%;
+  }
+  /* tabbing back into a faded hero shows it */
+  .fl-bgl-content:focus-within {
+    animation: none;
   }
   /* corner: small controls lined up with the header's actions, so the bar
      brings them back in the same spot; they scroll away with the landing.
@@ -1748,16 +1820,55 @@
     gap: 6px;
   }
   /* the snap rests at the landing's bottom edge, so what follows must be at
-     least a screen tall or the landing can never scroll fully away */
+     least a screen tall or the landing can never scroll fully away. Its snap
+     area runs to the end of the page (scroll-margin-bottom), so everything
+     below the landing scrolls freely. It fades in as it enters */
   .fl-bgl + * {
     min-height: 100svh;
     box-sizing: border-box;
     align-content: start;
+    scroll-snap-align: start;
+    scroll-margin-bottom: 100000px;
+    animation-name: fl-bgl-in;
+    animation-timing-function: linear;
+    animation-fill-mode: backwards;
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
   }
   /* an overLanding bar overlays the landing (margin-bottom: -61px); give the
-     61px back after it, so the next section starts clear of the bar */
+     61px back after it, so the next section starts clear of the bar, and
+     snap to the landing's edge rather than under the bar */
   body:has(.fl-header[data-reveal]) .fl-bgl {
     margin-bottom: 61px;
+  }
+  body:has(.fl-header[data-reveal]) .fl-bgl + * {
+    scroll-margin-top: 61px;
+  }
+  @keyframes fl-bgl-out {
+    to {
+      opacity: 0;
+    }
+  }
+  @keyframes fl-bgl-in {
+    from {
+      opacity: 0;
+    }
+  }
+  /* the veil rests at 0, so it needs an explicit end */
+  @keyframes fl-bgl-veil {
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes fl-bgl-side {
+    to {
+      --fl-bgl-side: 100%;
+    }
+  }
+  @keyframes fl-bgl-bottom {
+    to {
+      --fl-bgl-bottom: 40%;
+    }
   }
 
   /* ProductTile */

@@ -39,7 +39,7 @@ export default {
       declarationDir: 'dist',
     }),
   ],
-  external: ['react', 'react-dom', 'react/jsx-runtime', 'framer-motion'],
+  external: ['react', 'react-dom', 'react/jsx-runtime'],
   onwarn(warning, warn) {
     if (warning.code === 'MODULE_LEVEL_DIRECTIVE') {
       return;

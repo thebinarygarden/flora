@@ -11,8 +11,8 @@ read that first. Its one rule: the trunk is black and white, and color comes fro
 the products. A single `--product-hue` is the entire theme.
 
 Styling is plain token-driven CSS shipped as one stylesheet — no Tailwind, no
-CSS-in-JS, no runtime style injection. Framer Motion powers the few animated
-components.
+CSS-in-JS, no runtime style injection. Animation is CSS too, including the
+scroll-driven fades.
 
 ## Components
 
@@ -54,10 +54,10 @@ consumer's bundler is configured.
 ## Installation
 
 ```bash
-pnpm add @binarygarden/flora framer-motion
+pnpm add @binarygarden/flora
 ```
 
-Peers: `react`, `react-dom`, `framer-motion`.
+Peers: `react`, `react-dom`.
 
 ## Usage
 

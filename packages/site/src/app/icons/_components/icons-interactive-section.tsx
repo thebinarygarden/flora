@@ -34,6 +34,7 @@ import {
   IconLinux,
   IconTorta,
   IconFlora,
+  IconFilter,
   type StrokeWidth,
 } from '@binarygarden/flora/icons';
 import { IconSizeSelector } from './icon-size-selector';
@@ -53,6 +54,7 @@ const icons = [
   { name: 'Copy', component: IconCopy },
   { name: 'Day', component: IconDay },
   { name: 'EyeDropper', component: IconEyeDropper },
+  { name: 'Filter', component: IconFilter },
   { name: 'Flora', component: IconFlora },
   { name: 'Github', component: IconGithub },
   { name: 'Hide', component: IconHide },
